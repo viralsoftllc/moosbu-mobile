@@ -1,11 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
+import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import NewProductForm from './renderer/NewProductForm';
 
 export default function NewProduct() {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const {setOptions} = useNavigation();
 
   useLayoutEffect(() => {
@@ -15,13 +17,27 @@ export default function NewProduct() {
     return () => {};
   }, [setOptions]);
 
+  function handleSuccessfulResponse() {
+    setShowSuccessModal(true);
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
         <ScrollView>
-          <NewProductForm />
+          <NewProductForm handleSuccessfulResponse={handleSuccessfulResponse} />
         </ScrollView>
       </View>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'product update'}
+        />
+      </Modal>
     </SafeAreaView>
   );
 }

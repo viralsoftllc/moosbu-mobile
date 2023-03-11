@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
-  Image,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -12,13 +11,22 @@ import {
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import routes from '../../../shared/constants/routes';
+import UseIcon from '../../../shared/utils/UseIcon';
 import RegistrationForm from './renderer/RegistrationForm';
 
 export default function Register() {
-  const {navigate} = useNavigation();
+  const {navigate, goBack} = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
+      <Pressable style={styles.iconWrapper} onPress={goBack}>
+        <UseIcon
+          type={'MaterialIcons'}
+          name="arrow-back"
+          color={COLORS.textPrimary}
+        />
+      </Pressable>
+
       <ScrollView>
         <View style={styles.welcomeTextView}>
           <Text style={styles.welcomeText}>Create A New Account</Text>
@@ -28,13 +36,13 @@ export default function Register() {
           Create an account to improve the growth of your business
         </Text>
 
-        <View style={styles.imageView}>
+        {/* <View style={styles.imageView}>
           <Image
             source={require('../../../assets/images/registration.png')}
             resizeMode="contain"
             style={styles.image}
           />
-        </View>
+        </View> */}
 
         <RegistrationForm />
 
@@ -53,12 +61,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: SIZES.paddingHorizontal,
-    paddingVertical: SIZES.base * 2,
+    paddingVertical: SIZES.base,
   },
   welcomeTextView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: '3%',
   },
   welcomeText: {
     marginRight: SIZES.base / 2,
@@ -70,13 +79,7 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
     marginTop: SIZES.base / 2,
     ...FONTS.medium,
-  },
-  imageView: {
-    height: verticalScale(220),
-    marginVertical: SIZES.base * 3,
-  },
-  image: {
-    height: '100%',
+    marginBottom: SIZES.base * 4,
   },
   registerLink: {
     ...FONTS.regular,
@@ -84,5 +87,11 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: COLORS.textSecondary,
+  },
+  iconWrapper: {
+    alignSelf: 'flex-start',
+    height: verticalScale(30),
+    paddingRight: SIZES.base,
+    marginBottom: SIZES.base,
   },
 });

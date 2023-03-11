@@ -10,6 +10,7 @@ export default function FormButton({
   buttonStyle,
   textStyle,
   onPress,
+  disabled,
 }) {
   return (
     <View
@@ -17,7 +18,14 @@ export default function FormButton({
         styles.container,
         {paddingHorizontal: fullWidth ? 0 : SIZES.paddingHorizontal},
       ]}>
-      <Pressable style={[styles.btn, buttonStyle]} onPress={onPress}>
+      <Pressable
+        style={[
+          styles.btn,
+          {backgroundColor: disabled ? COLORS.grayText : COLORS.primary},
+          buttonStyle,
+        ]}
+        onPress={onPress}
+        disabled={disabled}>
         <Text style={[styles.text, textStyle]}>{title}</Text>
       </Pressable>
     </View>
@@ -29,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: COLORS.secondary,
+    // backgroundColor: COLORS.primary,
     height: verticalScale(48),
     borderRadius: SIZES.radius,
   },

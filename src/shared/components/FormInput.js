@@ -46,5 +46,6 @@ const styles = StyleSheet.create({
   },
   textinput: {
     ...FONTS.regular,
+    paddingHorizontal: SIZES.base,
   },
 });

@@ -1,28 +1,45 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import Search from '../../../shared/components/Search';
-import routes from '../../../shared/constants/routes';
+import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
 import UseIcon from '../../../shared/utils/UseIcon';
+import EditTax from './EditTax';
+import NewTax from './NewTax';
 import TaxCard from './renderer/TaxCard';
 
 export default function Tax() {
   const {setOptions} = useNavigation();
-  const {navigate} = useNavigation();
   // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const items = [];
   const filteredItems = [];
 
+  const [showNewTaxForm, setShowNewTaxForm] = useState(false);
+  const [showEditTaxForm, setShowEditTaxForm] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   function handleNewItem() {
-    navigate(routes.NEW_TAX);
+    setShowNewTaxForm(true);
   }
 
   function handleEditItem() {
-    navigate(routes.EDIT_TAX);
+    setShowEditTaxForm(true);
+  }
+
+  function handleDeleteItem() {
+    setShowDeleteModal(true);
+  }
+
+  function handleSuccessfulResponse() {
+    setShowEditTaxForm(false);
+    setShowNewTaxForm(false);
+    setShowSuccessModal(true);
   }
 
   useLayoutEffect(() => {
@@ -53,9 +70,38 @@ export default function Tax() {
               />
             }
             handleEditItem={handleEditItem}
+            handleDeleteItem={handleDeleteItem}
           />
         </ScrollView>
       </View>
+
+      <Modal visible={showNewTaxForm} animationType="slide" transparent={true}>
+        <NewTax
+          setShowNewTaxForm={setShowNewTaxForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal visible={showEditTaxForm} animationType="slide" transparent={true}>
+        <EditTax
+          setShowEditTaxForm={setShowEditTaxForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'tax'} />
+      </Modal>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'tax update'}
+        />
+      </Modal>
     </SafeAreaView>
   );
 }

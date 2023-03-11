@@ -12,6 +12,7 @@ export default function ItemCard({
   amount,
   type = 'product',
   handleEditItem,
+  handleDeleteItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -53,10 +54,12 @@ export default function ItemCard({
               <Pressable style={styles.cta} onPress={handleEditItem}>
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
-              <Pressable style={styles.cta}>
+
+              {/* <Pressable style={styles.cta}>
                 <Text style={styles.ctaText}>Move to top</Text>
-              </Pressable>
-              <Pressable style={styles.cta}>
+              </Pressable> */}
+
+              <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>
                   Delete {type}
                 </Text>

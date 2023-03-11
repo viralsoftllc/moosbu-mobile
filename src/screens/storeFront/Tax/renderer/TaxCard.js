@@ -10,6 +10,7 @@ export default function TaxCard({
   amount,
   handleEditItem,
   icon,
+  handleDeleteItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -44,10 +45,10 @@ export default function TaxCard({
             <Pressable style={styles.cta} onPress={handleEditItem}>
               <Text style={styles.ctaText}>Edit</Text>
             </Pressable>
-            <Pressable style={styles.cta}>
+            {/* <Pressable style={styles.cta}>
               <Text style={styles.ctaText}>Move to top</Text>
-            </Pressable>
-            <Pressable style={styles.cta}>
+            </Pressable> */}
+            <Pressable style={styles.cta} onPress={handleDeleteItem}>
               <Text style={[styles.ctaText, styles.deleteCta]}>
                 Delete coupon
               </Text>

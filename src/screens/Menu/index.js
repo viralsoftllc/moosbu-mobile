@@ -58,7 +58,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(106, 70, 47, 0.2)',
-        route: routes.TAX_TAB,
+        route: routes.TAX,
       },
       {
         title: 'Coupon',
@@ -71,7 +71,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
-        route: routes.COUPON_TAB,
+        route: routes.COUPON,
       },
     ],
   },

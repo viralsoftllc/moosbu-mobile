@@ -22,6 +22,14 @@ export default function Login() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <View style={styles.imageView}>
+          <Image
+            source={require('../../../assets/images/moosbuwhite.png')}
+            resizeMode="contain"
+            style={styles.image}
+          />
+        </View>
+
         <View style={styles.welcomeTextView}>
           <Text style={styles.welcomeText}>Welcome Back</Text>
           <UseIcon
@@ -36,14 +44,6 @@ export default function Login() {
           Excited to see you are back. You can continue to track and record your
           business growth and sale.
         </Text>
-
-        <View style={styles.imageView}>
-          <Image
-            source={require('../../../assets/images/login.png')}
-            resizeMode="contain"
-            style={styles.image}
-          />
-        </View>
 
         <LoginForm />
 
@@ -80,17 +80,20 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
     marginTop: SIZES.base / 2,
     ...FONTS.medium,
+    marginBottom: SIZES.base * 5,
   },
   imageView: {
-    height: verticalScale(220),
-    marginVertical: SIZES.base * 3,
+    // height: verticalScale(220),
+    marginBottom: SIZES.base * 3,
+    marginTop: '5%',
   },
-  image: {
-    height: '100%',
-  },
+  // image: {
+  //   height: '100%',
+  // },
   registerLink: {
     ...FONTS.regular,
     color: COLORS.textPrimary,
+    textAlign: 'center',
   },
   linkText: {
     color: COLORS.textSecondary,

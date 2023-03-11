@@ -6,8 +6,8 @@ import AuthNavigator from './src/navigation/auth';
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <AuthNavigator /> */}
-      <MainNavigator />
+      <AuthNavigator />
+      {/* <MainNavigator /> */}
     </NavigationContainer>
   );
 };

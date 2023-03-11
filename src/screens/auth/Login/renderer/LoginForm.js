@@ -17,7 +17,11 @@ export default function LoginForm() {
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </Pressable>
 
-      <FormButton title={'Login'} buttonStyle={styles.buttonStyle} />
+      <FormButton
+        title={'Login'}
+        buttonStyle={styles.buttonStyle}
+        onPress={() => navigate(routes.MAIN_STACK)}
+      />
     </View>
   );
 }

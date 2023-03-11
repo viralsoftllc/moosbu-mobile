@@ -7,6 +7,7 @@ import ResetPasswordMailSent from '../../../screens/auth/ResetPassword/ResetPass
 import ResetPasswordSuccess from '../../../screens/auth/ResetPassword/ResetPasswordSuccess';
 import VerifyEmail from '../../../screens/auth/VerifyEmail';
 import routes from '../../../shared/constants/routes';
+import MainNavigator from '../../main';
 
 const authScreens = {
   [routes.LOGIN]: Login,
@@ -17,6 +18,7 @@ const authScreens = {
   [routes.RESET_PASSWORD_DONE]: ResetPasswordMailSent,
   [routes.RESET_PASSWORD_SUCCESS]: ResetPasswordSuccess,
   [routes.RESET_PASSWORD_FAIL]: ResetPasswordFailed,
+  [routes.MAIN_STACK]: MainNavigator,
 };
 
 export {authScreens};

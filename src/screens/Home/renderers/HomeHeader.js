@@ -1,20 +1,27 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
+import {View, Text, StyleSheet, Platform, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import AppButton from '../../../shared/components/AppButton';
+import ImageIcon from '../../../shared/components/ImageIcon';
+import routes from '../../../shared/constants/routes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function HomeHeader() {
+  const {navigate} = useNavigation();
+
   return (
     <View style={styles.topView}>
       <View style={styles.header}>
-        <UseIcon
-          type="EvilIcons"
-          name={'user'}
-          color={COLORS.white}
-          size={verticalScale(20)}
-        />
+        <Pressable onPress={() => navigate(routes.PROFILE)}>
+          <ImageIcon
+            size={verticalScale(20)}
+            style={styles.imageIcon}
+            imageUrl={require('../../../assets/images/profile.png')}
+          />
+        </Pressable>
         <UseIcon
           type="MaterialIcons"
           name={'notifications-none'}
@@ -91,5 +98,8 @@ const styles = StyleSheet.create({
   },
   topView: {
     paddingHorizontal: SIZES.paddingHorizontal,
+  },
+  imageIcon: {
+    margin: 0,
   },
 });

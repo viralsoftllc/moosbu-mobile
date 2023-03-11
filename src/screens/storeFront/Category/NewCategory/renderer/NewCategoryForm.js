@@ -6,7 +6,7 @@ import FormInput from '../../../../../shared/components/FormInput';
 
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 
-export default function NewCategoryForm() {
+export default function NewCategoryForm({handleSuccessfulResponse}) {
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
@@ -23,7 +23,7 @@ export default function NewCategoryForm() {
         />
       </View>
 
-      <FormButton title={'Add Category'} />
+      <FormButton title={'Add Category'} onPress={handleSuccessfulResponse} />
     </View>
   );
 }

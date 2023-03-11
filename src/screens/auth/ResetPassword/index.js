@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
-  Image,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -37,13 +36,13 @@ export default function ResetPassword() {
           with the instructions to reset your password
         </Text>
 
-        <View style={styles.imageView}>
+        {/* <View style={styles.imageView}>
           <Image
             source={require('../../../assets/images/reset.png')}
             resizeMode="contain"
             style={styles.image}
           />
-        </View>
+        </View> */}
 
         <ResetPasswordForm />
       </ScrollView>
@@ -62,6 +61,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: '3%',
   },
   welcomeText: {
     marginRight: SIZES.base / 2,
@@ -73,13 +73,7 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
     marginTop: SIZES.base / 2,
     ...FONTS.medium,
-  },
-  imageView: {
-    height: verticalScale(220),
-    marginVertical: SIZES.base * 3,
-  },
-  image: {
-    height: '100%',
+    marginBottom: SIZES.base * 4,
   },
   iconWrapper: {
     alignSelf: 'flex-start',

@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ItemCard from '../renderer/ItemCard';
@@ -16,6 +17,7 @@ export default function Products() {
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_PRODUCT);
@@ -23,6 +25,10 @@ export default function Products() {
 
   function handleEditItem() {
     navigate(routes.EDIT_PRODUCT);
+  }
+
+  function handleDeleteItem() {
+    setShowDeleteModal(true);
   }
 
   return (
@@ -40,11 +46,16 @@ export default function Products() {
           subtitle="25 in stock"
           amount={'N5,000,000'}
           handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
         />
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} />
+        <ShareItem setShowShareModal={setShowShareModal} title="product" />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'product'} />
       </Modal>
     </View>
   );

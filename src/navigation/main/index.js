@@ -7,10 +7,12 @@ import CustomerStack from './stacks/CustomerStack';
 import ShippingStack from './stacks/ShippingStack';
 import CashFlowStack from './stacks/CashFlowStack';
 import EngagementStack from './stacks/EngagementStack';
-import CouponStack from './stacks/CouponStack';
-import TaxStack from './stacks/TaxStack';
 import ProductsStack from './stacks/ProductsStack';
 import AnalyticTopTabNavigator from './screens/AnalyticTopTabNavigator';
+import Profile from '../../screens/Profile';
+import ChangePassword from '../../screens/auth/ChangePassword';
+import Coupon from '../../screens/storeFront/Coupon';
+import Tax from '../../screens/storeFront/Tax';
 
 const Stack = createStackNavigator();
 
@@ -47,12 +49,8 @@ export default function MainNavigator() {
         component={EngagementStack}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name={routes.COUPON_TAB}
-        component={CouponStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name={routes.TAX_TAB} component={TaxStack} />
+      <Stack.Screen name={routes.COUPON} component={Coupon} />
+      <Stack.Screen name={routes.TAX} component={Tax} />
       <Stack.Screen
         name={routes.PRODUCTS_STACK}
         component={ProductsStack}
@@ -62,6 +60,8 @@ export default function MainNavigator() {
         name={routes.ANALYTICS}
         component={AnalyticTopTabNavigator}
       />
+      <Stack.Screen name={routes.PROFILE} component={Profile} />
+      <Stack.Screen name={routes.CHANGE_PASSWORD} component={ChangePassword} />
     </Stack.Navigator>
   );
 }

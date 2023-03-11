@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '25%',
+    marginTop: '20%',
     marginBottom: SIZES.base * 10,
   },
   text: {

@@ -1,12 +1,16 @@
 import Clipboard from '@react-native-community/clipboard';
 import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import FormButton from '../../../shared/components/FormButton';
+import ImageIcon from '../../../shared/components/ImageIcon';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function ShareItem({setShowShareModal}) {
+export default function ShareItem({setShowShareModal, title, subtitle}) {
   const [copied, setCopied] = useState(false);
+  const [media, setMedia] = useState('');
 
   const copyToClipboard = content => {
     Clipboard.setString(content);
@@ -18,50 +22,96 @@ export default function ShareItem({setShowShareModal}) {
       <View style={styles.modalContainer}>
         <View style={styles.container}>
           <View style={styles.flex}>
-            <Text style={styles.primaryText}>Share product as:</Text>
+            <View>
+              <Text style={styles.title}>
+                {title ? `Share your ${title} link` : 'Share as'}
+              </Text>
+              <Text style={styles.subtitleText}>
+                {subtitle ? subtitle : 'Share link on your social networks'}
+              </Text>
+            </View>
 
-            <Pressable onPress={() => setShowShareModal(false)}>
+            <Pressable
+              onPress={() => {
+                setShowShareModal(false);
+                setMedia('');
+              }}>
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View>
 
           <View style={styles.flex}>
-            <View>
-              <View style={styles.shareTypeView}>
-                <UseIcon name="file-pdf-o" type={'FaIcons'} />
-                <Text style={styles.primaryText}>PDF</Text>
-              </View>
-            </View>
+            <Pressable
+              style={[
+                styles.shareTypeView,
+                {
+                  borderColor:
+                    media === 'facebook' ? COLORS.credit : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => setMedia('facebook')}>
+              <Text style={styles.primaryText}>Facebook</Text>
+              <UseIcon
+                name="facebook"
+                type={'MaterialIcons'}
+                size={verticalScale(15)}
+                color={'#1D9BF0'}
+              />
+            </Pressable>
 
-            <Text style={styles.primaryText}>OR</Text>
+            <Pressable
+              style={[
+                styles.shareTypeView,
+                {
+                  borderColor:
+                    media === 'twitter' ? COLORS.credit : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => setMedia('twitter')}>
+              <Text style={styles.primaryText}>Twitter</Text>
+              <UseIcon
+                name="twitter-square"
+                type={'FaIcons'}
+                size={verticalScale(15)}
+                color={'#1D9BF0'}
+              />
+            </Pressable>
 
-            <View>
-              <View style={styles.shareTypeView}>
-                <UseIcon type={'Ionicons'} name="image-outline" />
-                <Text style={styles.primaryText}>Text or Image</Text>
-              </View>
-            </View>
+            <Pressable
+              style={[
+                styles.shareTypeView,
+                {
+                  borderColor:
+                    media === 'instagram' ? COLORS.credit : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => setMedia('instagram')}>
+              <Text style={styles.primaryText}>Instagram</Text>
+              {/* <UseIcon name="file-pdf-o" type={'FaIcons'} /> */}
+              <ImageIcon
+                imageUrl={require('../../../assets/images/insta.png')}
+                size={verticalScale(12)}
+                style={styles.imageIcon}
+              />
+            </Pressable>
           </View>
 
+          <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
             <Text style={styles.link}>moosbu.com/retail.store</Text>
-
-            {copied ? (
-              <View style={styles.shareTypeView}>
-                <UseIcon
-                  type={'Ionicons'}
-                  name="checkmark-circle"
-                  color={COLORS.credit}
-                />
-                <Text style={{...FONTS.tiny}}>Copied</Text>
-              </View>
-            ) : (
-              <Pressable
-                onPress={() => copyToClipboard('moosbu.com/retail.store')}>
-                <UseIcon type={'AntDesign'} name="copy1" />
-              </Pressable>
-            )}
+            <Pressable
+              onPress={() => copyToClipboard('moosbu.com/retail.store')}
+              style={styles.copyBtn}>
+              <UseIcon type={'AntDesign'} name="copy1" color={COLORS.white} />
+              <Text style={styles.copyText}>{copied ? 'Copied' : 'Copy'}</Text>
+            </Pressable>
           </View>
+
+          <FormButton
+            title={'Share'}
+            // style={{backgroundColor: media ? COLORS.primary : COLORS.grayText}}
+            disabled={media ? false : true}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -69,16 +119,17 @@ export default function ShareItem({setShowShareModal}) {
 }
 const styles = StyleSheet.create({
   container: {
-    borderRadius: SIZES.radius,
+    borderTopLeftRadius: SIZES.radius,
+    borderTopRightRadius: SIZES.radius,
     paddingHorizontal: SIZES.paddingHorizontal,
     backgroundColor: COLORS.white,
-    marginHorizontal: SIZES.paddingHorizontal,
+    paddingBottom: SIZES.base * 2,
   },
   copyView: {
-    paddingHorizontal: SIZES.base,
-    paddingVertical: SIZES.base / 2,
     backgroundColor: COLORS.tabBg,
     borderRadius: SIZES.radius / 2,
+    overflow: 'hidden',
+    marginBottom: SIZES.base * 3,
   },
   flex: {
     display: 'flex',
@@ -89,15 +140,31 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     color: COLORS.textPrimary,
+    marginTop: SIZES.base / 1.5,
+    marginBottom: SIZES.base,
+  },
+  title: {
+    ...FONTS.regular,
+    color: COLORS.textPrimary,
+    marginTop: SIZES.base / 1.5,
+  },
+  subtitleText: {
+    ...FONTS.medium,
+    color: COLORS.grayText,
   },
   link: {
     ...FONTS.medium,
+    marginLeft: SIZES.base,
   },
   shareTypeView: {
     alignSelf: 'flex-start',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.borderGray,
+    borderRadius: SIZES.radius / 2,
+    height: verticalScale(80),
+    width: '25%',
   },
   shareModal: {
     flex: 1,
@@ -105,7 +172,25 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     // alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 1,
+    justifyContent: 'flex-end',
+  },
+  imageIcon: {
+    margin: 0,
+  },
+  copyBtn: {
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingVertical: SIZES.base,
+    paddingHorizontal: SIZES.base * 2,
+  },
+  copyText: {
+    color: COLORS.white,
+    marginLeft: SIZES.base / 2,
+  },
+  linkText: {
+    marginTop: SIZES.base * 2,
   },
 });

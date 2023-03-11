@@ -1,33 +1,37 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import {COLORS, SIZES} from '../../../../assets/themes';
-import ScreenHeader from '../../../../shared/components/ScreenHeader';
+import React from 'react';
+import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+
+import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import UseIcon from '../../../../shared/utils/UseIcon';
 import NewTaxForm from './renderer/NewTaxForm';
 
-export default function NewTax() {
-  const {setOptions} = useNavigation();
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'New Tax'} />,
-    });
-    return () => {};
-  }, [setOptions]);
-
+export default function NewTax({setShowNewTaxForm, handleSuccessfulResponse}) {
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.container}>
-        <ScrollView>
-          <NewTaxForm />
-        </ScrollView>
+      <View style={styles.modalContainer}>
+        <View style={styles.container}>
+          <View style={styles.flex}>
+            <View>
+              <Text style={styles.title}>Add new tax</Text>
+              <Text style={styles.subtitle}>Enter tax details</Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setShowNewTaxForm(false);
+              }}>
+              <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
+            </Pressable>
+          </View>
+
+          <NewTaxForm handleSuccessfulResponse={handleSuccessfulResponse} />
+        </View>
       </View>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: SIZES.paddingHorizontal,
     paddingVertical: SIZES.base * 2,
@@ -37,5 +41,27 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     paddingBottom: SIZES.base * 2,
+  },
+  modalContainer: {
+    flex: 1,
+    // alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderWidth: 1,
+    justifyContent: 'flex-end',
+  },
+  flex: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginVertical: SIZES.base * 1.3,
+  },
+  title: {
+    ...FONTS.regular,
+    color: COLORS.textPrimary,
+  },
+  subtitle: {
+    ...FONTS.medium,
+    color: COLORS.grayText,
   },
 });

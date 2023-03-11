@@ -1,53 +1,31 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
+import {StyleSheet, View} from 'react-native';
+
+import {SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 
-export default function EditTaxForm() {
+export default function EditTaxForm({handleSuccessfulResponse}) {
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
         <FormInput label={'Tax Name'} placeholder="Enter tax name" />
 
         <FormInput label={'Tax Percent'} placeholder="Enter tax price" />
-
-        <FormInput
-          label={'Tax Description'}
-          placeholder="Enter Tax Details"
-          multiline={true}
-          numberOfLines={5}
-          inputStyle={styles.inputStyle}
-        />
       </View>
 
-      <View style={styles.response}>
-        <Text style={styles.responseText}>Tax details updated</Text>
-      </View>
-
-      <FormButton title={'Update Tax'} />
+      <FormButton title={'Save'} onPress={handleSuccessfulResponse} />
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: SIZES.base * 5,
+    paddingBottom: SIZES.base * 3,
   },
   inputs: {
-    marginBottom: SIZES.base * 5,
-    paddingHorizontal: SIZES.paddingHorizontal,
+    marginVertical: SIZES.base * 2,
   },
   inputStyle: {
     textAlignVertical: 'top',
-  },
-  response: {
-    paddingVertical: SIZES.base,
-    backgroundColor: COLORS.secondary,
-    marginBottom: SIZES.base * 3,
-  },
-  responseText: {
-    textAlign: 'center',
-    color: COLORS.white,
-    ...FONTS.medium,
   },
 });

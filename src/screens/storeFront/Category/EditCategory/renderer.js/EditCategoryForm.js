@@ -1,12 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 
-export default function EditCategoryForm() {
+export default function EditCategoryForm({handleSuccessfulResponse}) {
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
@@ -16,18 +17,17 @@ export default function EditCategoryForm() {
 
         <FormInput
           label={'Category Details'}
-          placeholder="Enter Category Details"
+          placeholder="Enter category details"
           multiline={true}
           numberOfLines={5}
           inputStyle={styles.inputStyle}
         />
       </View>
 
-      <View style={styles.response}>
-        <Text style={styles.responseText}>Category details updated</Text>
-      </View>
-
-      <FormButton title={'Update Category'} />
+      <FormButton
+        title={'Update Category'}
+        onPress={handleSuccessfulResponse}
+      />
     </View>
   );
 }

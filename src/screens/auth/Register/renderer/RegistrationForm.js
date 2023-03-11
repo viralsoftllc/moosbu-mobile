@@ -10,7 +10,9 @@ export default function RegistrationForm() {
     <View style={styles.container}>
       <FormInput placeholder={'Email'} />
       <FormInput placeholder={'Full Name'} />
+      <FormInput placeholder={'Store Name'} />
       <FormInput placeholder={'Password'} />
+      <FormInput placeholder={'Confirm Password'} />
 
       <Pressable style={styles.flex}>
         <UseIcon type={'Ionicons'} name={'checkbox'} color={COLORS.primary} />
