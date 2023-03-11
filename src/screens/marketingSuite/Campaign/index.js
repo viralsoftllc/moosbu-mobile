@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../../storeFront/renderer/ShareItem';
@@ -16,6 +17,7 @@ export default function Campaign() {
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_CAMPAIGN);
@@ -23,6 +25,10 @@ export default function Campaign() {
 
   function handleEditItem() {
     navigate(routes.EDIT_CAMPAIGN);
+  }
+
+  function handleDeleteItem() {
+    setShowDeleteModal(true);
   }
 
   return (
@@ -42,20 +48,31 @@ export default function Campaign() {
           time="10:30-12:45 PM"
           status={'Completed'}
           handleEditItem={handleEditItem}
+          imageUrl={require('../../../assets/images/mail1.png')}
+          handleDeleteItem={handleDeleteItem}
         />
 
         <CampaignCard
           setShowShareModal={setShowShareModal}
-          title={'Take 20% off your order with code THANKYOU'}
+          title={'Thanks for signing up for updates'}
           date="28, April 2023"
           time="10:30-12:45 PM"
           status={'In Progress'}
           handleEditItem={handleEditItem}
+          imageUrl={require('../../../assets/images/mail2.png')}
+          handleDeleteItem={handleDeleteItem}
         />
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem setShowShareModal={setShowShareModal} />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem
+          setShowDeleteModal={setShowDeleteModal}
+          title={'campaign'}
+        />
       </Modal>
     </View>
   );

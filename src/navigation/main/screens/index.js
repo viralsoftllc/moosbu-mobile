@@ -1,9 +1,5 @@
 import EditCampaign from '../../../screens/marketingSuite/Campaign/EditCampaign';
 import NewCampaign from '../../../screens/marketingSuite/Campaign/NewCampaign';
-import EditEmail from '../../../screens/marketingSuite/Email/EditEmail';
-import NewEmail from '../../../screens/marketingSuite/Email/NewEmail';
-import EditPhoneBook from '../../../screens/marketingSuite/PhoneBook/EditPhoneBook';
-import NewPhoneBook from '../../../screens/marketingSuite/PhoneBook/NewPhoneBook';
 import EditCategory from '../../../screens/storeFront/Category/EditCategory';
 import NewCategory from '../../../screens/storeFront/Category/NewCategory';
 import EditProduct from '../../../screens/storeFront/Products/EditProduct';
@@ -27,6 +23,9 @@ import ChoosePaymentMethod from '../../../screens/Wallet/ChoosePaymentMethod';
 import BankTransfer from '../../../screens/Wallet/BankTransfer';
 import SendFunds from '../../../screens/Wallet/SendFunds';
 import More from '../../../screens/More';
+import NewContact from '../../../screens/marketingSuite/Contacts/NewContact';
+import EditContact from '../../../screens/marketingSuite/Contacts/EditContact';
+import SettingsId from '../../../screens/marketingSuite/Settings/SettingsId';
 
 const menuStack = {
   [routes.ANALYTICS]: AnalyticTopTabNavigator,
@@ -38,24 +37,7 @@ const productScreen = {
   [routes.EDIT_PRODUCT]: EditProduct,
   [routes.NEW_CATEGORY]: NewCategory,
   [routes.EDIT_CATEGORY]: EditCategory,
-  // [routes.CATEGORY]: Category,
 };
-
-// const taxScreen = {
-//   [routes.TAX]: Tax,
-//   [routes.NEW_TAX]: NewTax,
-//   [routes.EDIT_TAX]: EditTax,
-// };
-
-// const couponScreens = {
-//   [routes.COUPON]: CouponTopTabNavigator,
-//   [routes.NEW_COUPON]: NewCoupon,
-//   [routes.EDIT_COUPON]: EditCoupon,
-//   [routes.NEW_DISCOUNT]: NewDiscount,
-//   [routes.EDIT_DISCOUNT]: EditDiscount,
-//   [routes.NEW_BUYXGETY]: NewBuyxGety,
-//   [routes.EDIT_BUYXGETY]: EditBuyxGety,
-// };
 
 const walletScreens = {
   [routes.WALLET]: Wallet,
@@ -72,10 +54,9 @@ const engagementScreen = {
   [routes.ENGAGEMNT]: EngagementTopTabNavigator,
   [routes.NEW_CAMPAIGN]: NewCampaign,
   [routes.EDIT_CAMPAIGN]: EditCampaign,
-  [routes.NEW_PHONEBOOK]: NewPhoneBook,
-  [routes.EDIT_PHONEBOOK]: EditPhoneBook,
-  [routes.NEW_EMAIL]: NewEmail,
-  [routes.EDIT_EMAIL]: EditEmail,
+  [routes.NEW_CONTACT]: NewContact,
+  [routes.EDIT_CONTACT]: EditContact,
+  [routes.SETTINGS_ID]: SettingsId,
 };
 
 const cashFlowScreens = {

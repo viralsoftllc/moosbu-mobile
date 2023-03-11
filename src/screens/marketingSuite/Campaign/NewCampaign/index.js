@@ -1,13 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
+import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import NewCampaignForm from './renderer/NewCampaignForm';
 
 export default function NewCampaign() {
   const {setOptions} = useNavigation();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -16,13 +18,29 @@ export default function NewCampaign() {
     return () => {};
   }, [setOptions]);
 
+  function handleSuccessfulResponse() {
+    setShowSuccessModal(true);
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
         <ScrollView>
-          <NewCampaignForm />
+          <NewCampaignForm
+            handleSuccessfulResponse={handleSuccessfulResponse}
+          />
         </ScrollView>
       </View>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'campaign request'}
+        />
+      </Modal>
     </SafeAreaView>
   );
 }

@@ -5,7 +5,7 @@ import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function NewPhonebookForm() {
+export default function EditContactForm({handleSuccessfulResponse}) {
   return (
     <View>
       <FormInput
@@ -55,7 +55,7 @@ export default function NewPhonebookForm() {
       />
       <FormInput placeholder={'Zip code'} />
 
-      <FormButton title={'Save info'} />
+      <FormButton title={'Save info'} onPress={handleSuccessfulResponse} />
     </View>
   );
 }

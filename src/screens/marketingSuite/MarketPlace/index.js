@@ -1,15 +1,14 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-
 import ComingSoon from '../../../shared/components/ComingSoon';
 
-export default function PushNotifications() {
+export default function MarketPlace() {
   return (
     <SafeAreaView style={styles.container}>
       <ComingSoon
-        page={'Push Notifications'}
-        iconType={'EntypoIcon'}
-        iconName={'notification'}
+        page={'marketplace'}
+        iconType={'MaterialCommunityIcons'}
+        iconName={'shopping-outline'}
       />
     </SafeAreaView>
   );

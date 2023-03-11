@@ -88,15 +88,15 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
+        iconBackground: 'rgba(202, 45, 49, 0.2)',
         route: routes.ENGAGEMNT_TAB,
       },
       {
         title: 'Automation',
         icon: (
           <UseIcon
-            type={'MaterialIcons'}
-            name="attach-email"
+            type={'MaterialCommunityIcons'}
+            name="chart-timeline-variant"
             size={14}
             color={COLORS.black}
           />
@@ -105,30 +105,30 @@ const menus = [
         route: routes.AUTOMATION,
       },
       {
-        title: 'Push Notification',
-        icon: (
-          <UseIcon
-            type={'EntypoIcon'}
-            name="notification"
-            size={14}
-            color={COLORS.black}
-          />
-        ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
-        route: routes.PUSH_NOTIFICATION,
-      },
-      {
-        title: 'Public Listing (Directory)',
+        title: 'mBot',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
-            name="file-cabinet"
+            name="robot"
             size={14}
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
-        route: routes.PUBLIC_LISTING,
+        iconBackground: '#F5F1DA',
+        route: routes.M_BOT,
+      },
+      {
+        title: 'Marketplace',
+        icon: (
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="shopping-outline"
+            size={14}
+            color={COLORS.black}
+          />
+        ),
+        iconBackground: '#E4F4F1',
+        route: routes.MARKET_PLACE,
       },
     ],
   },
@@ -145,7 +145,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
+        iconBackground: '#F5F1DA',
         route: routes.BUSINESS_REGISTRATION,
       },
       {
@@ -158,7 +158,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
+        iconBackground: '#CCDAED',
         route: routes.CASHFLOW_TAB,
       },
     ],
@@ -176,7 +176,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: COLORS.lightSecondaryBackground,
+        iconBackground: '#CCDAED',
         route: routes.SHIPPING_TAB,
       },
       {
@@ -189,7 +189,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(6, 223, 119, 0.1)',
+        iconBackground: 'rgba(189, 189, 189, 0.6)',
         route: routes.CUSTOMERS_TAB,
       },
       {
@@ -202,7 +202,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: '#F5F1DA',
+        iconBackground: 'rgba(255, 162, 29, 0.1)',
         route: routes.INTEGRATION,
       },
       {
@@ -215,7 +215,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(106, 70, 47, 0.2)',
+        iconBackground: 'rgba(62, 201, 214, 0.2)',
         route: routes.SUPPORT,
       },
       {
@@ -228,7 +228,7 @@ const menus = [
             color={COLORS.black}
           />
         ),
-        iconBackground: 'rgba(206, 206, 206, 0.4)',
+        iconBackground: 'rgba(202, 45, 49, 0.2)',
         route: routes.STORE_SETTINGS,
       },
     ],

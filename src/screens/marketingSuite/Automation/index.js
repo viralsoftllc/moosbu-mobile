@@ -7,9 +7,9 @@ export default function Automation() {
   return (
     <SafeAreaView style={styles.container}>
       <ComingSoon
-        page={'Automation'}
-        iconType={'MaterialIcons'}
-        iconName={'attach-email'}
+        page={'automation'}
+        iconType={'MaterialCommunityIcons'}
+        iconName={'chart-timeline-variant'}
       />
     </SafeAreaView>
   );

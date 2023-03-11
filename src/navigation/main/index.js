@@ -15,12 +15,12 @@ import Coupon from '../../screens/storeFront/Coupon';
 import Tax from '../../screens/storeFront/Tax';
 import Logout from '../../screens/auth/Logout';
 import Automation from '../../screens/marketingSuite/Automation';
-import PushNotifications from '../../screens/marketingSuite/PushNotifications';
-import PublicListing from '../../screens/marketingSuite/PublicListing';
+import MBot from '../../screens/marketingSuite/MBot';
 import BussinessRegistration from '../../screens/scaleByMoosbu/BusinessRegistration';
 import Integration from '../../screens/others/Integration';
 import Support from '../../screens/others/Support';
 import StoreSettings from '../../screens/others/StoreSettings';
+import MarketPlace from '../../screens/marketingSuite/MarketPlace';
 
 const Stack = createStackNavigator();
 
@@ -78,12 +78,9 @@ export default function MainNavigator() {
 
       <Stack.Screen name={routes.AUTOMATION} component={Automation} />
 
-      <Stack.Screen
-        name={routes.PUSH_NOTIFICATION}
-        component={PushNotifications}
-      />
+      <Stack.Screen name={routes.M_BOT} component={MBot} />
 
-      <Stack.Screen name={routes.PUBLIC_LISTING} component={PublicListing} />
+      <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
 
       <Stack.Screen name={routes.INTEGRATION} component={Integration} />
       <Stack.Screen name={routes.SUPPORT} component={Support} />

@@ -5,15 +5,15 @@ import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
-import EditCampaignForm from './renderer/EditCampaignForm';
+import EditContactForm from './renderer/EditContactForm';
 
-export default function EditCampaign() {
+export default function EditContact() {
   const {setOptions} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Edit Campaign'} />,
+      header: () => <ScreenHeader title={'Edit Contact'} />,
     });
     return () => {};
   }, [setOptions]);
@@ -26,7 +26,7 @@ export default function EditCampaign() {
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
         <ScrollView>
-          <EditCampaignForm
+          <EditContactForm
             handleSuccessfulResponse={handleSuccessfulResponse}
           />
         </ScrollView>
@@ -38,7 +38,7 @@ export default function EditCampaign() {
         transparent={true}>
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
-          title={'campaign update'}
+          title={'contact update'}
         />
       </Modal>
     </SafeAreaView>

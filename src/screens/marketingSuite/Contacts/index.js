@@ -1,14 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
-
 import {COLORS, SIZES} from '../../../assets/themes';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../../storeFront/renderer/ShareItem';
-import EmailCard from './renderer/EmailCard';
+import ContactCard from './renderer/ContactCard';
 
-export default function Email() {
+export default function Contacts() {
   const {navigate} = useNavigation();
   // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
@@ -16,13 +16,18 @@ export default function Email() {
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleNewItem() {
-    navigate(routes.NEW_EMAIL);
+    navigate(routes.NEW_CONTACT);
   }
 
   function handleEditItem() {
-    navigate(routes.EDIT_EMAIL);
+    navigate(routes.EDIT_CONTACT);
+  }
+
+  function handleDeleteItem() {
+    setShowDeleteModal(true);
   }
 
   return (
@@ -35,29 +40,23 @@ export default function Email() {
       />
 
       <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-        <EmailCard
+        <ContactCard
           setShowShareModal={setShowShareModal}
-          title={'Valued client, we have updated our policies'}
-          date="23, Feb 2023"
-          time="10:30-12:45 PM"
-          status={'Completed'}
+          title={'Joshua Moosbu'}
+          address={'22 Cresent lane, Surulere Lagos State.'}
+          email="Joshuamoosbu@org.ng"
+          number="080999998888"
           handleEditItem={handleEditItem}
-          imageUrl={require('../../../assets/images/mail1.png')}
-        />
-
-        <EmailCard
-          setShowShareModal={setShowShareModal}
-          title={'Thanks for signing up for updates'}
-          date="28, April 2023"
-          time="10:30-12:45 PM"
-          status={'In Progress'}
-          handleEditItem={handleEditItem}
-          imageUrl={require('../../../assets/images/mail2.png')}
+          handleDeleteItem={handleDeleteItem}
         />
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem setShowShareModal={setShowShareModal} />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'contact'} />
       </Modal>
     </View>
   );

@@ -5,7 +5,7 @@ import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function EditCampaignForm() {
+export default function EditCampaignForm({handleSuccessfulResponse}) {
   return (
     <View>
       <FormInput label={'Campaign Name'} placeholder="Campaign name" />
@@ -65,7 +65,11 @@ export default function EditCampaignForm() {
 
       <View style={styles.flex}>
         <View style={styles.sendNowBtn}>
-          <FormButton title={'Send Now'} fullWidth />
+          <FormButton
+            title={'Send Now'}
+            fullWidth
+            onPress={handleSuccessfulResponse}
+          />
         </View>
 
         <View style={styles.scheduleBtnView}>

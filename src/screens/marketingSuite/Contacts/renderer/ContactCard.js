@@ -6,13 +6,14 @@ import {COLORS, SIZES, FONTS} from '../../../../assets/themes';
 import ImageIcon from '../../../../shared/components/ImageIcon';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
-export default function PhoneBookCard({
+export default function ContactCard({
   title,
   setShowShareModal,
   handleEditItem,
   number,
   email,
   address,
+  handleDeleteItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -51,12 +52,14 @@ export default function PhoneBookCard({
               <Pressable style={styles.cta} onPress={handleEditItem}>
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
+
               <Pressable
                 style={styles.cta}
                 onPress={() => setShowShareModal(true)}>
                 <Text style={styles.ctaText}>Share</Text>
               </Pressable>
-              <Pressable style={styles.cta}>
+
+              <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
               </Pressable>
             </View>

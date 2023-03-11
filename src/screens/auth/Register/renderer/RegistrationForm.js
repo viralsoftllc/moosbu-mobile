@@ -31,7 +31,7 @@ export default function RegistrationForm() {
         </View>
       </Pressable>
 
-      <FormButton title={'Login'} buttonStyle={styles.buttonStyle} />
+      <FormButton title={'Create account'} buttonStyle={styles.buttonStyle} />
     </View>
   );
 }

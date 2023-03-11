@@ -1,14 +1,15 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
+
 import ComingSoon from '../../../shared/components/ComingSoon';
 
-export default function PublicListing() {
+export default function MBot() {
   return (
     <SafeAreaView style={styles.container}>
       <ComingSoon
-        page={'public listing'}
+        page={'M Bot'}
         iconType={'MaterialCommunityIcons'}
-        iconName={'file-cabinet'}
+        iconName={'robot'}
       />
     </SafeAreaView>
   );
