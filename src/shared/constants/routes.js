@@ -1,13 +1,19 @@
 export default {
   HOME: 'Home Tab',
-  WALLET: 'Wallet Tab',
   REWARD: 'Reward Tab',
-  MORE: 'More Tab',
+  MORE_STACK: 'More Tab',
   MENU: 'Menu Tab',
   MENU_STACK: 'Menu Stack',
   MAIN: 'Main',
   MAIN_STACK: 'Main Stack',
   PROFILE: 'Profile',
+  AUTOMATION: 'Automation',
+  PUSH_NOTIFICATION: 'Push Notifications',
+  PUBLIC_LISTING: 'Public Listings',
+  BUSINESS_REGISTRATION: 'Bussiness Registration',
+  INTEGRATION: 'Integration',
+  SUPPORT: 'Support',
+  STORE_SETTINGS: 'Store Settings',
   // Auth
   LOGIN: 'Login',
   REGISTRATION: 'Registration',
@@ -18,6 +24,16 @@ export default {
   CREATE_PASSWORD: 'Create Password',
   VERIFY_EMAIL: 'Verify Email',
   CHANGE_PASSWORD: 'Change Password',
+  LOGOUT: 'Logout',
+  // Wallet
+  WALLET_STACK: 'Wallet Tab',
+  WALLET: 'Wallet',
+  CHOOSE_PAYMENT_METHOD: 'Choose payment method',
+  BANK_TRANSFER: 'Bank Transfer',
+  SEND_FUNDS: 'Send Funds',
+  // More
+  MORE: 'More',
+
   // Store front -> Analytic
   ANALYTICS: 'Analytics',
   SALES_ANALYTICS: 'Sales Analytics',
@@ -35,21 +51,8 @@ export default {
   EDIT_CATEGORY: 'Edit Category',
   // Store front -> Coupon
   COUPON: 'Coupon',
-  // COUPON_TAB: 'Coupon tab',
-  // COUPON_DISCOUNT: 'Discount',
-  // COUPON_CODE: 'Coupon',
-  // COUPON_BUYXGETY: 'Buy X, get Y',
-  // NEW_COUPON: 'New Coupon',
-  // EDIT_COUPON: 'Edit coupon',
-  // NEW_DISCOUNT: 'New Discount',
-  // EDIT_DISCOUNT: 'Edit Dicount',
-  // NEW_BUYXGETY: 'New Buy x, Get y',
-  // EDIT_BUYXGETY: 'Edit Buy x, Get y',
   // Store front -> Tax
   TAX: 'Tax',
-  // TAX_TAB: 'Tax Tab',
-  // NEW_TAX: 'New Tax',
-  // EDIT_TAX: 'Edit Tax',
   // Marketing suite
   ENGAGEMNT_TAB: 'Engagement tab',
   ENGAGEMNT: 'Engagement',

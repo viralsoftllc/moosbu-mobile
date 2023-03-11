@@ -13,6 +13,14 @@ import Profile from '../../screens/Profile';
 import ChangePassword from '../../screens/auth/ChangePassword';
 import Coupon from '../../screens/storeFront/Coupon';
 import Tax from '../../screens/storeFront/Tax';
+import Logout from '../../screens/auth/Logout';
+import Automation from '../../screens/marketingSuite/Automation';
+import PushNotifications from '../../screens/marketingSuite/PushNotifications';
+import PublicListing from '../../screens/marketingSuite/PublicListing';
+import BussinessRegistration from '../../screens/scaleByMoosbu/BusinessRegistration';
+import Integration from '../../screens/others/Integration';
+import Support from '../../screens/others/Support';
+import StoreSettings from '../../screens/others/StoreSettings';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +70,29 @@ export default function MainNavigator() {
       />
       <Stack.Screen name={routes.PROFILE} component={Profile} />
       <Stack.Screen name={routes.CHANGE_PASSWORD} component={ChangePassword} />
+      <Stack.Screen
+        name={routes.LOGOUT}
+        component={Logout}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen name={routes.AUTOMATION} component={Automation} />
+
+      <Stack.Screen
+        name={routes.PUSH_NOTIFICATION}
+        component={PushNotifications}
+      />
+
+      <Stack.Screen name={routes.PUBLIC_LISTING} component={PublicListing} />
+
+      <Stack.Screen name={routes.INTEGRATION} component={Integration} />
+      <Stack.Screen name={routes.SUPPORT} component={Support} />
+      <Stack.Screen name={routes.STORE_SETTINGS} component={StoreSettings} />
+
+      <Stack.Screen
+        name={routes.BUSINESS_REGISTRATION}
+        component={BussinessRegistration}
+      />
     </Stack.Navigator>
   );
 }

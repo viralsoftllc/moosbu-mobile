@@ -56,8 +56,6 @@ export default function TopTabBar({state, descriptors, navigation, position}) {
               style={[
                 styles.tab,
                 {
-                  borderLeftWidth: index === 1 ? 1 : 0,
-                  borderRightWidth: index === 1 ? 1 : 0,
                   backgroundColor: isFocused
                     ? COLORS.primaryBackground
                     : COLORS.white,

@@ -1,24 +1,34 @@
-import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import React, {useLayoutEffect} from 'react';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
-import UseIcon from '../../shared/utils/UseIcon';
+import UseIcon from '../utils/UseIcon';
+import ScreenHeader from './ScreenHeader';
 
-export default function Reward() {
+export default function ComingSoon({page, iconType, iconName}) {
+  const {setOptions} = useNavigation();
+
+  useLayoutEffect(() => {
+    setOptions({
+      header: () => <ScreenHeader />,
+    });
+  }, [setOptions]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <View style={styles.iconView}>
           <UseIcon
-            name="gift-outline"
-            type={'Ionicons'}
+            type={iconType}
+            name={iconName}
             size={verticalScale(60)}
             color={COLORS.secondary}
           />
         </View>
 
         <Text style={styles.text}>
-          Our <Text style={styles.highlight}>reward</Text> page will be{' '}
+          Our <Text style={styles.highlight}>{page}</Text> page will be{' '}
           <Text style={styles.highlight}>launched soon</Text>
         </Text>
       </View>

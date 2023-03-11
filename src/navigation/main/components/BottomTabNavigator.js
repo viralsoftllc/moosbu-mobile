@@ -6,13 +6,13 @@ import {verticalScale} from 'react-native-size-matters';
 
 import Home from '../../../screens/Home';
 import routes from '../../../shared/constants/routes';
-import More from '../../../screens/More';
 import Reward from '../../../screens/Reward';
-import Wallet from '../../../screens/Wallet';
 import CustomTabBarButton from './CustomTabBarButton';
 import {COLORS, SIZES} from '../../../assets/themes';
 import MenuTabBarButton from './MenuTabBarButton';
 import Menu from '../../../screens/Menu';
+import WalletStack from '../stacks/WalletStack';
+import MoreStack from '../stacks/MoreStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,13 +32,13 @@ export default function BottomTabNavigator() {
 
           if (route.name === routes.HOME) {
             iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-          } else if (route.name === routes.WALLET) {
+          } else if (route.name === routes.WALLET_STACK) {
             iconName = focused ? 'wallet' : 'wallet-outline';
           } else if (route.name === routes.MENU) {
             iconName = focused ? 'close' : 'ios-apps-outline';
           } else if (route.name === routes.REWARD) {
             iconName = focused ? 'ios-gift' : 'ios-gift-outline';
-          } else if (route.name === routes.MORE) {
+          } else if (route.name === routes.MORE_STACK) {
             iconName = focused ? 'grid' : 'grid-outline';
           }
 
@@ -56,13 +56,13 @@ export default function BottomTabNavigator() {
       />
 
       <Tab.Screen
-        name={routes.WALLET}
-        component={Wallet}
+        name={routes.WALLET_STACK}
+        component={WalletStack}
         options={{
           tabBarButton: props => (
             <CustomTabBarButton
               {...props}
-              route={routes.WALLET}
+              route={routes.WALLET_STACK}
               label="Wallet"
             />
           ),
@@ -94,11 +94,15 @@ export default function BottomTabNavigator() {
       />
 
       <Tab.Screen
-        name={routes.MORE}
-        component={More}
+        name={routes.MORE_STACK}
+        component={MoreStack}
         options={{
           tabBarButton: props => (
-            <CustomTabBarButton {...props} route={routes.MORE} label="More" />
+            <CustomTabBarButton
+              {...props}
+              route={routes.MORE_STACK}
+              label="More"
+            />
           ),
         }}
       />

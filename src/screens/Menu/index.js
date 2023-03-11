@@ -44,7 +44,7 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
-        route: routes.CATEGORY,
+        route: routes.PRODUCTS_STACK,
         nestedRoute: routes.CATEGORY,
       },
       {
@@ -102,6 +102,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
+        route: routes.AUTOMATION,
       },
       {
         title: 'Push Notification',
@@ -114,6 +115,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
+        route: routes.PUSH_NOTIFICATION,
       },
       {
         title: 'Public Listing (Directory)',
@@ -126,6 +128,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
+        route: routes.PUBLIC_LISTING,
       },
     ],
   },
@@ -143,6 +146,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
+        route: routes.BUSINESS_REGISTRATION,
       },
       {
         title: 'Cash Flow Advance',
@@ -199,6 +203,7 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
+        route: routes.INTEGRATION,
       },
       {
         title: 'Support',
@@ -211,6 +216,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(106, 70, 47, 0.2)',
+        route: routes.SUPPORT,
       },
       {
         title: 'Store Settings',
@@ -223,6 +229,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
+        route: routes.STORE_SETTINGS,
       },
     ],
   },

@@ -22,6 +22,11 @@ import EditLocation from '../../../screens/others/Location/EditLocation';
 import Customers from '../../../screens/others/Customers';
 import CustomerOrders from '../../../screens/others/CustomerOrders';
 import CustomerOrderDetails from '../../../screens/others/CustomerOrderDetails';
+import Wallet from '../../../screens/Wallet';
+import ChoosePaymentMethod from '../../../screens/Wallet/ChoosePaymentMethod';
+import BankTransfer from '../../../screens/Wallet/BankTransfer';
+import SendFunds from '../../../screens/Wallet/SendFunds';
+import More from '../../../screens/More';
 
 const menuStack = {
   [routes.ANALYTICS]: AnalyticTopTabNavigator,
@@ -51,6 +56,17 @@ const productScreen = {
 //   [routes.NEW_BUYXGETY]: NewBuyxGety,
 //   [routes.EDIT_BUYXGETY]: EditBuyxGety,
 // };
+
+const walletScreens = {
+  [routes.WALLET]: Wallet,
+  [routes.CHOOSE_PAYMENT_METHOD]: ChoosePaymentMethod,
+  [routes.BANK_TRANSFER]: BankTransfer,
+  [routes.SEND_FUNDS]: SendFunds,
+};
+
+const moreScreens = {
+  [routes.MORE]: More,
+};
 
 const engagementScreen = {
   [routes.ENGAGEMNT]: EngagementTopTabNavigator,
@@ -88,4 +104,6 @@ export {
   cashFlowScreens,
   engagementScreen,
   productScreen,
+  walletScreens,
+  moreScreens,
 };
