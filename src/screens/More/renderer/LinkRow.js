@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -15,7 +15,7 @@ export default function LinkRow({title, iconName, route}) {
   }
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handleNavigation}>
       <UseIcon
         name={iconName}
         type="MaterialIcons"
@@ -25,15 +25,13 @@ export default function LinkRow({title, iconName, route}) {
 
       <Text style={styles.title}>{title}</Text>
 
-      <Pressable style={styles.link} onPress={handleNavigation}>
-        <UseIcon
-          name={'chevron-right'}
-          type="MaterialIcons"
-          color={COLORS.textPrimary}
-          size={verticalScale(20)}
-        />
-      </Pressable>
-    </View>
+      <UseIcon
+        name={'chevron-right'}
+        type="MaterialIcons"
+        color={COLORS.textPrimary}
+        size={verticalScale(20)}
+      />
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({
@@ -46,6 +44,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.base,
     borderRadius: SIZES.radius / 2,
     marginBottom: SIZES.base * 1.5,
+    paddingVertical: SIZES.base * 1.2,
   },
   title: {
     flex: 1,
@@ -53,9 +52,5 @@ const styles = StyleSheet.create({
     ...FONTS.regular,
     fontWeight: '500',
     color: COLORS.textPrimary,
-  },
-  link: {
-    paddingVertical: SIZES.base * 1.2,
-    paddingLeft: SIZES.base,
   },
 });

@@ -60,7 +60,10 @@ export default function Coupon() {
         filteredItems={filteredItems}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <CouponCard
           title={'MOOSBU2023'}
           icon={

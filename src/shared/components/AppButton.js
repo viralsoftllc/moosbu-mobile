@@ -3,9 +3,16 @@ import React from 'react';
 import {Text, Pressable, StyleSheet} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 
-export default function AppButton({title, rightIcon, leftIcon, buttonStyle}) {
+export default function AppButton({
+  title,
+  rightIcon,
+  leftIcon,
+  buttonStyle,
+  textStyle,
+  onPress,
+}) {
   return (
-    <Pressable style={[styles.container, buttonStyle]}>
+    <Pressable style={[styles.container, buttonStyle]} onPress={onPress}>
       {leftIcon}
 
       <Text
@@ -15,6 +22,7 @@ export default function AppButton({title, rightIcon, leftIcon, buttonStyle}) {
             marginRight: rightIcon ? SIZES.base : 0,
             marginLeft: leftIcon ? SIZES.base : 0,
           },
+          textStyle,
         ]}>
         {title}
       </Text>

@@ -7,7 +7,7 @@ import FormInput from '../../../../../shared/components/FormInput';
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function EditProductForm({handleSuccessfulResponse}) {
+export default function EditProductForm({handleSuccessfulResponse, product}) {
   const [showVariantForm, setShowVariantForm] = useState(false);
 
   return (
@@ -15,7 +15,11 @@ export default function EditProductForm({handleSuccessfulResponse}) {
       <View style={styles.inputs}>
         <ImagePicker />
 
-        <FormInput label={'Product Name'} placeholder="Enter product name" />
+        <FormInput
+          label={'Product Name'}
+          placeholder="Enter product name"
+          value={product?.name}
+        />
 
         <FormInput
           label={'Product Category'}
@@ -27,12 +31,15 @@ export default function EditProductForm({handleSuccessfulResponse}) {
             label={'Product Price'}
             placeholder="Enter product price"
             style={[styles.smallForm, styles.leftFormInput]}
+            value={product?.price}
+            keyboardType="numeric"
           />
 
           <FormInput
             label={'Product Tax'}
             placeholder="Enter product tax"
             style={[styles.smallForm, styles.rightFormInput]}
+            value={product?.product_tax}
           />
         </View>
 
@@ -41,12 +48,15 @@ export default function EditProductForm({handleSuccessfulResponse}) {
             label={'Stock Quantity'}
             placeholder="Enter stock quantity"
             style={[styles.smallForm, styles.leftFormInput]}
+            value={product?.quantity}
+            keyboardType="numeric"
           />
 
           <FormInput
             label={'Product SKU'}
             placeholder="Enter product SKU"
             style={[styles.smallForm, styles.rightFormInput]}
+            value={product?.SKU}
           />
         </View>
 
@@ -55,6 +65,7 @@ export default function EditProductForm({handleSuccessfulResponse}) {
           placeholder="Enter Product Details"
           multiline={true}
           numberOfLines={5}
+          value={product?.description}
         />
 
         <Pressable

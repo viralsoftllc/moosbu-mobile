@@ -3,7 +3,11 @@ import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import UseIcon from '../utils/UseIcon';
-export default function UpdateSuccessful({setShowSuccessModal, title}) {
+export default function UpdateSuccessful({
+  setShowSuccessModal,
+  title,
+  message,
+}) {
   return (
     <SafeAreaView style={styles.shareModal}>
       <View style={styles.modalContainer}>
@@ -18,9 +22,14 @@ export default function UpdateSuccessful({setShowSuccessModal, title}) {
           </View>
 
           <View style={styles.details}>
-            <Text style={styles.title}>
-              Your {title ? title : 'item update'} is successful
-            </Text>
+            {message ? (
+              <Text style={styles.title}>{message}</Text>
+            ) : (
+              <Text style={styles.title}>
+                Your {title ? title : 'item update'} is successful
+              </Text>
+            )}
+
             <Text style={styles.subtitle}>
               Your {title ? title : 'item update'} will be updated now
             </Text>
@@ -50,9 +59,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    // alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
     justifyContent: 'center',
     paddingHorizontal: SIZES.paddingHorizontal,
   },

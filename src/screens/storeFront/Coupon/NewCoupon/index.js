@@ -18,7 +18,8 @@ export default function NewCoupon({
             <Pressable
               onPress={() => {
                 setShowNewCouponForm(false);
-              }}>
+              }}
+              style={styles.closeBtn}>
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View>
@@ -34,6 +35,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     paddingHorizontal: SIZES.paddingHorizontal,
     paddingVertical: SIZES.base * 2,
+    borderTopLeftRadius: SIZES.radius * 2,
+    borderTopRightRadius: SIZES.radius * 2,
   },
   safeAreaView: {
     flex: 1,
@@ -43,9 +46,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    // alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
     justifyContent: 'flex-end',
   },
   flex: {
@@ -58,5 +59,8 @@ const styles = StyleSheet.create({
   title: {
     ...FONTS.regular,
     color: COLORS.textPrimary,
+  },
+  closeBtn: {
+    padding: SIZES.base,
   },
 });

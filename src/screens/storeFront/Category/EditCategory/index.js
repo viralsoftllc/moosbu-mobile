@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
@@ -10,6 +10,18 @@ import EditCategoryForm from './renderer.js/EditCategoryForm';
 export default function EditCategory() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const {setOptions} = useNavigation();
+  const {params} = useRoute();
+
+  console.log('Categories');
+  console.log(params);
+
+  const [category, setCategory] = useState({name: ''});
+
+  useEffect(() => {
+    setCategory({
+      name: params?.category?.name,
+    });
+  }, [params]);
 
   useLayoutEffect(() => {
     setOptions({
@@ -25,9 +37,13 @@ export default function EditCategory() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <EditCategoryForm
             handleSuccessfulResponse={handleSuccessfulResponse}
+            category={category}
+            setCategory={setCategory}
           />
         </ScrollView>
       </View>

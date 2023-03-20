@@ -6,7 +6,7 @@ import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function EditShippingForm() {
+export default function EditShippingForm({handleSuccessfulResponse}) {
   return (
     <View>
       <FormInput label={'Shipping Title'} placeholder={'Shipping Title'} />
@@ -29,7 +29,7 @@ export default function EditShippingForm() {
 
       <FormInput label={'Price'} placeholder={'Price per order'} />
 
-      <FormButton title={'Save Changes'} />
+      <FormButton title={'Save Changes'} onPress={handleSuccessfulResponse} />
     </View>
   );
 }

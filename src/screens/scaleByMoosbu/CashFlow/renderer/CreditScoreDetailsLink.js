@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import {COLORS, SIZES} from '../../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import routes from '../../../../shared/constants/routes';
 
@@ -12,6 +12,9 @@ export default function CreditScoreDetailsLink() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Moosbu Credit Score</Text>
+
+      <Text style={styles.score}>D</Text>
+
       <FormButton
         title={'How It Works'}
         buttonStyle={styles.buttonStyle}
@@ -32,9 +35,15 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.grayText,
     textAlign: 'center',
-    marginVertical: SIZES.base * 8,
+    marginVertical: SIZES.base * 2,
   },
   textStyle: {
     color: COLORS.secondary,
+  },
+  score: {
+    textAlign: 'center',
+    ...FONTS.extraLargeTitle,
+    color: COLORS.primary,
+    marginBottom: SIZES.base * 3,
   },
 });

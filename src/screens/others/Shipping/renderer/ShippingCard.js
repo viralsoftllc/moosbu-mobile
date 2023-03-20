@@ -11,6 +11,7 @@ export default function ShippingCard({
   date,
   address,
   price = 'Free',
+  handleDeleteItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -56,7 +57,7 @@ export default function ShippingCard({
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
-              <Pressable style={styles.cta}>
+              <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
               </Pressable>
             </View>

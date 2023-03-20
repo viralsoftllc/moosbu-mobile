@@ -7,13 +7,22 @@ import FormInput from '../../../../../shared/components/FormInput';
 
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 
-export default function EditCategoryForm({handleSuccessfulResponse}) {
+export default function EditCategoryForm({
+  handleSuccessfulResponse,
+  category,
+  setCategory,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
         <ImagePicker />
 
-        <FormInput label={'Category Name'} placeholder="Enter category name" />
+        <FormInput
+          label={'Category Name'}
+          placeholder="Enter category name"
+          value={category?.name}
+          onChangeText={text => setCategory({...category, name: text})}
+        />
 
         <FormInput
           label={'Category Details'}
@@ -21,6 +30,8 @@ export default function EditCategoryForm({handleSuccessfulResponse}) {
           multiline={true}
           numberOfLines={5}
           inputStyle={styles.inputStyle}
+          value={category?.description}
+          onChangeText={text => setCategory({...category, description: text})}
         />
       </View>
 

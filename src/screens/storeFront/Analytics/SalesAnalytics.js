@@ -23,7 +23,10 @@ const filters = [
 export default function SalesAnalytics() {
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <OverviewHeader />
         <OverviewCard label={'Total sales'} amount="N3,000,000" percent="20%" />
 

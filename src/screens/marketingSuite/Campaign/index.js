@@ -40,7 +40,10 @@ export default function Campaign() {
         filter={false}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <CampaignCard
           setShowShareModal={setShowShareModal}
           title={'Valued client, we have updated our policies'}

@@ -54,5 +54,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...FONTS.medium,
+    textAlign: 'center',
   },
 });

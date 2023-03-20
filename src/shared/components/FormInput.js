@@ -5,17 +5,34 @@ import {COLORS, FONTS, SIZES} from '../../assets/themes';
 
 export default function FormInput({
   label,
+  labelIcon,
   placeholder,
   style,
   inputStyle,
   multiline,
+  inputContainerStyle,
+  rightIcon,
+  leftIcon,
   ...rest
 }) {
   return (
     <View style={[styles.container, style]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+      {label ? (
+        <View style={styles.labelView}>
+          {labelIcon ? labelIcon : null}
+          <Text
+            style={[
+              styles.label,
+              {marginLeft: labelIcon ? SIZES.base / 1.5 : 0},
+            ]}>
+            {label}
+          </Text>
+        </View>
+      ) : null}
 
-      <View style={[styles.inputContainer]}>
+      <View style={[styles.inputContainer, inputContainerStyle]}>
+        {leftIcon ? leftIcon : null}
+
         <TextInput
           style={[
             styles.textinput,
@@ -23,8 +40,10 @@ export default function FormInput({
             {textAlignVertical: multiline ? 'top' : 'center'},
           ]}
           placeholder={placeholder}
+          // multiline={multiline}
           {...rest}
         />
+        {rightIcon ? rightIcon : null}
       </View>
     </View>
   );
@@ -35,17 +54,27 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     borderWidth: 1,
-    borderRadius: SIZES.radius / 2,
+    borderRadius: SIZES.radius / 1.5,
     borderColor: COLORS.borderGray,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: SIZES.base / 2,
   },
   label: {
     color: COLORS.textPrimary,
     ...FONTS.regular,
     fontWeight: '400',
-    marginBottom: SIZES.base,
   },
   textinput: {
     ...FONTS.regular,
-    paddingHorizontal: SIZES.base,
+
+    flex: 1,
+  },
+  labelView: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: SIZES.base,
   },
 });

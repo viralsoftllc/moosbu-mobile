@@ -9,13 +9,24 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useDispatch} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import {setToken} from '../../../redux/slices/auth/slice';
+import {setUserDetails} from '../../../redux/slices/user/slice';
 import FormButton from '../../../shared/components/FormButton';
+import Cache from '../../../shared/utils/Cache';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function Logout() {
   const {goBack} = useNavigation();
+  const dispatch = useDispatch();
+
+  async function handleLogout() {
+    Cache.clearAll();
+    dispatch(setToken(null));
+    dispatch(setUserDetails(null));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +38,9 @@ export default function Logout() {
         />
       </Pressable>
 
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.welcomeText}>Log Out?</Text>
 
         <View style={styles.iconView}>
@@ -53,6 +66,7 @@ export default function Logout() {
             title={'Log Out'}
             buttonStyle={styles.logoutButtonStyle}
             textStyle={styles.textStyle}
+            onPress={handleLogout}
           />
         </View>
       </ScrollView>

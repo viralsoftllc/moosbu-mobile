@@ -8,7 +8,10 @@ export default function Recommendations() {
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Recommendations From Moosbu</Text>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.card}>
           <View style={styles.cardImageWrapper}>
             <Image

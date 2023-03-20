@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 
-export default function NewLocationForm() {
+export default function NewLocationForm({handleSuccessfulResponse}) {
   return (
     <View>
       <FormInput label={'Location Name'} placeholder={'Location Name'} />
@@ -20,7 +20,7 @@ export default function NewLocationForm() {
         placeholder={'Time delivery location is created'}
       />
 
-      <FormButton title={'Save Changes'} />
+      <FormButton title={'Save Changes'} onPress={handleSuccessfulResponse} />
     </View>
   );
 }

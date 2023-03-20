@@ -1,13 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
+import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import NewShippingForm from './renderer/NewShippingForm';
 
 export default function NewShipping() {
   const {setOptions} = useNavigation();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  function handleSuccessfulResponse() {
+    setShowSuccessModal(true);
+  }
 
   useLayoutEffect(() => {
     setOptions({
@@ -18,10 +24,24 @@ export default function NewShipping() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
-          <NewShippingForm />
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          <NewShippingForm
+            handleSuccessfulResponse={handleSuccessfulResponse}
+          />
         </ScrollView>
       </View>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'shipping'}
+        />
+      </Modal>
     </SafeAreaView>
   );
 }

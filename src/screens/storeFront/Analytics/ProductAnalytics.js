@@ -19,7 +19,10 @@ const filters = [
 export default function ProductAnalytics() {
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <OverviewHeader />
         <OverviewCard
           label={'Total product sold'}

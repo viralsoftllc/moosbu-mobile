@@ -1,11 +1,13 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function WalletBalance({}) {
+  const [showBalance, setShowBalance] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleView}>
@@ -22,14 +24,20 @@ export default function WalletBalance({}) {
       <Text style={styles.description}>Your wallet balance is:</Text>
 
       <View style={styles.amountView}>
-        <Text style={styles.amount}>N1,500,000</Text>
-        {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
-        <UseIcon
-          type={'Ionicons'}
-          name="eye-off-outline"
-          size={20}
-          color={COLORS.textPrimary}
-        />
+        <Text style={styles.amount}>
+          {showBalance ? 'N1,500,000' : '**********'}
+        </Text>
+
+        <Pressable
+          style={styles.visbleIcon}
+          onPress={() => setShowBalance(!showBalance)}>
+          <UseIcon
+            type={'Ionicons'}
+            name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+            size={20}
+            color={COLORS.textPrimary}
+          />
+        </Pressable>
       </View>
     </View>
   );
@@ -71,5 +79,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  visbleIcon: {
+    paddingHorizontal: SIZES.base,
+    paddingVertical: SIZES.base / 5,
   },
 });

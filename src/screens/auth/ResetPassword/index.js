@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -9,12 +9,42 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+
+import client from '../../../shared/api/client';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import handleApiError from '../../../shared/components/handleApiError';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 import UseIcon from '../../../shared/utils/UseIcon';
 import ResetPasswordForm from './renderer/ResetPasswordForm';
+import {useSelector} from 'react-redux';
+import {selectToken} from '../../../redux/slices/auth/selectors';
 
 export default function ResetPassword() {
   const {goBack} = useNavigation();
+  const token = useSelector(selectToken);
+
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function resetPassword() {
+    console.log(email);
+    if (!email) {
+      return notifyMessage('Email is required');
+    }
+
+    setLoading(true);
+
+    try {
+      console.log('Api called');
+      const {data} = await client.get('/api/reset-password/' + token);
+      console.log('response');
+      console.log(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,7 +56,9 @@ export default function ResetPassword() {
         />
       </Pressable>
 
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.welcomeTextView}>
           <Text style={styles.welcomeText}>Reset Password</Text>
         </View>
@@ -36,15 +68,12 @@ export default function ResetPassword() {
           with the instructions to reset your password
         </Text>
 
-        {/* <View style={styles.imageView}>
-          <Image
-            source={require('../../../assets/images/reset.png')}
-            resizeMode="contain"
-            style={styles.image}
-          />
-        </View> */}
-
-        <ResetPasswordForm />
+        <ResetPasswordForm
+          email={email}
+          setEmail={setEmail}
+          loading={loading}
+          resetPassword={resetPassword}
+        />
       </ScrollView>
     </SafeAreaView>
   );

@@ -18,14 +18,22 @@ import EditLocation from '../../../screens/others/Location/EditLocation';
 import Customers from '../../../screens/others/Customers';
 import CustomerOrders from '../../../screens/others/CustomerOrders';
 import CustomerOrderDetails from '../../../screens/others/CustomerOrderDetails';
-import Wallet from '../../../screens/Wallet';
-import ChoosePaymentMethod from '../../../screens/Wallet/ChoosePaymentMethod';
-import BankTransfer from '../../../screens/Wallet/BankTransfer';
-import SendFunds from '../../../screens/Wallet/SendFunds';
 import More from '../../../screens/More';
 import NewContact from '../../../screens/marketingSuite/Contacts/NewContact';
 import EditContact from '../../../screens/marketingSuite/Contacts/EditContact';
 import SettingsId from '../../../screens/marketingSuite/Settings/SettingsId';
+import CashflowBreakdown from '../../../screens/scaleByMoosbu/CashFlow/CashflowBreakdown';
+import BussinessRegistration from '../../../screens/scaleByMoosbu/BusinessRegistration';
+import ProprietorForm from '../../../screens/scaleByMoosbu/BusinessRegistration/ProprietorForm';
+import ProposedBusiness from '../../../screens/scaleByMoosbu/BusinessRegistration/ProposedBusiness';
+import BvnVerification from '../../../screens/scaleByMoosbu/BusinessRegistration/BvnVerification';
+import StoreSettings from '../../../screens/others/StoreSettings';
+import GeneralSettings from '../../../screens/others/StoreSettings/GeneralSettings';
+import CurrencySettings from '../../../screens/others/StoreSettings/CurrencySettings';
+import Billing from '../../../screens/scaleByMoosbu/BusinessRegistration/Billing';
+import CashflowReason from '../../../screens/scaleByMoosbu/CashFlow/CashflowReason';
+import PersonalInformation from '../../../screens/scaleByMoosbu/CashFlow/PersonalInformation';
+import Referee from '../../../screens/scaleByMoosbu/CashFlow/Referee';
 
 const menuStack = {
   [routes.ANALYTICS]: AnalyticTopTabNavigator,
@@ -37,13 +45,6 @@ const productScreen = {
   [routes.EDIT_PRODUCT]: EditProduct,
   [routes.NEW_CATEGORY]: NewCategory,
   [routes.EDIT_CATEGORY]: EditCategory,
-};
-
-const walletScreens = {
-  [routes.WALLET]: Wallet,
-  [routes.CHOOSE_PAYMENT_METHOD]: ChoosePaymentMethod,
-  [routes.BANK_TRANSFER]: BankTransfer,
-  [routes.SEND_FUNDS]: SendFunds,
 };
 
 const moreScreens = {
@@ -62,6 +63,10 @@ const engagementScreen = {
 const cashFlowScreens = {
   [routes.CASHFLOW_ADVANCE]: CashFlowTopTabNavigator,
   [routes.HOW_CREDIT_SCORE_WORKS]: HowCreditScoreWorks,
+  [routes.CASHFLOW_BREAKDOWN]: CashflowBreakdown,
+  [routes.CASHFLOW_REASON]: CashflowReason,
+  [routes.PERSONAL_INFORMATION]: PersonalInformation,
+  [routes.REFEREE]: Referee,
 };
 
 const shippingScreens = {
@@ -78,6 +83,20 @@ const customerScreens = {
   [routes.CUSTOMER_ORDER_DETAILS]: CustomerOrderDetails,
 };
 
+const businessRegistrationScreens = {
+  [routes.BUSINESS_REGISTRATION]: BussinessRegistration,
+  [routes.PROPRIETOR_INFO]: ProprietorForm,
+  [routes.PROPOSED_BUSINESS]: ProposedBusiness,
+  [routes.BVN_VERIFICATION]: BvnVerification,
+  [routes.BILLING]: Billing,
+};
+
+const storeSettingsScreen = {
+  [routes.STORE_SETTINGS]: StoreSettings,
+  [routes.GENERAL_SETTINGS]: GeneralSettings,
+  [routes.CURRENCY_SETTINGS]: CurrencySettings,
+};
+
 export {
   menuStack,
   customerScreens,
@@ -85,6 +104,7 @@ export {
   cashFlowScreens,
   engagementScreen,
   productScreen,
-  walletScreens,
   moreScreens,
+  businessRegistrationScreens,
+  storeSettingsScreen,
 };

@@ -1,18 +1,59 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 import BusinessOverviewCard from './BusinessOverviewCard';
 
 export default function BusinessOverview() {
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterBy, setFilterBy] = useState('Today');
+
+  function handleFilter(params) {
+    setFilterBy(params);
+    setShowFilter(false);
+  }
+
   return (
     <View>
       <View style={styles.businessOverviewHeader}>
         <Text style={styles.sectionTitle}>Business Overview</Text>
 
         <View style={styles.businessOverviewPeriod}>
-          <Text style={styles.businessOverviewPeriodText}>This week</Text>
-          <UseIcon type={'MaterialIcons'} name="keyboard-arrow-down" />
+          <Pressable
+            onPress={() => setShowFilter(!showFilter)}
+            style={styles.businessOverviewPeriodHeader}>
+            <Text style={styles.businessOverviewPeriodText}>{filterBy}</Text>
+            <UseIcon type={'MaterialIcons'} name="keyboard-arrow-down" />
+          </Pressable>
+
+          {showFilter ? (
+            <View style={styles.filterOptions}>
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Today')}>
+                <Text style={styles.filterOptionText}>Today</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('This week')}>
+                <Text style={styles.filterOptionText}>This week</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Last 7 days')}>
+                <Text style={styles.filterOptionText}>last 7 days</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Last month')}>
+                <Text style={styles.filterOptionText}>Last month</Text>
+              </Pressable>
+            </View>
+          ) : null}
         </View>
       </View>
 
@@ -120,6 +161,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    position: 'relative',
+  },
+  businessOverviewPeriodHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   businessOverviewPeriodText: {
     ...FONTS.regular,
@@ -130,6 +177,30 @@ const styles = StyleSheet.create({
   emptyView: {width: '31%'},
   sectionTitle: {
     ...FONTS.h5,
+    color: COLORS.textPrimary,
+  },
+  filterOptions: {
+    position: 'absolute',
+    top: verticalScale(27),
+    right: 0,
+    // borderWidth: 1,
+    zIndex: 10,
+    paddingTop: SIZES.base,
+    backgroundColor: COLORS.white,
+    borderRadius: SIZES.radius,
+    shadowColor: '#000',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  filterOption: {
+    borderBottomWidth: 1,
+    paddingHorizontal: SIZES.base * 3,
+    paddingVertical: SIZES.base,
+    borderColor: COLORS.borderGray,
+  },
+  filterOptionText: {
     color: COLORS.textPrimary,
   },
 });

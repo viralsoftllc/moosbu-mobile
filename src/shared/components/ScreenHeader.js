@@ -7,6 +7,7 @@ import UseIcon from '../utils/UseIcon';
 
 export default function ScreenHeader({title, subtitle}) {
   const {goBack} = useNavigation();
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.iconWrapper} onPress={goBack}>
@@ -17,7 +18,7 @@ export default function ScreenHeader({title, subtitle}) {
         />
       </Pressable>
 
-      <Text style={styles.title}>{title}</Text>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
     </View>
   );
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     alignSelf: 'flex-start',
-    height: verticalScale(25),
+    height: verticalScale(30),
     paddingRight: SIZES.base,
   },
   title: {
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     ...FONTS.tiny,
-    color: COLORS.textPrimary,
+    color: COLORS.grayText,
     marginTop: SIZES.base / 2,
     fontWeight: '300',
   },

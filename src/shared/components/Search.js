@@ -56,11 +56,13 @@ export default function Search({
         </View>
       ) : null}
 
-      <Pressable
-        style={[styles.iconView, styles.plusIcon]}
-        onPress={handleNewItem}>
-        <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-      </Pressable>
+      {handleNewItem ? (
+        <Pressable
+          style={[styles.iconView, styles.plusIcon]}
+          onPress={handleNewItem}>
+          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+        </Pressable>
+      ) : null}
     </View>
   );
 }

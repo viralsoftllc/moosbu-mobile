@@ -35,7 +35,8 @@ export default function ShareItem({setShowShareModal, title, subtitle}) {
               onPress={() => {
                 setShowShareModal(false);
                 setMedia('');
-              }}>
+              }}
+              style={styles.closeBtn}>
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View>
@@ -171,9 +172,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    // alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
     justifyContent: 'flex-end',
   },
   imageIcon: {
@@ -192,5 +191,8 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginTop: SIZES.base * 2,
+  },
+  closeBtn: {
+    padding: SIZES.base,
   },
 });

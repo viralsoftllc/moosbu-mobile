@@ -9,7 +9,10 @@ export default function Shortcuts() {
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Shortcuts</Text>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.shortcut}>
           <UseIcon
             type={'Ionicons'}

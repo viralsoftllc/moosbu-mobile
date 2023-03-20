@@ -1,35 +1,61 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {Modal, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import client from '../../../shared/api/client';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import handleApiError from '../../../shared/components/handleApiError';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
-import ItemCard from '../renderer/ItemCard';
 import ShareItem from '../renderer/ShareItem';
+import CategoryCard from './renderer/CategoryCard';
 
 export default function Category() {
   const {navigate} = useNavigation();
-  // const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   // const [filteredItems, setFilteredItems] = useState([]);
-  const items = [];
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_CATEGORY);
   }
 
-  function handleEditItem() {
-    navigate(routes.EDIT_CATEGORY);
+  function handleEditItem(category) {
+    navigate(routes.EDIT_CATEGORY, {category});
   }
 
   function handleDeleteItem() {
     setShowDeleteModal(true);
   }
+
+  async function getAllCategories() {
+    setLoading(true);
+
+    try {
+      const {data} = await client.get('/api/product_category');
+      setLoading(false);
+
+      setItems(data);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -39,15 +65,26 @@ export default function Category() {
         handleNewItem={handleNewItem}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-        <ItemCard
-          setShowShareModal={setShowShareModal}
-          title={'Men’s wear'}
-          subtitle="1 product listed"
-          type="category"
-          handleEditItem={handleEditItem}
-          handleDeleteItem={handleDeleteItem}
-        />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
+        {loading ? <ActivityIndicator /> : null}
+
+        {items
+          ? Object?.entries(items)?.map((item, i) => (
+              <CategoryCard
+                category={item}
+                title={item[1]}
+                key={i}
+                setShowShareModal={setShowShareModal}
+                handleEditItem={() =>
+                  handleEditItem({id: item[0], name: item[1]})
+                }
+                handleDeleteItem={handleDeleteItem}
+              />
+            ))
+          : null}
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>

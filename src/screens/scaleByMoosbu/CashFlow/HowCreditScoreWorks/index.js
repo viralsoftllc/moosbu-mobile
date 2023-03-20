@@ -27,7 +27,10 @@ export default function HowCreditScoreWorks() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <View style={styles.top}>
           <Text style={styles.topInfo}>
             The amount you are able to borrow depends on your Moosbu Credit
@@ -50,9 +53,8 @@ export default function HowCreditScoreWorks() {
         </View>
 
         <Text style={styles.text}>
-          A loan offer is automatically calculated based on your MCR. If you are
-          eligible to borrow you will ee an offered amount on your loan
-          dashboard in the app
+          A cash flow advance offer is automatically calculated based on your
+          MCR.
         </Text>
 
         <View>

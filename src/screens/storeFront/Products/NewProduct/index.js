@@ -24,7 +24,9 @@ export default function NewProduct() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <NewProductForm handleSuccessfulResponse={handleSuccessfulResponse} />
         </ScrollView>
       </View>

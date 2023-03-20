@@ -1,26 +1,26 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import ImageIcon from '../../shared/components/ImageIcon';
-import ScreenHeader from '../../shared/components/ScreenHeader';
 import routes from '../../shared/constants/routes';
 import LinkRow from './renderer/LinkRow';
 
 export default function More() {
-  const {setOptions} = useNavigation();
+  // const {setOptions} = useNavigation();
 
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Account'} />,
-    });
-  }, [setOptions]);
+  // useLayoutEffect(() => {
+  //   setOptions({
+  //     header: () => <ScreenHeader title={'Account'} />,
+  //   });
+  // }, [setOptions]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.headerView}>
           <ImageIcon
             style={styles.imageIcon}

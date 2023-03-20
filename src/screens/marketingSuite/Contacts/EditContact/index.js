@@ -25,7 +25,9 @@ export default function EditContact() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <EditContactForm
             handleSuccessfulResponse={handleSuccessfulResponse}
           />

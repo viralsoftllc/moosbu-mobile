@@ -10,6 +10,7 @@ export default function LocationCard({
   time,
   date,
   address,
+  handleDeleteItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -51,7 +52,7 @@ export default function LocationCard({
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
-              <Pressable style={styles.cta}>
+              <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
               </Pressable>
             </View>

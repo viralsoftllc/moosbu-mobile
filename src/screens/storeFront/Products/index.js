@@ -1,35 +1,62 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {Modal, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import client from '../../../shared/api/client';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import handleApiError from '../../../shared/components/handleApiError';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
-import ItemCard from '../renderer/ItemCard';
 import ShareItem from '../renderer/ShareItem';
+import ProductCard from './renderer/ProductCard';
 
 export default function Products() {
   const {navigate} = useNavigation();
-  // const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
-  const items = [];
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_PRODUCT);
   }
 
-  function handleEditItem() {
-    navigate(routes.EDIT_PRODUCT);
+  function handleEditItem(product) {
+    navigate(routes.EDIT_PRODUCT, {product});
   }
 
   function handleDeleteItem() {
     setShowDeleteModal(true);
   }
+
+  async function getAllProducts() {
+    setLoading(true);
+    console.log('Getting products');
+
+    try {
+      const {data} = await client.get('/api/products');
+      setLoading(false);
+
+      setItems(data);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -39,15 +66,23 @@ export default function Products() {
         handleNewItem={handleNewItem}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
-        <ItemCard
-          setShowShareModal={setShowShareModal}
-          title={'Single Breasted Suit'}
-          subtitle="25 in stock"
-          amount={'N5,000,000'}
-          handleEditItem={handleEditItem}
-          handleDeleteItem={handleDeleteItem}
-        />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
+        {loading ? <ActivityIndicator /> : null}
+
+        {items?.length > 0
+          ? items?.map((item, i) => (
+              <ProductCard
+                product={item}
+                key={i}
+                setShowShareModal={setShowShareModal}
+                handleEditItem={() => handleEditItem(item)}
+                handleDeleteItem={handleDeleteItem}
+              />
+            ))
+          : null}
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>

@@ -6,13 +6,19 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import CreditScoreDetailsLink from '../renderer/CreditScoreDetailsLink';
 import FormButton from '../../../../shared/components/FormButton';
+import routes from '../../../../shared/constants/routes';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Active() {
+  const {navigate} = useNavigation();
   const [amount, setAmount] = useState(2500);
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <View style={styles.topContainer}>
           <CreditScoreDetailsLink />
 
@@ -65,7 +71,10 @@ export default function Active() {
             <Text style={styles.bottomAmount}>{amount}</Text>
           </View>
 
-          <FormButton title={'View breakdown'} />
+          <FormButton
+            title={'View breakdown'}
+            onPress={() => navigate(routes.CASHFLOW_BREAKDOWN)}
+          />
         </View>
       </ScrollView>
     </View>

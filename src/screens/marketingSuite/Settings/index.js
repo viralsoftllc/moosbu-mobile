@@ -11,7 +11,10 @@ export default function Settings() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <SettingsRow onPress={() => navigate(routes.SETTINGS_ID)} />
       </ScrollView>
     </View>

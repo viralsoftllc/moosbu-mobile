@@ -19,7 +19,10 @@ export default function CustomerOrderDetails() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <Text style={styles.orderText}>
           Order Number <Text style={styles.orderNum}>000824</Text>
         </Text>

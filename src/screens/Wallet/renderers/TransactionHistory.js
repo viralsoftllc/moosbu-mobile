@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 import TransactionRow from './TransactionRow';
@@ -29,78 +30,60 @@ const transactions = [
 ];
 
 export default function TransactionHistory() {
-  const [filter, setFilter] = useState('All');
+  const [showFilter, setShowFilter] = useState(true);
+  const [filterBy, setFilterBy] = useState('All');
+
+  function handleFilter(params) {
+    setFilterBy(params);
+    setShowFilter(false);
+  }
 
   return (
     <View>
       <View style={styles.header}>
         <Text style={styles.title}>Transaction History</Text>
-        <UseIcon
-          type={'MaterialIcons'}
-          name="search"
-          color={COLORS.grayText}
-          size={22}
-        />
-      </View>
 
-      {/* Filter options */}
-      <View style={styles.filterContainer}>
-        <Pressable style={styles.filter} onPress={() => setFilter('All')}>
-          <Text
-            style={[
-              styles.filterText,
-              {
-                color:
-                  filter === 'All' ? COLORS.textSecondary : COLORS.grayText,
-              },
-            ]}>
-            All
-          </Text>
-        </Pressable>
-        <Pressable style={styles.filter} onPress={() => setFilter('Send')}>
-          <Text
-            style={[
-              styles.filterText,
-              {
-                color:
-                  filter === 'Send' ? COLORS.textSecondary : COLORS.grayText,
-              },
-            ]}>
-            Send
-          </Text>
-        </Pressable>
-        <Pressable style={styles.filter} onPress={() => setFilter('Receive')}>
-          <Text
-            style={[
-              styles.filterText,
-              {
-                color:
-                  filter === 'Receive' ? COLORS.textSecondary : COLORS.grayText,
-              },
-            ]}>
-            Receive
-          </Text>
-        </Pressable>
-        <Pressable
-          style={styles.filter}
-          onPress={() => setFilter('Last 7 days')}>
-          <Text
-            style={[
-              styles.filterText,
-              {
-                color:
-                  filter === 'Last 7 days'
-                    ? COLORS.textSecondary
-                    : COLORS.grayText,
-              },
-            ]}>
-            Last 7 days
-          </Text>
-        </Pressable>
+        {/* Filter options */}
+        <View style={styles.transactionFilter}>
+          <Pressable
+            onPress={() => setShowFilter(!showFilter)}
+            style={styles.transactionFilterHeader}>
+            <Text style={styles.transactionFilterText}>{filterBy}</Text>
+            <UseIcon type={'MaterialIcons'} name="keyboard-arrow-down" />
+          </Pressable>
+
+          {showFilter ? (
+            <View style={styles.filterOptions}>
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('All')}>
+                <Text style={styles.filterOptionText}>All</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Sent')}>
+                <Text style={styles.filterOptionText}>Sent</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Received')}>
+                <Text style={styles.filterOptionText}>Received</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.filterOption}
+                onPress={() => handleFilter('Last 7 days')}>
+                <Text style={styles.filterOptionText}>Last 7 days</Text>
+              </Pressable>
+            </View>
+          ) : null}
+        </View>
       </View>
 
       {/* Transactions */}
-      <View>
+      <View style={styles.transactions}>
         {transactions?.map((transaction, i) => (
           <TransactionRow key={i} transaction={transaction} />
         ))}
@@ -110,29 +93,65 @@ export default function TransactionHistory() {
 }
 
 const styles = StyleSheet.create({
-  filter: {
-    paddingVertical: SIZES.base / 2,
-  },
-  filterContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginBottom: SIZES.base,
-  },
-  filterText: {
-    color: COLORS.grayText,
-  },
   header: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: SIZES.base * 3,
+    position: 'relative',
+    marginTop: SIZES.base,
   },
   title: {
     ...FONTS.h5,
     fontWeight: '700',
     color: COLORS.textPrimary,
+  },
+  transactionFilter: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    // backgroundColor: COLORS.white,
+    flex: 1,
+  },
+  transactionFilterHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  transactionFilterText: {
+    ...FONTS.regular,
+    color: COLORS.textPrimary,
+    fontWeight: '200',
+    marginRight: SIZES.base / 5,
+  },
+  filterOptions: {
+    position: 'absolute',
+    top: verticalScale(27),
+    right: 0,
+    // borderWidth: 1,
+    zIndex: 100,
+    paddingTop: SIZES.base,
+    backgroundColor: COLORS.white,
+    borderRadius: SIZES.radius,
+    shadowColor: '#000',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  filterOption: {
+    borderBottomWidth: 1,
+    paddingHorizontal: SIZES.base * 3,
+    paddingVertical: SIZES.base,
+    borderColor: COLORS.borderGray,
+    backgroundColor: COLORS.white,
+  },
+  filterOptionText: {
+    color: COLORS.textPrimary,
+  },
+  transactions: {
+    zIndex: -1,
   },
 });

@@ -24,7 +24,9 @@ export default function VerifyEmail() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <Pressable style={styles.iconWrapper} onPress={goBack}>
           <UseIcon
             type={'MaterialIcons'}

@@ -8,7 +8,11 @@ const Stack = createStackNavigator();
 
 export default function MoreStack() {
   return (
-    <Stack.Navigator initialRouteName={routes.MORE}>
+    <Stack.Navigator
+      initialRouteName={routes.MORE}
+      screenOptions={{
+        headerShown: false,
+      }}>
       {Object.entries({...moreScreens}).map(([name, screen]) => (
         <Stack.Screen name={name} component={screen} key={name} />
       ))}

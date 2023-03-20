@@ -55,8 +55,9 @@ export default function ContactCard({
 
               <Pressable
                 style={styles.cta}
-                onPress={() => setShowShareModal(true)}>
-                <Text style={styles.ctaText}>Share</Text>
+                // onPress={() => setShowShareModal(true)}
+              >
+                <Text style={styles.ctaText}>View Contacts</Text>
               </Pressable>
 
               <Pressable style={styles.cta} onPress={handleDeleteItem}>
@@ -66,12 +67,12 @@ export default function ContactCard({
           ) : null}
         </View>
 
-        <View style={styles.flex}>
-          <Text style={styles.contact}>{number}</Text>
+        <Text style={styles.contact}>No. of Contacts: {number}</Text>
+        {/* <View style={styles.flex}>
           <Text style={styles.contact}>{email}</Text>
-        </View>
+        </View> */}
 
-        <View style={styles.links}>
+        {/* <View style={styles.links}>
           <Pressable style={[styles.linkBtn, styles.linkPhone]}>
             <UseIcon
               type={'MaterialCommunityIcons'}
@@ -89,7 +90,7 @@ export default function ContactCard({
             />
             <Text style={styles.linkText}>Whatsapp</Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
     </Pressable>
   );

@@ -1,21 +1,82 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
-export default function RegistrationForm() {
+export default function RegistrationForm({
+  credentials,
+  setCredentials,
+  loading,
+  register,
+  setAgreePolicy,
+  agreePolicy,
+}) {
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+
   return (
     <View style={styles.container}>
-      <FormInput placeholder={'Email'} />
-      <FormInput placeholder={'Full Name'} />
-      <FormInput placeholder={'Store Name'} />
-      <FormInput placeholder={'Password'} />
-      <FormInput placeholder={'Confirm Password'} />
+      <FormInput
+        placeholder={'Email'}
+        value={credentials?.email}
+        onChangeText={text => setCredentials({...credentials, email: text})}
+      />
+      <FormInput
+        placeholder={'Full Name'}
+        value={credentials?.name}
+        onChangeText={text => setCredentials({...credentials, name: text})}
+      />
+      <FormInput
+        placeholder={'Store Name'}
+        value={credentials?.store_name}
+        onChangeText={text =>
+          setCredentials({...credentials, store_name: text})
+        }
+      />
+      <FormInput
+        placeholder={'Password'}
+        value={credentials?.password}
+        onChangeText={text => setCredentials({...credentials, password: text})}
+        secureTextEntry={!passwordIsVisible}
+        rightIcon={
+          <Pressable onPress={() => setPasswordIsVisible(!passwordIsVisible)}>
+            <UseIcon
+              type={'Ionicons'}
+              name={passwordIsVisible ? 'eye-off-outline' : 'eye-outline'}
+              size={20}
+              color={COLORS.textPrimary}
+            />
+          </Pressable>
+        }
+      />
+      <FormInput
+        placeholder={'Confirm Password'}
+        value={credentials?.password_confirmation}
+        onChangeText={text =>
+          setCredentials({...credentials, password_confirmation: text})
+        }
+        secureTextEntry={!passwordIsVisible}
+        rightIcon={
+          <Pressable onPress={() => setPasswordIsVisible(!passwordIsVisible)}>
+            <UseIcon
+              type={'Ionicons'}
+              name={passwordIsVisible ? 'eye-off-outline' : 'eye-outline'}
+              size={20}
+              color={COLORS.textPrimary}
+            />
+          </Pressable>
+        }
+      />
 
-      <Pressable style={styles.flex}>
-        <UseIcon type={'Ionicons'} name={'checkbox'} color={COLORS.primary} />
+      <Pressable
+        style={styles.flex}
+        onPress={() => setAgreePolicy(!agreePolicy)}>
+        <UseIcon
+          type={'MaterialCommunityIcons'}
+          name={agreePolicy ? 'checkbox-marked' : 'checkbox-blank-outline'}
+          color={COLORS.primary}
+        />
         <View style={[styles.flex, styles.texts]}>
           <Text style={styles.text}>I agree to the</Text>
 
@@ -31,7 +92,12 @@ export default function RegistrationForm() {
         </View>
       </Pressable>
 
-      <FormButton title={'Create account'} buttonStyle={styles.buttonStyle} />
+      <FormButton
+        title={'Create account'}
+        buttonStyle={styles.buttonStyle}
+        onPress={register}
+        loading={loading}
+      />
     </View>
   );
 }

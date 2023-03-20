@@ -24,7 +24,9 @@ export default function NewCategory() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <NewCategoryForm
             handleSuccessfulResponse={handleSuccessfulResponse}
           />

@@ -115,7 +115,7 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
-        route: routes.M_BOT,
+        route: routes.M_BOT_TAB,
       },
       {
         title: 'Marketplace',
@@ -146,7 +146,7 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
-        route: routes.BUSINESS_REGISTRATION,
+        route: routes.BUSINESS_REGISTRATION_STACK,
       },
       {
         title: 'Cash Flow Advance',
@@ -229,7 +229,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(202, 45, 49, 0.2)',
-        route: routes.STORE_SETTINGS,
+        route: routes.STORE_SETTINGS_STACK,
       },
     ],
   },
@@ -250,7 +250,8 @@ export default function Menu() {
       <View style={styles.menuContainer}>
         <ScrollView
           contentContainerStyle={styles.contentContainerStyle}
-          showsHorizontalScrollIndicator={false}>
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           {menus.map((menu, i) => (
             <View style={styles.menuWrapper} key={i}>
               <Text style={styles.menuTitle}>{menu.title}</Text>

@@ -1,18 +1,15 @@
 import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
-import {COLORS, FONTS, SIZES} from '../../../assets/themes';
-import UseIcon from '../../../shared/utils/UseIcon';
+import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import UseIcon from '../../../../shared/utils/UseIcon';
 
-export default function ItemCard({
+export default function ProductCard({
   setShowShareModal,
-  title,
-  subtitle,
-  amount,
-  type = 'product',
   handleEditItem,
   handleDeleteItem,
+  product,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -29,16 +26,23 @@ export default function ItemCard({
   return (
     <Pressable style={[styles.container, styles.flex]} onPress={closeCtaView}>
       <View style={styles.imageView}>
-        <Image
-          source={require('../../../assets/images/suit.png')}
+        {/* <Image
+          // source={require('../../../../assets/images/suit.png')}
+          source={product?.is_cover}
           style={styles.image}
           resizeMode="cover"
+        /> */}
+        <UseIcon
+          type={'Feather'}
+          name="box"
+          size={30}
+          color={COLORS.borderGray}
         />
       </View>
 
       <View style={styles.details}>
         <View style={[styles.flex, styles.nameWrapper]}>
-          <Text style={styles.name}>{title}</Text>
+          <Text style={styles.name}>{product?.name}</Text>
 
           <Pressable onPress={toggleCtaView}>
             <UseIcon
@@ -61,17 +65,17 @@ export default function ItemCard({
 
               <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>
-                  Delete {type}
+                  Delete Product
                 </Text>
               </Pressable>
             </View>
           ) : null}
         </View>
 
-        <Text style={styles.stock}>{subtitle}</Text>
+        <Text style={styles.stock}>{product?.quantity} in stock</Text>
 
         <View style={styles.flex}>
-          {amount ? <Text style={styles.price}>N5,000,000</Text> : null}
+          <Text style={styles.price}>N{product?.price}</Text>
 
           <Pressable
             onPress={() => setShowShareModal(true)}
@@ -83,7 +87,7 @@ export default function ItemCard({
               color={COLORS.textPrimary}
             />
 
-            <Text style={styles.shareText}>Share {type}</Text>
+            <Text style={styles.shareText}>Share Product</Text>
           </Pressable>
         </View>
       </View>
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base * 1.5,
     backgroundColor: COLORS.tabBg,
     borderRadius: SIZES.radius,
+    marginBottom: SIZES.base * 2,
   },
   cta: {},
   ctaText: {
@@ -130,11 +135,17 @@ const styles = StyleSheet.create({
   image: {
     height: '100%',
     // width: '100%',
+    borderRadius: SIZES.radius,
   },
   imageView: {
     height: verticalScale(80),
+    width: verticalScale(80),
     overflow: 'hidden',
     borderRadius: SIZES.radius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.borderGray,
   },
   name: {
     color: COLORS.textPrimary,

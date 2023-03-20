@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -9,13 +9,80 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useDispatch} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import {setToken} from '../../../redux/slices/auth/slice';
+import {setUserDetails} from '../../../redux/slices/user/slice';
+import client from '../../../shared/api/client';
+import handleApiError from '../../../shared/components/handleApiError';
 import routes from '../../../shared/constants/routes';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
+import Cache from '../../../shared/utils/Cache';
 import UseIcon from '../../../shared/utils/UseIcon';
 import RegistrationForm from './renderer/RegistrationForm';
 
 export default function Register() {
   const {navigate, goBack} = useNavigation();
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+  const [agreePolicy, setAgreePolicy] = useState(false);
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: '',
+    password_confirmation: '',
+    store_name: '',
+    name: '',
+  });
+
+  async function register() {
+    console.log('credentials');
+    console.log(credentials);
+    setLoading(true);
+
+    if (!credentials?.email) {
+      return notifyMessage('Email is required');
+    }
+    if (!credentials?.name) {
+      return notifyMessage('Full Name is required');
+    }
+    if (!credentials?.store_name) {
+      return notifyMessage('Store name is required');
+    }
+    if (!credentials?.password) {
+      return notifyMessage('Password is required');
+    }
+    if (!credentials?.password_confirmation) {
+      return notifyMessage('Password is required');
+    }
+    if (credentials?.password !== credentials?.password_confirmation) {
+      return notifyMessage('Passwords does not match');
+    }
+    if (!agreePolicy) {
+      return notifyMessage(
+        'Please agree to our terms of service and privacy policy',
+      );
+    }
+
+    try {
+      console.log('Api started');
+      const {data} = await client.post('/api/register', credentials);
+      console.log(data);
+
+      setLoading(false);
+
+      Cache.storeString('@token', data?.token);
+      Cache.storeObject('@user', data?.user);
+
+      setLoading(false);
+
+      dispatch(setUserDetails(data?.user));
+      dispatch(setToken(data?.token));
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +94,9 @@ export default function Register() {
         />
       </Pressable>
 
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.welcomeTextView}>
           <Text style={styles.welcomeText}>Create A New Account</Text>
         </View>
@@ -44,7 +113,14 @@ export default function Register() {
           />
         </View> */}
 
-        <RegistrationForm />
+        <RegistrationForm
+          credentials={credentials}
+          setCredentials={setCredentials}
+          loading={loading}
+          register={register}
+          setAgreePolicy={setAgreePolicy}
+          agreePolicy={agreePolicy}
+        />
 
         <Pressable onPress={() => navigate(routes.LOGIN)}>
           <Text style={styles.registerLink}>

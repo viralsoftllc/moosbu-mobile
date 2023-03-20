@@ -21,7 +21,10 @@ export default function Customers() {
     <SafeAreaView style={styles.container}>
       <Search filter={false} />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <CustomerCard
           name={'Joshua Moosbu'}
           email={'Joshuamoosbu@org.ng'}

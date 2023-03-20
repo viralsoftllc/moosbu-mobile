@@ -1,16 +1,37 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
+import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import EditLocationForm from './renderer/EditLocationForm';
 
 export default function EditLocation() {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  function handleSuccessfulResponse() {
+    setShowSuccessModal(true);
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
-          <EditLocationForm />
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          <EditLocationForm
+            handleSuccessfulResponse={handleSuccessfulResponse}
+          />
         </ScrollView>
       </View>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'location update'}
+        />
+      </Modal>
     </SafeAreaView>
   );
 }

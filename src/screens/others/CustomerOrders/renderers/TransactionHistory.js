@@ -125,7 +125,9 @@ export default function TransactionHistory() {
       </View>
 
       {/* Transactions */}
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         {transactions?.map((transaction, i) => (
           <TransactionRow
             key={i}

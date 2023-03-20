@@ -1,8 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import DeleteItem from '../../../shared/components/DeleteItem';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShippingCard from './renderer/ShippingCard';
@@ -13,6 +14,7 @@ export default function Shipping() {
   // const [filteredItems, setFilteredItems] = useState([]);
   const items = [];
   const filteredItems = [];
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_SHIPPING);
@@ -20,6 +22,10 @@ export default function Shipping() {
 
   function handleEditItem() {
     navigate(routes.EDIT_SHIPPING);
+  }
+
+  function handleDeleteItem() {
+    setShowDeleteModal(true);
   }
 
   return (
@@ -31,7 +37,10 @@ export default function Shipping() {
         filter={false}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <ShippingCard
           title={'Free Shipping'}
           address={'Sabo, Yaba, Laogos Mainland'}
@@ -39,6 +48,7 @@ export default function Shipping() {
           date={'21, Oct 2022'}
           price={'Free'}
           handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
         />
         <ShippingCard
           title={'Customer Pick-up'}
@@ -47,8 +57,16 @@ export default function Shipping() {
           date={'21, Oct 2022'}
           price={1000}
           handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
         />
       </ScrollView>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem
+          setShowDeleteModal={setShowDeleteModal}
+          title={'shipping'}
+        />
+      </Modal>
     </View>
   );
 }

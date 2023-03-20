@@ -26,7 +26,9 @@ export default function NewContact() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <NewContactForm handleSuccessfulResponse={handleSuccessfulResponse} />
         </ScrollView>
       </View>

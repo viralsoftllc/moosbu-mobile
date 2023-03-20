@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, SIZES} from '../../assets/themes';
 
@@ -11,6 +17,9 @@ export default function FormButton({
   textStyle,
   onPress,
   disabled,
+  leftIcon,
+  rightIcon,
+  loading,
 }) {
   return (
     <View
@@ -25,8 +34,28 @@ export default function FormButton({
           buttonStyle,
         ]}
         onPress={onPress}
-        disabled={disabled}>
-        <Text style={[styles.text, textStyle]}>{title}</Text>
+        disabled={disabled || loading}>
+        {loading ? (
+          <ActivityIndicator color={COLORS.white} />
+        ) : (
+          <>
+            {leftIcon ? leftIcon : null}
+
+            <Text
+              style={[
+                styles.text,
+                textStyle,
+                {
+                  marginLeft: leftIcon ? SIZES.base : 0,
+                  marginRight: rightIcon ? SIZES.base : 0,
+                },
+              ]}>
+              {title}
+            </Text>
+
+            {rightIcon ? rightIcon : null}
+          </>
+        )}
       </Pressable>
     </View>
   );

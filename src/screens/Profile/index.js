@@ -26,7 +26,9 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.imageIcon}>
           <ImageIcon size={verticalScale(100)} margin={0} />
 

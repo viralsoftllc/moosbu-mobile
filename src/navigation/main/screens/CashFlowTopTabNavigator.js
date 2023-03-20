@@ -15,7 +15,7 @@ export default function CashFlowTopTabNavigator() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Loan Dashboard'} />,
+      header: () => <ScreenHeader title={'Cash Flow Advance'} />,
     });
     return () => {};
   }, [setOptions]);

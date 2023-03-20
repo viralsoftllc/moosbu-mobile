@@ -83,6 +83,7 @@ export default function TransactionRow({transaction}) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: SIZES.base * 2,
+    zIndex: 0,
   },
   date: {
     color: COLORS.textGray,
@@ -104,5 +105,6 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     ...FONTS.medium,
     fontWeight: '500',
+    zIndex: 0,
   },
 });

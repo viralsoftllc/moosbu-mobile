@@ -25,7 +25,9 @@ export default function NewCampaign() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <NewCampaignForm
             handleSuccessfulResponse={handleSuccessfulResponse}
           />

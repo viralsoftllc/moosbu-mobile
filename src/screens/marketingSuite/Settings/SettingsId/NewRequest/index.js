@@ -18,7 +18,8 @@ export default function NewRequest({
             <Pressable
               onPress={() => {
                 setShowNewRequestModal(false);
-              }}>
+              }}
+              style={styles.closeBtn}>
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View>
@@ -47,9 +48,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    // alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
     justifyContent: 'flex-end',
   },
   flex: {
@@ -62,5 +61,8 @@ const styles = StyleSheet.create({
   title: {
     ...FONTS.regular,
     color: COLORS.textPrimary,
+  },
+  closeBtn: {
+    padding: SIZES.base,
   },
 });

@@ -39,13 +39,16 @@ export default function Contacts() {
         filter={false}
       />
 
-      <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}>
         <ContactCard
           setShowShareModal={setShowShareModal}
           title={'Joshua Moosbu'}
           address={'22 Cresent lane, Surulere Lagos State.'}
           email="Joshuamoosbu@org.ng"
-          number="080999998888"
+          number="290"
           handleEditItem={handleEditItem}
           handleDeleteItem={handleDeleteItem}
         />

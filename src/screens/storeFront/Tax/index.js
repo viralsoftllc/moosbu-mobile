@@ -57,7 +57,10 @@ export default function Tax() {
           handleNewItem={handleNewItem}
         />
 
-        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentContainerStyle}>
           <TaxCard
             title={'VAT'}
             subtitle="Value added tax charge on items purchased"

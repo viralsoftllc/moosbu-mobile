@@ -11,8 +11,8 @@ import CustomTabBarButton from './CustomTabBarButton';
 import {COLORS, SIZES} from '../../../assets/themes';
 import MenuTabBarButton from './MenuTabBarButton';
 import Menu from '../../../screens/Menu';
-import WalletStack from '../stacks/WalletStack';
 import MoreStack from '../stacks/MoreStack';
+import Wallet from '../../../screens/Wallet';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ export default function BottomTabNavigator() {
 
           if (route.name === routes.HOME) {
             iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-          } else if (route.name === routes.WALLET_STACK) {
+          } else if (route.name === routes.WALLET) {
             iconName = focused ? 'wallet' : 'wallet-outline';
           } else if (route.name === routes.MENU) {
             iconName = focused ? 'close' : 'ios-apps-outline';
@@ -56,13 +56,13 @@ export default function BottomTabNavigator() {
       />
 
       <Tab.Screen
-        name={routes.WALLET_STACK}
-        component={WalletStack}
+        name={routes.WALLET}
+        component={Wallet}
         options={{
           tabBarButton: props => (
             <CustomTabBarButton
               {...props}
-              route={routes.WALLET_STACK}
+              route={routes.WALLET}
               label="Wallet"
             />
           ),

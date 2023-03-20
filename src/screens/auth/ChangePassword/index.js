@@ -17,7 +17,9 @@ export default function ChangePassword() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <Text style={styles.welcomeText}>Create New Password</Text>
 
         <ChangePasswordForm />

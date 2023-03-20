@@ -1,22 +1,47 @@
-import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
-import ScreenHeader from '../../shared/components/ScreenHeader';
+import routes from '../../shared/constants/routes';
 import UseIcon from '../../shared/utils/UseIcon';
 import TransactionHistory from './renderers/TransactionHistory';
 
 export default function Wallet() {
+  const {navigate} = useNavigation();
+  const [showBalance, setShowBalance] = useState(false);
+
   const ctaData = [
-    {label: 'Settings', iconType: 'Feather', iconName: 'settings'},
-    {label: 'Send', iconType: 'Feather', iconName: 'arrow-up-right'},
-    {label: 'Deposit', iconType: 'Feather', iconName: 'arrow-down-left'},
-    {label: 'Withdraw', iconType: 'FAIcon', iconName: 'bank'},
+    {
+      label: 'Settings',
+      iconType: 'Feather',
+      iconName: 'settings',
+      route: routes.PAYOUT_SETTINGS,
+    },
+    {
+      label: 'Send',
+      iconType: 'Feather',
+      iconName: 'arrow-up-right',
+      route: routes.SEND_FUNDS,
+    },
+    {
+      label: 'Deposit',
+      iconType: 'Feather',
+      iconName: 'arrow-down-left',
+      route: routes.CHOOSE_PAYMENT_METHOD,
+    },
+    {
+      label: 'Withdraw',
+      iconType: 'FAIcon',
+      iconName: 'bank',
+      route: routes.WITHDRAW,
+    },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScreenHeader title={'Wallet'} />
+      {/* <ScreenHeader title={'Wallet'} /> */}
 
       <View style={styles.main}>
         {/* Card */}
@@ -33,14 +58,20 @@ export default function Wallet() {
           </View>
 
           <View style={styles.amountView}>
-            <Text style={styles.amount}>N3,000,000.00</Text>
+            <Text style={styles.amount}>
+              {showBalance ? 'N3,000,000.00' : '***********'}
+            </Text>
             {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
-            <UseIcon
-              type={'Ionicons'}
-              name="eye-off-outline"
-              size={20}
-              color={COLORS.white}
-            />
+            <Pressable
+              style={styles.visbleIcon}
+              onPress={() => setShowBalance(!showBalance)}>
+              <UseIcon
+                type={'Ionicons'}
+                name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                color={COLORS.white}
+              />
+            </Pressable>
           </View>
 
           <Text style={styles.date}>21, July 2023</Text>
@@ -55,7 +86,9 @@ export default function Wallet() {
         <View style={styles.ctaView}>
           {ctaData?.map((cta, i) => (
             <View key={i} style={styles.ctaWrapper}>
-              <Pressable style={styles.ctaBtn}>
+              <Pressable
+                style={styles.ctaBtn}
+                onPress={() => navigate(cta?.route)}>
                 <UseIcon
                   type={cta.iconType}
                   name={cta.iconName}
@@ -70,7 +103,7 @@ export default function Wallet() {
         </View>
 
         {/* Transaction history */}
-        <TransactionHistory />
+        <TransactionHistory showFilterOptions />
       </View>
     </SafeAreaView>
   );
@@ -106,6 +139,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: SIZES.base * 3,
   },
   ctaBtn: {
     backgroundColor: COLORS.primary,

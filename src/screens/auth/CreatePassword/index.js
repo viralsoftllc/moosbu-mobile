@@ -26,7 +26,9 @@ export default function CreatePassword() {
         />
       </Pressable>
 
-      <ScrollView>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.welcomeTextView}>
           <Text style={styles.welcomeText}>Create New Password</Text>
         </View>

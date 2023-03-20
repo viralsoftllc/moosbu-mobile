@@ -1,24 +1,61 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Modal,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import {selectUser} from '../../redux/slices/user/selectors';
+// import client from '../../shared/api/client';
+// import handleApiError from '../../shared/components/handleApiError';
 import UseIcon from '../../shared/utils/UseIcon';
 import BusinessOverview from './renderers/BusinessOverview';
 import HomeHeader from './renderers/HomeHeader';
 import MissingActions from './renderers/MissingActions';
+import NewStore from './renderers/NewStore';
 import Recommendations from './renderers/Recommendations';
 import Shortcuts from './renderers/Shortcuts';
 import StoreRevenue from './renderers/StoreRevenue';
+import Subscriptions from './renderers/Subscriptions';
 import WalletBalance from './renderers/WalletBalance';
 
 export default function Home() {
+  const user = useSelector(selectUser);
+  const [showNewStoreModal, setShowNewStoreModal] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  async function getAllCategories() {
+    // try {
+    //   const {data} = await client.get('/api/marketing');
+    //   console.log(data);
+    // } catch (error) {
+    //   handleApiError(error);
+    // }
+  }
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <HomeHeader />
+      <HomeHeader
+        setShowNewStoreModal={setShowNewStoreModal}
+        setShowSubscriptionModal={setShowSubscriptionModal}
+      />
 
-      <ScrollView style={{flex: 1}} contentContainerStyle={{flexGrow: 1}}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.main}>
           <View style={styles.welcomeTextView}>
             <UseIcon
@@ -26,11 +63,11 @@ export default function Home() {
               name={'hand-wave'}
               color={'#6A462F'}
               size={verticalScale(13)}
-              // style={{transform: [{rotateX: '-90deg'}]}}
             />
 
             <Text style={styles.welcomeText}>
-              Welcome, <Text style={styles.name}>Afolabi</Text>
+              Welcome{' '}
+              <Text style={styles.name}>{user ? user?.name : 'back'}</Text>
             </Text>
           </View>
 
@@ -53,6 +90,20 @@ export default function Home() {
           <Recommendations />
         </View>
       </ScrollView>
+
+      <Modal
+        visible={showNewStoreModal}
+        transparent={true}
+        animationType="slide">
+        <NewStore setShowNewStoreModal={setShowNewStoreModal} />
+      </Modal>
+
+      <Modal
+        visible={showSubscriptionModal}
+        transparent={true}
+        animationType="slide">
+        <Subscriptions setShowSubscriptionModal={setShowSubscriptionModal} />
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -78,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.paddingHorizontal,
   },
   name: {
-    ...FONTS.h6,
+    ...FONTS.h5,
     color: COLORS.textPrimary,
   },
   sectionHeader: {
