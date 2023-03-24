@@ -2,8 +2,10 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import {selectWalletBalance} from '../../redux/slices/wallet/selectors';
 import routes from '../../shared/constants/routes';
 import UseIcon from '../../shared/utils/UseIcon';
 import TransactionHistory from './renderers/TransactionHistory';
@@ -11,6 +13,7 @@ import TransactionHistory from './renderers/TransactionHistory';
 export default function Wallet() {
   const {navigate} = useNavigation();
   const [showBalance, setShowBalance] = useState(true);
+  const balance = useSelector(selectWalletBalance);
 
   const ctaData = [
     {
@@ -59,7 +62,7 @@ export default function Wallet() {
 
           <View style={styles.amountView}>
             <Text style={styles.amount}>
-              {showBalance ? 'N3,000,000.00' : '***********'}
+              {showBalance ? balance : '***********'}
             </Text>
             {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
             <Pressable
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
   amount: {
     color: COLORS.white,
     ...FONTS.h3,
-    marginRight: SIZES.base * 3,
+    marginRight: SIZES.base,
   },
   amountView: {
     display: 'flex',
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: SIZES.base / 2,
     width: '80%',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   balanceCard: {
     backgroundColor: COLORS.primary,

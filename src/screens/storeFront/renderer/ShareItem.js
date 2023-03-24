@@ -8,7 +8,7 @@ import FormButton from '../../../shared/components/FormButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function ShareItem({setShowShareModal, title, subtitle}) {
+export default function ShareItem({setShowShareModal, title, subtitle, link}) {
   const [copied, setCopied] = useState(false);
   const [media, setMedia] = useState('');
 
@@ -99,9 +99,9 @@ export default function ShareItem({setShowShareModal, title, subtitle}) {
 
           <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
-            <Text style={styles.link}>moosbu.com/retail.store</Text>
+            <Text style={styles.link}>{link || ''}</Text>
             <Pressable
-              onPress={() => copyToClipboard('moosbu.com/retail.store')}
+              onPress={() => copyToClipboard(link || '')}
               style={styles.copyBtn}>
               <UseIcon type={'AntDesign'} name="copy1" color={COLORS.white} />
               <Text style={styles.copyText}>{copied ? 'Copied' : 'Copy'}</Text>

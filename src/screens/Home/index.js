@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,18 @@ import {
   Modal,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import {
+  setTotalCustomers,
+  setTotalProducts,
+} from '../../redux/slices/businessOvervew/slice';
+import {setStoreDetails, setStoreUrl} from '../../redux/slices/store/slice';
 import {selectUser} from '../../redux/slices/user/selectors';
-// import client from '../../shared/api/client';
-// import handleApiError from '../../shared/components/handleApiError';
+import {setWalletBalance} from '../../redux/slices/wallet/slice';
+import client from '../../shared/api/client';
+import handleApiError from '../../shared/components/handleApiError';
 import UseIcon from '../../shared/utils/UseIcon';
 import BusinessOverview from './renderers/BusinessOverview';
 import HomeHeader from './renderers/HomeHeader';
@@ -28,22 +34,41 @@ import WalletBalance from './renderers/WalletBalance';
 
 export default function Home() {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
-  async function getAllCategories() {
-    // try {
-    //   console.log('Fetching new data');
-    //   const {data} = await client.get('/profile');
-    //   console.log(data);
-    // } catch (error) {
-    //   handleApiError(error);
-    // }
-  }
+  // async function getData() {
+  //   try {
+  //     console.log('Fetching new data');
+  //     const {data} = await client.get('/api/dashboard');
+  //     dispatch(setStoreDetails(data?.store));
+  //     dispatch(setStoreUrl(data?.store_url));
+  //     console.log(data);
+  //   } catch (error) {
+  //     handleApiError(error);
+  //   }
+  // }
+
+  const fetchDashboardData = useCallback(async () => {
+    try {
+      console.log('Fetching dashboard data');
+      const {data} = await client.get('/api/dashboard');
+      dispatch(setStoreDetails(data?.store));
+      dispatch(setStoreUrl(data?.store_url));
+      dispatch(setWalletBalance(data?.$wallet_balance?.balance));
+      dispatch(setTotalCustomers(data?.$customers));
+      dispatch(setTotalProducts(data?.total_product));
+      // console.log(data?.$wallet_balance?.balance);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    getAllCategories();
-  }, []);
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   return (
     <SafeAreaView style={styles.container}>

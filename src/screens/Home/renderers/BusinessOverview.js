@@ -1,13 +1,27 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import {
+  selectTotalConversions,
+  selectTotalCustomers,
+  selectTotalOrders,
+  selectTotalProducts,
+  selectTotalStoreVisits,
+} from '../../../redux/slices/businessOvervew/selectors';
 import UseIcon from '../../../shared/utils/UseIcon';
 import BusinessOverviewCard from './BusinessOverviewCard';
 
 export default function BusinessOverview() {
   const [showFilter, setShowFilter] = useState(false);
   const [filterBy, setFilterBy] = useState('Today');
+
+  const totalCustomers = useSelector(selectTotalCustomers);
+  const totalProducts = useSelector(selectTotalProducts);
+  const totalOrders = useSelector(selectTotalOrders);
+  const totalStoreVisits = useSelector(selectTotalStoreVisits);
+  const totalConversions = useSelector(selectTotalConversions);
 
   function handleFilter(params) {
     setFilterBy(params);
@@ -69,7 +83,7 @@ export default function BusinessOverview() {
             />
           }
           label="Total Customers"
-          amount={'1,439'}
+          amount={totalCustomers}
           percent={9}
           backgroundColor="#E4F4F1"
         />
@@ -84,7 +98,7 @@ export default function BusinessOverview() {
             />
           }
           label="Total Products"
-          amount={'1,547'}
+          amount={totalProducts}
           percent={36}
           backgroundColor="#F5F1DA"
         />
@@ -99,7 +113,7 @@ export default function BusinessOverview() {
             />
           }
           label="Total Order"
-          amount={'1,730'}
+          amount={totalOrders}
           percent={29}
           backgroundColor="#EEF1F6"
         />
@@ -116,7 +130,7 @@ export default function BusinessOverview() {
             />
           }
           label="Total Store visit"
-          amount={'1,438'}
+          amount={totalStoreVisits}
           percent={13}
           backgroundColor="#ECECFF"
         />
@@ -131,7 +145,7 @@ export default function BusinessOverview() {
             />
           }
           label="Total Conversion"
-          amount={'939'}
+          amount={totalConversions}
           percent={14}
           backgroundColor="#E2E2E2"
         />

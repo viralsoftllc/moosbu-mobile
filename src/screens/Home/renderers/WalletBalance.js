@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import {selectWalletBalance} from '../../../redux/slices/wallet/selectors';
 
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function WalletBalance({}) {
   const [showBalance, setShowBalance] = useState(true);
+  const balance = useSelector(selectWalletBalance);
 
   return (
     <View style={styles.container}>
@@ -25,7 +28,7 @@ export default function WalletBalance({}) {
 
       <View style={styles.amountView}>
         <Text style={styles.amount}>
-          {showBalance ? 'N1,500,000' : '**********'}
+          {showBalance ? balance : '**********'}
         </Text>
 
         <Pressable
@@ -61,6 +64,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     backgroundColor: 'rgba(2, 71, 166, 0.2)',
     height: verticalScale(120),
+    overflow: 'scroll',
   },
   description: {
     ...FONTS.small,

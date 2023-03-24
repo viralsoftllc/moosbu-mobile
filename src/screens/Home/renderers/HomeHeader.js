@@ -2,8 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Platform, Pressable, Modal} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import {
+  selectStoreDetails,
+  selectStoreUrl,
+} from '../../../redux/slices/store/selectors';
 import AppButton from '../../../shared/components/AppButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import routes from '../../../shared/constants/routes';
@@ -19,7 +24,12 @@ export default function HomeHeader({
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCta, setShowCta] = useState(false);
-  const link = 'moosbu.com/retail.store';
+  // const link = 'moosbu.com/retail.store';
+  const link = useSelector(selectStoreUrl);
+
+  const store = useSelector(selectStoreDetails);
+  console.log('store from redux');
+  console.log(store);
 
   return (
     <>
@@ -37,7 +47,7 @@ export default function HomeHeader({
             <Pressable
               style={styles.store}
               onPress={() => setShowCta(!showCta)}>
-              <Text style={styles.storeName}>Jewelry store</Text>
+              <Text style={styles.storeName}>{store?.name || ''}</Text>
               <UseIcon
                 type={'AntDesign'}
                 name="down"
@@ -49,7 +59,7 @@ export default function HomeHeader({
             {showCta ? (
               <View style={styles.ctaView}>
                 <Pressable style={styles.cta}>
-                  <Text style={styles.ctaText}>Jewelry Store</Text>
+                  <Text style={styles.ctaText}>{store?.name || ''}</Text>
                 </Pressable>
 
                 <Pressable
@@ -91,7 +101,7 @@ export default function HomeHeader({
         </View>
 
         <View>
-          <Text style={styles.link}>{link}</Text>
+          <Text style={styles.link}>{link || ''}</Text>
           <Text style={styles.linkComment}>
             Link shared with customers can be visited and make orders
           </Text>
@@ -100,7 +110,7 @@ export default function HomeHeader({
         <View style={styles.linkButtons}>
           <AppButton
             title={'Copy link'}
-            onPress={() => copyToClipboard(link, 'Store Link copied')}
+            onPress={() => copyToClipboard(link || '', 'Store Link copied')}
             rightIcon={
               <UseIcon
                 type={'MaterialIcons'}
@@ -129,7 +139,11 @@ export default function HomeHeader({
       </View>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} title={'store'} />
+        <ShareItem
+          setShowShareModal={setShowShareModal}
+          title={'store'}
+          link={link || ''}
+        />
       </Modal>
     </>
   );
