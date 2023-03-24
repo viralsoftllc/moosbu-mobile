@@ -1,43 +1,132 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {COLORS, SIZES} from '../../../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
+import AppDatePicker from '../../../../../shared/components/AppDatePicker';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function EditCampaignForm({handleSuccessfulResponse}) {
+export default function EditCampaignForm({
+  handleSuccessfulResponse,
+  setCampaign,
+  campaign,
+}) {
   return (
     <View>
       <FormInput label={'Campaign Name'} placeholder="Campaign name" />
 
-      <FormInput label={'Campaign Type'} placeholder="Email" />
+      {/* <FormInput label={'Campaign Type'} placeholder="Email" /> */}
 
-      <FormInput
-        label={'Customers/group'}
-        placeholder="Select customer/group"
-      />
+      <Text style={styles.formlabel}>Campaign Channel</Text>
 
-      <Pressable style={styles.flex}>
-        <UseIcon
-          type={'AntDesign'}
-          name="pluscircleo"
-          color={COLORS.secondary}
-        />
-        <Text style={styles.selectText}>Customers/group</Text>
-      </Pressable>
+      <View style={styles.flex}>
+        <Pressable
+          style={[
+            styles.channel,
+            styles.flex,
+            {
+              borderColor:
+                campaign?.channel === 'sms' ? COLORS.credit : COLORS.borderGray,
+            },
+          ]}
+          onPress={() => setCampaign({...campaign, channel: 'sms'})}>
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="message-processing-outline"
+            color={
+              campaign?.channel === 'sms' ? COLORS.credit : COLORS.textPrimary
+            }
+          />
+          <Text
+            style={[
+              styles.channelText,
+              {
+                color:
+                  campaign?.channel === 'sms'
+                    ? COLORS.credit
+                    : COLORS.textPrimary,
+              },
+            ]}>
+            SMS
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={[
+            styles.channel,
+            styles.flex,
+            {
+              borderColor:
+                campaign?.channel === 'whatsapp'
+                  ? COLORS.credit
+                  : COLORS.borderGray,
+            },
+          ]}
+          onPress={() => setCampaign({...campaign, channel: 'whatsapp'})}>
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="whatsapp"
+            color={
+              campaign?.channel === 'whatsapp'
+                ? COLORS.credit
+                : COLORS.textPrimary
+            }
+          />
+          <Text
+            style={[
+              styles.channelText,
+              {
+                color:
+                  campaign?.channel === 'whatsapp'
+                    ? COLORS.credit
+                    : COLORS.textPrimary,
+              },
+            ]}>
+            Whatsapp
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={[
+            styles.channel,
+            styles.flex,
+            {
+              borderColor:
+                campaign?.channel === 'email'
+                  ? COLORS.credit
+                  : COLORS.borderGray,
+            },
+          ]}
+          onPress={() => setCampaign({...campaign, channel: 'email'})}>
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="email-outline"
+            color={
+              campaign?.channel === 'email' ? COLORS.credit : COLORS.textPrimary
+            }
+          />
+          <Text
+            style={[
+              styles.channelText,
+              {
+                color:
+                  campaign?.channel === 'email'
+                    ? COLORS.credit
+                    : COLORS.textPrimary,
+              },
+            ]}>
+            Email
+          </Text>
+        </Pressable>
+      </View>
+
+      <FormInput label={'Contact group'} placeholder="Select customer/group" />
 
       <FormInput label={'Campaign Title'} placeholder="Campaign Title" />
 
       <FormInput
         label={'Campaign Message'}
         placeholder="Enter campaign message content"
-        multiline={true}
-        numberOfLines={5}
-      />
-
-      <FormInput
-        label={'Add Image'}
-        placeholder="Image for campaign header"
         multiline={true}
         numberOfLines={5}
       />
@@ -55,11 +144,11 @@ export default function EditCampaignForm({handleSuccessfulResponse}) {
       <Text style={styles.scheduleText}>Schedule Time</Text>
       <View style={styles.flex}>
         <View style={styles.dateView}>
-          <FormInput />
+          <AppDatePicker />
         </View>
 
         <View style={styles.timeView}>
-          <FormInput />
+          <AppDatePicker mode="time" />
         </View>
       </View>
 
@@ -122,5 +211,30 @@ const styles = StyleSheet.create({
   scheduleBtnView: {
     width: '40%',
     marginLeft: SIZES.base / 2,
+  },
+  formlabel: {
+    color: COLORS.textPrimary,
+    ...FONTS.regular,
+    fontWeight: '400',
+    marginBottom: SIZES.base,
+  },
+  channel: {
+    // flex: 1,
+    borderWidth: 1,
+    paddingVertical: SIZES.base / 2,
+    paddingHorizontal: SIZES.base * 1.5,
+    marginRight: SIZES.base,
+    borderRadius: SIZES.radius / 2,
+    borderColor: COLORS.borderGray,
+  },
+  channelText: {
+    marginLeft: SIZES.base / 2,
+    color: COLORS.textPrimary,
+  },
+  selectedChannel: {
+    borderColor: COLORS.credit,
+  },
+  selectedChannelText: {
+    color: COLORS.credit,
   },
 });

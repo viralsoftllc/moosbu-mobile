@@ -33,7 +33,8 @@ export default function Home() {
 
   async function getAllCategories() {
     // try {
-    //   const {data} = await client.get('/api/marketing');
+    //   console.log('Fetching new data');
+    //   const {data} = await client.get('/profile');
     //   console.log(data);
     // } catch (error) {
     //   handleApiError(error);

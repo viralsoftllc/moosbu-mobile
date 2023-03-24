@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../../storeFront/renderer/ShareItem';
 import ShippingHistoryCard from './renderer/ShippingHistoryCard';
@@ -40,6 +41,8 @@ export default function ShippingHistory() {
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem setShowShareModal={setShowShareModal} title={'shipping'} />
       </Modal>
+
+      <MbotChatWidget />
     </View>
   );
 }

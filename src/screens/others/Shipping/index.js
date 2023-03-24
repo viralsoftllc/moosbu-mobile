@@ -1,31 +1,49 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import Search from '../../../shared/components/Search';
-import routes from '../../../shared/constants/routes';
+import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
+import EditShipping from './EditShipping';
+import NewShipping from './NewShipping';
 import ShippingCard from './renderer/ShippingCard';
 
 export default function Shipping() {
-  const {navigate} = useNavigation();
   // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const items = [];
   const filteredItems = [];
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  function handleNewItem() {
-    navigate(routes.NEW_SHIPPING);
+  function handleSuccessfulResponse() {
+    setShowNewForm(false);
+    setShowEditForm(false);
+    setShowSuccessModal(true);
   }
 
-  function handleEditItem() {
-    navigate(routes.EDIT_SHIPPING);
-  }
+  // function handleNewItem() {
+  //   navigate(routes.NEW_SHIPPING);
+  // }
+
+  // function handleEditItem() {
+  //   navigate(routes.EDIT_SHIPPING);
+  // }
 
   function handleDeleteItem() {
     setShowDeleteModal(true);
+  }
+
+  function handleNewItem() {
+    setShowNewForm(true);
+  }
+
+  function handleEditItem() {
+    setShowEditForm(true);
   }
 
   return (
@@ -67,6 +85,32 @@ export default function Shipping() {
           title={'shipping'}
         />
       </Modal>
+
+      <Modal visible={showNewForm} animationType="slide" transparent={true}>
+        <NewShipping
+          setShowNewForm={setShowNewForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal visible={showEditForm} animationType="slide" transparent={true}>
+        <EditShipping
+          setShowEditForm={setShowEditForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          title={'shipping'}
+        />
+      </Modal>
+
+      <MbotChatWidget />
     </View>
   );
 }

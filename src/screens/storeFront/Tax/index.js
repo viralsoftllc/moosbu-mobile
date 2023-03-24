@@ -4,6 +4,7 @@ import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import Search from '../../../shared/components/Search';
 import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
@@ -105,6 +106,8 @@ export default function Tax() {
           title={'tax update'}
         />
       </Modal>
+
+      <MbotChatWidget />
     </SafeAreaView>
   );
 }

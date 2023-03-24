@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
-
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 

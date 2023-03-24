@@ -30,7 +30,7 @@ const transactions = [
 ];
 
 export default function TransactionHistory() {
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
   const [filterBy, setFilterBy] = useState('All');
 
   function handleFilter(params) {

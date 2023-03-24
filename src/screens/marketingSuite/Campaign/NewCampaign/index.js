@@ -10,6 +10,9 @@ import NewCampaignForm from './renderer/NewCampaignForm';
 export default function NewCampaign() {
   const {setOptions} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [campaign, setCampaign] = useState({
+    channel: '',
+  });
 
   useLayoutEffect(() => {
     setOptions({
@@ -30,6 +33,8 @@ export default function NewCampaign() {
           showsVerticalScrollIndicator={false}>
           <NewCampaignForm
             handleSuccessfulResponse={handleSuccessfulResponse}
+            setCampaign={setCampaign}
+            campaign={campaign}
           />
         </ScrollView>
       </View>

@@ -12,6 +12,7 @@ import {COLORS, SIZES} from '../../../assets/themes';
 import client from '../../../shared/api/client';
 import DeleteItem from '../../../shared/components/DeleteItem';
 import handleApiError from '../../../shared/components/handleApiError';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../renderer/ShareItem';
@@ -100,6 +101,8 @@ export default function Category() {
           title={'category'}
         />
       </Modal>
+
+      <MbotChatWidget />
     </View>
   );
 }

@@ -4,6 +4,7 @@ import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ImageIcon from '../../../shared/components/ImageIcon';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import UseIcon from '../../../shared/utils/UseIcon';
 
@@ -182,6 +183,8 @@ export default function ShippingHistoryDetails() {
             </View>
           </View>
         </View>
+
+        <MbotChatWidget />
       </ScrollView>
     </SafeAreaView>
   );

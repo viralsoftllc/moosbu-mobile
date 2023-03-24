@@ -6,7 +6,7 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function WalletBalance({}) {
-  const [showBalance, setShowBalance] = useState(false);
+  const [showBalance, setShowBalance] = useState(true);
 
   return (
     <View style={styles.container}>

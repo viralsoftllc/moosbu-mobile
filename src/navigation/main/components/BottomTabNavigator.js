@@ -23,10 +23,10 @@ export default function BottomTabNavigator() {
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarInactiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: COLORS.secondary,
         tabBarStyle: styles.tabBarStyle,
         tabBarActiveTintColor:
-          route.name !== routes.MENU ? COLORS.secondary : COLORS.primary,
+          route.name !== routes.MENU ? COLORS.secondary : COLORS.secondary,
         tabBarIcon: ({color, size, focused}) => {
           let iconName;
 

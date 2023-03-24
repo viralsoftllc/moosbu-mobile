@@ -1,61 +1,76 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
-import {COLORS, SIZES} from '../../../../assets/themes';
-import ScreenHeader from '../../../../shared/components/ScreenHeader';
-import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
+import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import UseIcon from '../../../../shared/utils/UseIcon';
+
 import NewShippingForm from './renderer/NewShippingForm';
 
-export default function NewShipping() {
-  const {setOptions} = useNavigation();
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-  function handleSuccessfulResponse() {
-    setShowSuccessModal(true);
-  }
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'New Shipping'} />,
-    });
-  }, [setOptions]);
-
+export default function NewShipping({
+  setShowNewForm,
+  handleSuccessfulResponse,
+}) {
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.container}>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}>
+      <View style={styles.modalContainer}>
+        <View style={styles.container}>
+          <View style={styles.flex}>
+            <View>
+              <Text style={styles.title}>Add shipping</Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setShowNewForm(false);
+              }}
+              style={styles.closeBtn}>
+              <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
+            </Pressable>
+          </View>
+
           <NewShippingForm
             handleSuccessfulResponse={handleSuccessfulResponse}
           />
-        </ScrollView>
+        </View>
       </View>
-
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          title={'shipping'}
-        />
-      </Modal>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: SIZES.paddingHorizontal,
     paddingVertical: SIZES.base * 2,
+    borderTopLeftRadius: SIZES.radius * 2,
+    borderTopRightRadius: SIZES.radius * 2,
   },
   safeAreaView: {
     flex: 1,
   },
   contentContainerStyle: {
     paddingBottom: SIZES.base * 2,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    justifyContent: 'flex-end',
+  },
+  flex: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginVertical: SIZES.base * 1.3,
+  },
+  title: {
+    ...FONTS.regular,
+    color: COLORS.textPrimary,
+  },
+  subtitle: {
+    ...FONTS.medium,
+    color: COLORS.grayText,
+  },
+  closeBtn: {
+    padding: SIZES.base,
   },
 });

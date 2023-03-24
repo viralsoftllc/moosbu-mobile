@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 
@@ -236,7 +236,7 @@ const menus = [
 ];
 
 export default function Menu() {
-  const {setOptions} = useNavigation();
+  const {setOptions, addListener, goBack} = useNavigation();
 
   useLayoutEffect(() => {
     setOptions({
@@ -244,6 +244,17 @@ export default function Menu() {
     });
     return () => {};
   }, [setOptions]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubscribe = addListener('tabPress', e => {
+        e.preventDefault();
+        goBack();
+      });
+
+      return () => unsubscribe();
+    }, [addListener, goBack]),
+  );
 
   return (
     <SafeAreaView style={styles.container}>

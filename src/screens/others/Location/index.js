@@ -1,32 +1,44 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import Search from '../../../shared/components/Search';
-import routes from '../../../shared/constants/routes';
+import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
+import EditLocation from './EditLocation';
+import NewLocation from './NewLocation';
 import LocationCard from './renderer/LocationCard';
 
 export default function Location() {
-  const {navigate} = useNavigation();
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  function handleSuccessfulResponse() {
+    setShowNewForm(false);
+    setShowSuccessModal(true);
+  }
   // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const items = [];
   const filteredItems = [];
 
-  function handleNewItem() {
-    navigate(routes.NEW_LOCATION);
-  }
-
-  function handleEditItem() {
-    navigate(routes.EDIT_LOCATION);
-  }
+  // function handleEditItem() {
+  //   navigate(routes.EDIT_LOCATION);
+  // }
 
   function handleDeleteItem() {
     setShowDeleteModal(true);
+  }
+
+  function handleNewItem() {
+    setShowNewForm(true);
+  }
+
+  function handleEditItem() {
+    setShowEditForm(true);
   }
 
   return (
@@ -63,6 +75,32 @@ export default function Location() {
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
         <DeleteItem
           setShowDeleteModal={setShowDeleteModal}
+          title={'location'}
+        />
+      </Modal>
+
+      <MbotChatWidget />
+
+      <Modal visible={showNewForm} animationType="slide" transparent={true}>
+        <NewLocation
+          setShowNewForm={setShowNewForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal visible={showEditForm} animationType="slide" transparent={true}>
+        <EditLocation
+          setShowEditForm={setShowEditForm}
+          handleSuccessfulResponse={handleSuccessfulResponse}
+        />
+      </Modal>
+
+      <Modal
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
           title={'location'}
         />
       </Modal>

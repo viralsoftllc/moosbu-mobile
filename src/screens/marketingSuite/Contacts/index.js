@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../assets/themes';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../../storeFront/renderer/ShareItem';
@@ -61,6 +62,8 @@ export default function Contacts() {
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
         <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'contact'} />
       </Modal>
+
+      <MbotChatWidget />
     </View>
   );
 }

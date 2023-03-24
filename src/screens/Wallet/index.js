@@ -10,7 +10,7 @@ import TransactionHistory from './renderers/TransactionHistory';
 
 export default function Wallet() {
   const {navigate} = useNavigation();
-  const [showBalance, setShowBalance] = useState(false);
+  const [showBalance, setShowBalance] = useState(true);
 
   const ctaData = [
     {

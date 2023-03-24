@@ -3,6 +3,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import routes from '../../../shared/constants/routes';
 import SettingsRow from './renderer/SettingsRow';
 
@@ -17,6 +18,8 @@ export default function Settings() {
         contentContainerStyle={styles.contentContainerStyle}>
         <SettingsRow onPress={() => navigate(routes.SETTINGS_ID)} />
       </ScrollView>
+
+      <MbotChatWidget />
     </View>
   );
 }

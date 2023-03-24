@@ -4,6 +4,7 @@ import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
+import MbotChatWidget from '../../../../shared/components/MbotChatWidget';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import NewRequest from './NewRequest';
@@ -114,6 +115,8 @@ export default function SettingsId() {
           title={'sms request'}
         />
       </Modal>
+
+      <MbotChatWidget />
     </View>
   );
 }

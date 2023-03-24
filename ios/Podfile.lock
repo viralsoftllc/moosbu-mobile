@@ -302,6 +302,8 @@ PODS:
   - React-jsinspector (0.70.7)
   - React-logger (0.70.7):
     - glog
+  - react-native-date-picker (4.2.9):
+    - React-Core
   - react-native-image-picker (5.1.0):
     - React-Core
   - react-native-pager-view (6.1.4):
@@ -445,6 +447,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -530,6 +533,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-pager-view:
@@ -612,6 +617,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e95cdd036e7947ddf87f3049319ac3064deb76b5
   React-jsinspector: 1c34fea1868136ecde647bc11fae9266d4143693
   React-logger: e9f407f9fdf3f3ce7749ae6f88affe63e8446019
+  react-native-date-picker: c063a8967058c58a02d7d0e1d655f0453576fb0d
   react-native-image-picker: c33d4e79f0a14a2b66e5065e14946ae63749660b
   react-native-pager-view: b58cb9e9f42f64e50cab3040815772c1d119a2e2
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
+import MbotChatWidget from '../../../../shared/components/MbotChatWidget';
 import TemplateCard from './renderer/TemplateCard';
 
 export default function ConversationTemplates() {
@@ -12,6 +13,8 @@ export default function ConversationTemplates() {
         <TemplateCard />
         <TemplateCard />
       </ScrollView>
+
+      <MbotChatWidget />
     </View>
   );
 }

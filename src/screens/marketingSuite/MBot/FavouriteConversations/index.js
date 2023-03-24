@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
+import MbotChatWidget from '../../../../shared/components/MbotChatWidget';
 import ConversationCard from '../renderer/ConversationCard';
 
 export default function FavouriteConversations() {
@@ -12,6 +13,8 @@ export default function FavouriteConversations() {
         <ConversationCard />
         <ConversationCard />
       </ScrollView>
+
+      <MbotChatWidget />
     </View>
   );
 }
