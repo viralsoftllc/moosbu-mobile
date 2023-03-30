@@ -8,14 +8,31 @@ import FormButton from '../../../shared/components/FormButton';
 import FormInput from '../../../shared/components/FormInput';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function ProfileForm() {
+export default function ProfileForm({profile, setProfile}) {
   const {navigate} = useNavigation();
 
   return (
     <View>
-      <FormInput label={'Full Name'} placeholder="Joshua Moosbu" />
-      <FormInput label={'Email Address'} placeholder="Joshua@moosbu.com" />
-      <FormInput label={'Phone Number'} placeholder="08022233344" />
+      <FormInput
+        label={'Full Name'}
+        placeholder="Your full name"
+        onChangeText={text => setProfile({...profile, name: text})}
+        value={profile?.name}
+      />
+
+      <FormInput
+        label={'Email Address'}
+        placeholder="Your email address"
+        onChangeText={text => setProfile({...profile, email: text})}
+        value={profile?.email}
+      />
+
+      <FormInput
+        label={'Phone Number'}
+        placeholder="phone number"
+        onChangeText={text => setProfile({...profile, phone_number: text})}
+        value={profile?.phone_number}
+      />
 
       <Pressable
         style={styles.changePassword}

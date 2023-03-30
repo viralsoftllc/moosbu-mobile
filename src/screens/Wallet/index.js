@@ -1,19 +1,58 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import {selectWalletBalance} from '../../redux/slices/wallet/selectors';
+import {setWalletBalance} from '../../redux/slices/wallet/slice';
+import client from '../../shared/api/client';
+import handleApiError from '../../shared/components/handleApiError';
 import routes from '../../shared/constants/routes';
 import UseIcon from '../../shared/utils/UseIcon';
 import TransactionHistory from './renderers/TransactionHistory';
 
 export default function Wallet() {
   const {navigate} = useNavigation();
-  const [showBalance, setShowBalance] = useState(true);
   const balance = useSelector(selectWalletBalance);
+  const dispatch = useDispatch();
+
+  const [showBalance, setShowBalance] = useState(true);
+  const [transactions, setTransactions] = useState([]);
+  const [transactionsLoading, setTransactionsLoading] = useState(false);
+
+  const getWalletBalance = useCallback(async () => {
+    try {
+      // console.log('Fetching wallet balance');
+      const {data} = await client.get('/api/wallet_balance');
+      // console.log(data?.balance);
+      dispatch(setWalletBalance(data?.balance));
+    } catch (error) {
+      // handleApiError(error);
+    }
+  }, [dispatch]);
+
+  const getWalletTransactions = useCallback(async () => {
+    setTransactionsLoading(true);
+
+    try {
+      // console.log('Fetching wallet transactions');
+      const {data} = await client.get('/api/transactions');
+      // console.log(data);
+      setTransactionsLoading(false);
+
+      setTransactions(data);
+    } catch (error) {
+      setTransactionsLoading(false);
+      handleApiError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getWalletBalance();
+    getWalletTransactions();
+  }, [getWalletTransactions, getWalletBalance]);
 
   const ctaData = [
     {
@@ -62,7 +101,7 @@ export default function Wallet() {
 
           <View style={styles.amountView}>
             <Text style={styles.amount}>
-              {showBalance ? balance : '***********'}
+              {showBalance ? `₦${balance}` : '***********'}
             </Text>
             {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
             <Pressable
@@ -80,8 +119,8 @@ export default function Wallet() {
           <Text style={styles.date}>21, July 2023</Text>
 
           <View style={styles.cashflowView}>
-            <Text style={styles.sent}>Sent 1,000,000</Text>
-            <Text style={styles.received}>Received 540,000</Text>
+            <Text style={styles.sent}>Sent ₦1,000,000</Text>
+            <Text style={styles.received}>Received ₦540,000</Text>
           </View>
         </View>
 
@@ -106,7 +145,11 @@ export default function Wallet() {
         </View>
 
         {/* Transaction history */}
-        <TransactionHistory showFilterOptions />
+        <TransactionHistory
+          showFilterOptions
+          loading={transactionsLoading}
+          transactions={transactions}
+        />
       </View>
     </SafeAreaView>
   );

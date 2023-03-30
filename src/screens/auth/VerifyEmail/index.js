@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
 import {
-  Image,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -36,14 +35,6 @@ export default function VerifyEmail() {
         </Pressable>
 
         <Text style={styles.headerText}>Verify Email</Text>
-
-        <View style={styles.imageView}>
-          <Image
-            source={require('../../../assets/images/verifyEmail.png')}
-            resizeMode="contain"
-            style={styles.image}
-          />
-        </View>
 
         <Text style={styles.message}>
           Please enter the number code sent to your email,{' '}

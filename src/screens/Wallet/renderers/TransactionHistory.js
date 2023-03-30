@@ -1,35 +1,41 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 import TransactionRow from './TransactionRow';
 
-const transactions = [
-  {
-    type: 'Deposit',
-    ref: 'MB-0000000001',
-    status: 'Success',
-    amount: '50,000',
-    date: '12, June 2023-2:13:23',
-  },
-  {
-    type: 'Send',
-    ref: 'MB-0000000002',
-    status: 'Sent',
-    amount: '6,000',
-    date: '10, June 2023-2:02:08',
-  },
-  {
-    type: 'Withdraw',
-    ref: 'MB-0000000003',
-    status: 'Success',
-    amount: '11,000',
-    date: '2, June 2023-2:12:33',
-  },
-];
+// const transactions = [
+//   {
+//     type: 'Deposit',
+//     ref: 'MB-0000000001',
+//     status: 'Success',
+//     amount: '50,000',
+//     date: '12, June 2023-2:13:23',
+//   },
+//   {
+//     type: 'Send',
+//     ref: 'MB-0000000002',
+//     status: 'Sent',
+//     amount: '6,000',
+//     date: '10, June 2023-2:02:08',
+//   },
+//   {
+//     type: 'Withdraw',
+//     ref: 'MB-0000000003',
+//     status: 'Success',
+//     amount: '11,000',
+//     date: '2, June 2023-2:12:33',
+//   },
+// ];
 
-export default function TransactionHistory() {
+export default function TransactionHistory({loading, transactions}) {
   const [showFilter, setShowFilter] = useState(false);
   const [filterBy, setFilterBy] = useState('All');
 
@@ -84,6 +90,8 @@ export default function TransactionHistory() {
 
       {/* Transactions */}
       <View style={styles.transactions}>
+        {loading ? <ActivityIndicator size={'small'} /> : null}
+
         {transactions?.map((transaction, i) => (
           <TransactionRow key={i} transaction={transaction} />
         ))}

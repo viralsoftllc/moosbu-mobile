@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -8,8 +8,11 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 
 import {COLORS, SIZES} from '../../assets/themes';
+import {selectStoreDetails} from '../../redux/slices/store/selectors';
+import {selectUser} from '../../redux/slices/user/selectors';
 import ImageIcon from '../../shared/components/ImageIcon';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 import UseIcon from '../../shared/utils/UseIcon';
@@ -17,6 +20,19 @@ import ProfileForm from './renderer/ProfileForm';
 
 export default function Profile() {
   const {setOptions} = useNavigation();
+  const user = useSelector(selectUser);
+  const store = useSelector(selectStoreDetails);
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    setProfile({
+      name: store?.name || '',
+      email: user?.email || '',
+      phone_number: store?.phone_number || '',
+    });
+
+    return () => {};
+  }, [user, store]);
 
   useLayoutEffect(() => {
     setOptions({
@@ -41,7 +57,7 @@ export default function Profile() {
           </Pressable>
         </View>
 
-        <ProfileForm />
+        <ProfileForm profile={profile} setProfile={setProfile} />
       </ScrollView>
     </SafeAreaView>
   );

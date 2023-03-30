@@ -36,6 +36,7 @@ import Notifications from '../../screens/Notifications';
 import ShippingHistoryDetails from '../../screens/others/ShippingHistoryDetails';
 import MBotTopTabNavigator from './screens/MBotTopTabNavigator';
 import MBot from '../../screens/marketingSuite/MBot';
+import PlanTopTabNavigator from './screens/PlanTopTabNavigator';
 
 const Stack = createStackNavigator();
 
@@ -155,6 +156,7 @@ export default function MainNavigator() {
         name={routes.SHIPPING_DETAILS}
         component={ShippingHistoryDetails}
       />
+      <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} />
     </Stack.Navigator>
   );
 }

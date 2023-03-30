@@ -70,7 +70,7 @@ export default function TransactionRow({transaction}) {
           </View>
           <View>
             <Text style={[styles.text, {color: getColor()}]}>
-              {transaction?.amount}
+              ₦{transaction?.amount}
             </Text>
           </View>
         </View>

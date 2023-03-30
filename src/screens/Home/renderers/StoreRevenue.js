@@ -1,10 +1,11 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function StoreRevenue() {
+  const [showBalance, setShowBalance] = useState(true);
   return (
     <View style={styles.container}>
       <View style={styles.titleView}>
@@ -21,9 +22,22 @@ export default function StoreRevenue() {
       <Text style={styles.description}>Your store revenue is:</Text>
 
       <View style={styles.amountView}>
-        <Text style={styles.amount}>N3,000,000</Text>
+        <Text style={styles.amount}>
+          {showBalance ? `₦${0}` : '**********'}
+        </Text>
 
-        <View style={styles.percentView}>
+        <Pressable
+          style={styles.visbleIcon}
+          onPress={() => setShowBalance(!showBalance)}>
+          <UseIcon
+            type={'Ionicons'}
+            name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+            size={20}
+            color={COLORS.textPrimary}
+          />
+        </Pressable>
+
+        {/* <View style={styles.percentView}>
           <UseIcon
             type={'MaterialIcons'}
             name="arrow-drop-up"
@@ -33,7 +47,7 @@ export default function StoreRevenue() {
           />
 
           <Text style={styles.percentText}>20%</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -43,6 +57,10 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     ...FONTS.h4,
     marginRight: SIZES.base / 2,
+  },
+  visbleIcon: {
+    paddingHorizontal: SIZES.base,
+    paddingVertical: SIZES.base / 5,
   },
   amountView: {
     display: 'flex',
@@ -56,6 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     backgroundColor: '#EEEFF9',
     height: verticalScale(120),
+    overflow: 'scroll',
   },
   description: {
     ...FONTS.small,

@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -40,7 +40,7 @@ export default function Category() {
     setShowDeleteModal(true);
   }
 
-  async function getAllCategories() {
+  const getAllCategories = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -52,11 +52,11 @@ export default function Category() {
       setLoading(false);
       handleApiError(error);
     }
-  }
+  }, []);
 
   useEffect(() => {
     getAllCategories();
-  }, []);
+  }, [getAllCategories]);
 
   return (
     <View style={styles.container}>

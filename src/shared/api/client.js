@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cache from '../utils/Cache';
 // import apisauce from 'apisauce';
+import {STAGING_URL} from '@env';
 
 const client = axios.create({
-  baseURL: 'https://staging.moosbu.com',
+  // baseURL: 'https://staging.moosbu.com',
+  baseURL: STAGING_URL,
 
   headers: {
     'Content-Type': 'application/json',

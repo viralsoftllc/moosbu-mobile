@@ -4,16 +4,16 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import ImageIcon from '../../../../shared/components/ImageIcon';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
-export default function CustomerCard({name, email, phone, onPress}) {
+export default function CustomerCard({onPress, customer}) {
   return (
     <View style={[styles.container, styles.flex]}>
       <ImageIcon />
 
       <View style={[styles.flex, styles.details]}>
         <View>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.email}>{email}</Text>
-          <Text style={styles.phone}>{phone}</Text>
+          <Text style={styles.name}>{customer?.name}</Text>
+          <Text style={styles.email}>{customer?.email}</Text>
+          <Text style={styles.phone}>{customer?.phone}</Text>
         </View>
 
         <Pressable style={styles.iconview} onPress={onPress}>

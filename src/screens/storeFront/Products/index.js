@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -11,6 +11,7 @@ import {
 import {COLORS, SIZES} from '../../../assets/themes';
 import client from '../../../shared/api/client';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import handleApiError from '../../../shared/components/handleApiError';
 import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import Search from '../../../shared/components/Search';
@@ -40,12 +41,13 @@ export default function Products() {
     setShowDeleteModal(true);
   }
 
-  async function getAllProducts() {
+  const getAllProducts = useCallback(async () => {
     setLoading(true);
     console.log('Getting products');
 
     try {
       const {data} = await client.get('/api/products');
+      console.log(data);
       setLoading(false);
 
       setItems(data);
@@ -53,11 +55,11 @@ export default function Products() {
       setLoading(false);
       handleApiError(error);
     }
-  }
+  }, []);
 
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [getAllProducts]);
 
   return (
     <View style={styles.container}>
@@ -73,17 +75,19 @@ export default function Products() {
         contentContainerStyle={styles.contentContainerStyle}>
         {loading ? <ActivityIndicator /> : null}
 
-        {items?.length > 0
-          ? items?.map((item, i) => (
-              <ProductCard
-                product={item}
-                key={i}
-                setShowShareModal={setShowShareModal}
-                handleEditItem={() => handleEditItem(item)}
-                handleDeleteItem={handleDeleteItem}
-              />
-            ))
-          : null}
+        {items?.length > 0 ? (
+          items?.map((item, i) => (
+            <ProductCard
+              product={item}
+              key={i}
+              setShowShareModal={setShowShareModal}
+              handleEditItem={() => handleEditItem(item)}
+              handleDeleteItem={handleDeleteItem}
+            />
+          ))
+        ) : !loading ? (
+          <EmptyItemInfo message={'No products to display'} />
+        ) : null}
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>

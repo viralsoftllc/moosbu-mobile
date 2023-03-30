@@ -34,11 +34,11 @@ const menus = [
         // nestedRoute: routes.PRODUCTS,
       },
       {
-        title: 'Category',
+        title: 'Orders',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
-            name="view-dashboard-outline"
+            name="shopping-outline"
             size={14}
             color={COLORS.black}
           />
@@ -72,6 +72,19 @@ const menus = [
         ),
         iconBackground: 'rgba(206, 206, 206, 0.4)',
         route: routes.COUPON,
+      },
+      {
+        title: 'Shipping',
+        icon: (
+          <UseIcon
+            type={'Feather'}
+            name="truck"
+            size={14}
+            color={COLORS.black}
+          />
+        ),
+        iconBackground: '#CCDAED',
+        route: routes.SHIPPING_TAB,
       },
     ],
   },
@@ -164,21 +177,39 @@ const menus = [
     ],
   },
   {
-    title: 'Others',
+    title: 'Integration',
     navs: [
       {
-        title: 'Shipping',
+        title: 'Payment Providers',
         icon: (
           <UseIcon
-            type={'Feather'}
-            name="truck"
+            type={'MaterialCommunityIcons'}
+            name="credit-card-outline"
             size={14}
             color={COLORS.black}
           />
         ),
-        iconBackground: '#CCDAED',
-        route: routes.SHIPPING_TAB,
+        iconBackground: 'rgba(255, 162, 29, 0.1)',
+        route: routes.PAYMENT_PROVIDER,
       },
+      {
+        title: 'Logistics Providers',
+        icon: (
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="truck-outline"
+            size={14}
+            color={COLORS.black}
+          />
+        ),
+        iconBackground: 'rgba(255, 162, 29, 0.1)',
+        route: routes.LOGISTICS_PROVIDER,
+      },
+    ],
+  },
+  {
+    title: 'Others',
+    navs: [
       {
         title: 'Customers',
         icon: (
@@ -191,19 +222,6 @@ const menus = [
         ),
         iconBackground: 'rgba(189, 189, 189, 0.6)',
         route: routes.CUSTOMERS_TAB,
-      },
-      {
-        title: 'Integration',
-        icon: (
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="integrated-circuit-chip"
-            size={14}
-            color={COLORS.black}
-          />
-        ),
-        iconBackground: 'rgba(255, 162, 29, 0.1)',
-        route: routes.INTEGRATION,
       },
       {
         title: 'Support',
@@ -291,9 +309,6 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     backgroundColor: COLORS.tabBg,
-    // height: '85%',
-    // borderTopRightRadius: SIZES.radius * 4,
-    // borderTopLeftRadius: SIZES.radius * 4,
     paddingHorizontal: SIZES.paddingHorizontal,
     paddingVertical: SIZES.base,
   },

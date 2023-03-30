@@ -19,11 +19,13 @@ import ShareItem from '../../storeFront/renderer/ShareItem';
 export default function HomeHeader({
   setShowSubscriptionModal,
   setShowNewStoreModal,
+  showCta,
+  setShowCta,
 }) {
   const {navigate} = useNavigation();
 
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showCta, setShowCta] = useState(false);
+  // const [showCta, setShowCta] = useState(false);
   // const link = 'moosbu.com/retail.store';
   const link = useSelector(selectStoreUrl);
 
@@ -34,108 +36,112 @@ export default function HomeHeader({
   return (
     <>
       <View style={styles.topView}>
-        <View style={styles.header}>
-          <View style={styles.leftHeader}>
-            <Pressable onPress={() => navigate(routes.PROFILE)}>
-              <ImageIcon
-                size={verticalScale(20)}
-                style={styles.imageIcon}
-                imageUrl={require('../../../assets/images/profile.png')}
-              />
-            </Pressable>
+        <Pressable onPress={() => setShowCta(false)}>
+          <View style={styles.header}>
+            <View style={styles.leftHeader}>
+              <Pressable onPress={() => navigate(routes.PROFILE)}>
+                <ImageIcon
+                  size={verticalScale(20)}
+                  style={styles.imageIcon}
+                  imageUrl={require('../../../assets/images/profile.png')}
+                />
+              </Pressable>
+
+              <Pressable
+                style={styles.store}
+                onPress={() => setShowCta(!showCta)}>
+                <Text style={styles.storeName}>{store?.name || ''}</Text>
+                <UseIcon
+                  type={'AntDesign'}
+                  name="down"
+                  color={COLORS.white}
+                  size={verticalScale(11)}
+                />
+              </Pressable>
+
+              {showCta ? (
+                <View style={styles.ctaView}>
+                  <Pressable style={styles.cta}>
+                    <Text style={styles.ctaText}>{store?.name || ''}</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={styles.cta}
+                    onPress={() => {
+                      setShowCta(false);
+                      setShowNewStoreModal(true);
+                    }}>
+                    <UseIcon
+                      type={'AntDesign'}
+                      name="plus"
+                      color={COLORS.textPrimary}
+                    />
+                    <Text style={styles.ctaText}>Create New Store</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={styles.cta}
+                    onPress={() => {
+                      setShowCta(false);
+                      navigate(routes.PLAN);
+                    }}>
+                    <Text style={[styles.ctaText, styles.deleteCta]}>
+                      Plans
+                    </Text>
+                  </Pressable>
+                </View>
+              ) : null}
+            </View>
 
             <Pressable
-              style={styles.store}
-              onPress={() => setShowCta(!showCta)}>
-              <Text style={styles.storeName}>{store?.name || ''}</Text>
+              onPress={() => navigate(routes.NOTIFICATIONS)}
+              style={styles.notifications}>
               <UseIcon
-                type={'AntDesign'}
-                name="down"
+                type="MaterialIcons"
+                name={'notifications-none'}
                 color={COLORS.white}
-                size={verticalScale(11)}
+                size={verticalScale(18)}
               />
             </Pressable>
-
-            {showCta ? (
-              <View style={styles.ctaView}>
-                <Pressable style={styles.cta}>
-                  <Text style={styles.ctaText}>{store?.name || ''}</Text>
-                </Pressable>
-
-                <Pressable
-                  style={styles.cta}
-                  onPress={() => {
-                    setShowCta(false);
-                    setShowNewStoreModal(true);
-                  }}>
-                  <UseIcon
-                    type={'AntDesign'}
-                    name="plus"
-                    color={COLORS.textPrimary}
-                  />
-                  <Text style={styles.ctaText}>Create New Store</Text>
-                </Pressable>
-
-                <Pressable
-                  style={styles.cta}
-                  onPress={() => {
-                    setShowCta(false);
-                    setShowSubscriptionModal(true);
-                  }}>
-                  <Text style={[styles.ctaText, styles.deleteCta]}>Plans</Text>
-                </Pressable>
-              </View>
-            ) : null}
           </View>
 
-          <Pressable
-            onPress={() => navigate(routes.NOTIFICATIONS)}
-            style={styles.notifications}>
-            <UseIcon
-              type="MaterialIcons"
-              name={'notifications-none'}
-              color={COLORS.white}
-              size={verticalScale(18)}
+          <View>
+            <Text style={styles.link}>{link || ''}</Text>
+            <Text style={styles.linkComment}>
+              Link shared with customers can be visited and make orders
+            </Text>
+          </View>
+
+          <View style={styles.linkButtons}>
+            <AppButton
+              title={'Copy link'}
+              onPress={() => copyToClipboard(link || '', 'Store Link copied')}
+              rightIcon={
+                <UseIcon
+                  type={'MaterialIcons'}
+                  name={'content-copy'}
+                  color={COLORS.white}
+                  size={verticalScale(11)}
+                />
+              }
+              buttonStyle={{marginRight: SIZES.base, borderColor: COLORS.white}}
             />
-          </Pressable>
-        </View>
 
-        <View>
-          <Text style={styles.link}>{link || ''}</Text>
-          <Text style={styles.linkComment}>
-            Link shared with customers can be visited and make orders
-          </Text>
-        </View>
-
-        <View style={styles.linkButtons}>
-          <AppButton
-            title={'Copy link'}
-            onPress={() => copyToClipboard(link || '', 'Store Link copied')}
-            rightIcon={
-              <UseIcon
-                type={'MaterialIcons'}
-                name={'content-copy'}
-                color={COLORS.white}
-                size={verticalScale(11)}
-              />
-            }
-            buttonStyle={{marginRight: SIZES.base, borderColor: COLORS.white}}
-          />
-
-          <AppButton
-            title={'Share link'}
-            onPress={() => setShowShareModal(true)}
-            rightIcon={
-              <UseIcon
-                type={'FAIcon5'}
-                name={'share-square'}
-                color={COLORS.white}
-                size={verticalScale(11)}
-              />
-            }
-            buttonStyle={{borderColor: COLORS.white}}
-          />
-        </View>
+            <AppButton
+              title={'Share link'}
+              onPress={() => setShowShareModal(true)}
+              rightIcon={
+                <UseIcon
+                  type={'FAIcon5'}
+                  name={'share-square'}
+                  color={COLORS.white}
+                  size={verticalScale(11)}
+                />
+              }
+              buttonStyle={{borderColor: COLORS.white}}
+            />
+          </View>
+        </Pressable>
       </View>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
@@ -179,6 +185,7 @@ const styles = StyleSheet.create({
   },
   topView: {
     paddingHorizontal: SIZES.paddingHorizontal,
+    zIndex: 10,
   },
   imageIcon: {
     margin: 0,

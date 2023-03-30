@@ -59,7 +59,6 @@ export default {
   PAYOUT_SETTINGS: 'Payout Settings',
   // More
   MORE: 'More',
-
   // Store front -> Analytic
   ANALYTICS: 'Analytics',
   SALES_ANALYTICS: 'Sales Analytics',
@@ -124,4 +123,7 @@ export default {
   FAVOURITE_CONVERSATIONS: 'Favourite Conversations',
   CONVERSATION_TEMPLATES: 'Conversation Templates',
   CHAT: 'Chat',
+  YEARLY_PLAN: 'Yearly Plan',
+  MONTHLY_PLAN: 'Monthly Plan',
+  PLAN: 'Plan',
 };

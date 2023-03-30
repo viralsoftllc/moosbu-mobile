@@ -1,11 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import NewTaxForm from './renderer/NewTaxForm';
 
 export default function NewTax({setShowNewTaxForm, handleSuccessfulResponse}) {
+  const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  async function createTax() {
+    if (!details?.tax_name || !details?.rate) {
+      notifyMessage();
+    }
+
+    try {
+      console.log('Creating tax...');
+      setSubmitting(true);
+
+      const res = await client.post('/api/tax', details);
+      console.log('response from creating tax...');
+      console.log(res);
+      setSubmitting(false);
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -25,7 +51,13 @@ export default function NewTax({setShowNewTaxForm, handleSuccessfulResponse}) {
             </Pressable>
           </View>
 
-          <NewTaxForm handleSuccessfulResponse={handleSuccessfulResponse} />
+          <NewTaxForm
+            details={details}
+            setDetails={setDetails}
+            onSubmit={createTax}
+            handleSuccessfulResponse={handleSuccessfulResponse}
+            submitting={submitting}
+          />
         </View>
       </View>
     </SafeAreaView>

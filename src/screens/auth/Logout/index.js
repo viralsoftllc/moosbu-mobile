@@ -13,7 +13,13 @@ import {useDispatch} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {setToken} from '../../../redux/slices/auth/slice';
+import {
+  setTotalCustomers,
+  setTotalProducts,
+} from '../../../redux/slices/businessOvervew/slice';
+import {setStoreDetails, setStoreUrl} from '../../../redux/slices/store/slice';
 import {setUserDetails} from '../../../redux/slices/user/slice';
+import {setWalletBalance} from '../../../redux/slices/wallet/slice';
 import FormButton from '../../../shared/components/FormButton';
 import Cache from '../../../shared/utils/Cache';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -26,6 +32,11 @@ export default function Logout() {
     Cache.clearAll();
     dispatch(setToken(null));
     dispatch(setUserDetails(null));
+    dispatch(setStoreDetails(null));
+    dispatch(setStoreUrl(null));
+    dispatch(setWalletBalance(0));
+    dispatch(setTotalCustomers(0));
+    dispatch(setTotalProducts(0));
   }
 
   return (

@@ -9,10 +9,8 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
-import {useDispatch} from 'react-redux';
+
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
-import {setToken} from '../../../redux/slices/auth/slice';
-import {setUserDetails} from '../../../redux/slices/user/slice';
 import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
 import routes from '../../../shared/constants/routes';
@@ -23,7 +21,6 @@ import RegistrationForm from './renderer/RegistrationForm';
 
 export default function Register() {
   const {navigate, goBack} = useNavigation();
-  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
   const [agreePolicy, setAgreePolicy] = useState(false);
@@ -65,7 +62,7 @@ export default function Register() {
     }
 
     try {
-      console.log('Api started');
+      console.log('Reg Api started');
       const {data} = await client.post('/api/register', credentials);
       console.log(data);
 
@@ -75,9 +72,7 @@ export default function Register() {
       Cache.storeObject('@user', data?.user);
 
       setLoading(false);
-
-      dispatch(setUserDetails(data?.user));
-      dispatch(setToken(data?.token));
+      navigate(routes.LOGIN);
     } catch (error) {
       setLoading(false);
       handleApiError(error);

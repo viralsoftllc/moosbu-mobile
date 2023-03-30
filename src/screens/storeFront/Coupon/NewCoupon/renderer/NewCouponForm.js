@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
@@ -7,42 +7,102 @@ import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function NewCouponForm({handleSuccessfulResponse}) {
+export default function NewCouponForm({
+  onSubmit,
+  details,
+  setDetails,
+  submitting,
+}) {
+  const characters =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return setDetails({...details, code: result});
+  }
+
   return (
     <View style={styles.container}>
-      <View>
-        <FormInput label={'Coupon Name'} placeholder="Enter coupon name" />
-
-        <View style={styles.flex}>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
+        <View>
           <FormInput
-            label={'Discount'}
-            placeholder="Enter discount"
-            style={[styles.smallForm, styles.leftFormInput]}
+            label={'Coupon Name'}
+            placeholder="Enter coupon name"
+            onChangeText={text => setDetails({...details, name: text})}
+            // style={styles.nameForm}
           />
 
-          <FormInput
-            label={'Limit'}
-            placeholder="Enter limit"
-            style={[styles.smallForm, styles.rightFormInput]}
-          />
-        </View>
-
-        <Text style={styles.linkText}>Coupon code</Text>
-        <View style={[styles.flex, styles.copyView]}>
-          <Text style={styles.link}>Mowu74u</Text>
-          <Pressable style={styles.copyBtn}>
+          {/* <Pressable
+            style={[styles.flex, styles.flatDiscountSwitch]}
+            onPress={() =>
+              setDetails({...details, enable_flat: !details?.enable_flat})
+            }>
             <UseIcon
-              type={'EvilIcons'}
-              name="refresh"
-              color={COLORS.white}
-              size={verticalScale(20)}
+              type={'MaterialCommunityIcons'}
+              name={
+                !details?.enable_flat
+                  ? 'toggle-switch-off-outline'
+                  : 'toggle-switch'
+              }
+              color={!details?.enable_flat ? COLORS.grayText : COLORS.credit}
+              size={verticalScale(22)}
             />
-            <Text style={styles.copyText}>Generate</Text>
-          </Pressable>
-        </View>
-      </View>
 
-      <FormButton title={'Save'} onPress={handleSuccessfulResponse} />
+            <Text style={styles.flatDiscountText}>Flat discount</Text>
+          </Pressable> */}
+
+          {/* <FormInput
+            label={'Coupon description'}
+            placeholder="Enter coupon description"
+            onChangeText={text => setDetails({...details, description: text})}
+          /> */}
+
+          <View style={styles.flex}>
+            <FormInput
+              label={'Discount'}
+              placeholder="Enter discount"
+              style={[styles.smallForm, styles.leftFormInput]}
+              keyboardType="numeric"
+              onChangeText={text =>
+                setDetails({...details, discount: String(text)})
+              }
+            />
+
+            <FormInput
+              label={'Limit'}
+              placeholder="Enter limit"
+              style={[styles.smallForm, styles.rightFormInput]}
+              keyboardType="numeric"
+              onChangeText={text =>
+                setDetails({...details, limit: String(text)})
+              }
+            />
+          </View>
+
+          <Text style={styles.linkText}>Coupon code</Text>
+          <View style={[styles.flex, styles.copyView]}>
+            <Text style={styles.link}>{details?.code}</Text>
+            <Pressable style={styles.copyBtn} onPress={() => generateString(6)}>
+              <UseIcon
+                type={'EvilIcons'}
+                name="refresh"
+                color={COLORS.white}
+                size={verticalScale(20)}
+              />
+              <Text style={styles.copyText}>Generate</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <FormButton title={'Save'} onPress={onSubmit} loading={submitting} />
+      </ScrollView>
     </View>
   );
 }
@@ -95,4 +155,14 @@ const styles = StyleSheet.create({
   linkText: {
     marginBottom: SIZES.base,
   },
+  flatDiscountText: {
+    color: COLORS.textPrimary,
+    marginLeft: SIZES.base / 2,
+    paddingVertical: SIZES.base,
+    fontWeight: '300',
+  },
+  flatDiscountSwitch: {
+    marginBottom: SIZES.base * 2,
+  },
+  nameForm: {marginBottom: 0},
 });

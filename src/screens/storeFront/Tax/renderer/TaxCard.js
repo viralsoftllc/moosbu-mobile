@@ -5,6 +5,7 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function TaxCard({
+  tax,
   title,
   subtitle,
   amount,
@@ -29,7 +30,7 @@ export default function TaxCard({
       <View style={[styles.flex, styles.nameWrapper]}>
         {icon}
 
-        <Text style={styles.name}>{title}</Text>
+        <Text style={styles.name}>{tax?.name}</Text>
 
         <Pressable onPress={toggleCtaView}>
           <UseIcon
@@ -57,11 +58,11 @@ export default function TaxCard({
         ) : null}
       </View>
 
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Text style={styles.subtitle}>{tax?.description}</Text>
 
       <View>
         <Text style={styles.statsLabel}>Rate</Text>
-        <Text style={styles.statsValue}>{amount}</Text>
+        <Text style={styles.statsValue}>{tax?.rate}%</Text>
       </View>
     </Pressable>
   );
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginTop: SIZES.base / 5,
-    marginBottom: SIZES.base * 2,
+    marginBottom: SIZES.base,
     color: COLORS.grayText,
     ...FONTS.medium,
   },

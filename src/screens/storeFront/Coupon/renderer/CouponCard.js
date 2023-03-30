@@ -6,11 +6,12 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function CouponCard({
-  title,
+  coupon,
   handleEditItem,
   icon,
   setShowShareModal,
   handleDeleteItem,
+  handleShareItem,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -29,7 +30,7 @@ export default function CouponCard({
       <View style={[styles.flex, styles.nameWrapper]}>
         {icon}
 
-        <Text style={styles.name}>{title}</Text>
+        <Text style={styles.name}>{coupon?.code}</Text>
 
         <Pressable onPress={toggleCtaView}>
           <UseIcon
@@ -55,21 +56,21 @@ export default function CouponCard({
         ) : null}
       </View>
 
-      <Text style={styles.subtitle}>20% off on all orders above N5,000</Text>
+      <Text style={styles.subtitle}>{coupon?.name}</Text>
 
       <View style={[styles.flex]}>
         <View style={styles.stats}>
           <Text style={styles.statsLabel}>Times used</Text>
-          <Text style={styles.statsValue}>0</Text>
+          <Text style={styles.statsValue}>{coupon?.used}</Text>
         </View>
 
         <View style={styles.stats}>
-          <Text style={styles.statsLabel}>Sales generated</Text>
-          <Text style={styles.statsValue}>N0</Text>
+          <Text style={styles.statsLabel}>Limit</Text>
+          <Text style={styles.statsValue}>{coupon?.limit}</Text>
         </View>
 
         <Pressable
-          onPress={() => setShowShareModal(true)}
+          onPress={() => handleShareItem(coupon)}
           style={[styles.flex, styles.shareIcon]}>
           <UseIcon
             type={'Ionicons'}
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base * 1.5,
     backgroundColor: COLORS.tabBg,
     borderRadius: SIZES.radius,
+    marginBottom: SIZES.base,
   },
   ctaText: {
     ...FONTS.medium,

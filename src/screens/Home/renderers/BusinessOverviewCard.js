@@ -20,7 +20,7 @@ export default function BusinessOverviewCard({
       <View style={styles.amountView}>
         <Text style={styles.amount}>{amount}</Text>
 
-        <View style={styles.percentView}>
+        {/* <View style={styles.percentView}>
           <UseIcon
             type={'MaterialIcons'}
             name="arrow-drop-up"
@@ -30,7 +30,7 @@ export default function BusinessOverviewCard({
           />
 
           <Text style={styles.percentText}>{percent}</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base,
     paddingHorizontal: SIZES.base,
     borderRadius: SIZES.radius / 2,
+    overflow: 'scroll',
   },
   description: {
     ...FONTS.tiny,

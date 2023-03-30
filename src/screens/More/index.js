@@ -1,20 +1,18 @@
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import {selectStoreDetails} from '../../redux/slices/store/selectors';
+import {selectUser} from '../../redux/slices/user/selectors';
 import ImageIcon from '../../shared/components/ImageIcon';
 import routes from '../../shared/constants/routes';
 import LinkRow from './renderer/LinkRow';
 
 export default function More() {
-  // const {setOptions} = useNavigation();
-
-  // useLayoutEffect(() => {
-  //   setOptions({
-  //     header: () => <ScreenHeader title={'Account'} />,
-  //   });
-  // }, [setOptions]);
+  const user = useSelector(selectUser);
+  const store = useSelector(selectStoreDetails);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,9 +27,11 @@ export default function More() {
           />
 
           <View style={styles.details}>
-            <Text style={styles.name}>Jooshua Moosbu</Text>
-            <Text style={styles.id}>Client ID 911912264</Text>
-            <Text style={styles.joinedDate}>Joined: Nov 22, 2017</Text>
+            <Text style={styles.name}>{store?.name || ''}</Text>
+            <Text style={styles.id}>Client ID {user?.id || ''}</Text>
+            <Text style={styles.joinedDate}>
+              Joined: {new Date(user?.created_at).toDateString() || ''}
+            </Text>
           </View>
 
           <View style={styles.level}>

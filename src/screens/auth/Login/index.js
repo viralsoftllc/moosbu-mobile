@@ -127,13 +127,15 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base * 5,
   },
   imageView: {
-    // height: verticalScale(220),
+    height: verticalScale(37),
+    width: verticalScale(157),
     marginBottom: SIZES.base * 3,
     marginTop: '5%',
   },
-  // image: {
-  //   height: '100%',
-  // },
+  image: {
+    height: '100%',
+    width: '100%',
+  },
   registerLink: {
     ...FONTS.regular,
     color: COLORS.textPrimary,

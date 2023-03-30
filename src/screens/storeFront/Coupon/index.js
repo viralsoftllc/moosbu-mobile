@@ -1,9 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
-import {Modal, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
+import client from '../../../shared/api/client';
 import DeleteItem from '../../../shared/components/DeleteItem';
+import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
+import handleApiError from '../../../shared/components/handleApiError';
 import MbotChatWidget from '../../../shared/components/MbotChatWidget';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import Search from '../../../shared/components/Search';
@@ -16,12 +25,14 @@ import CouponCard from './renderer/CouponCard';
 
 export default function Coupon() {
   const {setOptions} = useNavigation();
-  // const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const [showNewCouponForm, setShowNewCouponForm] = useState(false);
   const [showEditCouponForm, setShowEditCouponForm] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
 
   useLayoutEffect(() => {
     setOptions({
@@ -29,7 +40,7 @@ export default function Coupon() {
     });
   }, [setOptions]);
 
-  const items = [];
+  // const items = [];
   const filteredItems = [];
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -46,11 +57,37 @@ export default function Coupon() {
     setShowDeleteModal(true);
   }
 
+  const getAllCoupons = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      console.log('Fetching coupons');
+      const {data} = await client.get('/api/coupons');
+      console.log(data);
+      setLoading(false);
+
+      setItems(data);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }, []);
+
   function handleSuccessfulResponse() {
     setShowEditCouponForm(false);
     setShowNewCouponForm(false);
     setShowSuccessModal(true);
+    getAllCoupons();
   }
+
+  function handleShareItem(params) {
+    setSelectedCoupon(params);
+    setShowShareModal(true);
+  }
+
+  useEffect(() => {
+    getAllCoupons();
+  }, [getAllCoupons]);
 
   return (
     <View style={styles.container}>
@@ -65,23 +102,38 @@ export default function Coupon() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}>
-        <CouponCard
-          title={'MOOSBU2023'}
-          icon={
-            <UseIcon
-              name="brightness-percent"
-              type={'MaterialCommunityIcons'}
-              color={COLORS.textPrimary}
-            />
-          }
-          setShowShareModal={setShowShareModal}
-          handleEditItem={handleEditItem}
-          handleDeleteItem={handleDeleteItem}
-        />
+        {loading ? <ActivityIndicator size={'large'} /> : null}
+        {!loading && !items?.length ? (
+          <EmptyItemInfo message={'No coupon to display'} />
+        ) : null}
+
+        {items.length
+          ? items.map((coupon, i) => (
+              <CouponCard
+                key={i}
+                coupon={coupon}
+                title={'MOOSBU2023'}
+                icon={
+                  <UseIcon
+                    name="brightness-percent"
+                    type={'MaterialCommunityIcons'}
+                    color={COLORS.textPrimary}
+                  />
+                }
+                setShowShareModal={setShowShareModal}
+                handleEditItem={handleEditItem}
+                handleDeleteItem={handleDeleteItem}
+                handleShareItem={handleShareItem}
+              />
+            ))
+          : null}
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} />
+        <ShareItem
+          setShowShareModal={setShowShareModal}
+          link={selectedCoupon?.code}
+        />
       </Modal>
 
       <Modal

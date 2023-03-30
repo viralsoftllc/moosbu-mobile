@@ -7,7 +7,12 @@ import FormInput from '../../../../../shared/components/FormInput';
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function NewProductForm({handleSuccessfulResponse}) {
+export default function NewProductForm({
+  product,
+  setProduct,
+  onSubmit,
+  submitting,
+}) {
   const [showVariantForm, setShowVariantForm] = useState(false);
 
   return (
@@ -15,11 +20,20 @@ export default function NewProductForm({handleSuccessfulResponse}) {
       <View style={styles.inputs}>
         <ImagePicker />
 
-        <FormInput label={'Product Name'} placeholder="Enter product name" />
+        <FormInput
+          label={'Product Name'}
+          placeholder="Enter product name"
+          onChangeText={text => setProduct({...product, name: text})}
+          value={product?.name || ''}
+        />
 
         <FormInput
           label={'Product Category'}
           placeholder="Enter product category"
+          onChangeText={text =>
+            setProduct({...product, product_category: text})
+          }
+          value={product?.product_category || ''}
         />
 
         <View style={styles.flex}>
@@ -27,12 +41,16 @@ export default function NewProductForm({handleSuccessfulResponse}) {
             label={'Product Price'}
             placeholder="Enter product price"
             style={[styles.smallForm, styles.leftFormInput]}
+            onChangeText={text => setProduct({...product, price: text})}
+            value={product?.price || ''}
           />
 
           <FormInput
             label={'Product Tax'}
             placeholder="Enter product tax"
             style={[styles.smallForm, styles.rightFormInput]}
+            // onChangeText={text => setProduct({...product, tax: text})}
+            // value={product?.tax || '}
           />
         </View>
 
@@ -41,12 +59,16 @@ export default function NewProductForm({handleSuccessfulResponse}) {
             label={'Stock Quantity'}
             placeholder="Enter stock quantity"
             style={[styles.smallForm, styles.leftFormInput]}
+            onChangeText={text => setProduct({...product, quantity: text})}
+            value={product?.quantity || ''}
           />
 
           <FormInput
             label={'Product SKU'}
             placeholder="Enter product SKU"
             style={[styles.smallForm, styles.rightFormInput]}
+            // onChangeText={text => setProduct({...product, sku: text})}
+            // value={product?.quantity || ''}
           />
         </View>
 
@@ -55,6 +77,8 @@ export default function NewProductForm({handleSuccessfulResponse}) {
           placeholder="Enter Product Details"
           multiline={true}
           numberOfLines={5}
+          onChangeText={text => setProduct({...product, details: text})}
+          value={product?.details || ''}
         />
 
         <Pressable
@@ -85,7 +109,11 @@ export default function NewProductForm({handleSuccessfulResponse}) {
         ) : null}
       </View>
 
-      <FormButton title={'Add Product'} onPress={handleSuccessfulResponse} />
+      <FormButton
+        title={'Add Product'}
+        onPress={onSubmit}
+        loading={submitting}
+      />
     </View>
   );
 }

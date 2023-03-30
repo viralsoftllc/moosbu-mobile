@@ -7,6 +7,8 @@ import {
   StyleSheet,
   ScrollView,
   Modal,
+  RefreshControl,
+  Pressable,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,7 +28,7 @@ import BusinessOverview from './renderers/BusinessOverview';
 import HomeHeader from './renderers/HomeHeader';
 import MissingActions from './renderers/MissingActions';
 import NewStore from './renderers/NewStore';
-import Recommendations from './renderers/Recommendations';
+// import Recommendations from './renderers/Recommendations';
 import Shortcuts from './renderers/Shortcuts';
 import StoreRevenue from './renderers/StoreRevenue';
 import Subscriptions from './renderers/Subscriptions';
@@ -38,6 +40,8 @@ export default function Home() {
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showCta, setShowCta] = useState(false);
 
   // async function getData() {
   //   try {
@@ -52,8 +56,9 @@ export default function Home() {
   // }
 
   const fetchDashboardData = useCallback(async () => {
+    setLoading(true);
     try {
-      console.log('Fetching dashboard data');
+      // console.log('Fetching dashboard data');
       const {data} = await client.get('/api/dashboard');
       dispatch(setStoreDetails(data?.store));
       dispatch(setStoreUrl(data?.store_url));
@@ -61,7 +66,9 @@ export default function Home() {
       dispatch(setTotalCustomers(data?.$customers));
       dispatch(setTotalProducts(data?.total_product));
       // console.log(data?.$wallet_balance?.balance);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       handleApiError(error);
     }
   }, [dispatch]);
@@ -70,52 +77,67 @@ export default function Home() {
     fetchDashboardData();
   }, [fetchDashboardData]);
 
+  function handleCloseCta() {
+    if (showCta) {
+      setShowCta(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      {/* <Pressable style={{flex: 1}} onPress={handleCloseCta}> */}
       <HomeHeader
         setShowNewStoreModal={setShowNewStoreModal}
         setShowSubscriptionModal={setShowSubscriptionModal}
+        showCta={showCta}
+        setShowCta={setShowCta}
       />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={{flex: 1}}
-        contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.main}>
-          <View style={styles.welcomeTextView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name={'hand-wave'}
-              color={'#6A462F'}
-              size={verticalScale(13)}
-            />
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl onRefresh={fetchDashboardData} refreshing={loading} />
+        }>
+        <Pressable onPress={handleCloseCta}>
+          <View style={styles.main}>
+            <View style={styles.welcomeTextView}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name={'hand-wave'}
+                color={'#6A462F'}
+                size={verticalScale(13)}
+              />
 
-            <Text style={styles.welcomeText}>
-              Welcome{' '}
-              <Text style={styles.name}>{user ? user?.name : 'back'}</Text>
-            </Text>
+              <Text style={styles.welcomeText}>
+                Welcome{' '}
+                <Text style={styles.name}>{user ? user?.name : 'back'}</Text>
+              </Text>
+            </View>
+
+            {/* wallet and revenue */}
+            <View style={styles.balances}>
+              <WalletBalance />
+              <StoreRevenue />
+            </View>
+
+            {/* Business overview */}
+            <BusinessOverview />
+
+            {/* Missing actions */}
+            <MissingActions />
+
+            {/* Shortcuts */}
+            <Shortcuts />
+
+            {/* Recommendations */}
+            {/* <Recommendations /> */}
           </View>
-
-          {/* wallet and revenue */}
-          <View style={styles.balances}>
-            <WalletBalance />
-            <StoreRevenue />
-          </View>
-
-          {/* Business overview */}
-          <BusinessOverview />
-
-          {/* Missing actions */}
-          <MissingActions />
-
-          {/* Shortcuts */}
-          <Shortcuts />
-
-          {/* Recommendations */}
-          <Recommendations />
-        </View>
+        </Pressable>
       </ScrollView>
+      {/* </Pressable> */}
 
       <Modal
         visible={showNewStoreModal}

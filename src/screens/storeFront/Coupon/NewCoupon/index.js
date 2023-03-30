@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import NewCouponForm from './renderer/NewCouponForm';
 
@@ -8,6 +11,32 @@ export default function NewCoupon({
   setShowNewCouponForm,
   handleSuccessfulResponse,
 }) {
+  const [details, setDetails] = useState({enable_flat: false});
+  const [submitting, setSubmitting] = useState(false);
+
+  async function createCoupon() {
+    if (!details?.name || !details?.discount || !details?.limit) {
+      notifyMessage();
+    }
+
+    try {
+      console.log('Creating coupon...');
+      setSubmitting(true);
+
+      const res = await client.post('/api/coupon', {
+        ...details,
+        // enable_flat: !details?.enable_flat ? 'off' : 'on',
+      });
+      console.log('response from creating coupon...');
+      console.log(res);
+      setSubmitting(false);
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -24,7 +53,13 @@ export default function NewCoupon({
             </Pressable>
           </View>
 
-          <NewCouponForm handleSuccessfulResponse={handleSuccessfulResponse} />
+          <NewCouponForm
+            details={details}
+            setDetails={setDetails}
+            onSubmit={createCoupon}
+            handleSuccessfulResponse={handleSuccessfulResponse}
+            submitting={submitting}
+          />
         </View>
       </View>
     </SafeAreaView>
