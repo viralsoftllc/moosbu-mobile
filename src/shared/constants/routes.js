@@ -115,9 +115,18 @@ export default {
   EDIT_LOCATION: 'Edit Location',
   // others -> Customers
   CUSTOMERS_TAB: 'Customers Tab',
-  CUSTOMERS: 'Customers',
   CUSTOMER_ORDER: 'Customer Order',
   CUSTOMER_ORDER_DETAILS: 'Customer Order Details',
+  CUSTOMERS: 'Customers',
+  ALL_CUSTOMERS: 'All Customers',
+  RETURNING_CUSTOMERS: 'Returning Customers',
+  NEW_CUSTOMERS: 'New Customers',
+  // Orders
+  ORDERS: 'Orders',
+  ALL_ORDERS: 'All Orders',
+  PROCESSING_ORDERS: 'Processing Orders',
+  COMPLETED_ORDERS: 'Completed Orders',
+  ORDER_DETAILS: 'Order Details',
   // M bot
   SAVED_CONVERSATIONS: 'Saved Conversations',
   FAVOURITE_CONVERSATIONS: 'Favourite Conversations',

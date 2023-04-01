@@ -5,6 +5,10 @@ import {name as store, reducer as storeReducer} from './slices/store';
 import {name as wallet, reducer as walletReducer} from './slices/wallet';
 import {name as orders, reducer as ordersReducer} from './slices/orders';
 import {
+  name as customers,
+  reducer as customersReducer,
+} from './slices/customers';
+import {
   name as businessOvervew,
   reducer as businessOvervewReducer,
 } from './slices/businessOvervew';
@@ -17,5 +21,6 @@ export default configureStore({
     [wallet]: walletReducer,
     [businessOvervew]: businessOvervewReducer,
     [orders]: ordersReducer,
+    [customers]: customersReducer,
   },
 });

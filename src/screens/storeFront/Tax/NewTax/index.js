@@ -13,17 +13,17 @@ export default function NewTax({setShowNewTaxForm, handleSuccessfulResponse}) {
   const [submitting, setSubmitting] = useState(false);
 
   async function createTax() {
-    if (!details?.tax_name || !details?.rate) {
-      notifyMessage();
+    if (!details?.name || !details?.rate) {
+      return notifyMessage('Please input all fields');
     }
 
     try {
-      console.log('Creating tax...');
+      // console.log('Creating tax...');
       setSubmitting(true);
 
-      const res = await client.post('/api/tax', details);
-      console.log('response from creating tax...');
-      console.log(res);
+      await client.post('/api/tax', details);
+      // console.log('response from creating tax...');
+      // console.log(res);
       setSubmitting(false);
       handleSuccessfulResponse();
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -9,6 +9,9 @@ import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
 import EditLocation from './EditLocation';
 import NewLocation from './NewLocation';
 import LocationCard from './renderer/LocationCard';
+import client from '../../../shared/api/client';
+import handleApiError from '../../../shared/components/handleApiError';
+import {useEffect} from 'react';
 
 export default function Location() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -40,6 +43,20 @@ export default function Location() {
   function handleEditItem() {
     setShowEditForm(true);
   }
+
+  const getLocations = useCallback(async () => {
+    try {
+      console.log('Fetching locations');
+      const {data} = await client.get('/api/locations');
+      console.log(data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getLocations();
+  }, [getLocations]);
 
   return (
     <View style={styles.container}>

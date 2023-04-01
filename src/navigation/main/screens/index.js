@@ -15,9 +15,6 @@ import NewShipping from '../../../screens/others/Shipping/NewShipping';
 import EditShipping from '../../../screens/others/Shipping/EditShipping';
 import NewLocation from '../../../screens/others/Location/NewLocation';
 import EditLocation from '../../../screens/others/Location/EditLocation';
-import Customers from '../../../screens/others/Customers';
-import CustomerOrders from '../../../screens/others/CustomerOrders';
-import CustomerOrderDetails from '../../../screens/others/CustomerOrderDetails';
 import More from '../../../screens/More';
 import NewContact from '../../../screens/marketingSuite/Contacts/NewContact';
 import EditContact from '../../../screens/marketingSuite/Contacts/EditContact';
@@ -77,12 +74,6 @@ const shippingScreens = {
   [routes.EDIT_LOCATION]: EditLocation,
 };
 
-const customerScreens = {
-  [routes.CUSTOMERS]: Customers,
-  [routes.CUSTOMER_ORDER]: CustomerOrders,
-  [routes.CUSTOMER_ORDER_DETAILS]: CustomerOrderDetails,
-};
-
 const businessRegistrationScreens = {
   [routes.BUSINESS_REGISTRATION]: BussinessRegistration,
   [routes.PROPRIETOR_INFO]: ProprietorForm,
@@ -99,7 +90,6 @@ const storeSettingsScreen = {
 
 export {
   menuStack,
-  customerScreens,
   shippingScreens,
   cashFlowScreens,
   engagementScreen,

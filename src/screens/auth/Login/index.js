@@ -63,7 +63,7 @@ export default function Login() {
         showsVerticalScrollIndicator={false}>
         <View style={styles.imageView}>
           <Image
-            source={require('../../../assets/images/moosbuwhite.png')}
+            source={require('../../../assets/images/moosbuu.png')}
             resizeMode="contain"
             style={styles.image}
           />

@@ -1,22 +1,22 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 
-export default function BillingAddress() {
+export default function ShippingDetails({name, phone}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Billing Address</Text>
+        <Text style={styles.headerText}>Shipping Details</Text>
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.rowText}>Name</Text>
-        <Text style={styles.rowText}>Joshua Moosbu</Text>
+        <Text style={styles.rowText}>Customer Name</Text>
+        <Text style={styles.rowText}>{name || ''}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.rowText}>Phone</Text>
-        <Text style={styles.rowText}>080222444555</Text>
+        <Text style={styles.rowText}>{phone || ''}</Text>
       </View>
 
       <View style={styles.row}>

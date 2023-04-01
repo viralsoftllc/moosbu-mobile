@@ -1,15 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 import NewShippingForm from './renderer/NewShippingForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 
 export default function NewShipping({
   setShowNewForm,
   handleSuccessfulResponse,
 }) {
+  const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  async function createShipping() {
+    if (!details?.name || !details?.price) {
+      return notifyMessage('Fill all fields');
+    }
+
+    setSubmitting(true);
+
+    try {
+      console.log('Creating shipping');
+      const res = await client.post('/api/shipping', details);
+      console.log(res);
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -30,6 +54,10 @@ export default function NewShipping({
 
           <NewShippingForm
             handleSuccessfulResponse={handleSuccessfulResponse}
+            details={details}
+            setDetails={setDetails}
+            onSubmit={createShipping}
+            submitting={submitting}
           />
         </View>
       </View>

@@ -16,13 +16,15 @@ export default function NewTaxForm({
         <FormInput
           label={'Tax Name'}
           placeholder="Enter tax name"
-          onChangeText={text => setDetails({...details, tax_name: text})}
+          onChangeText={text => setDetails({...details, name: text})}
+          value={details?.name}
         />
 
         <FormInput
           label={'Tax Percent'}
-          placeholder="Enter tax price"
+          placeholder="Enter tax rate"
           onChangeText={text => setDetails({...details, rate: text})}
+          value={details?.rate}
         />
       </View>
 

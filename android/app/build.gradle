@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.smileidentity.smile-id-android'
 
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
@@ -246,6 +247,12 @@ android {
 
         }
     }
+
+     packagingOptions {
+         exclude 'META-INF/androidx.*'
+         exclude 'androidx.*'
+         exclude 'META-INF/DEPENDENCIES'
+     }
 }
 
 dependencies {
@@ -255,6 +262,10 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation 'com.smileidentity:smile-id-ui:1.0.7'
+    implementation 'com.smileidentity:smile-id-sdk:7.3.24'
+    implementation 'com.smileidentity:netjava:1.0.4'// 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Modal, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -9,16 +9,20 @@ import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
 import EditShipping from './EditShipping';
 import NewShipping from './NewShipping';
 import ShippingCard from './renderer/ShippingCard';
+import client from '../../../shared/api/client';
+import handleApiError from '../../../shared/components/handleApiError';
 
 export default function Shipping() {
-  // const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
-  const items = [];
+  // const items = [];
   const filteredItems = [];
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleSuccessfulResponse() {
     setShowNewForm(false);
@@ -45,6 +49,21 @@ export default function Shipping() {
   function handleEditItem() {
     setShowEditForm(true);
   }
+
+  const getLocations = useCallback(async () => {
+    try {
+      console.log('Fetching shippings');
+      const {data} = await client.get('/api/shippings');
+      console.log(data);
+      setItems(data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getLocations();
+  }, [getLocations]);
 
   return (
     <View style={styles.container}>

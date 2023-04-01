@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import BottomTabNavigator from './components/BottomTabNavigator';
 import routes from '../../shared/constants/routes';
 import MenuStack from './stacks/MenuStack';
-import CustomerStack from './stacks/CustomerStack';
 import ShippingStack from './stacks/ShippingStack';
 import CashFlowStack from './stacks/CashFlowStack';
 import EngagementStack from './stacks/EngagementStack';
@@ -37,6 +36,9 @@ import ShippingHistoryDetails from '../../screens/others/ShippingHistoryDetails'
 import MBotTopTabNavigator from './screens/MBotTopTabNavigator';
 import MBot from '../../screens/marketingSuite/MBot';
 import PlanTopTabNavigator from './screens/PlanTopTabNavigator';
+import OrderTopTabNavigator from './screens/OrderTopTabNavigator';
+import OrderDetails from '../../screens/storeFront/orders/OrderDetails';
+import CustomerTopTabNavigator from './screens/CustomerTopTabNavigator';
 
 const Stack = createStackNavigator();
 
@@ -54,9 +56,8 @@ export default function MainNavigator() {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={routes.CUSTOMERS_TAB}
-        component={CustomerStack}
-        options={{headerShown: false}}
+        name={routes.CUSTOMERS}
+        component={CustomerTopTabNavigator}
       />
       <Stack.Screen
         name={routes.SHIPPING_TAB}
@@ -157,6 +158,8 @@ export default function MainNavigator() {
         component={ShippingHistoryDetails}
       />
       <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} />
+      <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
+      <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
     </Stack.Navigator>
   );
 }

@@ -6,9 +6,16 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import routes from '../../../shared/constants/routes';
 import UseIcon from '../../../shared/utils/UseIcon';
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import {useSelector} from 'react-redux';
 
-export default function PaymentForm({setShowPaymentForm}) {
+export default function PaymentForm({
+  setShowPaymentForm,
+  amount,
+  amountString,
+}) {
   const {navigate} = useNavigation();
+  const store = useSelector(selectStoreDetails);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -31,28 +38,40 @@ export default function PaymentForm({setShowPaymentForm}) {
 
           <Text style={styles.balanceMessage}>
             You don’t have enough balance in your wallet. Please fund your
-            wallet with ₦5,000{' '}
+            wallet with ₦{amountString}{' '}
           </Text>
 
           <View style={styles.details}>
             <View style={styles.flex}>
-              <Text style={styles.label}>Amount</Text>
-              <Text style={styles.value}>₦5,000</Text>
+              <Text style={styles.label}>Store name</Text>
+              <Text style={styles.value}>{store?.name}</Text>
             </View>
+
+            <View style={styles.flex}>
+              <Text style={styles.label}>Email</Text>
+              <Text style={styles.value}>{store?.email}</Text>
+            </View>
+
+            <View style={styles.flex}>
+              <Text style={styles.label}>Amount</Text>
+              <Text style={styles.value}>₦{amountString}</Text>
+            </View>
+
             <View style={styles.flex}>
               <Text style={styles.label}>Fee</Text>
               <Text style={styles.value}>₦0</Text>
             </View>
-            <View style={styles.flex}>
+
+            {/* <View style={styles.flex}>
               <Text style={styles.label}>Total Amount</Text>
-              <Text style={styles.value}>₦5,000</Text>
-            </View>
+              <Text style={styles.value}>₦{amountString}</Text>
+            </View> */}
           </View>
 
           <View style={styles.details}>
             <View style={styles.flex}>
               <Text style={styles.label}>Total Amount</Text>
-              <Text style={styles.value}>₦5,000</Text>
+              <Text style={styles.value}>₦{amountString}</Text>
             </View>
           </View>
 
@@ -93,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginVertical: SIZES.base * 1.3,
+    marginVertical: SIZES.base,
   },
   title: {
     ...FONTS.regular,

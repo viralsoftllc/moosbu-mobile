@@ -100,6 +100,8 @@ export default function YearlyPlan() {
         <PaymentForm
           setShowPaymentForm={setShowPaymentForm}
           handleSuccessfulResponse={handleSuccessfulResponse}
+          amount={50000}
+          amountString={'50,000'}
         />
       </Modal>
 

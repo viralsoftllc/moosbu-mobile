@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useCallback, useLayoutEffect, useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -8,9 +8,18 @@ import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UseIcon from '../../../../shared/utils/UseIcon';
+import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
+import SelectInput from '../../../../shared/components/SelectInput';
+import {useEffect} from 'react';
 
 export default function CurrencySettings() {
   const {setOptions} = useNavigation();
+
+  const [currencies, setcurrencies] = useState([]);
+  const [selectedCurrency, setSelectedCurrency] = useState(null);
+  // console.log('currencies from state');
+  // console.log(currencies);
   const [currencySympolPosition, setCurrencySympolPosition] = useState(false);
   const [currencySympolSpace, setCurrencySympolSpace] = useState(false);
 
@@ -20,14 +29,52 @@ export default function CurrencySettings() {
     });
   }, [setOptions]);
 
+  const getData = useCallback(async () => {
+    try {
+      console.log('Fetching new data');
+      const {data} = await client.get('/api/currency');
+      console.log(data);
+      setcurrencies(data?.data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
+  // const c = {
+  //   code: 'NGN',
+  //   created_at: '2023-03-27T09:55:51.000000Z',
+  //   id: 0,
+  //   name: 'Nigerian Naira',
+  //   symbols: '₦',
+  //   updated_at: '2023-03-27T09:55:51.000000Z',
+  // };
+
   return (
     <SafeAreaView style={styles.container}>
-      <FormInput
-        label={'Currency Symbol'}
-        placeholder="Enter Currency Symbol"
+      <SelectInput
+        label={'Currency'}
+        placeholder={'Select Currency'}
+        options={currencies}
+        labelExtractor={item => item.name}
+        keyExtractor={item => item.name}
+        value={selectedCurrency?.name}
+        onChange={selected => {
+          console.log('Selected');
+          console.log(selected);
+          setSelectedCurrency(selected);
+        }}
       />
 
-      <FormInput label={'Currency'} placeholder="Enter Currency" />
+      <FormInput
+        label={'Currency Symbol'}
+        placeholder="Enter Currency"
+        value={selectedCurrency?.symbols}
+        editable={false}
+      />
 
       <View style={[styles.flex, styles.noteView]}>
         <UseIcon
@@ -84,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: SIZES.paddingHorizontal,
+    paddingTop: SIZES.base * 2,
   },
   note: {
     color: COLORS.pending,
@@ -104,7 +152,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
   },
   select: {
-    marginVertical: SIZES.base,
+    marginVertical: SIZES.base / 2,
   },
   buttonStyle: {
     marginTop: SIZES.base * 3,

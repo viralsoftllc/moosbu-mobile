@@ -116,11 +116,11 @@ export default function Wallet() {
             </Pressable>
           </View>
 
-          <Text style={styles.date}>21, July 2023</Text>
+          <Text style={styles.date}>{new Date().toDateString()}</Text>
 
           <View style={styles.cashflowView}>
-            <Text style={styles.sent}>Sent ₦1,000,000</Text>
-            <Text style={styles.received}>Received ₦540,000</Text>
+            <Text style={styles.sent}>Sent ₦0</Text>
+            <Text style={styles.received}>Received ₦0</Text>
           </View>
         </View>
 

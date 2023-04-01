@@ -1,5 +1,5 @@
 import {name} from '.';
 
-const selectUser = state => state[name].user;
+const selectOrders = state => state[name].orders;
 
-export {selectUser};
+export {selectOrders};

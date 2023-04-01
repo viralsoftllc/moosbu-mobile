@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base * 1.5,
     backgroundColor: COLORS.tabBg,
     borderRadius: SIZES.radius,
+    marginBottom: SIZES.base * 1.5,
   },
   ctaText: {
     ...FONTS.medium,

@@ -30,8 +30,8 @@ export default function HomeHeader({
   const link = useSelector(selectStoreUrl);
 
   const store = useSelector(selectStoreDetails);
-  console.log('store from redux');
-  console.log(store);
+  // console.log('store from redux');
+  // console.log(store);
 
   return (
     <>

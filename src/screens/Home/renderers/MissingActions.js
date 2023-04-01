@@ -1,34 +1,50 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
+
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import {useNavigation} from '@react-navigation/native';
+import routes from '../../../shared/constants/routes';
 
 export default function MissingActions() {
+  const {navigate} = useNavigation();
+  const store = useSelector(selectStoreDetails);
+
+  function handleNavigate() {
+    navigate(routes.STORE_SETTINGS_STACK, {screen: routes.GENERAL_SETTINGS});
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Missing Actions</Text>
 
-      <View style={styles.actionCard}>
-        <UseIcon type={'AntDesign'} name="warning" color={COLORS.red} />
+      {!store?.address ? (
+        <Pressable style={styles.actionCard} onPress={handleNavigate}>
+          <UseIcon type={'AntDesign'} name="warning" color={COLORS.red} />
 
-        <View style={styles.actionText}>
-          <Text style={styles.title}>Missing Store Address</Text>
-          <Text style={styles.subtitle}>
-            Add your store address to be discovered by buyers
-          </Text>
-        </View>
-      </View>
+          <View style={styles.actionText}>
+            <Text style={styles.title}>Missing Store Address</Text>
+            <Text style={styles.subtitle}>
+              Add your store address to be discovered by buyers
+            </Text>
+          </View>
+        </Pressable>
+      ) : null}
 
-      <View style={styles.actionCard}>
-        <UseIcon type={'AntDesign'} name="warning" color={COLORS.red} />
+      {!store?.store_logo ? (
+        <Pressable style={styles.actionCard} onPress={handleNavigate}>
+          <UseIcon type={'AntDesign'} name="warning" color={COLORS.red} />
 
-        <View style={styles.actionText}>
-          <Text style={styles.title}>Upload An Image For Your Store</Text>
-          <Text style={styles.subtitle}>
-            Let potential buyers recognize your physical store
-          </Text>
-        </View>
-      </View>
+          <View style={styles.actionText}>
+            <Text style={styles.title}>Upload An Image For Your Store</Text>
+            <Text style={styles.subtitle}>
+              Let potential buyers recognize your physical store
+            </Text>
+          </View>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -60,7 +76,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.white,
-    ...FONTS.regular,
+    ...FONTS.medium,
     marginBottom: SIZES.base / 5,
   },
 });

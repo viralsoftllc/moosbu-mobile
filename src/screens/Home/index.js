@@ -43,17 +43,38 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [showCta, setShowCta] = useState(false);
 
-  // async function getData() {
+  // const getData = useCallback(async () => {
   //   try {
   //     console.log('Fetching new data');
-  //     const {data} = await client.get('/api/dashboard');
-  //     dispatch(setStoreDetails(data?.store));
-  //     dispatch(setStoreUrl(data?.store_url));
+  //     const {data} = await client.get('/api/campaign');
   //     console.log(data);
   //   } catch (error) {
   //     handleApiError(error);
   //   }
-  // }
+  // }, []);
+
+  // const getData = useCallback(async () => {
+  //   try {
+  //     console.log('Fetching new data - BLOGS');
+  //     const res = await axios.get(
+  //       'https://moosbu.com/wp-json/wp/v2/posts?json=get_posts',
+  //     );
+  //     // const res = await axios.get(
+  //     //   'https://moosbu.com/?json=get_posts&post_type=blog',
+  //     // );
+  //     console.log(res.data);
+  //   } catch (error) {
+  //     handleApiError(error);
+  //   }
+
+  //   // fetch('https://moosbu.com/wp-json/wp/v2/posts?json=get_posts')
+  //   //   .then(response => response.json())
+  //   //   .then(responseJson => console.log(responseJson));
+  // }, []);
+
+  // useEffect(() => {
+  //   getData();
+  // }, [getData]);
 
   const fetchDashboardData = useCallback(async () => {
     setLoading(true);

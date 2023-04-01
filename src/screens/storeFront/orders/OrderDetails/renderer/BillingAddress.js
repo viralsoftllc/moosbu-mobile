@@ -1,23 +1,22 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 
-export default function OrderSummary() {
+export default function BillingAddress({name, phone}) {
   return (
     <View style={styles.container}>
-      <View style={[styles.header]}>
-        <Text style={styles.headerText}>Order Summary</Text>
-        <Text style={[styles.headerText, styles.orderStatus]}>Completed</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Billing Address</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.rowText}>Name</Text>
-        <Text style={styles.rowText}>Joshua Moosbu</Text>
+        <Text style={styles.rowText}>{name || ''}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.rowText}>Phone</Text>
-        <Text style={styles.rowText}>080222444555</Text>
+        <Text style={styles.rowText}>{phone || ''}</Text>
       </View>
 
       <View style={styles.row}>
@@ -58,16 +57,9 @@ const styles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: COLORS.primary,
     borderBottomColor: COLORS.borderGray,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
   },
   headerText: {
     color: COLORS.textPrimary,
     ...FONTS.h5,
-  },
-  orderStatus: {
-    color: COLORS.credit,
   },
 });

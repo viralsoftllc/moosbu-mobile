@@ -44,8 +44,7 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
-        route: routes.PRODUCTS_STACK,
-        nestedRoute: routes.CATEGORY,
+        route: routes.ORDERS,
       },
       {
         title: 'Tax',
@@ -177,10 +176,10 @@ const menus = [
     ],
   },
   {
-    title: 'Integration',
+    title: 'Integrations',
     navs: [
       {
-        title: 'Payment Providers',
+        title: 'Payment',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
@@ -193,7 +192,7 @@ const menus = [
         route: routes.PAYMENT_PROVIDER,
       },
       {
-        title: 'Logistics Providers',
+        title: 'Logistics',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
@@ -221,7 +220,7 @@ const menus = [
           />
         ),
         iconBackground: 'rgba(189, 189, 189, 0.6)',
-        route: routes.CUSTOMERS_TAB,
+        route: routes.CUSTOMERS,
       },
       {
         title: 'Support',

@@ -62,8 +62,12 @@ export default function Register() {
     }
 
     try {
-      console.log('Reg Api started');
-      const {data} = await client.post('/api/register', credentials);
+      console.log('Registration Api started');
+      const res = await client.post('/api/register', credentials);
+      console.log('response from API');
+      console.log(res);
+      const {data} = res;
+      console.log('data extracted');
       console.log(data);
 
       setLoading(false);

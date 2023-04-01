@@ -16,7 +16,7 @@ export default function NewCoupon({
 
   async function createCoupon() {
     if (!details?.name || !details?.discount || !details?.limit) {
-      notifyMessage();
+      notifyMessage('Please input all fields');
     }
 
     try {
