@@ -39,6 +39,7 @@ import PlanTopTabNavigator from './screens/PlanTopTabNavigator';
 import OrderTopTabNavigator from './screens/OrderTopTabNavigator';
 import OrderDetails from '../../screens/storeFront/orders/OrderDetails';
 import CustomerTopTabNavigator from './screens/CustomerTopTabNavigator';
+import InbuiltLogistics from '../../screens/others/Integration/logisticsProviders/InbuiltLogistics';
 
 const Stack = createStackNavigator();
 
@@ -145,7 +146,8 @@ export default function MainNavigator() {
       />
       <Stack.Screen
         name={routes.LOGISTICS_PROVIDER}
-        component={LogisticsProviderTopTabNavigator}
+        // component={LogisticsProviderTopTabNavigator}
+        component={InbuiltLogistics}
       />
       <Stack.Screen name={routes.REWARD_INFO} component={RewardInfo} />
       <Stack.Screen

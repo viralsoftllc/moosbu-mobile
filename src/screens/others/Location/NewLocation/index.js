@@ -1,14 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 
 import UseIcon from '../../../../shared/utils/UseIcon';
 import NewLocationForm from './renderer/NewLocationForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 
 export default function NewLocation({
   setShowNewForm,
   handleSuccessfulResponse,
 }) {
+  const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  async function createLocation() {
+    if (!details?.name) {
+      return notifyMessage('Please add location name');
+    }
+
+    try {
+      setSubmitting(true);
+
+      console.log('Creating location...');
+      const res = await client.post('/api/location', details);
+      console.log(res);
+
+      setSubmitting(false);
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -28,7 +54,10 @@ export default function NewLocation({
           </View>
 
           <NewLocationForm
-            handleSuccessfulResponse={handleSuccessfulResponse}
+            onSubmit={createLocation}
+            details={details}
+            setDetails={setDetails}
+            submitting={submitting}
           />
         </View>
       </View>

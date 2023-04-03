@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import AppDatePicker from '../../../../../shared/components/AppDatePicker';
@@ -11,6 +11,8 @@ export default function NewCampaignForm({
   setCampaign,
   campaign,
 }) {
+  const [sendLater, setSendLater] = useState(false);
+
   return (
     <View>
       <FormInput label={'Campaign Name'} placeholder="Campaign name" />
@@ -129,28 +131,40 @@ export default function NewCampaignForm({
         placeholder="Enter campaign message content"
         multiline={true}
         numberOfLines={5}
+        onChangeText={text => setCampaign({...campaign, content: text})}
+        value={campaign?.content}
       />
 
-      <Pressable style={styles.flex}>
+      <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
         <UseIcon
-          type={'AntDesign'}
-          name="checksquare"
-          color={COLORS.secondary}
+          type={'MaterialCommunityIcons'}
+          name={sendLater ? 'checkbox-marked' : 'checkbox-blank-outline'}
+          color={sendLater ? COLORS.secondary : COLORS.grayText}
         />
 
-        <Text style={styles.selectText}>Send later</Text>
+        <Text
+          style={[
+            styles.selectText,
+            {color: sendLater ? COLORS.secondary : COLORS.grayText},
+          ]}>
+          Send later
+        </Text>
       </Pressable>
 
-      <Text style={styles.scheduleText}>Schedule Time</Text>
-      <View style={styles.flex}>
-        <View style={styles.dateView}>
-          <AppDatePicker />
-        </View>
+      {sendLater ? (
+        <>
+          <Text style={styles.scheduleText}>Schedule Time</Text>
+          <View style={styles.flex}>
+            <View style={styles.dateView}>
+              <AppDatePicker />
+            </View>
 
-        <View style={styles.timeView}>
-          <AppDatePicker mode="time" />
-        </View>
-      </View>
+            <View style={styles.timeView}>
+              <AppDatePicker mode="time" />
+            </View>
+          </View>
+        </>
+      ) : null}
 
       <View style={styles.flex}>
         <View style={styles.sendNowBtn}>
@@ -165,8 +179,16 @@ export default function NewCampaignForm({
           <FormButton
             title={'Schedule'}
             fullWidth
-            buttonStyle={styles.scheduleBtn}
-            textStyle={styles.scheduleBtnText}
+            buttonStyle={[
+              styles.scheduleBtn,
+              {borderColor: sendLater ? COLORS.primary : COLORS.borderGray},
+            ]}
+            textStyle={[
+              styles.scheduleBtnText,
+              {color: sendLater ? COLORS.primary : COLORS.borderGray},
+            ]}
+            disabled={!sendLater}
+            onPress={() => console.log('Scehdule')}
           />
         </View>
       </View>

@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Modal, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Modal,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import DeleteItem from '../../../shared/components/DeleteItem';
@@ -11,12 +18,13 @@ import NewShipping from './NewShipping';
 import ShippingCard from './renderer/ShippingCard';
 import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
+import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 
 export default function Shipping() {
-  const [items, setItems] = useState([]);
+  const [shippings, setShippings] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   // const items = [];
-  const filteredItems = [];
+  // const filteredItems = [];
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -50,26 +58,30 @@ export default function Shipping() {
     setShowEditForm(true);
   }
 
-  const getLocations = useCallback(async () => {
+  const getShippings = useCallback(async () => {
+    setLoading(true);
+
     try {
-      console.log('Fetching shippings');
+      console.log('Fetching shippings...');
       const {data} = await client.get('/api/shippings');
       console.log(data);
-      setItems(data);
+      setShippings(data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       handleApiError(error);
     }
   }, []);
 
   useEffect(() => {
-    getLocations();
-  }, [getLocations]);
+    getShippings();
+  }, [getShippings]);
 
   return (
     <View style={styles.container}>
       <Search
-        items={items}
-        filteredItems={filteredItems}
+        // items={items}
+        // filteredItems={filteredItems}
         handleNewItem={handleNewItem}
         filter={false}
       />
@@ -77,25 +89,26 @@ export default function Shipping() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
-        <ShippingCard
-          title={'Free Shipping'}
-          address={'Sabo, Yaba, Laogos Mainland'}
-          time={'10:30-12:45 PM'}
-          date={'21, Oct 2022'}
-          price={'Free'}
-          handleEditItem={handleEditItem}
-          handleDeleteItem={handleDeleteItem}
-        />
-        <ShippingCard
-          title={'Customer Pick-up'}
-          address={'Onike-Ikeja, Lagos state'}
-          time={'10:30-12:45 PM'}
-          date={'21, Oct 2022'}
-          price={1000}
-          handleEditItem={handleEditItem}
-          handleDeleteItem={handleDeleteItem}
-        />
+        contentContainerStyle={styles.contentContainerStyle}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={getShippings} />
+        }>
+        {loading ? <ActivityIndicator size={'large'} /> : null}
+
+        {!loading && !shippings?.length ? (
+          <EmptyItemInfo message={'No shippings to display'} />
+        ) : null}
+
+        {shippings?.length
+          ? shippings?.map((shipping, i) => (
+              <ShippingCard
+                key={i}
+                shipping={shipping}
+                handleEditItem={handleEditItem}
+                handleDeleteItem={handleDeleteItem}
+              />
+            ))
+          : null}
       </ScrollView>
 
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>

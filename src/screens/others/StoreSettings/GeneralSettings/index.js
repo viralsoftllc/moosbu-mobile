@@ -126,6 +126,7 @@ export default function GeneralSettings() {
           placeholder="Enter Email"
           onChangeText={text => setDetails({...details, email: text})}
           value={details?.email}
+          editable={false}
         />
 
         <View style={styles.formView}>
@@ -286,6 +287,7 @@ export default function GeneralSettings() {
             style={[styles.smallForm, styles.leftFormInput]}
             onChangeText={text => setDetails({...details, email: text})}
             value={details?.email}
+            editable={false}
           />
 
           <FormInput

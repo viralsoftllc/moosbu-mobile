@@ -5,12 +5,9 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function LocationCard({
-  title,
   handleEditItem,
-  time,
-  date,
-  address,
   handleDeleteItem,
+  location,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -33,8 +30,11 @@ export default function LocationCard({
       <View style={styles.details}>
         <View style={[styles.flex, styles.nameWrapper]}>
           <View>
-            <Text style={styles.name}>{title}</Text>
-            <Text style={styles.address}>{address}</Text>
+            <Text style={styles.name}>{location?.name || ''}</Text>
+
+            {location?.address ? (
+              <Text style={styles.address}>{location?.address || ''}</Text>
+            ) : null}
           </View>
 
           <Pressable onPress={toggleCtaView}>
@@ -60,8 +60,13 @@ export default function LocationCard({
         </View>
 
         <View style={styles.flex}>
-          <Text style={styles.contact}>{time}</Text>
-          <Text style={styles.contact}>{date}</Text>
+          {location?.time ? (
+            <Text style={styles.contact}>{location?.time || ''}</Text>
+          ) : null}
+
+          {location?.date ? (
+            <Text style={styles.contact}>{location?.date || ''}</Text>
+          ) : null}
         </View>
       </View>
     </Pressable>
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: SIZES.base,
   },
   contact: {
     color: COLORS.grayText,

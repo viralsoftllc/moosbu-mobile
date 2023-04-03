@@ -101,7 +101,7 @@ export default function Wallet() {
 
           <View style={styles.amountView}>
             <Text style={styles.amount}>
-              {showBalance ? `₦${balance}` : '***********'}
+              {showBalance ? `₦${balance || 0}` : '***********'}
             </Text>
             {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
             <Pressable

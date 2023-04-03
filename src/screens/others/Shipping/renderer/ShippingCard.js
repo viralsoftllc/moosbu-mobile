@@ -5,13 +5,9 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function ShippingCard({
-  title,
   handleEditItem,
-  time,
-  date,
-  address,
-  price = 'Free',
   handleDeleteItem,
+  shipping,
 }) {
   const [showCta, setShowCta] = useState(false);
 
@@ -38,8 +34,10 @@ export default function ShippingCard({
       <View style={styles.details}>
         <View style={[styles.flex, styles.nameWrapper]}>
           <View>
-            <Text style={styles.name}>{title}</Text>
-            <Text style={styles.address}>{address}</Text>
+            <Text style={styles.name}>{shipping?.name || ''}</Text>
+            {shipping?.address ? (
+              <Text style={styles.address}>{shipping?.address || ''}</Text>
+            ) : null}
           </View>
 
           <Pressable onPress={toggleCtaView}>
@@ -67,14 +65,22 @@ export default function ShippingCard({
         <Text
           style={[
             styles.price,
-            {color: price > 0 ? COLORS.textSecondary : COLORS.pending},
+            {
+              color:
+                shipping?.price > 0 ? COLORS.textSecondary : COLORS.pending,
+            },
           ]}>
-          {price > 0 ? `N${price}` : price}
+          {Number(shipping?.price) > 0 ? `₦${shipping?.price}` : ''}
         </Text>
 
         <View style={[styles.flex, styles.datetime]}>
-          <Text style={styles.contact}>{time}</Text>
-          <Text style={styles.contact}>{date}</Text>
+          {shipping?.time ? (
+            <Text style={styles.contact}>{shipping?.time || ''}</Text>
+          ) : null}
+
+          {shipping?.date ? (
+            <Text style={styles.contact}>{shipping?.date || ''}</Text>
+          ) : null}
         </View>
       </View>
     </Pressable>
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: SIZES.base,
   },
   contact: {
     color: COLORS.grayText,
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   price: {
-    textAlign: 'right',
+    // textAlign: 'right',
     color: COLORS.pending,
   },
   datetime: {

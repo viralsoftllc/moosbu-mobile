@@ -26,7 +26,7 @@ export default function NewShipping({
     try {
       console.log('Creating shipping');
       const res = await client.post('/api/shipping', details);
-      console.log(res);
+      console.log(res?.data);
       handleSuccessfulResponse();
     } catch (error) {
       setSubmitting(false);

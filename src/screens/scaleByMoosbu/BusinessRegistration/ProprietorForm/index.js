@@ -14,10 +14,15 @@ import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import routes from '../../../../shared/constants/routes';
 import UseIcon from '../../../../shared/utils/UseIcon';
+import AppDatePicker from '../../../../shared/components/AppDatePicker';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 
 export default function ProprietorForm() {
   const {setOptions, navigate} = useNavigation();
-  const [gender, setGender] = useState('');
+  const [details, setDetails] = useState({});
+
+  const [submitting, setSubmitting] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -32,48 +37,116 @@ export default function ProprietorForm() {
     return () => {};
   }, [setOptions]);
 
+  async function submitProprietorInfo() {
+    console.log(details);
+
+    try {
+      setSubmitting(true);
+
+      console.log('Submitting Proprietor info');
+      const res = await client.post('/api/business_registration', details);
+      console.log(res);
+
+      setSubmitting(false);
+      navigate(routes.PROPOSED_BUSINESS);
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
+  function formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
+  }
+
+  // console.log(formatDate(details?.dob));
+
+  // const minimumTenure = 1;
+  // const maximumTenure = 24;
+  // const currentDate = new Date();
+
+  // const maximumDate = new Date(
+  //   currentDate.setMonth(new Date().getMonth() + maximumTenure),
+  // );
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
-        <FormInput label={'First Name'} placeholder={'Enter First Name'} />
-
-        <FormInput label={'Last Name'} placeholder={'Enter Last Name'} />
+        <FormInput
+          label={'First Name'}
+          placeholder={'Enter First Name'}
+          onChangeText={text => setDetails({...details, first_name: text})}
+          value={details?.first_name}
+        />
 
         <FormInput
+          label={'Last Name'}
+          placeholder={'Enter Last Name'}
+          onChangeText={text => setDetails({...details, last_name: text})}
+          value={details?.last_name}
+        />
+
+        {/* <FormInput
           label={'Date Of Birth'}
           placeholder={'Enter Date Of Birth'}
+        /> */}
+
+        <AppDatePicker
+          label={'Date of birth'}
+          maximumDate={new Date()}
+          onSelected={date => setDetails({...details, dob: formatDate(date)})}
+          mode="date"
         />
 
         <Text style={styles.formlabel}>Gender</Text>
 
         <View style={[styles.flex, styles.genderOptions]}>
           <Pressable
-            onPress={() => setGender('male')}
+            onPress={() => setDetails({...details, gender: 'male'})}
             style={[
               styles.flex,
               styles.genderOption,
               styles.leftFormInput,
               {
                 borderColor:
-                  gender === 'male' ? COLORS.credit : COLORS.borderGray,
+                  details?.gender === 'male'
+                    ? COLORS.credit
+                    : COLORS.borderGray,
               },
             ]}>
             <UseIcon
               type={'MaterialIcons'}
               name={
-                gender === 'male'
+                details?.gender === 'male'
                   ? 'check-circle-outline'
                   : 'radio-button-unchecked'
               }
-              color={gender === 'male' ? COLORS.credit : COLORS.borderGray}
+              color={
+                details?.gender === 'male' ? COLORS.credit : COLORS.borderGray
+              }
             />
             <Text
               style={[
                 styles.genderLabel,
                 {
-                  color: gender === 'male' ? COLORS.credit : COLORS.grayText,
+                  color:
+                    details?.gender === 'male'
+                      ? COLORS.credit
+                      : COLORS.grayText,
                 },
               ]}>
               Male
@@ -81,30 +154,37 @@ export default function ProprietorForm() {
           </Pressable>
 
           <Pressable
-            onPress={() => setGender('female')}
+            onPress={() => setDetails({...details, gender: 'female'})}
             style={[
               styles.flex,
               styles.genderOption,
               styles.rightFormInput,
               {
                 borderColor:
-                  gender === 'female' ? COLORS.credit : COLORS.borderGray,
+                  details?.gender === 'female'
+                    ? COLORS.credit
+                    : COLORS.borderGray,
               },
             ]}>
             <UseIcon
               type={'MaterialIcons'}
               name={
-                gender === 'female'
+                details?.gender === 'female'
                   ? 'check-circle-outline'
                   : 'radio-button-unchecked'
               }
-              color={gender === 'female' ? COLORS.credit : COLORS.borderGray}
+              color={
+                details?.gender === 'female' ? COLORS.credit : COLORS.borderGray
+              }
             />
             <Text
               style={[
                 styles.genderLabel,
                 {
-                  color: gender === 'female' ? COLORS.credit : COLORS.grayText,
+                  color:
+                    details?.gender === 'female'
+                      ? COLORS.credit
+                      : COLORS.grayText,
                 },
               ]}>
               Female
@@ -112,17 +192,28 @@ export default function ProprietorForm() {
           </Pressable>
         </View>
 
-        <FormInput label={'Nationality'} placeholder={'Enter Nationality'} />
+        <FormInput
+          label={'Nationality'}
+          placeholder={'Enter Nationality'}
+          onChangeText={text => setDetails({...details, nationality: text})}
+          value={details?.nationality}
+        />
 
         <FormInput
           label={'National Identification Number (NIN)'}
           placeholder={'Enter National Identification Number (NIN)'}
+          onChangeText={text => setDetails({...details, nin: text})}
+          value={details?.nin}
+          maxLength={11}
+          keyboardType={'Number-pad'}
         />
 
         <FormButton
           title={'Continue'}
           buttonStyle={styles.buttonStyle}
-          onPress={() => navigate(routes.PROPOSED_BUSINESS)}
+          onPress={submitProprietorInfo}
+          loading={submitting}
+          // onPress={() => navigate(routes.PROPOSED_BUSINESS)}
         />
       </ScrollView>
     </SafeAreaView>
