@@ -15,9 +15,16 @@ export default function NewLocationForm({
       <FormInput
         label={'Location Name'}
         placeholder={'Location Name'}
-        style={styles.form}
         onChangeText={text => setDetails({...details, name: text})}
         value={details?.name}
+      />
+
+      <FormInput
+        label={'Location Description'}
+        placeholder={'Location Description'}
+        style={styles.form}
+        onChangeText={text => setDetails({...details, address: text})}
+        value={details?.address}
       />
 
       <FormButton

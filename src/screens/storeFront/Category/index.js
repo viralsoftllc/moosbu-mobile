@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -17,16 +18,24 @@ import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../renderer/ShareItem';
 import CategoryCard from './renderer/CategoryCard';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectCategories} from '../../../redux/slices/catalog/selectors';
+import {setCategories} from '../../../redux/slices/catalog/slice';
+import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 
 export default function Category() {
   const {navigate} = useNavigation();
-  const [items, setItems] = useState(null);
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategories);
+
   // const [filteredItems, setFilteredItems] = useState([]);
   const filteredItems = [];
 
+  const [selectedItem, setSelectedItem] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   function handleNewItem() {
     navigate(routes.NEW_CATEGORY);
@@ -36,8 +45,9 @@ export default function Category() {
     navigate(routes.EDIT_CATEGORY, {category});
   }
 
-  function handleDeleteItem() {
+  function handleDeleteItem(param) {
     setShowDeleteModal(true);
+    setSelectedItem(param);
   }
 
   const getAllCategories = useCallback(async () => {
@@ -46,13 +56,34 @@ export default function Category() {
     try {
       const {data} = await client.get('/api/product_category');
       setLoading(false);
+      console.log('category');
+      console.log(data);
 
-      setItems(data);
+      dispatch(setCategories(data?.data));
     } catch (error) {
       setLoading(false);
       handleApiError(error);
     }
-  }, []);
+  }, [dispatch]);
+
+  async function deleteCategory() {
+    setDeleting(true);
+
+    try {
+      const {data} = await client.delete(
+        `/api/product_category/${selectedItem?.id}`,
+      );
+
+      console.log('delete response');
+      console.log(data);
+      setDeleting(false);
+      setShowDeleteModal(false);
+      getAllCategories();
+    } catch (error) {
+      setDeleting(false);
+      handleApiError(error);
+    }
+  }
 
   useEffect(() => {
     getAllCategories();
@@ -61,7 +92,7 @@ export default function Category() {
   return (
     <View style={styles.container}>
       <Search
-        items={items}
+        items={categories}
         filteredItems={filteredItems}
         handleNewItem={handleNewItem}
       />
@@ -69,23 +100,25 @@ export default function Category() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={styles.contentContainerStyle}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={getAllCategories} />
+        }>
         {loading ? <ActivityIndicator /> : null}
 
-        {items
-          ? Object?.entries(items)?.map((item, i) => (
-              <CategoryCard
-                category={item}
-                title={item[1]}
-                key={i}
-                setShowShareModal={setShowShareModal}
-                handleEditItem={() =>
-                  handleEditItem({id: item[0], name: item[1]})
-                }
-                handleDeleteItem={handleDeleteItem}
-              />
-            ))
-          : null}
+        {!loading && !categories?.length ? (
+          <EmptyItemInfo message={'No categories to display'} />
+        ) : null}
+
+        {categories?.map((item, i) => (
+          <CategoryCard
+            category={item}
+            key={i}
+            setShowShareModal={setShowShareModal}
+            handleEditItem={() => handleEditItem(item)}
+            handleDeleteItem={() => handleDeleteItem(item)}
+          />
+        ))}
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
@@ -99,6 +132,8 @@ export default function Category() {
         <DeleteItem
           setShowDeleteModal={setShowDeleteModal}
           title={'category'}
+          onDelete={deleteCategory}
+          loading={deleting}
         />
       </Modal>
 

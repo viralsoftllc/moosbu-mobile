@@ -20,19 +20,27 @@ import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
 import {useEffect} from 'react';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLocations} from '../../../redux/slices/shipping/slice';
+import {selectLocations} from '../../../redux/slices/shipping/selectors';
 
 export default function Location() {
+  const dispatch = useDispatch();
+  const locations = useSelector(selectLocations);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   function handleSuccessfulResponse() {
     setShowNewForm(false);
     setShowSuccessModal(true);
   }
-  const [locations, setLocations] = useState([]);
+  // const [locations, setLocations] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   // const items = [];
   // const filteredItems = [];
@@ -56,17 +64,41 @@ export default function Location() {
       console.log('Fetching locations');
       const {data} = await client.get('/api/locations');
       console.log(data);
-      setLocations(data);
+
+      dispatch(setLocations(data));
       setLoading(false);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     getLocations();
   }, [getLocations]);
+
+  async function handleDelete() {
+    if (selectedItem?.name) {
+      setDeleting(true);
+
+      try {
+        console.log('Fetching locations');
+        const {data} = await client.delete('/api/location/' + selectedItem?.id);
+        console.log(data);
+
+        // dispatch(setLocations(data));
+        getLocations();
+        setDeleting(false);
+        setShowDeleteModal(false);
+      } catch (error) {
+        setDeleting(false);
+        handleApiError(error);
+      }
+    }
+  }
+
+  console.log('selectedItem');
+  console.log(selectedItem);
 
   return (
     <View style={styles.container}>
@@ -94,8 +126,14 @@ export default function Location() {
               <LocationCard
                 location={location}
                 key={i}
-                handleEditItem={handleEditItem}
-                handleDeleteItem={handleDeleteItem}
+                handleEditItem={() => {
+                  setSelectedItem(location);
+                  handleEditItem();
+                }}
+                handleDeleteItem={() => {
+                  setSelectedItem(location);
+                  handleDeleteItem();
+                }}
               />
             ))
           : null}
@@ -105,6 +143,8 @@ export default function Location() {
         <DeleteItem
           setShowDeleteModal={setShowDeleteModal}
           title={'location'}
+          onDelete={handleDelete}
+          loading={deleting}
         />
       </Modal>
 
@@ -121,6 +161,7 @@ export default function Location() {
         <EditLocation
           setShowEditForm={setShowEditForm}
           handleSuccessfulResponse={handleSuccessfulResponse}
+          selectedItem={selectedItem}
         />
       </Modal>
 
@@ -131,6 +172,7 @@ export default function Location() {
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
           title={'location'}
+          onPress={getLocations}
         />
       </Modal>
     </View>

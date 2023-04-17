@@ -6,14 +6,16 @@ import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import EditCategoryForm from './renderer.js/EditCategoryForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 
 export default function EditCategory() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const {setOptions} = useNavigation();
   const {params} = useRoute();
-
-  console.log('Categories');
-  console.log(params);
 
   const [category, setCategory] = useState({name: ''});
 
@@ -34,6 +36,27 @@ export default function EditCategory() {
     setShowSuccessModal(true);
   }
 
+  async function updateCategory() {
+    if (!category?.name) {
+      return notifyMessage('Please provide category name');
+    }
+
+    try {
+      setLoading(true);
+
+      await client.put(
+        `/api/product_category/${params?.category?.id}`,
+        category,
+      );
+      handleSuccessfulResponse();
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -41,9 +64,10 @@ export default function EditCategory() {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
           <EditCategoryForm
-            handleSuccessfulResponse={handleSuccessfulResponse}
             category={category}
             setCategory={setCategory}
+            loading={loading}
+            onSubmit={updateCategory}
           />
         </ScrollView>
       </View>

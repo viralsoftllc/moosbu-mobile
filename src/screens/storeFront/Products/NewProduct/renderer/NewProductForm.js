@@ -1,24 +1,87 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 import UseIcon from '../../../../../shared/utils/UseIcon';
+import {uploadImageToS3} from '../../../../../shared/hooks/uploadImageToS3';
+import SelectInput from '../../../../../shared/components/SelectInput';
+import {selectCategories} from '../../../../../redux/slices/catalog/selectors';
 
 export default function NewProductForm({
   product,
   setProduct,
   onSubmit,
   submitting,
+  setSubmitting,
 }) {
-  const [showVariantForm, setShowVariantForm] = useState(false);
+  const categories = useSelector(selectCategories);
+  const [fileResponse, setFileResponse] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  // console.log('fileResponse');
+  // console.log(fileResponse);
+
+  const handleDocumentSelection = useCallback(async () => {
+    launchImageLibrary(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+        selectionLimit: 8,
+      },
+      res => {
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setFileResponse(res.assets);
+        }
+      },
+    );
+  }, []);
+
+  async function handleUpload() {
+    setSubmitting(true);
+
+    const response = await Promise.all(
+      fileResponse?.map(async (file, i) => {
+        const data = await uploadImageToS3(file);
+        return {imageUrl: data?.Location, key: data?.Key};
+      }),
+    );
+
+    // console.log('response');
+    // console.log(response);
+
+    onSubmit(response);
+  }
+
+  function handleVariant() {
+    if (product?.enable_product_variant === 'on') {
+      setProduct({...product, enable_product_variant: 'off'});
+    }
+
+    if (product?.enable_product_variant === 'off') {
+      setProduct({...product, enable_product_variant: 'on'});
+    }
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
-        <ImagePicker />
+        <ImagePicker
+          fileResponse={fileResponse}
+          setFileResponse={setFileResponse}
+          handleDocumentSelection={handleDocumentSelection}
+        />
 
         <FormInput
           label={'Product Name'}
@@ -27,14 +90,27 @@ export default function NewProductForm({
           value={product?.name || ''}
         />
 
-        <FormInput
+        <SelectInput
+          label={'Product Category'}
+          placeholder={'Select Category'}
+          onChange={option => {
+            setSelectedCategory(option);
+            setProduct({...product, product_category: option?.name});
+          }}
+          value={selectedCategory?.name}
+          options={categories || []}
+          keyExtractor={item => item.id}
+          labelExtractor={item => item.name}
+        />
+
+        {/* <FormInput
           label={'Product Category'}
           placeholder="Enter product category"
           onChangeText={text =>
             setProduct({...product, product_category: text})
           }
           value={product?.product_category || ''}
-        />
+        /> */}
 
         <View style={styles.flex}>
           <FormInput
@@ -67,35 +143,37 @@ export default function NewProductForm({
             label={'Product SKU'}
             placeholder="Enter product SKU"
             style={[styles.smallForm, styles.rightFormInput]}
-            // onChangeText={text => setProduct({...product, sku: text})}
-            // value={product?.quantity || ''}
+            onChangeText={text => setProduct({...product, SKU: text})}
+            value={product?.SKU || ''}
           />
         </View>
 
         <FormInput
-          label={'Product Details'}
-          placeholder="Enter Product Details"
+          label={'Product description'}
+          placeholder="Enter Product description"
           multiline={true}
           numberOfLines={5}
-          onChangeText={text => setProduct({...product, details: text})}
-          value={product?.details || ''}
+          onChangeText={text => setProduct({...product, description: text})}
+          value={product?.description || ''}
         />
 
-        <Pressable
+        {/* <Pressable
           style={[styles.flex, styles.addVariantBtn]}
-          onPress={() => setShowVariantForm(!showVariantForm)}>
+          onPress={handleVariant}>
           <UseIcon
             name={
-              showVariantForm ? 'checkbox-marked' : 'checkbox-blank-outline'
+              product?.enable_product_variant === 'on'
+                ? 'checkbox-marked'
+                : 'checkbox-blank-outline'
             }
             type={'MaterialCommunityIcons'}
             color={COLORS.textSecondary}
           />
 
           <Text style={styles.addVariantText}>Add variant</Text>
-        </Pressable>
+        </Pressable> */}
 
-        {showVariantForm ? (
+        {product?.enable_product_variant === 'on' ? (
           <>
             <FormInput
               label={'Variant Description'}
@@ -111,7 +189,7 @@ export default function NewProductForm({
 
       <FormButton
         title={'Add Product'}
-        onPress={onSubmit}
+        onPress={handleUpload}
         loading={submitting}
       />
     </View>

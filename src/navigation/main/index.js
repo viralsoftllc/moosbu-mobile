@@ -28,7 +28,6 @@ import EnterPin from '../../screens/Wallet/EnterPin';
 import BusinessRegistrationStack from './stacks/BusinessRegistrationStack';
 import StoreSettingsStack from './stacks/StoreSettingsStack';
 import PaymentProviderTopTabNavigator from './screens/PaymentProviderTopTabNavigator';
-import LogisticsProviderTopTabNavigator from './screens/LogisticsProviderTopTabNavigator';
 import RewardInfo from '../../screens/Reward/RewardInfo.js';
 import SubscriptionPayment from '../../screens/SubscriptionPayment';
 import Notifications from '../../screens/Notifications';
@@ -40,6 +39,8 @@ import OrderTopTabNavigator from './screens/OrderTopTabNavigator';
 import OrderDetails from '../../screens/storeFront/orders/OrderDetails';
 import CustomerTopTabNavigator from './screens/CustomerTopTabNavigator';
 import InbuiltLogistics from '../../screens/others/Integration/logisticsProviders/InbuiltLogistics';
+import Kyc from '../../screens/others/StoreSettings/Kyc';
+import Selfie from '../../screens/others/StoreSettings/Kyc/Selfie';
 
 const Stack = createStackNavigator();
 
@@ -162,6 +163,8 @@ export default function MainNavigator() {
       <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} />
       <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
       <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
+      <Stack.Screen name={routes.KYC} component={Kyc} />
+      <Stack.Screen name={routes.SELFIE} component={Selfie} />
     </Stack.Navigator>
   );
 }

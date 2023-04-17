@@ -6,13 +6,23 @@ import FormInput from '../../../../../shared/components/FormInput';
 
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 
-export default function NewCategoryForm({handleSuccessfulResponse}) {
+export default function NewCategoryForm({
+  details,
+  setDetails,
+  onSubmit,
+  loading,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.inputs}>
         <ImagePicker />
 
-        <FormInput label={'Category Name'} placeholder="Enter category name" />
+        <FormInput
+          label={'Category Name'}
+          placeholder="Enter category name"
+          onChangeText={text => setDetails({...details, name: text})}
+          value={details?.name}
+        />
 
         <FormInput
           label={'Category Details'}
@@ -20,10 +30,12 @@ export default function NewCategoryForm({handleSuccessfulResponse}) {
           multiline={true}
           numberOfLines={5}
           inputStyle={styles.inputStyle}
+          onChangeText={text => setDetails({...details, description: text})}
+          value={details?.description}
         />
       </View>
 
-      <FormButton title={'Add Category'} onPress={handleSuccessfulResponse} />
+      <FormButton title={'Add Category'} onPress={onSubmit} loading={loading} />
     </View>
   );
 }

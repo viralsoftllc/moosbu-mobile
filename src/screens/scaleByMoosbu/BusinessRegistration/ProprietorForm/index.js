@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -15,14 +15,29 @@ import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import routes from '../../../../shared/constants/routes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import AppDatePicker from '../../../../shared/components/AppDatePicker';
-import handleApiError from '../../../../shared/components/handleApiError';
-import client from '../../../../shared/api/client';
+// import handleApiError from '../../../../shared/components/handleApiError';
+// import client from '../../../../shared/api/client';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import {useSelector} from 'react-redux';
+import {selectbusinessRegistrationDetails} from '../../../../redux/slices/businessRegistration/selectors';
 
 export default function ProprietorForm() {
   const {setOptions, navigate} = useNavigation();
   const [details, setDetails] = useState({});
+  const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
 
-  const [submitting, setSubmitting] = useState(false);
+  useEffect(() => {
+    setDetails({
+      first_name: proprietorInfo?.first_name,
+      last_name: proprietorInfo?.last_name,
+      gender: proprietorInfo?.gender,
+      nationality: proprietorInfo?.nationality,
+      nin: proprietorInfo?.nin,
+      dob: proprietorInfo?.dob,
+    });
+  }, [proprietorInfo]);
+
+  // const [submitting, setSubmitting] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -37,21 +52,36 @@ export default function ProprietorForm() {
     return () => {};
   }, [setOptions]);
 
-  async function submitProprietorInfo() {
-    console.log(details);
+  // async function submitProprietorInfo() {
+  //   console.log(details);
 
-    try {
-      setSubmitting(true);
+  //   try {
+  //     setSubmitting(true);
 
-      console.log('Submitting Proprietor info');
-      const res = await client.post('/api/business_registration', details);
-      console.log(res);
+  //     console.log('Submitting Proprietor info');
+  //     const res = await client.post('/api/business_registration', details);
+  //     console.log(res);
 
-      setSubmitting(false);
-      navigate(routes.PROPOSED_BUSINESS);
-    } catch (error) {
-      setSubmitting(false);
-      handleApiError(error);
+  //     setSubmitting(false);
+  //     // navigate(routes.PROPOSED_BUSINESS);
+  //   } catch (error) {
+  //     setSubmitting(false);
+  //     handleApiError(error);
+  //   }
+  // }
+
+  function continueToBusinessInfo() {
+    if (
+      details?.first_name &&
+      details?.last_name &&
+      details?.gender &&
+      details?.nationality &&
+      details?.nin &&
+      details?.dob
+    ) {
+      navigate(routes.PROPOSED_BUSINESS, {details});
+    } else {
+      notifyMessage('Please fill all fields');
     }
   }
 
@@ -211,8 +241,8 @@ export default function ProprietorForm() {
         <FormButton
           title={'Continue'}
           buttonStyle={styles.buttonStyle}
-          onPress={submitProprietorInfo}
-          loading={submitting}
+          onPress={continueToBusinessInfo}
+          // loading={submitting}
           // onPress={() => navigate(routes.PROPOSED_BUSINESS)}
         />
       </ScrollView>

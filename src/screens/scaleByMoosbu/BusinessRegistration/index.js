@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -14,9 +15,19 @@ import FormButton from '../../../shared/components/FormButton';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import routes from '../../../shared/constants/routes';
 import UseIcon from '../../../shared/utils/UseIcon';
+import client from '../../../shared/api/client';
+import handleApiError from '../../../shared/components/handleApiError';
+import {useDispatch, useSelector} from 'react-redux';
+import {setBusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/slice';
+import {selectbusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/selectors';
 
 export default function BussinessRegistration() {
   const {setOptions, navigate} = useNavigation();
+  const dispatch = useDispatch();
+
+  const details = useSelector(selectbusinessRegistrationDetails);
+
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -31,21 +42,90 @@ export default function BussinessRegistration() {
     return () => {};
   }, [setOptions]);
 
+  const getAllCategories = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const {data} = await client.get('/api/business_registrations');
+      setLoading(false);
+      // console.log('biz reg');
+      // console.log(data);
+
+      dispatch(setBusinessRegistrationDetails(data?.[0]));
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    getAllCategories();
+  }, [getAllCategories]);
+
+  function checkProprietorInfo() {
+    if (
+      details?.first_name &&
+      details?.last_name &&
+      details?.dob &&
+      details?.gender &&
+      details?.nationality &&
+      details?.nin
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function checkBvinInfo() {
+    if (details?.bvn) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function checkBusinessInfo() {
+    if (
+      details?.sole_owner === 0 ||
+      (details?.sole_owner === 1 &&
+        details?.business_name &&
+        details?.business_description &&
+        details?.business_category)
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
+        {loading ? (
+          <ActivityIndicator size={'large'} style={styles.loader} />
+        ) : null}
+
         {/* Step 1 */}
         <Pressable
           style={styles.step}
           onPress={() => navigate(routes.PROPRIETOR_INFO)}>
           <View style={styles.iconView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="close"
-              color={COLORS.debit}
-            />
+            {checkProprietorInfo() ? (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="check"
+                color={COLORS.credit}
+              />
+            ) : (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="close"
+                color={COLORS.debit}
+              />
+            )}
           </View>
 
           <View>
@@ -59,11 +139,19 @@ export default function BussinessRegistration() {
           style={styles.step}
           onPress={() => navigate(routes.PROPOSED_BUSINESS)}>
           <View style={styles.iconView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="close"
-              color={COLORS.debit}
-            />
+            {checkBusinessInfo() ? (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="check"
+                color={COLORS.credit}
+              />
+            ) : (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="close"
+                color={COLORS.debit}
+              />
+            )}
           </View>
 
           <View>
@@ -77,11 +165,19 @@ export default function BussinessRegistration() {
           style={styles.step}
           onPress={() => navigate(routes.BVN_VERIFICATION)}>
           <View style={styles.iconView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="close"
-              color={COLORS.debit}
-            />
+            {checkBvinInfo() ? (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="check"
+                color={COLORS.credit}
+              />
+            ) : (
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="close"
+                color={COLORS.debit}
+              />
+            )}
           </View>
 
           <View>
@@ -151,5 +247,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: SIZES.base * 5,
     marginBottom: SIZES.base * 3,
+  },
+  loader: {
+    marginBottom: SIZES.base * 2,
   },
 });

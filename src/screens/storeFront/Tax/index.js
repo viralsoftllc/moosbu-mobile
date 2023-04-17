@@ -45,6 +45,9 @@ export default function Tax() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState({});
 
   function handleNewItem() {
     setShowNewTaxForm(true);
@@ -90,6 +93,25 @@ export default function Tax() {
     getAllTaxes();
   }, [getAllTaxes]);
 
+  async function handleDelete() {
+    if (selectedItem?.id) {
+      setDeleting(true);
+
+      try {
+        console.log('Fetching tax');
+        const {data} = await client.delete('/api/tax/' + selectedItem?.id);
+        console.log(data);
+
+        getAllTaxes();
+        setDeleting(false);
+        setShowDeleteModal(false);
+      } catch (error) {
+        setDeleting(false);
+        handleApiError(error);
+      }
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -120,8 +142,14 @@ export default function Tax() {
                     color={COLORS.textPrimary}
                   />
                 }
-                handleEditItem={handleEditItem}
-                handleDeleteItem={handleDeleteItem}
+                handleEditItem={() => {
+                  setSelectedItem(item);
+                  handleEditItem(item);
+                }}
+                handleDeleteItem={() => {
+                  setSelectedItem(item);
+                  handleDeleteItem();
+                }}
               />
             ))
           ) : !loading ? (
@@ -141,11 +169,18 @@ export default function Tax() {
         <EditTax
           setShowEditTaxForm={setShowEditTaxForm}
           handleSuccessfulResponse={handleSuccessfulResponse}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
         />
       </Modal>
 
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'tax'} />
+        <DeleteItem
+          setShowDeleteModal={setShowDeleteModal}
+          title={'tax'}
+          loading={deleting}
+          onDelete={handleDelete}
+        />
       </Modal>
 
       <Modal
@@ -155,6 +190,7 @@ export default function Tax() {
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
           title={'tax update'}
+          onPress={getAllTaxes}
         />
       </Modal>
 

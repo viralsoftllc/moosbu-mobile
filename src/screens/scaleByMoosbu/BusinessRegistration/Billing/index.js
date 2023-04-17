@@ -57,7 +57,14 @@ export default function Billing() {
 
       <FormButton
         title={'Continue'}
+        // onPress={() => navigate(routes.BUSINESS_REGISTRATION)}
+      />
+
+      <FormButton
+        title={'Pay later'}
         onPress={() => navigate(routes.BUSINESS_REGISTRATION)}
+        buttonStyle={styles.buttonStyle}
+        textStyle={styles.textStyle}
       />
     </SafeAreaView>
   );
@@ -116,5 +123,14 @@ const styles = StyleSheet.create({
   totalText: {
     color: COLORS.textPrimary,
     paddingHorizontal: SIZES.base * 1.5,
+  },
+  buttonStyle: {
+    backgroundColor: COLORS.white,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
+    marginTop: SIZES.base * 2,
+  },
+  textStyle: {
+    color: COLORS.primary,
   },
 });

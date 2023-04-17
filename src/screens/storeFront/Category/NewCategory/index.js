@@ -5,10 +5,17 @@ import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import NewCategoryForm from './renderer/NewCategoryForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
+import routes from '../../../../shared/constants/routes';
 
 export default function NewCategory() {
+  const {setOptions, navigate} = useNavigation();
+
+  const [details, setDetails] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const {setOptions} = useNavigation();
+  const [loading, setLoading] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -21,6 +28,26 @@ export default function NewCategory() {
     setShowSuccessModal(true);
   }
 
+  async function handleCreateCategory() {
+    if (!details?.name) {
+      return notifyMessage('Please fill all fields');
+    }
+
+    try {
+      setLoading(true);
+
+      const {data} = await client.post('/api/product_category', details);
+
+      console.log('New category response');
+      console.log(data);
+      setLoading(false);
+      handleSuccessfulResponse();
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -29,6 +56,10 @@ export default function NewCategory() {
           showsVerticalScrollIndicator={false}>
           <NewCategoryForm
             handleSuccessfulResponse={handleSuccessfulResponse}
+            setDetails={setDetails}
+            details={details}
+            loading={loading}
+            onSubmit={handleCreateCategory}
           />
         </ScrollView>
       </View>
@@ -40,6 +71,11 @@ export default function NewCategory() {
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
           title={'product update'}
+          onPress={() => {
+            // getAllCategories();
+            setDetails({});
+            navigate(routes.PRODUCTS_STACK, {screen: routes.CATEGORY});
+          }}
         />
       </Modal>
     </SafeAreaView>

@@ -1,9 +1,12 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 
-import {SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
+import {useSelector} from 'react-redux';
+import {selectLocations} from '../../../../../redux/slices/shipping/selectors';
+import SelectInput from '../../../../../shared/components/SelectInput';
+import UseIcon from '../../../../../shared/utils/UseIcon';
 
 export default function NewShippingForm({
   handleSuccessfulResponse,
@@ -12,6 +15,9 @@ export default function NewShippingForm({
   submitting,
   onSubmit,
 }) {
+  const [selectedLocation, setSelectedLocation] = useState({});
+  const locations = useSelector(selectLocations);
+
   return (
     <View>
       <FormInput
@@ -28,11 +34,20 @@ export default function NewShippingForm({
         value={details?.price}
       />
 
-      {/* <FormInput
-        label={'Shipping location'}
-        placeholder={'Enter Shipping location'}
-        style={styles.form}
-      /> */}
+      <SelectInput
+        label={'Shipping Location'}
+        placeholder={'Select location'}
+        options={locations}
+        onChange={option => {
+          setSelectedLocation(option);
+          setDetails({...details, location: option?.name});
+          // setAccount({...account, bank_code: option?.code});
+        }}
+        rightIcon={<UseIcon name="down" type={'AntDesign'} />}
+        keyExtractor={item => item.id}
+        labelExtractor={item => item.name}
+        value={selectedLocation?.name}
+      />
 
       <FormButton
         title={'Save Changes'}
@@ -42,9 +57,3 @@ export default function NewShippingForm({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  form: {
-    marginBottom: SIZES.base * 5,
-  },
-});

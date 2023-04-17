@@ -1,32 +1,57 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {verticalScale} from 'react-native-size-matters';
+import {StyleSheet, View} from 'react-native';
+
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
-import UseIcon from '../../../../../shared/utils/UseIcon';
 
-export default function EditCouponForm({handleSuccessfulResponse}) {
+export default function EditCouponForm({
+  setDetails,
+  details,
+  submitting,
+  onSubmit,
+}) {
   return (
     <View style={styles.container}>
       <View>
-        <FormInput label={'Coupon Name'} placeholder="Enter coupon name" />
+        <FormInput
+          label={'Coupon Name'}
+          placeholder="Enter coupon name"
+          onChangeText={text => setDetails({...details, name: text})}
+          value={details?.name}
+          // style={styles.nameForm}
+        />
 
         <View style={styles.flex}>
           <FormInput
             label={'Discount'}
             placeholder="Enter discount"
             style={[styles.smallForm, styles.leftFormInput]}
+            keyboardType="numeric"
+            onChangeText={text =>
+              setDetails({...details, discount: Number(text)})
+            }
+            value={String(details?.discount)}
           />
 
           <FormInput
             label={'Limit'}
             placeholder="Enter limit"
             style={[styles.smallForm, styles.rightFormInput]}
+            keyboardType="numeric"
+            onChangeText={text => setDetails({...details, limit: Number(text)})}
+            value={String(details?.limit)}
           />
         </View>
 
-        <Text style={styles.linkText}>Coupon code</Text>
+        <FormInput
+          label={'Coupon code'}
+          placeholder="Enter code"
+          onChangeText={text => setDetails({...details, code: text})}
+          value={details?.code}
+        />
+
+        {/* <Text style={styles.linkText}>Coupon code</Text>
         <View style={[styles.flex, styles.copyView]}>
           <Text style={styles.link}>Mowu74u</Text>
           <Pressable style={styles.copyBtn}>
@@ -38,10 +63,10 @@ export default function EditCouponForm({handleSuccessfulResponse}) {
             />
             <Text style={styles.copyText}>Generate</Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
 
-      <FormButton title={'Save'} onPress={handleSuccessfulResponse} />
+      <FormButton title={'Save'} onPress={onSubmit} loading={submitting} />
     </View>
   );
 }

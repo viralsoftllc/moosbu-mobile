@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+
 import {COLORS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';

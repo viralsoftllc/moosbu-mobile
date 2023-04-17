@@ -31,6 +31,8 @@ export default function Shipping() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   function handleSuccessfulResponse() {
     setShowNewForm(false);
@@ -77,6 +79,25 @@ export default function Shipping() {
     getShippings();
   }, [getShippings]);
 
+  async function handleDelete() {
+    if (selectedItem?.id) {
+      setDeleting(true);
+
+      try {
+        console.log('deleting shipping');
+        const {data} = await client.delete('/api/shipping/' + selectedItem?.id);
+        console.log(data);
+
+        getShippings();
+        setDeleting(false);
+        setShowDeleteModal(false);
+      } catch (error) {
+        setDeleting(false);
+        handleApiError(error);
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Search
@@ -104,8 +125,14 @@ export default function Shipping() {
               <ShippingCard
                 key={i}
                 shipping={shipping}
-                handleEditItem={handleEditItem}
-                handleDeleteItem={handleDeleteItem}
+                handleEditItem={() => {
+                  setSelectedItem(shipping);
+                  handleEditItem(shipping);
+                }}
+                handleDeleteItem={() => {
+                  setSelectedItem(shipping);
+                  handleDeleteItem();
+                }}
               />
             ))
           : null}
@@ -115,6 +142,8 @@ export default function Shipping() {
         <DeleteItem
           setShowDeleteModal={setShowDeleteModal}
           title={'shipping'}
+          loading={deleting}
+          onDelete={handleDelete}
         />
       </Modal>
 
@@ -129,6 +158,8 @@ export default function Shipping() {
         <EditShipping
           setShowEditForm={setShowEditForm}
           handleSuccessfulResponse={handleSuccessfulResponse}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
         />
       </Modal>
 
@@ -139,6 +170,7 @@ export default function Shipping() {
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
           title={'shipping'}
+          onPress={getShippings}
         />
       </Modal>
 

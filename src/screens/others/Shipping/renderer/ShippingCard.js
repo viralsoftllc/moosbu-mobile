@@ -35,8 +35,8 @@ export default function ShippingCard({
         <View style={[styles.flex, styles.nameWrapper]}>
           <View>
             <Text style={styles.name}>{shipping?.name || ''}</Text>
-            {shipping?.address ? (
-              <Text style={styles.address}>{shipping?.address || ''}</Text>
+            {shipping?.location_id ? (
+              <Text style={styles.address}>{shipping?.location_id || ''}</Text>
             ) : null}
           </View>
 
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: COLORS.tabBg,
-    marginBottom: SIZES.base,
+    marginBottom: SIZES.base * 2,
     borderRadius: SIZES.radius,
     display: 'flex',
     flexDirection: 'row',

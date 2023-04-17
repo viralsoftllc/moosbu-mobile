@@ -8,9 +8,10 @@ import FormInput from '../../../../../shared/components/FormInput';
 import ImagePicker from '../../../../../shared/components/ImagePicker';
 
 export default function EditCategoryForm({
-  handleSuccessfulResponse,
   category,
   setCategory,
+  onSubmit,
+  loading,
 }) {
   return (
     <View style={styles.container}>
@@ -37,7 +38,8 @@ export default function EditCategoryForm({
 
       <FormButton
         title={'Update Category'}
-        onPress={handleSuccessfulResponse}
+        loading={loading}
+        onPress={onSubmit}
       />
     </View>
   );

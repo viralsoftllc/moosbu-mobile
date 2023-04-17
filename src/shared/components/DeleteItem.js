@@ -1,10 +1,22 @@
 import React from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import UseIcon from '../utils/UseIcon';
 
-export default function DeleteItem({setShowDeleteModal, title}) {
+export default function DeleteItem({
+  setShowDeleteModal,
+  title,
+  onDelete,
+  loading,
+}) {
   return (
     <SafeAreaView style={styles.shareModal}>
       <View style={styles.modalContainer}>
@@ -21,7 +33,7 @@ export default function DeleteItem({setShowDeleteModal, title}) {
           <View style={styles.details}>
             <Text style={styles.title}>Delete {title ? title : 'item'}?</Text>
             <Text style={styles.subtitle}>
-              This action can not be undo. Do you still want to continue?
+              This action can not be undone. Do you still want to continue?
             </Text>
 
             <View style={styles.flex}>
@@ -31,8 +43,14 @@ export default function DeleteItem({setShowDeleteModal, title}) {
                 <Text style={styles.cancelText}>Cancel</Text>
               </Pressable>
 
-              <Pressable style={[styles.btn, styles.deleteBtn]}>
-                <Text style={styles.deleteText}>Delete</Text>
+              <Pressable
+                style={[styles.btn, styles.deleteBtn]}
+                onPress={onDelete}>
+                {loading ? (
+                  <ActivityIndicator size={'small'} color={'#fff'} />
+                ) : (
+                  <Text style={styles.deleteText}>Delete</Text>
+                )}
               </Pressable>
             </View>
           </View>

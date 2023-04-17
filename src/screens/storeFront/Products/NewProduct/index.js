@@ -13,21 +13,37 @@ export default function NewProduct() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const {setOptions} = useNavigation();
 
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({enable_product_variant: 'off'});
   const [submitting, setSubmitting] = useState(false);
 
-  async function createProduct() {
-    if (!product?.name || !product?.quantity || !product?.price) {
-      notifyMessage('Fill all fields');
+  async function createProduct(images) {
+    if (
+      !product?.name ||
+      !product?.quantity ||
+      !product?.price ||
+      !product?.product_categorie ||
+      !product?.multiple_files ||
+      !product?.SKU
+    ) {
+      return notifyMessage('Fill all fields');
+    }
+
+    if (!product?.product_tax) {
+      return notifyMessage(
+        'Product tax is required, Create a tax if you do not have any',
+      );
     }
 
     try {
       console.log('Creating product...');
       setSubmitting(true);
 
+      product.multiple_files = images;
+
       const res = await client.post('/api/product', product);
       console.log('response from creating product...');
       console.log(res);
+      console.log(res.data);
       setSubmitting(false);
       handleSuccessfulResponse();
     } catch (error) {
@@ -58,6 +74,7 @@ export default function NewProduct() {
             product={product}
             setProduct={setProduct}
             submitting={submitting}
+            setSubmitting={setSubmitting}
             onSubmit={createProduct}
           />
         </ScrollView>

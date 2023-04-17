@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: COLORS.tabBg,
-    marginBottom: SIZES.base,
+    marginBottom: SIZES.base * 2,
     borderRadius: SIZES.radius,
     display: 'flex',
     flexDirection: 'row',

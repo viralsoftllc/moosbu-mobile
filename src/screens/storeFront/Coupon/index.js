@@ -32,6 +32,7 @@ export default function Coupon() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
 
   useLayoutEffect(() => {
@@ -89,6 +90,25 @@ export default function Coupon() {
     getAllCoupons();
   }, [getAllCoupons]);
 
+  async function handleDelete() {
+    if (selectedCoupon?.id) {
+      setDeleting(true);
+
+      try {
+        console.log('deleting coupon');
+        const {data} = await client.delete('/api/coupon/' + selectedCoupon?.id);
+        console.log(data);
+
+        getAllCoupons();
+        setDeleting(false);
+        setShowDeleteModal(false);
+      } catch (error) {
+        setDeleting(false);
+        handleApiError(error);
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Search
@@ -121,8 +141,14 @@ export default function Coupon() {
                   />
                 }
                 setShowShareModal={setShowShareModal}
-                handleEditItem={handleEditItem}
-                handleDeleteItem={handleDeleteItem}
+                handleEditItem={() => {
+                  setSelectedCoupon(coupon);
+                  handleEditItem(coupon);
+                }}
+                handleDeleteItem={() => {
+                  setSelectedCoupon(coupon);
+                  handleDeleteItem();
+                }}
                 handleShareItem={handleShareItem}
               />
             ))
@@ -153,11 +179,18 @@ export default function Coupon() {
         <EditCoupon
           setShowEditCouponForm={setShowEditCouponForm}
           handleSuccessfulResponse={handleSuccessfulResponse}
+          selectedItem={selectedCoupon}
+          setSelectedItem={setSelectedCoupon}
         />
       </Modal>
 
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'coupon'} />
+        <DeleteItem
+          setShowDeleteModal={setShowDeleteModal}
+          title={'coupon'}
+          loading={deleting}
+          onDelete={handleDelete}
+        />
       </Modal>
 
       <Modal
@@ -167,6 +200,7 @@ export default function Coupon() {
         <UpdateSuccessful
           setShowSuccessModal={setShowSuccessModal}
           title={'coupon update'}
+          onPress={getAllCoupons}
         />
       </Modal>
 

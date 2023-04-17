@@ -29,6 +29,9 @@ export default {
   STORE_SETTINGS: 'Store Settings',
   GENERAL_SETTINGS: 'General Settings',
   CURRENCY_SETTINGS: 'Currency Settings',
+  KYC: 'Kyc',
+  SELFIE: 'Selfie',
+  ID_CARD: 'Id Card',
   // Business Registration
   BUSINESS_REGISTRATION: 'Bussiness Registration',
   BUSINESS_REGISTRATION_STACK: 'Bussiness Registration Stack',

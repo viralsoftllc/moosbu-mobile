@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -18,10 +19,15 @@ import Search from '../../../shared/components/Search';
 import routes from '../../../shared/constants/routes';
 import ShareItem from '../renderer/ShareItem';
 import ProductCard from './renderer/ProductCard';
+import {useDispatch, useSelector} from 'react-redux';
+import {setProducts} from '../../../redux/slices/catalog/slice';
+import {selectProducts} from '../../../redux/slices/catalog/selectors';
 
 export default function Products() {
   const {navigate} = useNavigation();
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const filteredItems = [];
 
@@ -50,12 +56,13 @@ export default function Products() {
       console.log(data);
       setLoading(false);
 
-      setItems(data);
+      dispatch(setProducts);
+      // setItems(data);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     getAllProducts();
@@ -64,7 +71,7 @@ export default function Products() {
   return (
     <View style={styles.container}>
       <Search
-        items={items}
+        items={products}
         filteredItems={filteredItems}
         handleNewItem={handleNewItem}
       />
@@ -72,11 +79,14 @@ export default function Products() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={styles.contentContainerStyle}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={getAllProducts} />
+        }>
         {loading ? <ActivityIndicator /> : null}
 
-        {items?.length > 0 ? (
-          items?.map((item, i) => (
+        {products?.length > 0 ? (
+          products?.map((item, i) => (
             <ProductCard
               product={item}
               key={i}

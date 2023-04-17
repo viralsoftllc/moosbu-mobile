@@ -4,8 +4,8 @@ import Cache from '../utils/Cache';
 import {STAGING_URL, PROD_URL} from '@env';
 
 const client = axios.create({
-  // baseURL: PROD_URL,
-  baseURL: STAGING_URL,
+  baseURL: PROD_URL,
+  // baseURL: STAGING_URL,
 
   headers: {
     'Content-Type': 'application/json',

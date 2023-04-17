@@ -1,14 +1,54 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import EditShippingForm from './renderer/EditShippingForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
+import {useEffect} from 'react';
 
 export default function EditShipping({
   setShowEditForm,
   handleSuccessfulResponse,
+  selectedItem,
 }) {
+  const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setDetails({
+      name: selectedItem?.name,
+      price: selectedItem?.price,
+      location: selectedItem?.location_id,
+    });
+  }, [selectedItem]);
+
+  async function updateShipping() {
+    if (!details?.name || !details?.price) {
+      return notifyMessage('Fill all fields');
+    }
+
+    setSubmitting(true);
+
+    try {
+      console.log('Update shipping');
+      const res = await client.put(
+        '/api/shipping/update/' + selectedItem?.id,
+        details,
+      );
+      console.log(res?.data);
+      setSubmitting(false);
+      setShowEditForm(false);
+
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -28,7 +68,10 @@ export default function EditShipping({
           </View>
 
           <EditShippingForm
-            handleSuccessfulResponse={handleSuccessfulResponse}
+            details={details}
+            onSubmit={updateShipping}
+            setDetails={setDetails}
+            submitting={submitting}
           />
         </View>
       </View>

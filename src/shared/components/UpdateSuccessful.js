@@ -7,6 +7,7 @@ export default function UpdateSuccessful({
   setShowSuccessModal,
   title,
   message,
+  onPress,
 }) {
   return (
     <SafeAreaView style={styles.shareModal}>
@@ -43,7 +44,12 @@ export default function UpdateSuccessful({
 
               <Pressable
                 style={[styles.btn, styles.deleteBtn]}
-                onPress={() => setShowSuccessModal(false)}>
+                onPress={() => {
+                  if (onPress) {
+                    onPress();
+                  }
+                  setShowSuccessModal(false);
+                }}>
                 <Text style={styles.deleteText}>Continue</Text>
               </Pressable>
             </View>

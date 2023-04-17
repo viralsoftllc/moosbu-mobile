@@ -1,15 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 import EditCouponForm from './renderer.js/EditCouponForm';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
 
 export default function EditCoupon({
   setShowEditCouponForm,
   handleSuccessfulResponse,
+  selectedItem,
 }) {
+  const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setDetails({
+      name: selectedItem?.name,
+      discount: selectedItem?.discount,
+      limit: selectedItem?.limit,
+      code: selectedItem?.code,
+    });
+  }, [selectedItem]);
+
+  async function editCoupon() {
+    if (!details?.name || !details?.code) {
+      return notifyMessage('Fill all fields');
+    }
+
+    setSubmitting(true);
+
+    try {
+      console.log('Update shipping');
+      const res = await client.put(
+        '/api/coupon/update/' + selectedItem?.id,
+        details,
+      );
+      console.log(res?.data);
+      setSubmitting(false);
+      setShowEditCouponForm(false);
+
+      handleSuccessfulResponse();
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
@@ -26,7 +66,12 @@ export default function EditCoupon({
             </Pressable>
           </View>
 
-          <EditCouponForm handleSuccessfulResponse={handleSuccessfulResponse} />
+          <EditCouponForm
+            details={details}
+            onSubmit={editCoupon}
+            setDetails={setDetails}
+            submitting={submitting}
+          />
         </View>
       </View>
     </SafeAreaView>

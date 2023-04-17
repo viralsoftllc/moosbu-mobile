@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
 import {
   Pressable,
@@ -8,16 +8,41 @@ import {
   Text,
   View,
 } from 'react-native';
+
+// import handleApiError from '../../../../shared/components/handleApiError';
+// import client from '../../../../shared/api/client';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import routes from '../../../../shared/constants/routes';
 import UseIcon from '../../../../shared/utils/UseIcon';
+import {useEffect} from 'react';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import {useSelector} from 'react-redux';
+import {selectbusinessRegistrationDetails} from '../../../../redux/slices/businessRegistration/selectors';
 
 export default function ProposedBusiness() {
+  const {params} = useRoute();
+
+  // const [submitting, setSubmitting] = useState(false);
   const {setOptions, navigate} = useNavigation();
-  const [isSoleowner, setIsSoleOwner] = useState(null);
+  const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
+
+  const [details, setDetails] = useState({});
+
+  useEffect(() => {
+    if (proprietorInfo) {
+      setDetails({
+        sole_owner: proprietorInfo?.sole_owner === 1 ? 'yes' : 'no',
+        business_name: proprietorInfo?.business_name,
+        business_description: proprietorInfo?.business_description,
+        business_category: proprietorInfo?.business_category,
+      });
+    } else {
+      setDetails({...params?.details});
+    }
+  }, [params, proprietorInfo]);
 
   useLayoutEffect(() => {
     setOptions({
@@ -32,6 +57,38 @@ export default function ProposedBusiness() {
     return () => {};
   }, [setOptions]);
 
+  // async function saveInfo() {
+  //   console.log(details);
+
+  //   try {
+  //     setSubmitting(true);
+
+  //     console.log('Submitting biz info');
+  //     const res = await client.post('/api/business_registration', details);
+  //     console.log(res);
+
+  //     setSubmitting(false);
+  //     // navigate(routes.PROPOSED_BUSINESS);
+  //     navigate(routes.BVN_VERIFICATION);
+  //   } catch (error) {
+  //     setSubmitting(false);
+  //     handleApiError(error);
+  //   }
+  // }
+
+  function continueToBvnInfo() {
+    if (
+      details?.sole_owner &&
+      details?.business_name &&
+      details?.business_description &&
+      details?.business_category
+    ) {
+      navigate(routes.BVN_VERIFICATION, {details});
+    } else {
+      notifyMessage('Please fill all fields');
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -43,27 +100,39 @@ export default function ProposedBusiness() {
 
         <View style={[styles.flex, styles.options]}>
           <Pressable
-            onPress={() => setIsSoleOwner(true)}
+            onPress={() => setDetails({...details, sole_owner: 'yes'})}
             style={[
               styles.flex,
               styles.option,
               styles.leftFormInput,
               {
-                borderColor: isSoleowner ? COLORS.credit : COLORS.borderGray,
+                borderColor:
+                  details?.sole_owner === 'yes'
+                    ? COLORS.credit
+                    : COLORS.borderGray,
               },
             ]}>
             <UseIcon
               type={'MaterialIcons'}
               name={
-                isSoleowner ? 'check-circle-outline' : 'radio-button-unchecked'
+                details?.sole_owner === 'yes'
+                  ? 'check-circle-outline'
+                  : 'radio-button-unchecked'
               }
-              color={isSoleowner ? COLORS.credit : COLORS.borderGray}
+              color={
+                details?.sole_owner === 'yes'
+                  ? COLORS.credit
+                  : COLORS.borderGray
+              }
             />
             <Text
               style={[
                 styles.optionLabel,
                 {
-                  color: isSoleowner ? COLORS.credit : COLORS.grayText,
+                  color:
+                    details?.sole_owner === 'yes'
+                      ? COLORS.credit
+                      : COLORS.grayText,
                 },
               ]}>
               Yes
@@ -71,27 +140,37 @@ export default function ProposedBusiness() {
           </Pressable>
 
           <Pressable
-            onPress={() => setIsSoleOwner(false)}
+            onPress={() => setDetails({...details, sole_owner: 'no'})}
             style={[
               styles.flex,
               styles.option,
               styles.rightFormInput,
               {
-                borderColor: !isSoleowner ? COLORS.credit : COLORS.borderGray,
+                borderColor:
+                  details?.sole_owner === 'no'
+                    ? COLORS.credit
+                    : COLORS.borderGray,
               },
             ]}>
             <UseIcon
               type={'MaterialIcons'}
               name={
-                !isSoleowner ? 'check-circle-outline' : 'radio-button-unchecked'
+                details?.sole_owner === 'no'
+                  ? 'check-circle-outline'
+                  : 'radio-button-unchecked'
               }
-              color={!isSoleowner ? COLORS.credit : COLORS.borderGray}
+              color={
+                details?.sole_owner === 'no' ? COLORS.credit : COLORS.borderGray
+              }
             />
             <Text
               style={[
                 styles.optionLabel,
                 {
-                  color: !isSoleowner ? COLORS.credit : COLORS.grayText,
+                  color:
+                    details?.sole_owner === 'no'
+                      ? COLORS.credit
+                      : COLORS.grayText,
                 },
               ]}>
               No
@@ -102,23 +181,35 @@ export default function ProposedBusiness() {
         <FormInput
           label={'Your propose business name'}
           placeholder={'Enter Your propose business name'}
+          onChangeText={text => setDetails({...details, business_name: text})}
+          value={details?.business_name}
         />
 
         <FormInput
           label={'Business description'}
           placeholder={'Enter Business description'}
           // multiline={5}
+          onChangeText={text =>
+            setDetails({...details, business_description: text})
+          }
+          value={details?.business_description}
         />
 
         <FormInput
           label={'Business category'}
           placeholder={'Enter Business category'}
+          onChangeText={text =>
+            setDetails({...details, business_category: text})
+          }
+          value={details?.business_category}
         />
 
         <FormButton
           title={'Continue'}
           buttonStyle={styles.buttonStyle}
-          onPress={() => navigate(routes.BVN_VERIFICATION)}
+          // loading={submitting}
+          onPress={continueToBvnInfo}
+          // onPress={() => navigate(routes.BVN_VERIFICATION)}
         />
       </ScrollView>
     </SafeAreaView>

@@ -6,7 +6,7 @@ import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function CategoryCard({
   setShowShareModal,
-  title,
+  category,
   subtitle,
   handleEditItem,
   handleDeleteItem,
@@ -41,7 +41,7 @@ export default function CategoryCard({
 
       <View style={styles.details}>
         <View style={[styles.flex, styles.nameWrapper]}>
-          <Text style={styles.name}>{title}</Text>
+          <Text style={styles.name}>{category?.name || ''}</Text>
 
           <Pressable onPress={toggleCtaView}>
             <UseIcon
@@ -71,7 +71,7 @@ export default function CategoryCard({
           ) : null}
         </View>
 
-        <Text style={styles.stock}>{subtitle}</Text>
+        <Text style={styles.stock}>{category?.description}</Text>
 
         {/* <View style={styles.flex}> */}
         <Pressable

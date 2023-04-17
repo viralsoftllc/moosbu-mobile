@@ -1,8 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {
+  Image,
   Modal,
   Pressable,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -10,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import DeleteItem from '../../../../shared/components/DeleteItem';
@@ -19,18 +21,27 @@ import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import {selectStoreDetails} from '../../../../redux/slices/store/selectors';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
+import {setStoreDetails} from '../../../../redux/slices/store/slice';
+// import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import {uploadImageToS3} from '../../../../shared/hooks/uploadImageToS3';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function GeneralSettings() {
   const {setOptions} = useNavigation();
+  const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const store = useSelector(selectStoreDetails);
-  // console.log(store);
+  // console.log(store?.id);
 
   const [details, setDetails] = useState({});
 
   useEffect(() => {
     setDetails({
+      id: store?.id,
       name: store?.name || '',
       email: store?.email || '',
       about: store?.about || '',
@@ -89,28 +100,193 @@ export default function GeneralSettings() {
     }
   }
 
+  const fetchDashboardData = useCallback(async () => {
+    setLoading(true);
+    try {
+      // console.log('Fetching dashboard data');
+      const {data} = await client.get('/api/dashboard');
+      console.log(data?.store);
+      dispatch(setStoreDetails(data?.store));
+      // console.log(data?.$wallet_balance?.balance);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  async function updateStore(storeLogo, invoiceLogo) {
+    const payload = details;
+    if (storeLogo) {
+      payload.logo = storeLogo;
+    }
+
+    if (invoiceLogo) {
+      payload.invoice_logo = invoiceLogo;
+    }
+
+    payload.id = store?.id;
+
+    try {
+      setLoading(true);
+
+      const res = await client.post(
+        '/api/update/store/setting/' + store?.id,
+        payload,
+      );
+
+      console.log('res from update');
+      console.log(res);
+      console.log(res.data);
+      setLoading(false);
+      fetchDashboardData();
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
+  const [logoFileResponse, setLogoFileResponse] = useState(null);
+  const [invoiceFileResponse, setInvoiceFileResponse] = useState(null);
+  // console.log('logoFileResponse');
+  // console.log(logoFileResponse);
+
+  const handleLogoSelection = useCallback(async () => {
+    launchImageLibrary(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setLogoFileResponse(res.assets?.[0]);
+        }
+      },
+    );
+  }, []);
+
+  const handleInvoiceSelection = useCallback(async () => {
+    launchImageLibrary(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setInvoiceFileResponse(res.assets?.[0]);
+        }
+      },
+    );
+  }, []);
+
+  async function handleUpload(params) {
+    const data = await uploadImageToS3(params);
+    return data?.Location;
+  }
+
+  async function onPress() {
+    setLoading(true);
+
+    if (logoFileResponse && invoiceFileResponse) {
+      const response = await Promise.all([
+        handleUpload(logoFileResponse),
+        handleUpload(invoiceFileResponse),
+      ]);
+
+      console.log('upload response');
+      console.log(response);
+      console.log('Update store');
+      updateStore(response?.[0], response?.[1]);
+
+      return;
+    }
+
+    if (logoFileResponse) {
+      handleUpload(logoFileResponse).then(data => {
+        console.log('logo response');
+        console.log(data);
+
+        updateStore(data);
+        setLoading(false);
+      });
+      return;
+    }
+
+    if (invoiceFileResponse) {
+      handleUpload(invoiceFileResponse).then(data => {
+        console.log('invoice response');
+        console.log(data);
+
+        updateStore(null, data);
+        setLoading(false);
+      });
+      return;
+    }
+
+    updateStore();
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={fetchDashboardData} />
+        }>
         <View style={styles.cards}>
-          <Pressable style={styles.card}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="camera-outline"
-              color={COLORS.borderGray}
-            />
-            <Text style={styles.cardText}>Add store logo</Text>
+          <Pressable style={styles.card} onPress={handleLogoSelection}>
+            {logoFileResponse ? (
+              <Image
+                source={{uri: logoFileResponse?.uri}}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            ) : (
+              <>
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="camera-outline"
+                  color={COLORS.borderGray}
+                />
+                <Text style={styles.cardText}>Add store logo</Text>
+              </>
+            )}
           </Pressable>
 
-          <Pressable style={styles.card}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="camera-outline"
-              color={COLORS.borderGray}
-            />
-            <Text style={styles.cardText}>Add invoice logo</Text>
+          <Pressable style={styles.card} onPress={handleInvoiceSelection}>
+            {invoiceFileResponse ? (
+              <Image
+                source={{uri: invoiceFileResponse?.uri}}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            ) : (
+              <>
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="camera-outline"
+                  color={COLORS.borderGray}
+                />
+                <Text style={styles.cardText}>Add invoice logo</Text>
+              </>
+            )}
           </Pressable>
         </View>
 
@@ -119,6 +295,13 @@ export default function GeneralSettings() {
           placeholder="Enter Store Name"
           onChangeText={text => setDetails({...details, name: text})}
           value={details?.name}
+        />
+
+        <FormInput
+          label={'About Store'}
+          placeholder="Enter store description"
+          onChangeText={text => setDetails({...details, about: text})}
+          value={details?.about}
         />
 
         <FormInput
@@ -299,6 +482,7 @@ export default function GeneralSettings() {
             style={[styles.smallForm, styles.rightFormInput]}
             onChangeText={text => setDetails({...details, whatsapp: text})}
             value={details?.whatsapp}
+            maxLength={11}
           />
         </View>
 
@@ -357,7 +541,11 @@ export default function GeneralSettings() {
           value={details?.footer_note}
         />
 
-        <FormButton title={'Save Changes'} />
+        <FormButton
+          title={'Save Changes'}
+          loading={loading}
+          onPress={onPress}
+        />
 
         <FormButton
           title={'Delete Store'}
@@ -444,5 +632,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: COLORS.primary,
+  },
+  image: {
+    height: '100%',
+    width: '100%',
   },
 });

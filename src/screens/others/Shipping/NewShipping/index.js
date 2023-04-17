@@ -34,6 +34,25 @@ export default function NewShipping({
     }
   }
 
+  // const getLocations = useCallback(async () => {
+  //   setLoading(true);
+
+  //   try {
+  //     console.log('Fetching locations');
+  //     const {data} = await client.get('/api/locations');
+  //     console.log(data);
+  //     setLocations(data);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     handleApiError(error);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   getLocations();
+  // }, [getLocations]);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
