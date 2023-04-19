@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
@@ -26,18 +26,20 @@ export default function ProductCard({
   return (
     <Pressable style={[styles.container, styles.flex]} onPress={closeCtaView}>
       <View style={styles.imageView}>
-        {/* <Image
-          // source={require('../../../../assets/images/suit.png')}
-          source={product?.is_cover}
-          style={styles.image}
-          resizeMode="cover"
-        /> */}
-        <UseIcon
-          type={'Feather'}
-          name="box"
-          size={30}
-          color={COLORS.borderGray}
-        />
+        {product?.is_cover ? (
+          <Image
+            source={{uri: product?.is_cover}}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        ) : (
+          <UseIcon
+            type={'Feather'}
+            name="box"
+            size={30}
+            color={COLORS.borderGray}
+          />
+        )}
       </View>
 
       <View style={styles.details}>
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: '100%',
-    // width: '100%',
+    width: '100%',
     borderRadius: SIZES.radius,
   },
   imageView: {
@@ -144,8 +146,8 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.borderGray,
+    // borderWidth: 1,
+    // borderColor: COLORS.borderGray,
   },
   name: {
     color: COLORS.textPrimary,

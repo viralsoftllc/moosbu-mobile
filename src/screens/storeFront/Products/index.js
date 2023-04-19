@@ -27,9 +27,43 @@ export default function Products() {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
-  // const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const filteredItems = [];
+
+  // const items = [
+  //   {
+  //     SKU: 'SC123',
+  //     cost: 0,
+  //     created_at: '2023-04-18T22:04:32.000000Z',
+  //     created_by: 70,
+  //     custom_field_1: null,
+  //     custom_field_2: null,
+  //     custom_field_3: null,
+  //     custom_field_4: null,
+  //     custom_value_1: null,
+  //     custom_value_2: null,
+  //     custom_value_3: null,
+  //     custom_value_4: null,
+  //     description:
+  //       'Stripe shirts available in different colors and sizes. Suitable for official outings',
+  //     downloadable_prodcut: null,
+  //     enable_product_variant: 'off',
+  //     id: 168,
+  //     is_active: null,
+  //     is_cover: 'https://moosbu-os.s3.amazonaws.com/1681561707201',
+  //     is_listed: 0,
+  //     name: 'Stripe Shirts',
+  //     price: 5000,
+  //     product_categorie: 'Clothes',
+  //     product_display: 'off',
+  //     product_images: [[Object], [Object]],
+  //     product_tax: null,
+  //     quantity: 100,
+  //     store_id: 78,
+  //     updated_at: '2023-04-18T22:04:32.000000Z',
+  //     variants_json: null,
+  //   },
+  // ];
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -56,7 +90,7 @@ export default function Products() {
       console.log(data);
       setLoading(false);
 
-      dispatch(setProducts);
+      dispatch(setProducts(data));
       // setItems(data);
     } catch (error) {
       setLoading(false);

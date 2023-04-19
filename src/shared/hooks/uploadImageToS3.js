@@ -20,7 +20,7 @@ import {
 
 export const uploadImageToS3 = async file => {
   return new Promise(async (resolve, reject) => {
-    // console.log(file);
+    console.log(MOOSBU_AWS_SECRET_ACCESS_KEY);
     const client = new S3({
       region: MOOSBU_AWS_DEFAULT_REGION,
       credentials: {

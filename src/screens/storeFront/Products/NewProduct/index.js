@@ -22,23 +22,24 @@ export default function NewProduct() {
       !product?.quantity ||
       !product?.price ||
       !product?.product_categorie ||
-      !product?.multiple_files ||
+      !product?.images?.length ||
       !product?.SKU
     ) {
       return notifyMessage('Fill all fields');
     }
 
-    if (!product?.product_tax) {
-      return notifyMessage(
-        'Product tax is required, Create a tax if you do not have any',
-      );
-    }
+    // if (!product?.product_tax) {
+    //   return notifyMessage(
+    //     'Product tax is required, Create a tax if you do not have any',
+    //   );
+    // }
 
     try {
       console.log('Creating product...');
       setSubmitting(true);
 
       product.multiple_files = images;
+      product.is_cover = images?.[0];
 
       const res = await client.post('/api/product', product);
       console.log('response from creating product...');

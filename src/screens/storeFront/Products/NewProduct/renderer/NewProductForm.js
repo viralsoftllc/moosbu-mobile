@@ -11,6 +11,7 @@ import UseIcon from '../../../../../shared/utils/UseIcon';
 import {uploadImageToS3} from '../../../../../shared/hooks/uploadImageToS3';
 import SelectInput from '../../../../../shared/components/SelectInput';
 import {selectCategories} from '../../../../../redux/slices/catalog/selectors';
+import notifyMessage from '../../../../../shared/hooks/notifyMessage';
 
 export default function NewProductForm({
   product,
@@ -53,14 +54,21 @@ export default function NewProductForm({
 
     const response = await Promise.all(
       fileResponse?.map(async (file, i) => {
-        const data = await uploadImageToS3(file);
-        return {imageUrl: data?.Location, key: data?.Key};
+        try {
+          const data = await uploadImageToS3(file);
+          return {imageUrl: data?.Location, key: data?.Key};
+        } catch (error) {
+          // console.log('error from array');
+          // console.log(error.message);
+          notifyMessage('Product images could not be uploaded');
+          return setSubmitting(false);
+        }
       }),
     );
 
     // console.log('response');
     // console.log(response);
-
+    // call the function to send products data to server
     onSubmit(response);
   }
 
