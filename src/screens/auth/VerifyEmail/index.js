@@ -36,6 +36,7 @@ export default function VerifyEmail() {
 
         <Text style={styles.headerText}>Verify Email</Text>
 
+        {/* Todo - verify email */}
         <Text style={styles.message}>
           Please enter the number code sent to your email,{' '}
           <Text style={styles.email}>joshua@moosbu.com</Text>
