@@ -73,6 +73,7 @@ export default function AllOrders() {
           style={styles.search}
           inputStyle={styles.inputStyle}
           platform={'ios'}
+          cancelText=""
         />
       </View>
 

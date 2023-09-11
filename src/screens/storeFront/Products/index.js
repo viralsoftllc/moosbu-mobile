@@ -79,10 +79,7 @@ export default function Products() {
       console.log('products response');
       console.log(res);
       console.log(res.data);
-      console.log(res.data?.[0]?.product_images);
-      // console.log(data?.filter(el => el?.id === 204)?.[0]);
-      // console.log(data?.filter(el => el?.id === 204)?.[0]?.name);
-      // console.log('=============================================');
+
       setLoading(false);
 
       dispatch(setProducts(data));
@@ -110,6 +107,7 @@ export default function Products() {
             style={styles.search}
             inputStyle={styles.inputStyle}
             platform={'ios'}
+            cancelText=""
           />
         </View>
 
@@ -145,11 +143,11 @@ export default function Products() {
       </ScrollView>
 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} title="product" />
+        <ShareItem setShowShareModal={setShowShareModal} title="Product" />
       </Modal>
 
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'product'} />
+        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'Product'} />
       </Modal>
     </View>
   );

@@ -29,6 +29,7 @@ export default function MenuCard({nav, style}) {
         {nav?.icon}
       </View>
       <Text style={styles.title}>{nav?.title}</Text>
+      {nav?.subtitle ? <Text style={styles.title}>{nav?.subtitle}</Text> : null}
     </Pressable>
   );
 }
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     height: verticalScale(75),
     width: verticalScale(75),
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.white,
     borderRadius: SIZES.radius,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: SIZES.radius / 2,
-    marginBottom: SIZES.base / 2,
+    marginBottom: SIZES.base,
   },
   title: {
     ...FONTS.tiny,

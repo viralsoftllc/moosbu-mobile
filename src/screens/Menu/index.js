@@ -127,7 +127,8 @@ const menus = [
           />
         ),
         iconBackground: '#F5F1DA',
-        route: routes.M_BOT_TAB,
+        route: routes.M_BOT,
+        // route: routes.M_BOT_TAB,
       },
       {
         title: 'Marketplace',
@@ -161,7 +162,8 @@ const menus = [
         route: routes.BUSINESS_REGISTRATION_STACK,
       },
       {
-        title: 'Cash Flow Advance',
+        title: 'Cash Flow',
+        subtitle: 'Advance',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
@@ -175,37 +177,37 @@ const menus = [
       },
     ],
   },
-  {
-    title: 'Integrations',
-    navs: [
-      {
-        title: 'Payment',
-        icon: (
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="credit-card-outline"
-            size={14}
-            color={COLORS.black}
-          />
-        ),
-        iconBackground: 'rgba(255, 162, 29, 0.1)',
-        route: routes.PAYMENT_PROVIDER,
-      },
-      {
-        title: 'Logistics',
-        icon: (
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="truck-outline"
-            size={14}
-            color={COLORS.black}
-          />
-        ),
-        iconBackground: 'rgba(255, 162, 29, 0.1)',
-        route: routes.LOGISTICS_PROVIDER,
-      },
-    ],
-  },
+  // {
+  //   title: 'Integrations',
+  //   navs: [
+  //     {
+  //       title: 'Payment',
+  //       icon: (
+  //         <UseIcon
+  //           type={'MaterialCommunityIcons'}
+  //           name="credit-card-outline"
+  //           size={14}
+  //           color={COLORS.black}
+  //         />
+  //       ),
+  //       iconBackground: 'rgba(255, 162, 29, 0.1)',
+  //       route: routes.PAYMENT_PROVIDER,
+  //     },
+  //     {
+  //       title: 'Logistics',
+  //       icon: (
+  //         <UseIcon
+  //           type={'MaterialCommunityIcons'}
+  //           name="truck-outline"
+  //           size={14}
+  //           color={COLORS.black}
+  //         />
+  //       ),
+  //       iconBackground: 'rgba(255, 162, 29, 0.1)',
+  //       route: routes.LOGISTICS_PROVIDER,
+  //     },
+  //   ],
+  // },
   {
     title: 'Others',
     navs: [

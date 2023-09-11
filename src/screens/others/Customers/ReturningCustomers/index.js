@@ -50,6 +50,7 @@ export default function ReturningCustomers() {
           style={styles.search}
           inputStyle={styles.inputStyle}
           platform={'ios'}
+          cancelText=""
         />
       </View>
 

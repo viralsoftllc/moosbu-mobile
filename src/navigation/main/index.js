@@ -4,10 +4,10 @@ import BottomTabNavigator from './components/BottomTabNavigator';
 import routes from '../../shared/constants/routes';
 import MenuStack from './stacks/MenuStack';
 import ShippingStack from './stacks/ShippingStack';
-import CashFlowStack from './stacks/CashFlowStack';
+// import CashFlowStack from './stacks/CashFlowStack';
 import EngagementStack from './stacks/EngagementStack';
 import ProductsStack from './stacks/ProductsStack';
-import AnalyticTopTabNavigator from './screens/AnalyticTopTabNavigator';
+// import AnalyticTopTabNavigator from './screens/AnalyticTopTabNavigator';
 import Profile from '../../screens/Profile';
 import ChangePassword from '../../screens/auth/ChangePassword';
 import Coupon from '../../screens/storeFront/Coupon';
@@ -32,19 +32,21 @@ import RewardInfo from '../../screens/Reward/RewardInfo.js';
 import SubscriptionPayment from '../../screens/SubscriptionPayment';
 import Notifications from '../../screens/Notifications';
 import ShippingHistoryDetails from '../../screens/others/ShippingHistoryDetails';
-import MBotTopTabNavigator from './screens/MBotTopTabNavigator';
+// import MBotTopTabNavigator from './screens/MBotTopTabNavigator';
 import MBot from '../../screens/marketingSuite/MBot';
-import PlanTopTabNavigator from './screens/PlanTopTabNavigator';
 import OrderTopTabNavigator from './screens/OrderTopTabNavigator';
 import OrderDetails from '../../screens/storeFront/orders/OrderDetails';
 import CustomerTopTabNavigator from './screens/CustomerTopTabNavigator';
 import InbuiltLogistics from '../../screens/others/Integration/logisticsProviders/InbuiltLogistics';
-import Kyc from '../../screens/others/StoreSettings/Kyc';
-import Selfie from '../../screens/others/StoreSettings/Kyc/Selfie';
+// import Kyc from '../../screens/others/StoreSettings/Kyc';
+// import Selfie from '../../screens/others/StoreSettings/Kyc/Selfie';
 import JoinCommunity from '../../screens/others/JoinCommunity';
 import MediaResources from '../../screens/others/MediaResources';
 import PayoutSettings from '../../screens/Wallet/WalletSettings/PayoutSettings';
 import CreateTransactionPin from '../../screens/Wallet/WalletSettings/CreateTransactionPin';
+import Plans from '../../screens/plans';
+import Analytics from '../../screens/storeFront/Analytics';
+import CashFlowComingSoon from '../../screens/scaleByMoosbu/CashFlow';
 
 const Stack = createStackNavigator();
 
@@ -72,8 +74,9 @@ export default function MainNavigator() {
       />
       <Stack.Screen
         name={routes.CASHFLOW_TAB}
-        component={CashFlowStack}
-        options={{headerShown: false}}
+        component={CashFlowComingSoon}
+        // component={CashFlowStack}
+        // options={{headerShown: false}}
       />
       <Stack.Screen
         name={routes.ENGAGEMNT_TAB}
@@ -87,10 +90,7 @@ export default function MainNavigator() {
         component={ProductsStack}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name={routes.ANALYTICS}
-        component={AnalyticTopTabNavigator}
-      />
+      <Stack.Screen name={routes.ANALYTICS} component={Analytics} />
       <Stack.Screen name={routes.PROFILE} component={Profile} />
       <Stack.Screen name={routes.CHANGE_PASSWORD} component={ChangePassword} />
       <Stack.Screen
@@ -106,7 +106,7 @@ export default function MainNavigator() {
         name={routes.M_BOT}
         component={MBot}
       />
-      <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} />
+      {/* <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} /> */}
 
       <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
 
@@ -169,11 +169,12 @@ export default function MainNavigator() {
         name={routes.SHIPPING_DETAILS}
         component={ShippingHistoryDetails}
       />
-      <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} />
+      <Stack.Screen name={routes.PLAN} component={Plans} />
+      {/* <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} /> */}
       <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
       <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
-      <Stack.Screen name={routes.KYC} component={Kyc} />
-      <Stack.Screen name={routes.SELFIE} component={Selfie} />
+      {/* <Stack.Screen name={routes.KYC} component={Kyc} /> */}
+      {/* <Stack.Screen name={routes.SELFIE} component={Selfie} /> */}
       <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
       <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
       <Stack.Screen name={routes.MEDIA_RESOURCES} component={MediaResources} />

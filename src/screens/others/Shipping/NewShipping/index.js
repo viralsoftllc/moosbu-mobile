@@ -9,6 +9,36 @@ import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 
+// let l = [
+//   {
+//     address: 'Surulere mainland, Lagos',
+//     created_at: '2023-07-31T21:04:12.000000Z',
+//     created_by: 164,
+//     id: 23,
+//     name: 'Surulere',
+//     store_id: 173,
+//     updated_at: '2023-08-06T20:40:31.000000Z',
+//   },
+//   {
+//     address: 'Yaba location, mainland',
+//     created_at: '2023-07-31T22:17:49.000000Z',
+//     created_by: 164,
+//     id: 24,
+//     name: 'Yaba',
+//     store_id: 173,
+//     updated_at: '2023-07-31T22:17:49.000000Z',
+//   },
+//   {
+//     address: 'Ajah lekki and co',
+//     created_at: '2023-08-06T20:31:09.000000Z',
+//     created_by: 164,
+//     id: 25,
+//     name: 'Island',
+//     store_id: 173,
+//     updated_at: '2023-08-06T20:31:09.000000Z',
+//   },
+// ];
+
 export default function NewShipping({
   setShowNewForm,
   handleSuccessfulResponse,
@@ -33,25 +63,6 @@ export default function NewShipping({
       handleApiError(error);
     }
   }
-
-  // const getLocations = useCallback(async () => {
-  //   setLoading(true);
-
-  //   try {
-  //     console.log('Fetching locations');
-  //     const {data} = await client.get('/api/locations');
-  //     console.log(data);
-  //     setLocations(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     handleApiError(error);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   getLocations();
-  // }, [getLocations]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>

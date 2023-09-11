@@ -1,28 +1,19 @@
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import UseIcon from '../../../shared/utils/UseIcon';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {verticalScale} from 'react-native-size-matters';
+import ShortModal from '../../../shared/components/ShortModal';
 
 export default function AuthorizeTransaction({setCloseAuthModal, onComplete}) {
   const [code, setCode] = useState('');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Pressable
-        style={{marginBottom: SIZES.base * 3}}
-        onPress={() => setCloseAuthModal(false)}>
-        <UseIcon
-          type={'MaterialIcons'}
-          name="close"
-          size={verticalScale(25)}
-          color={COLORS.primary}
-        />
-      </Pressable>
-
+    <ShortModal
+      handleToggleShortModal={() => setCloseAuthModal(false)}
+      title={'Enter your Moosbu pin'}>
       <View>
-        <Text style={styles.title}>Enter your Moosbu pin</Text>
         <Text style={styles.subtitle}>
           Your Moosbu pin is required to complete this transaction
         </Text>
@@ -40,21 +31,22 @@ export default function AuthorizeTransaction({setCloseAuthModal, onComplete}) {
         secureTextEntry={true}
       />
 
-      <Text style={styles.info}>
+      <Text style={styles.info}>Please enter your passcode</Text>
+      {/* <Text style={styles.info}>
         Please enter your passcode or use your fingerprint ID
-      </Text>
+      </Text> */}
 
       <Pressable style={styles.iconView}>
-        <UseIcon
+        {/* <UseIcon
           type={'MaterialIcons'}
           name="fingerprint"
           size={verticalScale(25)}
           color={COLORS.primary}
-        />
+        /> */}
       </Pressable>
 
       <Text style={styles.info}>Need help?</Text>
-    </SafeAreaView>
+    </ShortModal>
   );
 }
 
@@ -93,11 +85,11 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base * 2,
   },
   iconView: {
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: SIZES.radius,
     padding: SIZES.base,
     alignSelf: 'center',
     borderColor: COLORS.primary,
-    marginBottom: SIZES.base * 10,
+    marginBottom: SIZES.base * 5,
   },
 });

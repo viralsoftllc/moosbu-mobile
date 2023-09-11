@@ -1,59 +1,59 @@
-import React from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
-import ComingSoon from '../../../shared/components/ComingSoon';
-import {WebView} from 'react-native-webview';
+import React, {useLayoutEffect} from 'react';
+import {Linking, SafeAreaView, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import ScreenHeader from '../../../shared/components/ScreenHeader';
+import {COLORS, SIZES, FONTS} from '../../../assets/themes';
+import FormButton from '../../../shared/components/FormButton';
 
 export default function CashFlowComingSoon() {
   const link = 'https://forms.gle/oVTtxEYak9agi1Yz9';
-  // const link = 'forms.gle/oVTtxEYak9agi1Yz9';
-  const {goBack} = useNavigation();
+  const {setOptions} = useNavigation();
+
+  useLayoutEffect(() => {
+    setOptions({
+      header: () => <ScreenHeader title={'Cash Flow Advance'} />,
+    });
+  }, [setOptions]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ComingSoon
+      {/* <ComingSoon
         page={'Cash Flow'}
         iconType={'MaterialCommunityIcons'}
         iconName={'cash'}
-      />
-      {/* <WebView
-        source={{uri: link}}
-        // source={{uri: 'reactnative.dev'}}
-        style={{flex: 1}}
-        containerStyle={{flex: 1}}
-        // style={{flex: 1, opacity: 0.99, overflow: 'hidden'}}
-        androidHardwareAccelerationDisabled={true}
-        startInLoadingState={true}
-        renderLoading={() => (
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <ActivityIndicator size={'large'} />
-          </View>
-        )}
-        originWhitelist={['https://*', 'whatsapp://*', 'intent://*']}
-        onError={syntheticEvent => {
-          const {nativeEvent} = syntheticEvent;
-          console.warn('WebView error: ', nativeEvent);
-          goBack();
-        }}
-        onNavigationStateChange={({url}) => {
-          console.log('stateChanges');
-          console.log(url);
-          // if (url.startsWith('whatsapp://')) {
-          //   // this.webview.stopLoading();
-          //   Linking.openURL(url);
-          // }
-        }}
       /> */}
+      <Text style={styles.text}>
+        We are currently working on this service and it will be live in few
+        week. Kindly fill the short form below to be the first to know once this
+        service is live
+      </Text>
+
+      <FormButton
+        title={'Let me Know'}
+        containerStyle={styles.containerStyle}
+        onPress={() => Linking.openURL(link)}
+      />
+
+      <Text style={[styles.text, {color: COLORS.textGray}]}>
+        Kindly keep using your Moosbu OS to accept payment orders as it will
+        give you access to better financing once this service is launched
+      </Text>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: SIZES.paddingHorizontal,
+    backgroundColor: COLORS.white,
+    paddingTop: SIZES.base * 3,
+  },
+  containerStyle: {
+    marginHorizontal: SIZES.base * 2,
+    marginVertical: SIZES.base * 5,
+  },
+  text: {
+    textAlign: 'center',
+    ...FONTS.regular,
   },
 });

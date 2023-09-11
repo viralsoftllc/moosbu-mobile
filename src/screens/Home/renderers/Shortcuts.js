@@ -31,7 +31,8 @@ const shortcuts = [
       />
     ),
     iconBackground: '#F5F1DA',
-    route: routes.M_BOT_TAB,
+    route: routes.M_BOT,
+    // route: routes.M_BOT_TAB,
   },
   {
     title: 'Shipping',

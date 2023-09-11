@@ -4,11 +4,11 @@ import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {
-  selectTotalConversions,
+  // selectTotalConversions,
   selectTotalCustomers,
   selectTotalOrders,
   selectTotalProducts,
-  selectTotalStoreVisits,
+  // selectTotalStoreVisits,
 } from '../../../redux/slices/businessOvervew/selectors';
 import UseIcon from '../../../shared/utils/UseIcon';
 import BusinessOverviewCard from './BusinessOverviewCard';
@@ -20,8 +20,8 @@ export default function BusinessOverview() {
   const totalCustomers = useSelector(selectTotalCustomers);
   const totalProducts = useSelector(selectTotalProducts);
   const totalOrders = useSelector(selectTotalOrders);
-  const totalStoreVisits = useSelector(selectTotalStoreVisits);
-  const totalConversions = useSelector(selectTotalConversions);
+  // const totalStoreVisits = useSelector(selectTotalStoreVisits);
+  // const totalConversions = useSelector(selectTotalConversions);
 
   function handleFilter(params) {
     setFilterBy(params);
@@ -58,7 +58,7 @@ export default function BusinessOverview() {
               <Pressable
                 style={styles.filterOption}
                 onPress={() => handleFilter('Last 7 days')}>
-                <Text style={styles.filterOptionText}>last 7 days</Text>
+                <Text style={styles.filterOptionText}>Last 7 days</Text>
               </Pressable>
 
               <Pressable
@@ -119,7 +119,7 @@ export default function BusinessOverview() {
         />
       </View>
 
-      <View style={styles.businessOverviewCards}>
+      {/* <View style={styles.businessOverviewCards}>
         <BusinessOverviewCard
           icon={
             <UseIcon
@@ -151,7 +151,7 @@ export default function BusinessOverview() {
         />
 
         <View style={styles.emptyView} />
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -33,7 +33,8 @@ export default function StoreSettings() {
 
         <Pressable
           style={[styles.card, styles.currency]}
-          onPress={() => navigate(routes.CURRENCY_SETTINGS)}>
+          // onPress={() => navigate(routes.CURRENCY_SETTINGS)}
+        >
           <UseIcon
             type={'MaterialCommunityIcons'}
             name="bank"
@@ -44,7 +45,8 @@ export default function StoreSettings() {
 
         <Pressable
           style={[styles.card, styles.kyc]}
-          onPress={() => navigate(routes.KYC)}>
+          // onPress={() => navigate(routes.KYC)}
+        >
           <UseIcon
             type={'MaterialCommunityIcons'}
             name="card-account-details-outline"

@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: SIZES.base * 3,
+    paddingTop: SIZES.base,
   },
   ctaBtn: {
     backgroundColor: COLORS.primary,

@@ -126,6 +126,7 @@ export default function Contacts() {
             style={styles.search}
             inputStyle={styles.inputStyle}
             platform={'ios'}
+            cancelText=""
           />
         </View>
 

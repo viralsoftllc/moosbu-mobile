@@ -1,16 +1,18 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import UseIcon from '../utils/UseIcon';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
-import {scale, verticalScale} from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 
-export default function RowLink({title, iconName, route, iconType}) {
+export default function RowLink({title, iconName, route, iconType, onPress}) {
   const {navigate} = useNavigation();
 
   function handleNavigation() {
     if (route) {
       navigate(route);
+    } else if (onPress) {
+      onPress();
     }
   }
 

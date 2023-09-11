@@ -76,14 +76,15 @@ export default function MBot() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ComingSoon
+      <ComingSoon
         page={'M Bot'}
         iconType={'MaterialCommunityIcons'}
         iconName="robot"
-      /> */}
-      <ChatHeader handleSaveChat={handleSaveChat} />
+      />
 
-      <ScrollView
+      {/* <ChatHeader handleSaveChat={handleSaveChat} /> */}
+
+      {/* <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainerStyle}>
@@ -98,9 +99,9 @@ export default function MBot() {
             }
           />
         ))}
-      </ScrollView>
+      </ScrollView> */}
 
-      <View style={styles.inputView}>
+      {/* <View style={styles.inputView}>
         <FormInput
           placeholder={'Enter your message here'}
           rightIcon={
@@ -138,7 +139,7 @@ export default function MBot() {
           message={'Your conversation have been saved'}
           subtitle={'Your conversations will be updated'}
         />
-      </Modal>
+      </Modal> */}
     </SafeAreaView>
   );
 }

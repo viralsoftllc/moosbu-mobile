@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cache from '../utils/Cache';
 // import apisauce from 'apisauce';
-// import {STAGING_URL, PROD_URL} from '@env';
+import {PROD_URL} from '@env';
 
 const client = axios.create({
   // baseURL: PROD_URL,

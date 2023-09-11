@@ -14,9 +14,16 @@ export default function NewShippingForm({
   submitting,
   onSubmit,
 }) {
+  // const [selectedLocations, setSelectedLocations] = useState({});
   const [selectedLocation, setSelectedLocation] = useState({});
   const [showModal, setShowModal] = useState(false);
   const locations = useSelector(selectLocations);
+
+  function handleSelect(option) {
+    setSelectedLocation(option);
+    setDetails({...details, location: option?.name});
+    setShowModal(false);
+  }
 
   return (
     <View>
@@ -53,11 +60,7 @@ export default function NewShippingForm({
           title={'Choose Location'}
           setShowModal={setShowModal}
           selectedItem={selectedLocation}
-          handleSelect={option => {
-            setSelectedLocation(option);
-            setDetails({...details, location: option?.name});
-            setShowModal(false);
-          }}
+          handleSelect={handleSelect}
         />
       </Modal>
     </View>

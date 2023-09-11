@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 
 export default function MediaResources() {
@@ -12,42 +12,32 @@ export default function MediaResources() {
     <WebView
       source={{uri: link}}
       originWhitelist={['https://*']}
-      style={{flex: 1}}
-      containerStyle={{flex: 1}}
+      style={styles.style}
+      containerStyle={styles.containerStyle}
       androidHardwareAccelerationDisabled={true}
       startInLoadingState={true}
       renderLoading={() => (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+        <View style={styles.webViewLoader}>
           <ActivityIndicator size={'large'} />
         </View>
       )}
-      onError={syntheticEvent => {
-        const {nativeEvent} = syntheticEvent;
-        console.log('OnError');
-        console.warn('WebView error: ', nativeEvent);
+      onError={() => {
         goBack();
       }}
-      onNavigationStateChange={({url}) => {
-        console.log('stateChanges');
-        console.log(url);
-        // if (url.startsWith('whatsapp://')) {
-        //   // this.webview.stopLoading();
-        //   Linking.openURL(url);
-        // }
-      }}
+      onNavigationStateChange={({url}) => {}}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  style: {
     flex: 1,
-    backgroundColor: '#fff',
+  },
+  containerStyle: {
+    flex: 1,
+  },
+  webViewLoader: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

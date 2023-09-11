@@ -36,14 +36,20 @@ export default function Withdraw() {
   }, [setOptions]);
 
   function handleAuthorization() {
-    if (!amount) return notifyMessage('Please enter amount');
+    if (!amount) {
+      return notifyMessage('Please enter amount');
+    }
 
     setShowAuthModal(true);
   }
 
   async function handleWithdraw(pin) {
-    if (!amount) return notifyMessage('Please enter amount');
-    if (!pin) return notifyMessage('Please enter PIN');
+    if (!amount) {
+      return notifyMessage('Please enter amount');
+    }
+    if (!pin) {
+      return notifyMessage('Please enter PIN');
+    }
     setShowAuthModal(false);
     setLoading(true);
 
@@ -75,24 +81,6 @@ export default function Withdraw() {
           />
           <Text style={styles.addCardText}>Add Bank Details</Text>
         </Pressable>
-
-        {/* <Pressable style={[styles.card, styles.ussdCard]} onPress={handleNewItem}>
-        <View style={[styles.iconView]}>
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="bank"
-            color={COLORS.primary}
-          />
-        </View>
-
-        <View style={styles.details}>
-          <Text style={[styles.name]}>Jooshu Moosbu</Text>
-
-          <Text style={styles.subtitle}>
-            Moosbu wallet bank <Text style={styles.acctNumber}>0123616457</Text>
-          </Text>
-        </View>
-      </Pressable> */}
 
         <View style={{flex: 1}}>
           <View style={styles.header}>
@@ -128,7 +116,7 @@ export default function Withdraw() {
           loading={loading}
         />
 
-        <Modal visible={showAuthModal} animationType="slide">
+        <Modal visible={showAuthModal} animationType="slide" transparent={true}>
           <AuthorizeTransaction
             setCloseAuthModal={setShowAuthModal}
             onComplete={handleWithdraw}

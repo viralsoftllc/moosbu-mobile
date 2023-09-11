@@ -30,7 +30,7 @@ export default function WalletBalance({loading}) {
         <Text style={styles.title}>Wallet Balance</Text>
       </View>
 
-      <Text style={styles.description}>Your wallet balance is:</Text>
+      {/* <Text style={styles.description}>Your wallet balance is:</Text> */}
 
       <View style={styles.amountView}>
         {loading ? (
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   container: {
     width: '48%',
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base * 2,
     borderRadius: SIZES.radius,
     backgroundColor: 'rgba(2, 71, 166, 0.2)',
-    height: verticalScale(120),
+    height: verticalScale(90),
     overflow: 'scroll',
   },
   description: {
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: SIZES.base * 1.5,
   },
   visbleIcon: {
     paddingHorizontal: SIZES.base,

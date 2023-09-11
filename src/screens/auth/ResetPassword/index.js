@@ -1,27 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import client from '../../../shared/api/client';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import handleApiError from '../../../shared/components/handleApiError';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
-import UseIcon from '../../../shared/utils/UseIcon';
 import ResetPasswordForm from './renderer/ResetPasswordForm';
-import {useSelector} from 'react-redux';
-import {selectToken} from '../../../redux/slices/auth/selectors';
+
+import ScreenHeader from '../../../shared/components/ScreenHeader';
+import routes from '../../../shared/constants/routes';
 
 export default function ResetPassword() {
-  const {goBack} = useNavigation();
-  const token = useSelector(selectToken);
+  const {navigate} = useNavigation();
 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,10 +28,12 @@ export default function ResetPassword() {
 
     try {
       console.log('Api called');
-      const {data} = await client.get('/api/reset-password/' + token);
+      const {data} = await client.post('/api/reset_password', {email});
       console.log('response');
       console.log(data);
+
       setLoading(false);
+      navigate(routes.RESET_PASSWORD_DONE);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
@@ -48,13 +42,14 @@ export default function ResetPassword() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Pressable style={styles.iconWrapper} onPress={goBack}>
+      {/* <Pressable style={styles.iconWrapper} onPress={goBack}>
         <UseIcon
           type={'MaterialIcons'}
           name="arrow-back"
           color={COLORS.textPrimary}
         />
-      </Pressable>
+      </Pressable> */}
+      <ScreenHeader />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}

@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     ...FONTS.h5,
     marginRight: SIZES.base / 2,
+    textAlign: 'center',
+    width: '100%',
   },
   amountView: {
     display: 'flex',
@@ -51,9 +53,12 @@ const styles = StyleSheet.create({
   container: {
     width: '31%',
     paddingVertical: SIZES.base,
-    paddingHorizontal: SIZES.base,
+    paddingHorizontal: SIZES.base / 2,
     borderRadius: SIZES.radius / 2,
-    minHeight: verticalScale(110),
+    minHeight: verticalScale(100),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   // label: {
   //   ...FONTS.tiny,
@@ -68,6 +73,8 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     marginTop: SIZES.base,
     marginBottom: SIZES.base / 2,
+    textAlign: 'center',
+    width: '100%',
   },
   iconView: {
     backgroundColor: COLORS.white,
@@ -76,11 +83,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1,
     elevation: 2,
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
     borderRadius: SIZES.radius / 2,
     paddingVertical: SIZES.base,
     paddingHorizontal: SIZES.base * 1.5,
-    marginLeft: SIZES.base,
+    // marginLeft: SIZES.base,
   },
   percentIcon: {
     position: 'absolute',

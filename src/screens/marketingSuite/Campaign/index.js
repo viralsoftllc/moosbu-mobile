@@ -63,6 +63,28 @@ export default function Campaign() {
     getCampaigns();
   }, [getCampaigns]);
 
+  const [searchText, setSearchText] = useState('');
+
+  const searchFilterFunction = text => {
+    if (text) {
+      const newdata = items?.filter(item => {
+        const itemData = item?.name
+          ? item?.name.toLowerCase()
+          : ''.toLowerCase();
+
+        const textData = text.toLowerCase();
+
+        return itemData?.indexOf(textData) > -1;
+      });
+
+      setFilteredItems(newdata);
+      setSearchText(text);
+    } else {
+      setFilteredItems(items);
+      setSearchText(text);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Search
@@ -70,6 +92,8 @@ export default function Campaign() {
         filteredItems={filteredItems}
         handleNewItem={handleNewItem}
         filter={false}
+        handleSearch={searchFilterFunction}
+        searchText={searchText}
       />
 
       <ScrollView

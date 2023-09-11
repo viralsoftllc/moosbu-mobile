@@ -17,7 +17,6 @@ import {
   selectStoreDetails,
   selectStoreUrl,
 } from '../../../redux/slices/store/selectors';
-import AppButton from '../../../shared/components/AppButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import routes from '../../../shared/constants/routes';
 import copyToClipboard from '../../../shared/utils/copyToClipboard';
@@ -46,7 +45,7 @@ export default function HomeHeader({setShowStoresModal, loading}) {
                 <ImageIcon
                   size={verticalScale(20)}
                   style={styles.imageIcon}
-                  imageUrl={require('../../../assets/images/profile.png')}
+                  // imageUrl={require('../../../assets/images/profile.png')}
                 />
               </Pressable>
 
@@ -67,6 +66,17 @@ export default function HomeHeader({setShowStoresModal, loading}) {
                   </>
                 )}
               </Pressable>
+
+              <Pressable
+                onPress={() => setShowShareModal(true)}
+                style={styles.shareBtn}>
+                <UseIcon
+                  type={'FAIcon5'}
+                  name={'share-square'}
+                  color={COLORS.white}
+                  size={verticalScale(11)}
+                />
+              </Pressable>
             </View>
 
             <Pressable
@@ -81,14 +91,14 @@ export default function HomeHeader({setShowStoresModal, loading}) {
             </Pressable>
           </View>
 
-          <View>
+          {/* <View>
             <Text style={styles.link}>{link || ''}</Text>
             <Text style={styles.linkComment}>
               Link shared with customers can be visited and make orders
             </Text>
-          </View>
+          </View> */}
 
-          <View style={styles.linkButtons}>
+          {/* <View style={styles.linkButtons}>
             <AppButton
               title={'Copy link'}
               onPress={() => copyToClipboard(link || '', 'Store Link copied')}
@@ -116,7 +126,7 @@ export default function HomeHeader({setShowStoresModal, loading}) {
               }
               buttonStyle={{borderColor: COLORS.white}}
             />
-          </View>
+          </View> */}
         </Pressable>
       </View>
 
@@ -163,6 +173,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.paddingHorizontal,
     zIndex: 10,
     marginTop: SIZES.base,
+    paddingBottom: SIZES.base,
   },
   imageIcon: {
     margin: 0,
@@ -189,5 +200,17 @@ const styles = StyleSheet.create({
   },
   notifications: {
     padding: SIZES.base / 2,
+  },
+  shareBtn: {
+    borderWidth: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SIZES.base / 2,
+    paddingHorizontal: SIZES.base,
+    borderRadius: SIZES.radius / 4,
+    borderColor: COLORS.white,
+    marginLeft: SIZES.base,
   },
 });
