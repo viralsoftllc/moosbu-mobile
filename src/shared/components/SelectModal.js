@@ -22,37 +22,24 @@ export default function SelectModal({
   title,
   keyLabel,
 }) {
-  console.log('selectedItem');
-  console.log(selectedItem);
+  console.log('filteredItems');
+  console.log(filteredItems);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.header}>
-        <Pressable style={styles.closeIcon} onPress={() => setShowModal(false)}>
+        <Pressable
+          style={styles.iconWrapper}
+          onPress={() => setShowModal(false)}>
           <UseIcon
-            type="Ionicons"
-            name="close-outline"
-            size={verticalScale(25)}
+            type={'MaterialIcons'}
+            name="arrow-back"
+            color={COLORS.textPrimary}
           />
         </Pressable>
 
         <Text style={[FONTS.h5, styles.headerText]}>{title}</Text>
       </View>
-
-      {/* <View
-        style={{
-          paddingHorizontal: SIZES.paddingHorizontal,
-        }}>
-        <SearchBar2
-          theme="light"
-          placeholder="Search for bank"
-          searchIcon={{size: verticalScale(20), color: COLORS.black}}
-          style={{marginVertical: SIZES.base}}
-          inputStyle={styles.search}
-          value={searchText}
-          onChangeText={text => searchFilterFunction(text.trim())}
-          onClear={text => searchFilterFunction('')}
-        />
-      </View> */}
 
       <View style={styles.content}>
         <ScrollView contentContainerStyle={styles.containerStyle}>
@@ -66,15 +53,6 @@ export default function SelectModal({
                 key={i}
                 onPress={() => handleSelect(item)}
                 style={styles.row}>
-                {/* <View style={styles.iconView}>
-                  <UseIcon
-                    type="MaterialCommunityIcons"
-                    size={verticalScale(14)}
-                    name={'bank'}
-                    color={COLORS.black}
-                  />
-                </View> */}
-
                 <Text style={styles.text}>{item?.name}</Text>
 
                 {!keyLabel && selectedItem?.id === item?.id ? (
@@ -159,6 +137,17 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     padding: 10,
+  },
+  iconWrapper: {
+    alignSelf: 'flex-start',
+    height: verticalScale(30),
+    width: verticalScale(30),
+    borderWidth: 1,
+    borderColor: COLORS.borderGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: SIZES.radius / 2,
+    margin: verticalScale(SIZES.base),
   },
   safeAreaView: {
     flex: 1,

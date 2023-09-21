@@ -5,7 +5,12 @@ import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function LinkRow({title, iconName, route}) {
+export default function LinkRow({
+  title,
+  iconName,
+  route,
+  iconType = 'MaterialIcons',
+}) {
   const {navigate} = useNavigation();
 
   function handleNavigation() {
@@ -18,7 +23,7 @@ export default function LinkRow({title, iconName, route}) {
     <Pressable style={styles.container} onPress={handleNavigation}>
       <UseIcon
         name={iconName}
-        type="MaterialIcons"
+        type={iconType}
         color={COLORS.primary}
         size={verticalScale(20)}
       />

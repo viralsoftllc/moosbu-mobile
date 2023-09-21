@@ -13,6 +13,7 @@ import MenuTabBarButton from './MenuTabBarButton';
 import Menu from '../../../screens/Menu';
 import MoreStack from '../stacks/MoreStack';
 import Wallet from '../../../screens/Wallet';
+import OrderTopTabNavigator from '../screens/OrderTopTabNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,8 +37,8 @@ export default function BottomTabNavigator() {
             iconName = focused ? 'wallet' : 'wallet-outline';
           } else if (route.name === routes.MENU) {
             iconName = focused ? 'close' : 'ios-apps-outline';
-          } else if (route.name === routes.REWARD) {
-            iconName = focused ? 'ios-gift' : 'ios-gift-outline';
+          } else if (route.name === routes.ORDERS) {
+            iconName = focused ? 'cart' : 'cart-outline';
           } else if (route.name === routes.MORE_STACK) {
             iconName = focused ? 'grid' : 'grid-outline';
           }
@@ -80,14 +81,14 @@ export default function BottomTabNavigator() {
       />
 
       <Tab.Screen
-        name={routes.REWARD}
-        component={Reward}
+        name={routes.ORDERS}
+        component={OrderTopTabNavigator}
         options={{
           tabBarButton: props => (
             <CustomTabBarButton
               {...props}
-              route={routes.REWARD}
-              label="Reward"
+              route={routes.ORDERS}
+              label="Orders"
             />
           ),
         }}

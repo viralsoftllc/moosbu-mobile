@@ -133,6 +133,7 @@ export default function Category() {
             style={styles.search}
             inputStyle={styles.inputStyle}
             platform={'ios'}
+            cancelText=""
           />
         </View>
 

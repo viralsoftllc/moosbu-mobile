@@ -91,6 +91,7 @@ export default function Customers() {
           style={styles.search}
           inputStyle={styles.inputStyle}
           platform={'ios'}
+          cancelText=""
         />
       </View>
 

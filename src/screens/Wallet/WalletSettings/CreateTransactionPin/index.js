@@ -1,31 +1,18 @@
-import React, {useLayoutEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-import {SIZES} from '../../../../assets/themes';
-import ScreenHeader from '../../../../shared/components/ScreenHeader';
+import {COLORS, SIZES, FONTS} from '../../../../assets/themes';
 import FormInput from '../../../../shared/components/FormInput';
 import FormButton from '../../../../shared/components/FormButton';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
+import ShortModal from '../../../../shared/components/ShortModal';
 
-export default function CreateTransactionPin() {
-  const {setOptions} = useNavigation();
+export default function CreateTransactionPin({handleToggleShortModal}) {
   const [pin, setPin] = useState('');
   const [pin2, setPin2] = useState('');
   const [loading, setLoading] = useState(false);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => (
-        <ScreenHeader
-          title={'Create Transaction Pin'}
-          subtitle={'Transaction PIN is required for withdrawal'}
-        />
-      ),
-    });
-  }, [setOptions]);
 
   async function handleCreatePin() {
     setLoading(true);
@@ -46,11 +33,8 @@ export default function CreateTransactionPin() {
     }
 
     try {
-      const res = await client.post('/api/account/pin', {pin});
-      // const res = await client.post('/api/create_withdrawal_pin', {pin});
-      console.log('Response from set pin');
-      console.log(res);
-      console.log(res.data);
+      await client.post('/api/account/pin', {pin});
+
       setLoading(false);
       setPin('');
       setPin2('');
@@ -62,11 +46,15 @@ export default function CreateTransactionPin() {
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.container}>
-        {/* <Text>CreateTransactionPin</Text> */}
+    <>
+      <ShortModal
+        handleToggleShortModal={handleToggleShortModal}
+        title={'Create Transaction Pin'}>
+        <View>
+          <Text style={styles.subtitle}>
+            Transaction PIN is required for withdrawal
+          </Text>
 
-        <View style={{marginBottom: 'auto', paddingBottom: SIZES.base * 2}}>
           <FormInput
             label={'Enter Transaction Pin'}
             placeholder={'Enter 4 digit pin'}
@@ -93,19 +81,14 @@ export default function CreateTransactionPin() {
           onPress={handleCreatePin}
           loading={loading}
         />
-      </View>
-    </SafeAreaView>
+      </ShortModal>
+    </>
   );
 }
 const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: SIZES.base * 3,
-  },
-  container: {
-    paddingHorizontal: SIZES.paddingHorizontal,
-    flex: 1,
-    paddingBottom: SIZES.base * 3,
+  subtitle: {
+    ...FONTS.medium,
+    color: COLORS.grayText,
+    marginBottom: SIZES.base * 2,
   },
 });

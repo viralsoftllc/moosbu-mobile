@@ -115,6 +115,7 @@ export default function Banks({setShowBanks, setSelectedBank, selectedBank}) {
           value={searchText}
           onChangeText={text => searchFilterFunction(text.trim())}
           onClear={text => searchFilterFunction('')}
+          cancelText=""
         />
       </View>
 

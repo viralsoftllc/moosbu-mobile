@@ -129,6 +129,7 @@ export default function Shipping() {
             style={styles.search}
             inputStyle={styles.inputStyle}
             platform={'ios'}
+            cancelText=""
           />
         </View>
 

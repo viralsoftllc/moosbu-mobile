@@ -1,15 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
+import {Modal, SafeAreaView, StyleSheet, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import RowLink from '../../../shared/components/RowLink';
 import routes from '../../../shared/constants/routes';
+import CreateTransactionPin from './CreateTransactionPin';
 
 export default function WalletSettings() {
   const {setOptions} = useNavigation();
+  const [showCreateTransactionPinForm, setShowCreateTransactionPinForm] =
+    useState(false);
 
   useLayoutEffect(() => {
     setOptions({
@@ -18,21 +21,42 @@ export default function WalletSettings() {
   }, [setOptions]);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.container}>
-        <RowLink
-          title={'Create Transaction Pin'}
-          route={routes.CREATE_TRANSACTION_PIN}
-          iconName={'security'}
+    <>
+      <SafeAreaView style={styles.safeAreaView}>
+        <View style={styles.container}>
+          <RowLink
+            title={'Create Transaction Pin'}
+            // route={routes.CREATE_TRANSACTION_PIN}
+            onPress={() => setShowCreateTransactionPinForm(true)}
+            iconName={'security'}
+          />
+          <RowLink
+            title={'Set Withdraw Account'}
+            route={routes.PAYOUT_SETTINGS}
+            iconName={'bank'}
+            iconType={'MaterialCommunityIcons'}
+          />
+        </View>
+      </SafeAreaView>
+
+      <Modal
+        visible={showCreateTransactionPinForm}
+        animationType="slide"
+        transparent={true}>
+        <CreateTransactionPin
+          handleToggleShortModal={() => setShowCreateTransactionPinForm(false)}
         />
-        <RowLink
-          title={'Set Withdraw Account'}
-          route={routes.PAYOUT_SETTINGS}
-          iconName={'bank'}
-          iconType={'MaterialCommunityIcons'}
+      </Modal>
+
+      <Modal
+        visible={showCreateTransactionPinForm}
+        animationType="slide"
+        transparent={true}>
+        <CreateTransactionPin
+          handleToggleShortModal={() => setShowCreateTransactionPinForm(false)}
         />
-      </View>
-    </SafeAreaView>
+      </Modal>
+    </>
   );
 }
 

@@ -11,7 +11,7 @@ export default function EnterPin() {
   const {setOptions} = useNavigation();
   const [code, setCode] = useState('');
 
-  function submitPassword(params) {}
+  function submitPassword() {}
 
   useLayoutEffect(() => {
     setOptions({

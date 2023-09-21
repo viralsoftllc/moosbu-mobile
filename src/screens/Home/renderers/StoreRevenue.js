@@ -19,7 +19,7 @@ export default function StoreRevenue() {
         <Text style={styles.title}>Store Revenue</Text>
       </View>
 
-      <Text style={styles.description}>Your store revenue is:</Text>
+      {/* <Text style={styles.description}>Your store revenue is:</Text> */}
 
       <View style={styles.amountView}>
         <Text style={styles.amount}>
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   container: {
     width: '48%',
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base * 2,
     borderRadius: SIZES.radius,
     backgroundColor: '#EEEFF9',
-    height: verticalScale(120),
+    height: verticalScale(90),
     overflow: 'scroll',
   },
   description: {
@@ -114,5 +115,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: SIZES.base * 1.5,
   },
 });

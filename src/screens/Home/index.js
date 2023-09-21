@@ -8,6 +8,8 @@ import {
   ScrollView,
   Modal,
   RefreshControl,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,18 +32,19 @@ import NewStore from './renderers/NewStore';
 // import Recommendations from './renderers/Recommendations';
 import Shortcuts from './renderers/Shortcuts';
 import StoreRevenue from './renderers/StoreRevenue';
-import Subscriptions from './renderers/Subscriptions';
 import WalletBalance from './renderers/WalletBalance';
 import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
+import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
 
-export default function Home() {
+export default function Home({navigation}) {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
   const [showStoresModal, setShowStoresModal] = useState(false);
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [walletLoading, setWalletLoading] = useState(false);
 
@@ -87,11 +90,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeHeader
-        setShowStoresModal={setShowStoresModal}
-        setShowSubscriptionModal={setShowSubscriptionModal}
-        loading={loading}
-      />
+      <HomeHeader setShowStoresModal={setShowStoresModal} loading={loading} />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -118,9 +117,16 @@ export default function Home() {
 
           {/* wallet and revenue */}
           <View style={styles.balances}>
-            <WalletBalance loading={walletLoading} />
+            <WalletBalance
+              loading={walletLoading}
+              handlePress={() => console.log('pressed')}
+            />
             <StoreRevenue />
           </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
+            <Text>Go to finances</Text>
+          </TouchableOpacity>
 
           {/* Business overview */}
           <BusinessOverview />
@@ -147,14 +153,23 @@ export default function Home() {
         visible={showNewStoreModal}
         transparent={true}
         animationType="slide">
-        <NewStore setShowNewStoreModal={setShowNewStoreModal} />
+        <NewStore
+          setShowNewStoreModal={setShowNewStoreModal}
+          setShowStoresModal={setShowStoresModal}
+          setShowSuccessModal={setShowSuccessModal}
+        />
       </Modal>
 
       <Modal
-        visible={showSubscriptionModal}
-        transparent={true}
-        animationType="slide">
-        <Subscriptions setShowSubscriptionModal={setShowSubscriptionModal} />
+        visible={showSuccessModal}
+        animationType="slide"
+        transparent={true}>
+        <UpdateSuccessful
+          setShowSuccessModal={setShowSuccessModal}
+          message={'New store created'}
+          subtitle={'You can now switch between stores'}
+          onPress={() => setShowNewStoreModal(false)}
+        />
       </Modal>
     </SafeAreaView>
   );

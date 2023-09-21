@@ -1,87 +1,79 @@
-import React from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+
+import {COLORS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import FormInput from '../../../shared/components/FormInput';
-import UseIcon from '../../../shared/utils/UseIcon';
+import client from '../../../shared/api/client';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../shared/components/handleApiError';
+import ShortModal from '../../../shared/components/ShortModal';
 
-export default function NewStore({setShowNewStoreModal}) {
+export default function NewStore({
+  setShowNewStoreModal,
+  setShowStoresModal,
+  setShowSuccessModal,
+}) {
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+
+  async function addNewStore() {
+    if (!name) {
+      return notifyMessage('Please provide name of store');
+    }
+
+    try {
+      setLoading(true);
+
+      await client.post('/api/add/store', {name});
+
+      setLoading(false);
+      setShowNewStoreModal(false);
+      setShowSuccessModal(true);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  }
+
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.modalContainer}>
-        <View style={styles.container}>
-          <Pressable
-            onPress={() => {
-              setShowNewStoreModal(false);
-            }}
-            style={styles.closeBtn}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name={'close'}
-              color={COLORS.debit}
-            />
-          </Pressable>
+    <ShortModal
+      handleToggleShortModal={() => {
+        setShowNewStoreModal(false);
+        setShowStoresModal(true);
+      }}
+      title={'Create A New Store'}>
+      <FormInput
+        label={'Store name'}
+        placeholder="Enter Store Name"
+        onChangeText={text => setName(text)}
+        value={name}
+      />
 
-          <View style={styles.header}>
-            <View>
-              <Text style={styles.title}>Create A New Store</Text>
-            </View>
-          </View>
+      <View style={styles.buttons}>
+        <FormButton
+          title={'Save'}
+          buttonStyle={styles.buttonStyle}
+          onPress={addNewStore}
+          loading={loading}
+          disabled={loading}
+        />
 
-          <FormInput label={'Store name'} placeholder="Enter Store Name" />
-
-          <View style={styles.buttons}>
-            <FormButton
-              title={'Save'}
-              buttonStyle={styles.buttonStyle}
-              onPress={() => {}}
-            />
-
-            <FormButton
-              title={'Back'}
-              buttonStyle={[styles.buttonStyle, styles.backButton]}
-              textStyle={styles.textStyle}
-              onPress={() => setShowNewStoreModal(false)}
-            />
-          </View>
-        </View>
+        <FormButton
+          title={'Back'}
+          buttonStyle={[styles.buttonStyle, styles.backButton]}
+          textStyle={styles.textStyle}
+          onPress={() => {
+            setShowNewStoreModal(false);
+            setShowStoresModal(true);
+          }}
+        />
       </View>
-    </SafeAreaView>
+    </ShortModal>
   );
 }
+
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.white,
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base,
-    paddingBottom: SIZES.base * 2,
-    borderTopLeftRadius: SIZES.radius * 2,
-    borderTopRightRadius: SIZES.radius * 2,
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.1)',
-    justifyContent: 'flex-end',
-  },
-  safeAreaView: {
-    flex: 1,
-  },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginBottom: SIZES.base * 3,
-  },
-  title: {
-    ...FONTS.regular,
-    color: COLORS.textPrimary,
-    marginTop: SIZES.base / 1.5,
-  },
-  closeBtn: {
-    padding: SIZES.base,
-    alignSelf: 'flex-end',
-  },
   buttons: {
     marginTop: SIZES.base * 2,
   },

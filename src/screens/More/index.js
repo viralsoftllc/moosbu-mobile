@@ -36,7 +36,7 @@ export default function More() {
           </View>
 
           <View style={styles.level}>
-            <Text>Level 3</Text>
+            <Text>Level 1</Text>
           </View>
         </View>
 
@@ -45,9 +45,24 @@ export default function More() {
           iconName="person-outline"
           route={routes.PROFILE}
         />
-        <LinkRow title={'Support'} iconName="support-agent" />
+
+        <LinkRow
+          title={'Support'}
+          iconName="support-agent"
+          route={routes.CONTACT_SUPPORT}
+        />
+
         {/* <LinkRow title={'Team Members'} iconName="people-outline" /> */}
+
+        <LinkRow
+          title={'Upgrade Account'}
+          iconName="pricetag-outline"
+          iconType="Ionicons"
+          route={routes.PLAN}
+        />
+
         <LinkRow title={'About Moosbu'} iconName="info-outline" />
+
         <LinkRow title={'Sign out'} iconName="logout" route={routes.LOGOUT} />
       </ScrollView>
     </SafeAreaView>
@@ -69,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginVertical: SIZES.base * 3,
+    marginVertical: SIZES.base * 2,
   },
   imageIcon: {
     margin: 0,

@@ -26,13 +26,13 @@ export default function ShippingTopTabNavigator() {
       tabBar={props => <TopTabBar {...props} />}>
       <Tab.Screen name={routes.LOCATION} component={Location} />
       <Tab.Screen name={routes.SHIPPING} component={Shipping} />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={routes.SHIPPING_HISTORY}
         component={ShippingHistory}
         options={{
           tabBarLabel: 'History',
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
