@@ -13,12 +13,12 @@ import {selectWalletBalance} from '../../../redux/slices/wallet/selectors';
 
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function WalletBalance({loading}) {
+export default function WalletBalance({loading, handlePress}) {
   const [showBalance, setShowBalance] = useState(true);
   const balance = useSelector(selectWalletBalance);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onPress={handlePress}>
       <View style={styles.titleView}>
         <UseIcon
           type={'Ionicons'}

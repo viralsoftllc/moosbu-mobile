@@ -8,6 +8,8 @@ import {
   ScrollView,
   Modal,
   RefreshControl,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -35,7 +37,7 @@ import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
 import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
 
-export default function Home() {
+export default function Home({navigation}) {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -115,9 +117,16 @@ export default function Home() {
 
           {/* wallet and revenue */}
           <View style={styles.balances}>
-            <WalletBalance loading={walletLoading} />
+            <WalletBalance
+              loading={walletLoading}
+              handlePress={() => console.log('pressed')}
+            />
             <StoreRevenue />
           </View>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
+            <Text>Go to finances</Text>
+          </TouchableOpacity>
 
           {/* Business overview */}
           <BusinessOverview />

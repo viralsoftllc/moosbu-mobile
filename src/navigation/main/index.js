@@ -48,6 +48,12 @@ import Plans from '../../screens/plans';
 import Analytics from '../../screens/storeFront/Analytics';
 import CashFlowComingSoon from '../../screens/scaleByMoosbu/CashFlow';
 
+import Finances from '../../screens/finances';
+import RegisterWalletOne from '../../screens/finances/registerWalletOne';
+import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
+
+import {View, Text} from 'react-native';
+
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
@@ -178,6 +184,22 @@ export default function MainNavigator() {
       <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
       <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
       <Stack.Screen name={routes.MEDIA_RESOURCES} component={MediaResources} />
+
+      <Stack.Screen name="Finances" component={Finances} />
+      <Stack.Screen
+        name="RegisterWalletOne"
+        component={RegisterWalletOne}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="RegisterWalletTwo"
+        component={RegisterWalletTwo}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
