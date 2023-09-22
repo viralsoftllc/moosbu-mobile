@@ -16,21 +16,15 @@ const Finances = ({navigation}) => {
       <View>
         <Text
           style={{
-            fontSize: 20,
-            lineHeight: 24,
+            ...FONTS.h3,
             fontWeight: 800,
-            marginBottom: 5,
             marginTop: 50,
-            fontFamily: 'Lato',
           }}>
           Business Banking
         </Text>
         <Text
           style={{
-            fontSize: 12,
-            fontWeight: 400,
-            lineHeight: 14.4,
-            fontFamily: 'Lato',
+            ...FONTS.medium,
           }}>
           Manage your business finances effectively with Moosbu Super Business
           App;
@@ -65,11 +59,8 @@ const Finances = ({navigation}) => {
       <View style={styles.notice}>
         <Text
           style={{
-            fontWeight: 700,
+            ...FONTS.medium,
             textAlign: 'center',
-            fontFamily: 'Lato',
-            fontSize: 12,
-            lineHeight: 14.4,
           }}>
           Banking/financial services offered on the Moosbu Super Business App
           are provided by CBN-licensed and NDIC-insured banks and financial
@@ -83,15 +74,26 @@ const Finances = ({navigation}) => {
           <Text
             style={{
               color: COLORS.white,
-              fontSize: 14,
-              fontWeight: 800,
-              lineHeight: 16.8,
-              fontFamily: 'Lato',
+              ...FONTS.regular,
+              fontWeight: 700,
             }}>
             Create Your Business Wallet
           </Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Camera')}
+        style={styles.button}>
+        <Text
+          style={{
+            color: COLORS.white,
+            ...FONTS.regular,
+            fontWeight: 700,
+          }}>
+          Open Camera
+        </Text>
+      </TouchableOpacity>
 
       <Modal
         visible={createWalletModal}
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
   },
 
-  listItem: {fontSize: 12, lineHeight: 14.4, flex: 1},
+  listItem: {...FONTS.medium},
 
   notice: {
     backgroundColor: '#E4EDF9',

@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS} from '../../../assets/themes';
+import {COLORS, FONTS} from '../../../assets/themes';
 import {RadioButton} from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -24,7 +24,7 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
             top: 10,
             right: 10,
           }}>
-          <Icon name="closesquareo" size={40} />
+          <Icon name="close" size={25} />
         </Pressable>
 
         <View
@@ -32,25 +32,19 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
             gap: 60,
             padding: 20,
           }}>
-          <View
-            style={{
-              gap: 10,
-            }}>
+          <View style={{}}>
             <Text
               style={{
-                fontSize: 20,
-                fontWeight: 700,
+                ...FONTS.h3,
                 textAlign: 'center',
-                fontFamily: 'Lato',
+                fontWeight: 800,
               }}>
               Select Wallet Type
             </Text>
             <Text
               style={{
                 textAlign: 'center',
-                fontSize: 12,
-                fontFamily: 'Lato',
-                fontWeight: 600,
+                ...FONTS.medium,
               }}>
               Select a preferred wallet to get started
             </Text>
@@ -80,11 +74,8 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                   color={COLORS.secondary}
                 />
                 <View>
-                  <Text
-                    style={{fontWeight: 600, fontSize: 14, fontFamily: 'Lato'}}>
-                    Individual wallet
-                  </Text>
-                  <Text style={{fontSize: 12, fontFamily: 'Lato'}}>
+                  <Text style={{...FONTS.big}}>Individual wallet</Text>
+                  <Text style={{...FONTS.medium}}>
                     Transfer easily from your bank account
                   </Text>
                 </View>
@@ -121,13 +112,8 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                   disabled
                 />
                 <View>
-                  <Text
-                    style={{fontWeight: 600, fontSize: 14, fontFamily: 'Lato'}}>
-                    Business wallet
-                  </Text>
-                  <Text
-                    style={{fontSize: 12, fontFamily: 'Lato'}}
-                    numberOfLines={2}>
+                  <Text style={{...FONTS.big}}>Business wallet</Text>
+                  <Text style={{...FONTS.medium}}>
                     Use any of your card to fund your wallet
                   </Text>
                 </View>
@@ -161,16 +147,15 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
             style={{
               backgroundColor: COLORS.primary,
               borderRadius: 10,
-              height: 44,
+              height: 50,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
             <Text
               style={{
-                textAlign: 'center',
-                color: COLORS.white,
-                fontFamily: 'Lato',
+                ...FONTS.regular,
                 fontWeight: 700,
+                color: COLORS.white,
               }}>
               Continue
             </Text>

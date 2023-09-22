@@ -53,6 +53,7 @@ import RegisterWalletOne from '../../screens/finances/registerWalletOne';
 import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
 
 import {View, Text} from 'react-native';
+import Camera from '../../screens/finances/Camera';
 
 const Stack = createStackNavigator();
 
@@ -206,6 +207,8 @@ export default function MainNavigator() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen name="Camera" component={Camera} />
     </Stack.Navigator>
   );
 }
