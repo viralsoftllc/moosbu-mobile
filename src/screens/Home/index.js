@@ -117,10 +117,7 @@ export default function Home({navigation}) {
 
           {/* wallet and revenue */}
           <View style={styles.balances}>
-            <WalletBalance
-              loading={walletLoading}
-              handlePress={() => console.log('pressed')}
-            />
+            <WalletBalance loading={walletLoading} />
             <StoreRevenue />
           </View>
 

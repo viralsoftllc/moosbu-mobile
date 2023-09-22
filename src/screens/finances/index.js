@@ -1,9 +1,16 @@
 import {StyleSheet, Text, View, TouchableOpacity, Modal} from 'react-native';
-import React from 'react';
-
+import React, {useState} from 'react';
+import WalletType from './renderers/walletType';
 import {COLORS, FONTS} from '../../assets/themes';
 
 const Finances = ({navigation}) => {
+  const [createWalletModal, setCreateWalletModal] = useState(false);
+
+  const handlePress = () => {
+    setCreateWalletModal(false);
+    navigation.navigate('RegisterWalletOne');
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -13,10 +20,18 @@ const Finances = ({navigation}) => {
             lineHeight: 24,
             fontWeight: 800,
             marginBottom: 5,
+            marginTop: 50,
+            fontFamily: 'Lato',
           }}>
           Business Banking
         </Text>
-        <Text style={{fontSize: 12, fontWeight: 400, lineHeight: 14.4}}>
+        <Text
+          style={{
+            fontSize: 12,
+            fontWeight: 400,
+            lineHeight: 14.4,
+            fontFamily: 'Lato',
+          }}>
           Manage your business finances effectively with Moosbu Super Business
           App;
         </Text>
@@ -52,7 +67,7 @@ const Finances = ({navigation}) => {
           style={{
             fontWeight: 700,
             textAlign: 'center',
-            fontFamily: 'Lato-Light',
+            fontFamily: 'Lato',
             fontSize: 12,
             lineHeight: 14.4,
           }}>
@@ -63,7 +78,7 @@ const Finances = ({navigation}) => {
       </View>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterWalletOne')}
+          onPress={() => setCreateWalletModal(true)}
           style={styles.button}>
           <Text
             style={{
@@ -71,16 +86,23 @@ const Finances = ({navigation}) => {
               fontSize: 14,
               fontWeight: 800,
               lineHeight: 16.8,
-              fontFamily: 'Lato-Bold',
+              fontFamily: 'Lato',
             }}>
             Create Your Business Wallet
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* <Modal>
-        <Text>Hi</Text>
-      </Modal> */}
+      <Modal
+        visible={createWalletModal}
+        animationType="slide"
+        transparent={true}
+        style={{padding: 20}}>
+        <WalletType
+          navigate={handlePress}
+          setCreateWalletModel={setCreateWalletModal}
+        />
+      </Modal>
     </View>
   );
 };
@@ -92,6 +114,7 @@ const styles = StyleSheet.create({
   list: {
     gap: 5,
     flexDirection: 'row',
+    fontFamily: 'Lato',
   },
 
   listItem: {fontSize: 12, lineHeight: 14.4, flex: 1},

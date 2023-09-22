@@ -185,7 +185,13 @@ export default function MainNavigator() {
       <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
       <Stack.Screen name={routes.MEDIA_RESOURCES} component={MediaResources} />
 
-      <Stack.Screen name="Finances" component={Finances} />
+      <Stack.Screen
+        name="Finances"
+        component={Finances}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="RegisterWalletOne"
         component={RegisterWalletOne}
