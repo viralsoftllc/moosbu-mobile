@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS} from '../../../assets/themes';
+import {COLORS, FONTS} from '../../../assets/themes';
 
 const RegisterWalletOne = ({navigation}) => {
   return (
@@ -26,16 +26,14 @@ const RegisterWalletOne = ({navigation}) => {
           </Pressable>
           <Text
             style={{
-              fontFamily: 'Lato',
-              fontSize: 20,
+              ...FONTS.h3,
               fontWeight: 700,
-              lineHeight: 24,
             }}>
             Activate Your Wallet
           </Text>
-          <Text style={{fontSize: 10, fontWeight: 600}}>Step 1 of 2</Text>
+          <Text style={{...FONTS.small, fontWeight: 700}}>Step 1 of 2</Text>
         </View>
-        <Text style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+        <Text style={{textAlign: 'center', ...FONTS.medium, fontWeight: 600}}>
           Kindly fill the details below to activate your wallet
         </Text>
         <View
@@ -172,11 +170,9 @@ const RegisterWalletOne = ({navigation}) => {
           style={styles.button}>
           <Text
             style={{
-              color: 'white',
-              fontSize: 14,
-              fontWeight: 800,
-              lineHeight: 16.8,
-              fontFamily: 'Lato-Bold',
+              color: COLORS.white,
+              ...FONTS.regular,
+              fontWeight: 700,
             }}>
             Continue
           </Text>
@@ -192,7 +188,7 @@ const styles = StyleSheet.create({
   container: {flex: 1, gap: 50, padding: 20},
 
   inputContainer: {flex: 1},
-  label: {fontSize: 12, lineHeight: 14.4},
+  label: {...COLORS.medium, lineHeight: 14.4},
   input: {
     borderWidth: 1,
     marginTop: 3,

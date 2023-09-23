@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   Pressable,
@@ -13,7 +14,9 @@ import {COLORS, FONTS} from '../../../assets/themes';
 
 const RegisterWalletTwo = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}>
       <View style={{gap: 20}}>
         <View
           style={{
@@ -26,16 +29,14 @@ const RegisterWalletTwo = ({navigation}) => {
           </Pressable>
           <Text
             style={{
-              fontFamily: 'Lato',
-              fontSize: 20,
+              ...FONTS.h3,
               fontWeight: 700,
-              lineHeight: 24,
             }}>
             Activate Your Wallet
           </Text>
-          <Text style={{fontSize: 10, fontWeight: 600}}>Step 2 of 2</Text>
+          <Text style={{...FONTS.small, fontWeight: 700}}>Step 2 of 2</Text>
         </View>
-        <Text style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+        <Text style={{textAlign: 'center', ...FONTS.medium, fontWeight: 600}}>
           Kindly fill the details below to activate your wallet
         </Text>
         <View
@@ -57,7 +58,6 @@ const RegisterWalletTwo = ({navigation}) => {
           </View>
         </View>
       </View>
-
       <KeyboardAvoidingView style={{gap: 30}}>
         <View>
           <Text style={styles.label}>BVN</Text>
@@ -107,7 +107,7 @@ const RegisterWalletTwo = ({navigation}) => {
           padding: 20,
           borderRadius: 10,
         }}>
-        <Text style={{color: '#FF6F6F', marginBottom: 5}}>
+        <Text style={{color: '#FF6F6F', marginBottom: 5, ...FONTS.regular}}>
           Why do we need your BVN
         </Text>
         <View style={styles.list}>
@@ -150,17 +150,15 @@ const RegisterWalletTwo = ({navigation}) => {
           style={styles.button}>
           <Text
             style={{
-              color: 'white',
-              fontSize: 14,
-              fontWeight: 800,
-              lineHeight: 16.8,
-              fontFamily: 'Lato-Bold',
+              color: COLORS.white,
+              ...FONTS.regular,
+              fontWeight: 700,
             }}>
             Continue
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -168,14 +166,13 @@ export default RegisterWalletTwo;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.white,
     gap: 50,
     padding: 20,
   },
 
   inputContainer: {flex: 1},
-  label: {fontSize: 12, lineHeight: 14.4},
+  label: {...COLORS.medium, lineHeight: 14.4},
   input: {
     borderWidth: 1,
     marginTop: 3,
@@ -191,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-  listItem: {fontSize: 10, flex: 1},
+  listItem: {...FONTS.medium, flex: 1},
 
   button: {
     minWidth: '80%',

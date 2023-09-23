@@ -1,22 +1,31 @@
 import {StyleSheet, Text, View, TouchableOpacity, Modal} from 'react-native';
-import React from 'react';
-
+import React, {useState} from 'react';
+import WalletType from './renderers/walletType';
 import {COLORS, FONTS} from '../../assets/themes';
 
 const Finances = ({navigation}) => {
+  const [createWalletModal, setCreateWalletModal] = useState(false);
+
+  const handlePress = () => {
+    setCreateWalletModal(false);
+    navigation.navigate('RegisterWalletOne');
+  };
+
   return (
     <View style={styles.container}>
       <View>
         <Text
           style={{
-            fontSize: 20,
-            lineHeight: 24,
+            ...FONTS.h3,
             fontWeight: 800,
-            marginBottom: 5,
+            marginTop: 50,
           }}>
           Business Banking
         </Text>
-        <Text style={{fontSize: 12, fontWeight: 400, lineHeight: 14.4}}>
+        <Text
+          style={{
+            ...FONTS.medium,
+          }}>
           Manage your business finances effectively with Moosbu Super Business
           App;
         </Text>
@@ -50,11 +59,8 @@ const Finances = ({navigation}) => {
       <View style={styles.notice}>
         <Text
           style={{
-            fontWeight: 700,
+            ...FONTS.medium,
             textAlign: 'center',
-            fontFamily: 'Lato-Light',
-            fontSize: 12,
-            lineHeight: 14.4,
           }}>
           Banking/financial services offered on the Moosbu Super Business App
           are provided by CBN-licensed and NDIC-insured banks and financial
@@ -63,24 +69,42 @@ const Finances = ({navigation}) => {
       </View>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterWalletOne')}
+          onPress={() => setCreateWalletModal(true)}
           style={styles.button}>
           <Text
             style={{
               color: COLORS.white,
-              fontSize: 14,
-              fontWeight: 800,
-              lineHeight: 16.8,
-              fontFamily: 'Lato-Bold',
+              ...FONTS.regular,
+              fontWeight: 700,
             }}>
             Create Your Business Wallet
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* <Modal>
-        <Text>Hi</Text>
-      </Modal> */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Camera')}
+        style={styles.button}>
+        <Text
+          style={{
+            color: COLORS.white,
+            ...FONTS.regular,
+            fontWeight: 700,
+          }}>
+          Open Camera
+        </Text>
+      </TouchableOpacity>
+
+      <Modal
+        visible={createWalletModal}
+        animationType="slide"
+        transparent={true}
+        style={{padding: 20}}>
+        <WalletType
+          navigate={handlePress}
+          setCreateWalletModel={setCreateWalletModal}
+        />
+      </Modal>
     </View>
   );
 };
@@ -92,9 +116,10 @@ const styles = StyleSheet.create({
   list: {
     gap: 5,
     flexDirection: 'row',
+    fontFamily: 'Lato',
   },
 
-  listItem: {fontSize: 12, lineHeight: 14.4, flex: 1},
+  listItem: {...FONTS.medium},
 
   notice: {
     backgroundColor: '#E4EDF9',
