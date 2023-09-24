@@ -82,19 +82,6 @@ const Finances = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Camera')}
-        style={styles.button}>
-        <Text
-          style={{
-            color: COLORS.white,
-            ...FONTS.regular,
-            fontWeight: 700,
-          }}>
-          Open Camera
-        </Text>
-      </TouchableOpacity>
-
       <Modal
         visible={createWalletModal}
         animationType="slide"

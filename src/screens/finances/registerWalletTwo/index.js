@@ -7,12 +7,63 @@ import {
   TouchableOpacity,
   Pressable,
   KeyboardAvoidingView,
+  Image,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import UseIcon from '../../../shared/utils/UseIcon';
 
 const RegisterWalletTwo = ({navigation}) => {
+  const [uri, setUri] = useState('');
+  const handleCamera = async () => {
+    await launchCamera(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setUri(res.assets[0].uri);
+        }
+      },
+    );
+  };
+
+  const handleGallery = async () => {
+    await launchImageLibrary(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+        selectionLimit: 1,
+      },
+      res => {
+        // console.log('res from image picker - cover image');
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setUri(res.assets[0].uri);
+        }
+      },
+    );
+  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -63,20 +114,75 @@ const RegisterWalletTwo = ({navigation}) => {
           <Text style={styles.label}>BVN</Text>
           <TextInput placeholder="Input your BVN here" style={styles.input} />
         </View>
-        <View>
-          <Pressable
-            style={{
-              height: 44,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderStyle: 'dashed',
-              borderWidth: 1,
-            }}>
-            <Text style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
-              Take a Selfie
-            </Text>
-          </Pressable>
-          <Text style={{textAlign: 'center', fontSize: 10, fontWeight: 600}}>
+        <View style={{gap: 10}}>
+          {uri ? (
+            <Image
+              source={{uri}}
+              style={{
+                width: 200,
+                height: 200,
+                alignSelf: 'center',
+              }}
+              resizeMode="cover"
+            />
+          ) : (
+            <View
+              style={{
+                borderWidth: 1,
+                padding: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                alignSelf: 'center',
+                borderColor: COLORS.borderGray,
+              }}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="camera-outline"
+                color={COLORS.borderGray}
+                size={40}
+              />
+            </View>
+          )}
+
+          <View style={{flexDirection: 'row', gap: 20}}>
+            <Pressable
+              onPress={handleCamera}
+              style={{
+                height: 44,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderStyle: 'dashed',
+                borderWidth: 1,
+                flex: 1,
+                borderColor: COLORS.borderGray,
+              }}>
+              <Text
+                style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                Take a Selfie
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={handleGallery}
+              style={{
+                height: 44,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderStyle: 'dashed',
+                borderWidth: 1,
+                flex: 1,
+                borderColor: COLORS.borderGray,
+              }}>
+              <Text
+                style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                Choose from Gallery
+              </Text>
+            </Pressable>
+          </View>
+
+          <Text style={{textAlign: 'center', ...FONTS.tiny, fontWeight: 600}}>
             Please provide us with a good photo of yourself. Make sure to hold
             device at eye level and center your face when you are ready.
           </Text>

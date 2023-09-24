@@ -1,8 +1,8 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View, Alert} from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../../../assets/themes';
 import {RadioButton} from 'react-native-paper';
-
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const WalletType = ({setCreateWalletModel, navigate}) => {
@@ -104,12 +104,10 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                   gap: 10,
                   flex: 0.6,
                 }}
-                onPress={() => setChecked('samsung')}>
+                onPress={() => notifyMessage('Coming soon')}>
                 <RadioButton
-                  value="Apple"
-                  status={checked === 'samsung' ? 'checked' : 'unchecked'} //if the value of checked is Apple, then select this button
-                  onPress={() => setChecked('samsung')} //when pressed, set the value of the checked Hook to 'Apple'
-                  disabled
+                  value="Business"
+                  status={checked === 'Business' ? 'checked' : 'unchecked'} //if the value of checked is Apple, then select this button
                 />
                 <View>
                   <Text style={{...FONTS.big}}>Business wallet</Text>
