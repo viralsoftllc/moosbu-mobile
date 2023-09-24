@@ -6,8 +6,8 @@ import {PROD_URL} from '@env';
 const client = axios.create({
   // baseURL: PROD_URL,
   // baseURL: STAGING_URL,
-  baseURL: 'https://app.moosbu.com',
-  // baseURL: 'https://staging.moosbu.com',
+  // baseURL: 'https://app.moosbu.com',
+  baseURL: 'https://staging.moosbu.com',
 
   headers: {
     'Content-Type': 'application/json',

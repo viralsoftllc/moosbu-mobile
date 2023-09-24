@@ -1,7 +1,16 @@
-import {StyleSheet, Text, View, TouchableOpacity, Modal} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+} from 'react-native';
 import React, {useState} from 'react';
 import WalletType from './renderers/walletType';
+import HalfScreen from './renderers/halfScreen';
 import {COLORS, FONTS} from '../../assets/themes';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Finances = ({navigation}) => {
   const [createWalletModal, setCreateWalletModal] = useState(false);
@@ -13,15 +22,33 @@ const Finances = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Pressable onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={30} />
+        </Pressable>
         <Text
+          style={{
+            ...FONTS.h4,
+            fontWeight: 700,
+          }}>
+          Business Banking
+        </Text>
+        <Text></Text>
+      </View>
+      <View>
+        {/* <Text
           style={{
             ...FONTS.h3,
             fontWeight: 800,
             marginTop: 50,
           }}>
           Business Banking
-        </Text>
+        </Text> */}
         <Text
           style={{
             ...FONTS.medium,
@@ -87,10 +114,12 @@ const Finances = ({navigation}) => {
         animationType="slide"
         transparent={true}
         style={{padding: 20}}>
-        <WalletType
-          navigate={handlePress}
-          setCreateWalletModel={setCreateWalletModal}
-        />
+        <HalfScreen>
+          <WalletType
+            navigate={handlePress}
+            setCreateWalletModel={setCreateWalletModal}
+          />
+        </HalfScreen>
       </Modal>
     </View>
   );
@@ -99,7 +128,7 @@ const Finances = ({navigation}) => {
 export default Finances;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 20, gap: 40},
+  container: {flex: 1, padding: 20, gap: 40, backgroundColor: COLORS.white},
   list: {
     gap: 5,
     flexDirection: 'row',

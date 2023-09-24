@@ -47,6 +47,7 @@ export default function Login() {
       Cache.storeObject('@user', data?.user);
 
       setLoading(false);
+      console.log(data.token);
 
       dispatch(setUserDetails(data?.user));
       dispatch(setToken(data?.token));

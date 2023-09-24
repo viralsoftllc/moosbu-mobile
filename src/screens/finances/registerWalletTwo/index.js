@@ -80,7 +80,7 @@ const RegisterWalletTwo = ({navigation}) => {
           </Pressable>
           <Text
             style={{
-              ...FONTS.h3,
+              ...FONTS.h4,
               fontWeight: 700,
             }}>
             Activate Your Wallet

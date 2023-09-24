@@ -7,11 +7,49 @@ import {
   Pressable,
   KeyboardAvoidingView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import client from '../../../shared/api/client';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 const RegisterWalletOne = ({navigation}) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [addressLine_1, setAddressLine_1] = useState('');
+  const [addressLine_2, setAddressLine_2] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+
+  //function to handle wallet registration
+  const handleReg = async () => {
+    const options = {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      addressLine_1,
+      addressLine_2,
+      city,
+      postalCode,
+      state,
+      country,
+    };
+    console.log(options);
+
+    try {
+      const data = await client.post('/api/create_wallet', options);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      notifyMessage('error');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={{gap: 20}}>
@@ -26,7 +64,7 @@ const RegisterWalletOne = ({navigation}) => {
           </Pressable>
           <Text
             style={{
-              ...FONTS.h3,
+              ...FONTS.h4,
               fontWeight: 700,
             }}>
             Activate Your Wallet
@@ -74,11 +112,21 @@ const RegisterWalletOne = ({navigation}) => {
             }}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>First Name</Text>
-              <TextInput placeholder="First Name" style={styles.input} />
+              <TextInput
+                placeholder="First Name"
+                style={styles.input}
+                value={firstName}
+                onChangeText={text => setFirstName(text)}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Last Name</Text>
-              <TextInput placeholder="Last Name" style={styles.input} />
+              <TextInput
+                placeholder="Last Name"
+                style={styles.input}
+                value={lastName}
+                onChangeText={text => setLastName(text)}
+              />
             </View>
           </View>
           <View
@@ -91,11 +139,21 @@ const RegisterWalletOne = ({navigation}) => {
             }}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email Address</Text>
-              <TextInput placeholder="Email Address" style={styles.input} />
+              <TextInput
+                placeholder="Email Address"
+                style={styles.input}
+                value={email}
+                onChangeText={text => setEmail(text)}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Phone Number</Text>
-              <TextInput placeholder="Phone Number" style={styles.input} />
+              <TextInput
+                placeholder="Phone Number"
+                style={styles.input}
+                value={phoneNumber}
+                onChangeText={text => setPhoneNumber(text)}
+              />
             </View>
           </View>
         </View>
@@ -118,13 +176,20 @@ const RegisterWalletOne = ({navigation}) => {
             }}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Address</Text>
-              <TextInput placeholder="Address Line 1" style={styles.input} />
+              <TextInput
+                placeholder="Address Line 1"
+                style={styles.input}
+                value={addressLine_1}
+                onChangeText={text => setAddressLine_1(text)}
+              />
             </View>
             <View style={styles.inputContainer}>
               <Text></Text>
               <TextInput
                 placeholder="Address Line 2 (Optional}"
                 style={styles.input}
+                value={addressLine_2}
+                onChangeText={text => setAddressLine_2(text)}
               />
             </View>
           </View>
@@ -138,10 +203,20 @@ const RegisterWalletOne = ({navigation}) => {
               gap: 10,
             }}>
             <View style={styles.inputContainer}>
-              <TextInput placeholder="city" style={styles.input} />
+              <TextInput
+                placeholder="city"
+                style={styles.input}
+                value={city}
+                onChangeText={text => setCity(text)}
+              />
             </View>
             <View style={styles.inputContainer}>
-              <TextInput placeholder="Postal Code" style={styles.input} />
+              <TextInput
+                placeholder="Postal Code"
+                style={styles.input}
+                value={postalCode}
+                onChangeText={text => setPostalCode(text)}
+              />
             </View>
           </View>
 
@@ -154,10 +229,20 @@ const RegisterWalletOne = ({navigation}) => {
               gap: 10,
             }}>
             <View style={styles.inputContainer}>
-              <TextInput placeholder="State" style={styles.input} />
+              <TextInput
+                placeholder="State"
+                style={styles.input}
+                value={state}
+                onChangeText={text => setState(text)}
+              />
             </View>
             <View style={styles.inputContainer}>
-              <TextInput placeholder="Country" style={styles.input} />
+              <TextInput
+                placeholder="Country"
+                style={styles.input}
+                value={country}
+                onChangeText={text => setCountry(text)}
+              />
             </View>
           </View>
         </View>
@@ -166,7 +251,10 @@ const RegisterWalletOne = ({navigation}) => {
       <View
         style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterWalletTwo')}
+          onPress={() => {
+            handleReg();
+            // navigation.navigate('RegisterWalletTwo')
+          }}
           style={styles.button}>
           <Text
             style={{
