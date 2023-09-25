@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
@@ -11,6 +18,8 @@ import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 import routes from '../../../../shared/constants/routes';
 
+import {Checkbox} from 'react-native-paper';
+
 export default function NewCampaign() {
   const {setOptions, navigate} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -20,6 +29,8 @@ export default function NewCampaign() {
   const [campaign, setCampaign] = useState({
     channel: '',
   });
+
+  const [checked, setChecked] = useState(false);
 
   useLayoutEffect(() => {
     setOptions({

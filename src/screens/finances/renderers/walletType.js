@@ -17,7 +17,6 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
           gap: 35,
           padding: 20,
           justifyContent: 'space-evenly',
-          marginTop: 30,
         }}>
         <View
           style={{

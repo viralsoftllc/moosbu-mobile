@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
-import {COLORS, SIZES} from '../../../assets/themes';
+import {COLORS, SIZES, FONTS} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import Search from '../../../shared/components/Search';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -101,5 +101,6 @@ const styles = StyleSheet.create({
   },
   optionText: {
     color: COLORS.white,
+    ...FONTS.medium,
   },
 });

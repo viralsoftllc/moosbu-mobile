@@ -10,6 +10,8 @@ import {selectContacts} from '../../../../../redux/slices/engagement/selectors';
 import {useSelector} from 'react-redux';
 import SelectModal from '../../../../../shared/components/SelectModal';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
+import {Checkbox} from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function NewCampaignForm({
   loading,
@@ -20,6 +22,8 @@ export default function NewCampaignForm({
   saving,
 }) {
   const [showContactGroup, setShowContactGroup] = useState(false);
+  const [checked, setChecked] = useState(false);
+
   const contacts = useSelector(selectContacts);
   // console.log('contacts');
   // console.log(contacts);
@@ -159,6 +163,22 @@ export default function NewCampaignForm({
         onChangeText={text => setCampaign({...campaign, content: text})}
         value={campaign?.content}
       />
+
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Checkbox
+          status={checked ? 'checked' : 'unchecked'}
+          onPress={() => {
+            setChecked(!checked);
+          }}
+        />
+        <Text>Send later</Text>
+      </View>
+      {checked ? (
+        <View>
+          <Text>Schedule Time</Text>
+          <View></View>
+        </View>
+      ) : null}
 
       {/* <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
         <UseIcon

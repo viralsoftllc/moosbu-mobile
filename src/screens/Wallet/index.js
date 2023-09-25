@@ -24,6 +24,7 @@ import TransactionHistory from './renderers/TransactionHistory';
 import HalfScreen from '../finances/renderers/halfScreen';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import Ficon from 'react-native-vector-icons/Feather';
+import copyToClipboard from '../../shared/utils/copyToClipboard';
 
 export default function Wallet() {
   const {navigate} = useNavigation();
@@ -150,10 +151,10 @@ export default function Wallet() {
 
             <Text style={styles.date}>{new Date().toDateString()}</Text>
 
-            <View style={styles.cashflowView}>
+            {/* <View style={styles.cashflowView}>
               <Text style={styles.sent}>Sent ₦0</Text>
               <Text style={styles.received}>Received ₦0</Text>
-            </View>
+            </View> */}
           </View>
 
           {/* CTA */}
@@ -432,27 +433,39 @@ export default function Wallet() {
             transfer to the account number shown.
           </Text>
 
-          <View style={{marginVertical: 30}}>
-            <View style={{flexDirection: 'row', marginVertical: 10}}>
-              <Text style={{flex: 1, fontWeight: 600}}>Account Number :</Text>
+          <View style={{marginTop: 20}}>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
+                Account Number :
+              </Text>
               <View
                 style={{
-                  flex: 1,
+                  flex: 0.6,
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 15,
                 }}>
-                <Text style={{fontWeight: 600}}>0123679373</Text>
-                <Ficon name="copy" size={15} />
+                <Text style={{fontWeight: 600, ...FONTS.regular}}>
+                  0123679373
+                </Text>
+                <Pressable onPress={() => copyToClipboard('0123679373')}>
+                  <Ficon name="copy" size={15} />
+                </Pressable>
               </View>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 10}}>
-              <Text style={{flex: 1, fontWeight: 600}}>Account Name :</Text>
-              <Text style={{flex: 1}}>(MOOSBU)Moosbu Josh</Text>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
+                Account Name :
+              </Text>
+              <Text style={{flex: 0.6, ...FONTS.regular}}>
+                (MOOSBU)Moosbu Josh
+              </Text>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 10}}>
-              <Text style={{flex: 1, fontWeight: 600}}>Bank Name :</Text>
-              <Text style={{flex: 1}}>Moosbu bank</Text>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
+                Bank Name :
+              </Text>
+              <Text style={{flex: 0.6, ...FONTS.regular}}>Moosbu bank</Text>
             </View>
           </View>
 

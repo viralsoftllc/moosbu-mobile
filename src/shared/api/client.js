@@ -3,11 +3,13 @@ import Cache from '../utils/Cache';
 // import apisauce from 'apisauce';
 import {PROD_URL} from '@env';
 
+const baseURL = 'https://staging.moosbu.com';
+
 const client = axios.create({
   // baseURL: PROD_URL,
   // baseURL: STAGING_URL,
   // baseURL: 'https://app.moosbu.com',
-  baseURL: 'https://staging.moosbu.com',
+  baseURL,
 
   headers: {
     'Content-Type': 'application/json',
@@ -18,7 +20,7 @@ const client = axios.create({
 client.interceptors.request.use(
   async config => {
     const token = (await Cache.getString('@token')) || '';
-    console.log(token);
+    console.log(token, baseURL);
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

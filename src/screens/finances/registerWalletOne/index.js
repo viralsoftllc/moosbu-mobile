@@ -6,12 +6,15 @@ import {
   TouchableOpacity,
   Pressable,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
 import client from '../../../shared/api/client';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+import handleApiError from '../../../shared/components/handleApiError';
+import {countryListAllIsoData} from '../../../shared/countryList';
 
 const RegisterWalletOne = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -24,12 +27,50 @@ const RegisterWalletOne = ({navigation}) => {
   const [postalCode, setPostalCode] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
+  const [countryCode, setCountryCode] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const middleName = 'Moosbu';
+
+  //Function to conver country to country code
+  const handleCountry = text => {
+    const country = countryListAllIsoData.find(({name}) => {
+      return name == text;
+    });
+    const {code} = country;
+
+    setCountryCode(prev => (prev = code));
+  };
 
   //function to handle wallet registration
   const handleReg = async () => {
+    //Handle input validation
+
+    if (!firstName || !lastName) {
+      return notifyMessage('Name cannot be blank');
+    } else if (phoneNumber.length !== 11) {
+      return notifyMessage('Please enter a valid phone number');
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      return notifyMessage('Email is invalid');
+    } else if (!addressLine_1) {
+      return notifyMessage('Please enter Address Line 1');
+    } else if (!city) {
+      return notifyMessage('Please enter City');
+    } else if (!postalCode) {
+      return notifyMessage('Please enter Postal Code');
+    } else if (!state) {
+      return notifyMessage('Please enter State');
+    } else if (!country) {
+      return notifyMessage('Please enter Country');
+    }
+
+    //Convert Country to Code
+    handleCountry(country);
+
     const options = {
       firstName,
       lastName,
+      middleName,
       email,
       phoneNumber,
       addressLine_1,
@@ -37,16 +78,21 @@ const RegisterWalletOne = ({navigation}) => {
       city,
       postalCode,
       state,
-      country,
+      country: countryCode,
     };
-    console.log(options);
-
+    // console.log(options);
+    setLoading(true);
     try {
-      const data = await client.post('/api/create_wallet', options);
+      const {data} = await client.post('/api/create_wallet', options);
       console.log(data);
+      navigation.navigate('RegisterWalletTwo');
+      notifyMessage('Success');
+      setLoading(false);
     } catch (error) {
       console.log(error);
-      notifyMessage('error');
+      // notifyMessage('error');
+      handleApiError(error);
+      setLoading(false);
     }
   };
 
@@ -117,6 +163,7 @@ const RegisterWalletOne = ({navigation}) => {
                 style={styles.input}
                 value={firstName}
                 onChangeText={text => setFirstName(text)}
+                autoCapitalize="words"
               />
             </View>
             <View style={styles.inputContainer}>
@@ -126,6 +173,7 @@ const RegisterWalletOne = ({navigation}) => {
                 style={styles.input}
                 value={lastName}
                 onChangeText={text => setLastName(text)}
+                autoCapitalize="words"
               />
             </View>
           </View>
@@ -144,6 +192,7 @@ const RegisterWalletOne = ({navigation}) => {
                 style={styles.input}
                 value={email}
                 onChangeText={text => setEmail(text)}
+                inputMode="email"
               />
             </View>
             <View style={styles.inputContainer}>
@@ -153,6 +202,7 @@ const RegisterWalletOne = ({navigation}) => {
                 style={styles.input}
                 value={phoneNumber}
                 onChangeText={text => setPhoneNumber(text)}
+                inputMode="tel"
               />
             </View>
           </View>
@@ -241,13 +291,14 @@ const RegisterWalletOne = ({navigation}) => {
                 placeholder="Country"
                 style={styles.input}
                 value={country}
-                onChangeText={text => setCountry(text)}
+                onChangeText={text => setCountry(text.trim())}
+                autoComplete="off"
+                autoCapitalize="words"
               />
             </View>
           </View>
         </View>
       </KeyboardAvoidingView>
-
       <View
         style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
         <TouchableOpacity
@@ -256,14 +307,18 @@ const RegisterWalletOne = ({navigation}) => {
             // navigation.navigate('RegisterWalletTwo')
           }}
           style={styles.button}>
-          <Text
-            style={{
-              color: COLORS.white,
-              ...FONTS.regular,
-              fontWeight: 700,
-            }}>
-            Continue
-          </Text>
+          {loading ? (
+            <ActivityIndicator color={COLORS.white} size={'large'} />
+          ) : (
+            <Text
+              style={{
+                color: COLORS.white,
+                ...FONTS.regular,
+                fontWeight: 700,
+              }}>
+              Continue
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

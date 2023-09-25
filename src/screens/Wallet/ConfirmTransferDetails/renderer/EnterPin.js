@@ -46,7 +46,7 @@ export default function EnterPin({setShowPinForm}) {
           </View>
 
           <Text style={styles.info}>
-            Please enter your passcode or use your fingerprint ID
+            Please enter your moosbu passcode to complete transaction.
           </Text>
 
           <Pressable style={styles.iconView}>
@@ -57,8 +57,6 @@ export default function EnterPin({setShowPinForm}) {
               color={COLORS.primary}
             />
           </Pressable>
-
-          <Text style={styles.info}>Need help?</Text>
         </View>
       </View>
     </SafeAreaView>

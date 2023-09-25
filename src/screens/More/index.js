@@ -63,6 +63,11 @@ export default function More() {
 
         <LinkRow title={'About Moosbu'} iconName="info-outline" />
 
+        <LinkRow
+          title={'General Settings'}
+          iconName="settings"
+          route={routes.STORE_SETTINGS}
+        />
         <LinkRow title={'Sign out'} iconName="logout" route={routes.LOGOUT} />
       </ScrollView>
     </SafeAreaView>

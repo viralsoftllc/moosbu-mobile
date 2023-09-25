@@ -99,6 +99,11 @@ export default function ProductCard({
   );
 }
 
+// () => {
+//   handleEditItem();
+//   // closeCtaView();
+// }
+
 const styles = StyleSheet.create({
   container: {
     borderColor: COLORS.borderGray,

@@ -41,7 +41,7 @@ export default function ShareItem({setShowShareModal, title, subtitle, link}) {
             </Pressable>
           </View>
 
-          <View style={styles.flex}>
+          {/* <View style={styles.flex}>
             <Pressable
               style={[
                 styles.shareTypeView,
@@ -88,14 +88,14 @@ export default function ShareItem({setShowShareModal, title, subtitle, link}) {
               ]}
               onPress={() => setMedia('instagram')}>
               <Text style={styles.primaryText}>Instagram</Text>
-              {/* <UseIcon name="file-pdf-o" type={'FaIcons'} /> */}
+             
               <ImageIcon
                 imageUrl={require('../../../assets/images/insta.png')}
                 size={verticalScale(12)}
                 style={styles.imageIcon}
               />
             </Pressable>
-          </View>
+          </View> */}
 
           <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
