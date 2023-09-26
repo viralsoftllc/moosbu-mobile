@@ -18,6 +18,7 @@ import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import {
   setTotalCustomers,
   setTotalProducts,
+  setTotalOrders,
 } from '../../redux/slices/businessOvervew/slice';
 import {setStoreDetails, setStoreUrl} from '../../redux/slices/store/slice';
 import {selectUser} from '../../redux/slices/user/selectors';
@@ -57,8 +58,9 @@ export default function Home({navigation}) {
       console.log(data);
       dispatch(setStoreDetails(data?.store));
       dispatch(setStoreUrl(data?.store_url));
-      dispatch(setTotalCustomers(data?.$customers));
+      dispatch(setTotalCustomers(data?.customers));
       dispatch(setTotalProducts(data?.total_product));
+      dispatch(setTotalOrders(data?.orders.length));
       setLoading(false);
     } catch (error) {
       setLoading(false);

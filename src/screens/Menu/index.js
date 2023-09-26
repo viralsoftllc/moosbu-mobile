@@ -238,7 +238,7 @@ const menus = [
         route: routes.SUPPORT,
       },
       {
-        title: 'Store Settings',
+        title: 'General Settings',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}

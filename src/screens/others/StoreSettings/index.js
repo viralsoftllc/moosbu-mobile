@@ -43,7 +43,7 @@ export default function StoreSettings() {
           <Text style={styles.cardText}>Currency Settings</Text>
         </Pressable>
 
-        <Pressable
+        {/* <Pressable
           style={[styles.card, styles.kyc]}
           // onPress={() => navigate(routes.KYC)}
         >
@@ -53,7 +53,7 @@ export default function StoreSettings() {
             color={COLORS.secondary}
           />
           <Text style={styles.cardText}>KYC</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </SafeAreaView>
   );

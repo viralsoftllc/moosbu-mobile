@@ -65,7 +65,8 @@ export default function More() {
 
         <LinkRow
           title={'General Settings'}
-          iconName="settings"
+          iconName="cog-outline"
+          iconType="MaterialCommunityIcons"
           route={routes.STORE_SETTINGS}
         />
         <LinkRow title={'Sign out'} iconName="logout" route={routes.LOGOUT} />

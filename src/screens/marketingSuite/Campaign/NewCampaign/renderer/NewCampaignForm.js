@@ -11,7 +11,6 @@ import {useSelector} from 'react-redux';
 import SelectModal from '../../../../../shared/components/SelectModal';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
 import {Checkbox} from 'react-native-paper';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function NewCampaignForm({
   loading,
