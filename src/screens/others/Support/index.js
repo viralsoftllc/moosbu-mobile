@@ -120,7 +120,7 @@ export default function Support() {
 
             <View style={styles.sectionContent}>
               <Row
-                title={'+234 810 477 5719'}
+                title={'+234 01 330 3373'}
                 subtitle={'Talk to us via call today.'}
                 buttonIcon={
                   <UseIcon

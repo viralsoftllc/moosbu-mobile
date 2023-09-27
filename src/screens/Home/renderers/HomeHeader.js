@@ -23,7 +23,11 @@ import copyToClipboard from '../../../shared/utils/copyToClipboard';
 import UseIcon from '../../../shared/utils/UseIcon';
 import ShareItem from '../../storeFront/renderer/ShareItem';
 
-export default function HomeHeader({setShowStoresModal, loading}) {
+export default function HomeHeader({
+  setShowStoresModal,
+  loading,
+  storeImageUrl,
+}) {
   const {navigate} = useNavigation();
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -46,6 +50,7 @@ export default function HomeHeader({setShowStoresModal, loading}) {
                   size={verticalScale(20)}
                   style={styles.imageIcon}
                   // imageUrl={require('../../../assets/images/profile.png')}
+                  imageUrl={storeImageUrl}
                 />
               </Pressable>
 

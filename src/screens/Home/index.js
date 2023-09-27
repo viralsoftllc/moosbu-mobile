@@ -37,9 +37,11 @@ import WalletBalance from './renderers/WalletBalance';
 import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
 import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
+import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
+  const storeDetails = useSelector(selectStoreDetails);
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
@@ -92,7 +94,11 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeHeader setShowStoresModal={setShowStoresModal} loading={loading} />
+      <HomeHeader
+        setShowStoresModal={setShowStoresModal}
+        loading={loading}
+        storeImageUrl={storeDetails?.logo}
+      />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
