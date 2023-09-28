@@ -8,6 +8,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,8 +16,29 @@ import {COLORS, FONTS} from '../../../assets/themes';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import UseIcon from '../../../shared/utils/UseIcon';
 
+import DatePicker from 'react-native-date-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {uploadImageToCloudinary} from '../../../shared/hooks/uploadToCloudinary';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
+import client from '../../../shared/api/client';
+
 const RegisterWalletTwo = ({navigation}) => {
   const [uri, setUri] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const [bvn, setBvn] = useState('');
+  const [gender, setGender] = useState('');
+  const [fileResponse, setFileResponse] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [dropdownValue, setDropdownValue] = useState(null);
+  // const [items, setItems] = useState([
+  //   {label: 'Male', value: 'male'},
+  //   {label: 'Female', value: 'female'},
+  // ]);
+
+  //handle image from camera
   const handleCamera = async () => {
     await launchCamera(
       {
@@ -34,12 +56,14 @@ const RegisterWalletTwo = ({navigation}) => {
         } else if (res.error) {
           // error opening image picker
         } else {
+          setFileResponse(res.assets[0]);
           setUri(res.assets[0].uri);
         }
       },
     );
   };
 
+  //handle image from gallery
   const handleGallery = async () => {
     await launchImageLibrary(
       {
@@ -60,10 +84,48 @@ const RegisterWalletTwo = ({navigation}) => {
           // error opening image picker
         } else {
           setUri(res.assets[0].uri);
+          setFileResponse(res.assets[0]);
+          console.log(res.assets[0]);
         }
       },
     );
   };
+
+  //Upload image in bit64 format to get url
+  async function uploadToGetUrl(base64) {
+    try {
+      const data = await uploadImageToCloudinary(base64);
+      console.log(data);
+      return data?.url;
+    } catch (error) {
+      console.log('error');
+      return error;
+    }
+  }
+
+  //handle register
+
+  const handleRegister = async () => {
+    setLoading(true);
+    try {
+      const userPicture = await uploadToGetUrl(fileResponse.base64);
+
+      const res = await client.post('/api/update_wallet', {
+        selfie: userPicture,
+        gender,
+        bvn,
+        dob: date.toDateString(),
+      });
+
+      console.log(res);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      notifyMessage(error);
+    }
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -112,7 +174,12 @@ const RegisterWalletTwo = ({navigation}) => {
       <KeyboardAvoidingView style={{gap: 30}}>
         <View>
           <Text style={styles.label}>BVN</Text>
-          <TextInput placeholder="Input your BVN here" style={styles.input} />
+          <TextInput
+            placeholder="Input your BVN here"
+            style={styles.input}
+            value={bvn}
+            onChangeText={text => setBvn(text)}
+          />
         </View>
         <View style={{gap: 10}}>
           {uri ? (
@@ -198,13 +265,46 @@ const RegisterWalletTwo = ({navigation}) => {
           }}>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Date of Birth</Text>
-            <TextInput placeholder="Select DOB" style={styles.input} />
+            <TextInput
+              placeholder="Select DOB"
+              style={styles.input}
+              value={date.toDateString()}
+              onPressIn={() => setOpen(true)}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Gender</Text>
-            <TextInput placeholder="Select Gender" style={styles.input} />
+            <TextInput
+              placeholder="Select Gender"
+              value={gender}
+              style={styles.input}
+              onChangeText={text => setGender(text)}
+            />
           </View>
         </View>
+
+        <DatePicker
+          modal
+          open={open}
+          date={date}
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+          mode="date"
+        />
+
+        {/* <DropDownPicker
+          open={dropdownOpen}
+          value={dropdownValue}
+          items={items}
+          setOpen={setDropdownOpen}
+          setValue={setDropdownValue}
+          setItems={setItems}
+        /> */}
       </KeyboardAvoidingView>
 
       <View
@@ -251,17 +351,19 @@ const RegisterWalletTwo = ({navigation}) => {
       </View>
 
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterWalletOne')}
-          style={styles.button}>
-          <Text
-            style={{
-              color: COLORS.white,
-              ...FONTS.regular,
-              fontWeight: 700,
-            }}>
-            Continue
-          </Text>
+        <TouchableOpacity onPress={handleRegister} style={styles.button}>
+          {loading ? (
+            <ActivityIndicator size={'large'} color={'white'} />
+          ) : (
+            <Text
+              style={{
+                color: COLORS.white,
+                ...FONTS.regular,
+                fontWeight: 700,
+              }}>
+              Continue
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     </ScrollView>

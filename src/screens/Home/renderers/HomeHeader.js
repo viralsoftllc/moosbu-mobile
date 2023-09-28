@@ -51,6 +51,7 @@ export default function HomeHeader({
                   style={styles.imageIcon}
                   // imageUrl={require('../../../assets/images/profile.png')}
                   imageUrl={storeImageUrl}
+                  rounded={true}
                 />
               </Pressable>
 

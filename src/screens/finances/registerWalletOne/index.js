@@ -46,26 +46,26 @@ const RegisterWalletOne = ({navigation}) => {
   const handleReg = async () => {
     //Handle input validation
 
-    if (!firstName || !lastName) {
-      return notifyMessage('Name cannot be blank');
-    } else if (phoneNumber.length !== 11) {
-      return notifyMessage('Please enter a valid phone number');
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      return notifyMessage('Email is invalid');
-    } else if (!addressLine_1) {
-      return notifyMessage('Please enter Address Line 1');
-    } else if (!city) {
-      return notifyMessage('Please enter City');
-    } else if (!postalCode) {
-      return notifyMessage('Please enter Postal Code');
-    } else if (!state) {
-      return notifyMessage('Please enter State');
-    } else if (!country) {
-      return notifyMessage('Please enter Country');
-    }
+    // if (!firstName || !lastName) {
+    //   return notifyMessage('Name cannot be blank');
+    // } else if (phoneNumber.length !== 11) {
+    //   return notifyMessage('Please enter a valid phone number');
+    // } else if (!/\S+@\S+\.\S+/.test(email)) {
+    //   return notifyMessage('Email is invalid');
+    // } else if (!addressLine_1) {
+    //   return notifyMessage('Please enter Address Line 1');
+    // } else if (!city) {
+    //   return notifyMessage('Please enter City');
+    // } else if (!postalCode) {
+    //   return notifyMessage('Please enter Postal Code');
+    // } else if (!state) {
+    //   return notifyMessage('Please enter State');
+    // } else if (!country) {
+    //   return notifyMessage('Please enter Country');
+    // }
 
     //Convert Country to Code
-    handleCountry(country);
+    // handleCountry(country);
 
     const options = {
       firstName,
@@ -83,8 +83,8 @@ const RegisterWalletOne = ({navigation}) => {
     // console.log(options);
     setLoading(true);
     try {
-      const {data} = await client.post('/api/create_wallet', options);
-      console.log(data);
+      // const {data} = await client.post('/api/create_wallet', options);
+      // console.log(data);
       navigation.navigate('RegisterWalletTwo');
       notifyMessage('Success');
       setLoading(false);
