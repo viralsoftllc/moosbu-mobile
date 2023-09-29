@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: SIZES.base,
+    padding: SIZES.base,
   },
   ctaText: {
     ...FONTS.medium,

@@ -27,8 +27,9 @@ export default function NewCampaignForm({
   const [checked, setChecked] = useState(false);
 
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date().getTime());
-  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState(new Date());
+  const [openDateModal, setOpenDateModal] = useState(false);
+  const [openTimeModal, setOpenTimeModal] = useState(false);
 
   const contacts = useSelector(selectContacts);
   // console.log('contacts');
@@ -169,6 +170,16 @@ export default function NewCampaignForm({
         onChangeText={text => setCampaign({...campaign, content: text})}
         value={campaign?.content}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: -20,
+          marginBottom: 25,
+        }}>
+        <Text style={{...FONTS.tiny}}>160 Characters = 1 sms </Text>
+        <Text style={{...FONTS.tiny}}> 1 sms = #3</Text>
+      </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Checkbox
@@ -180,36 +191,54 @@ export default function NewCampaignForm({
         <Text style={{...FONTS.medium, color: COLORS.primary}}>Send later</Text>
       </View>
       {checked ? (
-        <View>
-          <Text style={{...FONTS.medium}}>Schedule Time</Text>
-          <View style={{flexDirection: 'row', gap: 20}}>
+        <View style={{marginVertical: 20}}>
+          <Text style={{...FONTS.medium, marginBottom: 10}}>Schedule Time</Text>
+          <View style={{flexDirection: 'row', gap: 10, marginBottom: 30}}>
             <TextInput
               value={date.toDateString()}
               placeholder="Select Date"
               style={styles.input}
-              onPressIn={() => setOpen(true)}
+              onPressIn={() => setOpenDateModal(true)}
             />
             <TextInput
-              value={time}
+              value={time.toLocaleString()}
               placeholder="Select Time"
               style={styles.input}
+              onPressIn={() => setOpenTimeModal(true)}
             />
           </View>
         </View>
       ) : null}
 
+      {/* Date modal */}
       <DatePicker
         modal
-        open={open}
+        open={openDateModal}
         date={date}
         onConfirm={date => {
-          setOpen(false);
+          setOpenDateModal(false);
           setDate(date);
         }}
         onCancel={() => {
-          setOpen(false);
+          setOpenDateModal(false);
         }}
         mode="date"
+      />
+
+      {/* Time modal */}
+      <DatePicker
+        modal
+        open={openTimeModal}
+        date={date}
+        onConfirm={time => {
+          setOpenTimeModal(false);
+          setTime(time.toLocaleTimeString());
+        }}
+        onCancel={() => {
+          setOpenTimeModal(false);
+        }}
+        mode="time"
+        is24hourSource="locale"
       />
 
       {/* <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
@@ -357,10 +386,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 3,
     borderRadius: 5,
-    height: 44,
+    height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    fontSize: 12,
+    ...FONTS.medium,
     flex: 1,
   },
 });
