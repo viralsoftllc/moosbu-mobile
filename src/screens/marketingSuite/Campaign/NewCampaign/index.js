@@ -27,7 +27,7 @@ export default function NewCampaign() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [campaign, setCampaign] = useState({
-    channel: '',
+    channel: 'sms',
   });
 
   const [checked, setChecked] = useState(false);

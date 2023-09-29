@@ -11,6 +11,9 @@ import {useSelector} from 'react-redux';
 import SelectModal from '../../../../../shared/components/SelectModal';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
 import {Checkbox} from 'react-native-paper';
+import notifyMessage from '../../../../../shared/hooks/notifyMessage';
+import DatePicker from 'react-native-date-picker';
+import {TextInput} from 'react-native-gesture-handler';
 
 export default function NewCampaignForm({
   loading,
@@ -22,6 +25,10 @@ export default function NewCampaignForm({
 }) {
   const [showContactGroup, setShowContactGroup] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date().getTime());
+  const [open, setOpen] = useState(false);
 
   const contacts = useSelector(selectContacts);
   // console.log('contacts');
@@ -84,7 +91,7 @@ export default function NewCampaignForm({
                   : COLORS.borderGray,
             },
           ]}
-          onPress={() => setCampaign({...campaign, channel: 'whatsapp'})}>
+          onPress={() => notifyMessage('coming soon')}>
           <UseIcon
             type={'MaterialCommunityIcons'}
             name="whatsapp"
@@ -119,7 +126,7 @@ export default function NewCampaignForm({
                   : COLORS.borderGray,
             },
           ]}
-          onPress={() => setCampaign({...campaign, channel: 'email'})}>
+          onPress={() => notifyMessage('coming soon')}>
           <UseIcon
             type={'MaterialCommunityIcons'}
             name="email-outline"
@@ -170,14 +177,40 @@ export default function NewCampaignForm({
             setChecked(!checked);
           }}
         />
-        <Text>Send later</Text>
+        <Text style={{...FONTS.medium, color: COLORS.primary}}>Send later</Text>
       </View>
       {checked ? (
         <View>
-          <Text>Schedule Time</Text>
-          <View></View>
+          <Text style={{...FONTS.medium}}>Schedule Time</Text>
+          <View style={{flexDirection: 'row', gap: 20}}>
+            <TextInput
+              value={date.toDateString()}
+              placeholder="Select Date"
+              style={styles.input}
+              onPressIn={() => setOpen(true)}
+            />
+            <TextInput
+              value={time}
+              placeholder="Select Time"
+              style={styles.input}
+            />
+          </View>
         </View>
       ) : null}
+
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        onConfirm={date => {
+          setOpen(false);
+          setDate(date);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        mode="date"
+      />
 
       {/* <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
         <UseIcon
@@ -312,11 +345,22 @@ const styles = StyleSheet.create({
   channelText: {
     marginLeft: SIZES.base / 2,
     color: COLORS.textPrimary,
+    ...FONTS.medium,
   },
   selectedChannel: {
     borderColor: COLORS.credit,
   },
   selectedChannelText: {
     color: COLORS.credit,
+  },
+  input: {
+    borderWidth: 1,
+    marginTop: 3,
+    borderRadius: 5,
+    height: 44,
+    padding: 10,
+    borderColor: COLORS.borderGray,
+    fontSize: 12,
+    flex: 1,
   },
 });

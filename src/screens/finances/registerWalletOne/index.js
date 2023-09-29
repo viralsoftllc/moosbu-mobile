@@ -2,6 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   Pressable,
@@ -10,11 +11,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, FONTS} from '../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import client from '../../../shared/api/client';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import handleApiError from '../../../shared/components/handleApiError';
 import {countryListAllIsoData} from '../../../shared/countryList';
+import {verticalScale} from 'react-native-size-matters';
 
 const RegisterWalletOne = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -30,7 +32,7 @@ const RegisterWalletOne = ({navigation}) => {
   const [countryCode, setCountryCode] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const middleName = 'Moosbu';
+  const middleName = '';
 
   //Function to conver country to country code
   const handleCountry = text => {
@@ -97,7 +99,9 @@ const RegisterWalletOne = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}>
       <View style={{gap: 20}}>
         <View
           style={{
@@ -105,8 +109,19 @@ const RegisterWalletOne = ({navigation}) => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" size={30} />
+          <Pressable
+            onPress={() => navigation.goBack()}
+            style={{
+              alignSelf: 'flex-start',
+              height: verticalScale(30),
+              width: verticalScale(30),
+              borderWidth: 1,
+              borderColor: COLORS.borderGray,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: SIZES.radius / 2,
+            }}>
+            <Icon name="arrow-back" size={16} />
           </Pressable>
           <Text
             style={{
@@ -152,7 +167,6 @@ const RegisterWalletOne = ({navigation}) => {
             style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
-
               alignItems: 'center',
               gap: 10,
             }}>
@@ -177,6 +191,7 @@ const RegisterWalletOne = ({navigation}) => {
               />
             </View>
           </View>
+
           <View
             style={{
               flexDirection: 'row',
@@ -207,6 +222,21 @@ const RegisterWalletOne = ({navigation}) => {
             </View>
           </View>
         </View>
+
+        {/* <View style={{flex: 1}}>
+          <View style={[styles.inputContainer]}>
+            <Text style={styles.label}>Last Name</Text>
+            <TextInput
+              placeholder="Last Name"
+              style={styles.input}
+              value={lastName}
+              onChangeText={text => setLastName(text)}
+              autoCapitalize="words"
+            />
+          </View>
+          <View style={styles.inputContainer}></View>
+        </View> */}
+
         <View
           style={{
             flexDirection: 'row',
@@ -298,30 +328,35 @@ const RegisterWalletOne = ({navigation}) => {
             </View>
           </View>
         </View>
+
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 30,
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              handleReg();
+              // navigation.navigate('RegisterWalletTwo')
+            }}
+            style={styles.button}>
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} size={'large'} />
+            ) : (
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.regular,
+                  fontWeight: 700,
+                }}>
+                Continue
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
-      <View
-        style={{justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-        <TouchableOpacity
-          onPress={() => {
-            handleReg();
-            // navigation.navigate('RegisterWalletTwo')
-          }}
-          style={styles.button}>
-          {loading ? (
-            <ActivityIndicator color={COLORS.white} size={'large'} />
-          ) : (
-            <Text
-              style={{
-                color: COLORS.white,
-                ...FONTS.regular,
-                fontWeight: 700,
-              }}>
-              Continue
-            </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -330,7 +365,7 @@ export default RegisterWalletOne;
 const styles = StyleSheet.create({
   container: {flex: 1, gap: 50, padding: 20},
 
-  inputContainer: {flex: 1},
+  inputContainer: {flex: 0.5},
   label: {...COLORS.medium, lineHeight: 14.4},
   input: {
     borderWidth: 1,

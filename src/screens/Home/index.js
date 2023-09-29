@@ -97,7 +97,7 @@ export default function Home({navigation}) {
       <HomeHeader
         setShowStoresModal={setShowStoresModal}
         loading={loading}
-        storeImageUrl={storeDetails?.logo}
+        storeImageUrl={storeDetails?.logo ? storeDetails?.logo : null}
       />
 
       <ScrollView
@@ -129,9 +129,9 @@ export default function Home({navigation}) {
             <StoreRevenue />
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
             <Text>Go to finances</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Business overview */}
           <BusinessOverview />

@@ -9,8 +9,9 @@ import {
 import React, {useState} from 'react';
 import WalletType from './renderers/walletType';
 import HalfScreen from './renderers/halfScreen';
-import {COLORS, FONTS} from '../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {verticalScale} from 'react-native-size-matters';
 
 const Finances = ({navigation}) => {
   const [createWalletModal, setCreateWalletModal] = useState(false);
@@ -28,8 +29,19 @@ const Finances = ({navigation}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={30} />
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{
+            alignSelf: 'flex-start',
+            height: verticalScale(30),
+            width: verticalScale(30),
+            borderWidth: 1,
+            borderColor: COLORS.borderGray,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: SIZES.radius / 2,
+          }}>
+          <Icon name="arrow-back" size={16} />
         </Pressable>
         <Text
           style={{

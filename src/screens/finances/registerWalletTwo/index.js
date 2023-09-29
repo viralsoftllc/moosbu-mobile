@@ -12,17 +12,22 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, FONTS} from '../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import UseIcon from '../../../shared/utils/UseIcon';
-
+import {verticalScale} from 'react-native-size-matters';
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {uploadImageToCloudinary} from '../../../shared/hooks/uploadToCloudinary';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import client from '../../../shared/api/client';
+import {useSelector} from 'react-redux';
+import {selectToken} from '../../../redux/slices/auth/selectors';
+import axios from 'axios';
 
 const RegisterWalletTwo = ({navigation}) => {
+  const token = useSelector(selectToken);
+
   const [uri, setUri] = useState('');
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -85,7 +90,6 @@ const RegisterWalletTwo = ({navigation}) => {
         } else {
           setUri(res.assets[0].uri);
           setFileResponse(res.assets[0]);
-          console.log(res.assets[0]);
         }
       },
     );
@@ -95,7 +99,6 @@ const RegisterWalletTwo = ({navigation}) => {
   async function uploadToGetUrl(base64) {
     try {
       const data = await uploadImageToCloudinary(base64);
-      console.log(data);
       return data?.url;
     } catch (error) {
       console.log('error');
@@ -103,21 +106,62 @@ const RegisterWalletTwo = ({navigation}) => {
     }
   }
 
-  //handle register
+  //format date
+  function formatDate(date = new Date()) {
+    const year = date.toLocaleString('default', {year: 'numeric'});
+    const month = date.toLocaleString('default', {
+      month: '2-digit',
+    });
+    const day = date.toLocaleString('default', {day: '2-digit'});
 
+    const formattedDate = [year, month, day].join('-');
+    console.log(formattedDate);
+
+    return formattedDate;
+  }
+
+  //handle register
   const handleRegister = async () => {
     setLoading(true);
+
     try {
       const userPicture = await uploadToGetUrl(fileResponse.base64);
 
-      const res = await client.post('/api/update_wallet', {
+      console.log(userPicture);
+
+      const options = {
         selfie: userPicture,
         gender,
         bvn,
-        dob: date.toDateString(),
-      });
+        dob: formatDate(date),
+      };
 
-      console.log(res);
+      console.log(options);
+      console.log(token);
+      //   const res = await client.post('/api/update_wallet', options);
+
+      // fetch('https://staging.moosbu.com/api/update_wallet', {
+      //   method: 'post',
+      //   headers: new Headers({
+      //     Authorization: 'Bearer ' + token,
+      //     'Content-Type': 'application/json',
+      //   }),
+      //   options,
+      // })
+      //   .then(res => console.log(res))
+      //   .catch(e => console.log(e));
+
+      axios
+        .post('https://staging.moosbu.com/api/update_wallet', options, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
+
+      // console.log(res);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -137,8 +181,19 @@ const RegisterWalletTwo = ({navigation}) => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" size={30} />
+          <Pressable
+            onPress={() => navigation.goBack()}
+            style={{
+              alignSelf: 'flex-start',
+              height: verticalScale(30),
+              width: verticalScale(30),
+              borderWidth: 1,
+              borderColor: COLORS.borderGray,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: SIZES.radius / 2,
+            }}>
+            <Icon name="arrow-back" size={16} />
           </Pressable>
           <Text
             style={{
@@ -179,6 +234,7 @@ const RegisterWalletTwo = ({navigation}) => {
             style={styles.input}
             value={bvn}
             onChangeText={text => setBvn(text)}
+            inputMode="numeric"
           />
         </View>
         <View style={{gap: 10}}>
@@ -224,6 +280,7 @@ const RegisterWalletTwo = ({navigation}) => {
                 borderStyle: 'dashed',
                 borderWidth: 1,
                 flex: 1,
+                backgroundColor: COLORS.lightSecondaryBackground,
                 borderColor: COLORS.borderGray,
               }}>
               <Text
@@ -241,6 +298,7 @@ const RegisterWalletTwo = ({navigation}) => {
                 borderWidth: 1,
                 flex: 1,
                 borderColor: COLORS.borderGray,
+                backgroundColor: COLORS.lightSecondaryBackground,
               }}>
               <Text
                 style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>

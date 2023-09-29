@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
-import {COLORS, SIZES} from '../../assets/themes';
+import {COLORS, SIZES, FONTS} from '../../assets/themes';
 
 export default function FormButton({
   title,
@@ -74,5 +74,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: COLORS.white,
+    ...FONTS.medium,
   },
 });

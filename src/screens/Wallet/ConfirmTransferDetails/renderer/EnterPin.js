@@ -5,9 +5,25 @@ import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 
-export default function EnterPin({setShowPinForm}) {
+export default function EnterPin({setShowPinForm, id}) {
   const [code, setCode] = useState('');
+
+  const handleTransfer = async () => {
+    console.log(id, code);
+
+    try {
+      const res = await client.post('/api/verify_transfer', {
+        pin: code,
+        transfer_id: id,
+      });
+      console.log(res.data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
 
   function submitPassword(params) {}
 
@@ -16,30 +32,32 @@ export default function EnterPin({setShowPinForm}) {
       <View style={styles.modalContainer}>
         <View style={styles.container}>
           <View style={styles.flex}>
-            <View>
+            <View style={{flex: 2}}>
               <Text style={styles.title}>Enter your Moosbu pin</Text>
               <Text style={styles.subtitle}>
                 Your Moosbu pin is required to complete this transaction
               </Text>
             </View>
 
-            <Pressable
-              onPress={() => {
-                setShowPinForm(false);
-              }}
-              style={styles.closeBtn}>
-              <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
-            </Pressable>
+            <View>
+              <Pressable
+                onPress={() => {
+                  setShowPinForm(false);
+                }}
+                style={styles.closeBtn}>
+                <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
+              </Pressable>
+            </View>
           </View>
 
           <View>
             <OTPInputView
               style={styles.otpView}
-              pinCount={4}
+              pinCount={6}
               keyboardType={'number-pad'}
               autoFocusOnLoad
               codeInputFieldStyle={styles.codeInputFieldStyle}
-              onCodeFilled={otp => submitPassword(otp)}
+              onCodeFilled={otp => setCode(otp)}
               onCodeChanged={otp => setCode(otp)}
               code={code}
             />
@@ -49,7 +67,7 @@ export default function EnterPin({setShowPinForm}) {
             Please enter your moosbu passcode to complete transaction.
           </Text>
 
-          <Pressable style={styles.iconView}>
+          <Pressable style={styles.iconView} onPress={handleTransfer}>
             <UseIcon
               type={'MaterialIcons'}
               name="fingerprint"
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
   },
   flex: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginVertical: SIZES.base * 1.3,
@@ -97,17 +115,19 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
   },
   codeInputFieldStyle: {
-    width: verticalScale(50),
-    height: verticalScale(50),
+    width: verticalScale(35),
+    height: verticalScale(35),
     color: COLORS.black,
     backgroundColor: COLORS.tabBg,
     borderRadius: SIZES.radius / 2,
     ...FONTS.h6,
+    marginHorizontal: 2,
   },
   otpView: {
     width: '90%',
     height: verticalScale(100),
     alignSelf: 'center',
+    // backgroundColor: COLORS.lightSecondaryBackground,
   },
   info: {
     ...FONTS.medium,

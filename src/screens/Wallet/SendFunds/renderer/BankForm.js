@@ -61,7 +61,7 @@ export default function BankForm({setShowBankForm}) {
             }
             onPress={() => {
               setShowBankForm(false);
-              navigate(routes.CONFIRM_TRANSFER_DETAILS);
+              navigate(routes.CONFIRM_TRANSFER_DETAILS, {});
             }}
           />
         </View>

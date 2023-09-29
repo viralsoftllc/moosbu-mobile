@@ -21,6 +21,9 @@ export default function ImageIcon({
     if (imageUrl) {
       return {uri: imageUrl};
     }
+    if (imageUrl == null) {
+      return icons.avatar;
+    }
 
     return icons.avatar;
   }
