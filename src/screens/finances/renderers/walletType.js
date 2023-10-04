@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS, FONTS} from '../../../assets/themes';
 import {RadioButton} from 'react-native-paper';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const WalletType = ({setCreateWalletModel, navigate}) => {
   const [checked, setChecked] = React.useState('Individual'); //initial choice
@@ -26,17 +26,17 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
           }}>
           <Text
             style={{
-              ...FONTS.h4,
+              ...FONTS.h5,
               fontWeight: 800,
             }}>
             Select Wallet Type
           </Text>
           <Pressable onPress={() => setCreateWalletModel(false)} style={{}}>
-            <Icon name="close" size={20} />
+            <Icon name="close" size={25} />
           </Pressable>
         </View>
 
-        <View style={{gap: 20}}>
+        <View style={{gap: 30, marginVertical: 50}}>
           {/*Create first radio button */}
 
           <View
@@ -55,13 +55,13 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
               onPress={() => setChecked('Individual')}>
               <RadioButton
                 value="Individual"
-                status={checked === 'Individual' ? 'checked' : 'unchecked'} //if the value of checked is Apple, then select this button
-                onPress={() => setChecked('Individual')} //when pressed, set the value of the checked Hook to 'Apple'
+                status={checked === 'Individual' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('Individual')}
                 color={COLORS.secondary}
               />
               <View>
-                <Text style={{...FONTS.big}}>Individual wallet</Text>
-                <Text style={{...FONTS.medium}}>
+                <Text style={{...FONTS.regular}}>Individual wallet</Text>
+                <Text style={{...FONTS.small}}>
                   Transfer easily from your bank account
                 </Text>
               </View>
@@ -93,11 +93,11 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
               onPress={() => notifyMessage('Coming soon')}>
               <RadioButton
                 value="Business"
-                status={checked === 'Business' ? 'checked' : 'unchecked'} //if the value of checked is Apple, then select this button
+                status={checked === 'Business' ? 'checked' : 'unchecked'}
               />
               <View>
-                <Text style={{...FONTS.big}}>Business wallet</Text>
-                <Text style={{...FONTS.medium}}>
+                <Text style={{...FONTS.regular}}>Business wallet</Text>
+                <Text style={{...FONTS.small}}>
                   Use any of your card to fund your wallet
                 </Text>
               </View>

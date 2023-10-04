@@ -1,5 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import Finances from '../../screens/finances';
+import RegisterWalletOne from '../../screens/finances/registerWalletOne';
+import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
 
 import {authScreens} from './screens';
 

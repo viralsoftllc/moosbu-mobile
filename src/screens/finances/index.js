@@ -98,8 +98,9 @@ const Finances = ({navigation}) => {
       <View style={styles.notice}>
         <Text
           style={{
-            ...FONTS.medium,
+            ...FONTS.small,
             textAlign: 'center',
+            fontWeight: '700',
           }}>
           Banking/financial services offered on the Moosbu Super Business App
           are provided by CBN-licensed and NDIC-insured banks and financial
@@ -140,14 +141,19 @@ const Finances = ({navigation}) => {
 export default Finances;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 20, gap: 40, backgroundColor: COLORS.white},
+  container: {
+    flex: 1,
+    padding: 20,
+    gap: 40,
+    backgroundColor: COLORS.white,
+    justifyContent: 'flex-start',
+  },
   list: {
     gap: 5,
     flexDirection: 'row',
-    fontFamily: 'Lato',
   },
 
-  listItem: {...FONTS.medium},
+  listItem: {...FONTS.medium, fontWeight: '500'},
 
   notice: {
     backgroundColor: '#E4EDF9',

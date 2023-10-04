@@ -22,7 +22,7 @@ import routes from '../../shared/constants/routes';
 import UseIcon from '../../shared/utils/UseIcon';
 import TransactionHistory from './renderers/TransactionHistory';
 import HalfScreen from '../finances/renderers/halfScreen';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ficon from 'react-native-vector-icons/Feather';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
 
@@ -43,9 +43,9 @@ export default function Wallet() {
     try {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
-      const {data} = await client.get('/api/wallet_balance');
-      // console.log(data?.balance);
-      dispatch(setWalletBalance(data?.balance));
+      const {data} = await client.get('/api/wallet');
+      console.log(data);
+      dispatch(setWalletBalance(data?.balance.availableBalance));
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -421,37 +421,74 @@ export default function Wallet() {
               alignItems: 'center',
               flexDirection: 'row',
             }}>
-            <Text style={{...FONTS.h4, textAlign: 'center'}}>
+            <Text
+              style={{
+                ...FONTS.regular,
+                color: COLORS.label,
+                textAlign: 'center',
+              }}>
               NGN Bank Transfer
             </Text>
             <Pressable onPress={() => setModalOpen(false)} style={{}}>
               <Icon name="close" size={25} />
             </Pressable>
           </View>
-          <Text style={{...FONTS.medium}}>
+
+          <Text
+            style={{
+              alignSelf: 'center',
+              ...FONTS.medium,
+              color: COLORS.label,
+              marginTop: 50,
+              marginBottom: 30,
+            }}>
+            Your Moosbu Account Number
+          </Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 15,
+              alignSelf: 'center',
+            }}>
+            <Text
+              style={{
+                fontWeight: 600,
+                ...FONTS.h3,
+                color: COLORS.primary,
+              }}>
+              0123679373
+            </Text>
+            <Pressable onPress={() => copyToClipboard('0123679373')}>
+              <Ficon name="copy" size={15} color={COLORS.primary} />
+            </Pressable>
+          </View>
+          <Text
+            style={{
+              ...FONTS.small,
+              alignSelf: 'center',
+              color: COLORS.grayText,
+            }}>
+            Moosbu Bank Service
+          </Text>
+
+          <Text
+            style={{
+              ...FONTS.small,
+              color: COLORS.grayText,
+              alignSelf: 'center',
+              marginTop: 50,
+            }}>
             Your Moosbu NGN Wallet will be instantly funded if you make a bank
             transfer to the account number shown.
           </Text>
 
-          <View style={{marginTop: 20}}>
+          {/* <View style={{marginTop: 20}}>
             <View style={{flexDirection: 'row', marginVertical: 5}}>
               <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
                 Account Number :
               </Text>
-              <View
-                style={{
-                  flex: 0.6,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 15,
-                }}>
-                <Text style={{fontWeight: 600, ...FONTS.regular}}>
-                  0123679373
-                </Text>
-                <Pressable onPress={() => copyToClipboard('0123679373')}>
-                  <Ficon name="copy" size={15} />
-                </Pressable>
-              </View>
             </View>
             <View style={{flexDirection: 'row', marginVertical: 5}}>
               <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
@@ -467,7 +504,7 @@ export default function Wallet() {
               </Text>
               <Text style={{flex: 0.6, ...FONTS.regular}}>Moosbu bank</Text>
             </View>
-          </View>
+          </View> */}
 
           {/* <Pressable
             style={{

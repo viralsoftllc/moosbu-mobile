@@ -17,31 +17,35 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import UseIcon from '../../../shared/utils/UseIcon';
 import {verticalScale} from 'react-native-size-matters';
 import DatePicker from 'react-native-date-picker';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {uploadImageToCloudinary} from '../../../shared/hooks/uploadToCloudinary';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import client from '../../../shared/api/client';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../../../redux/slices/auth/selectors';
 import axios from 'axios';
+import {Dropdown} from 'react-native-element-dropdown';
+import handleApiError from '../../../shared/components/handleApiError';
 
 const RegisterWalletTwo = ({navigation}) => {
   const token = useSelector(selectToken);
 
   const [uri, setUri] = useState('');
   const [date, setDate] = useState(new Date());
+  const [uiDate, setUiDate] = useState('');
   const [open, setOpen] = useState(false);
   const [bvn, setBvn] = useState('');
   const [gender, setGender] = useState('');
   const [fileResponse, setFileResponse] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [dropdownValue, setDropdownValue] = useState(null);
-  // const [items, setItems] = useState([
-  //   {label: 'Male', value: 'male'},
-  //   {label: 'Female', value: 'female'},
-  // ]);
+  //gender picker variables
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+
+  const genders = [
+    {label: 'Male', value: 'Male'},
+    {label: 'Female', value: 'Female'},
+  ];
 
   //handle image from camera
   const handleCamera = async () => {
@@ -115,20 +119,14 @@ const RegisterWalletTwo = ({navigation}) => {
     const day = date.toLocaleString('default', {day: '2-digit'});
 
     const formattedDate = [year, month, day].join('-');
-    console.log(formattedDate);
-
     return formattedDate;
   }
 
   //handle register
   const handleRegister = async () => {
     setLoading(true);
-
+    const userPicture = await uploadToGetUrl(fileResponse.base64);
     try {
-      const userPicture = await uploadToGetUrl(fileResponse.base64);
-
-      console.log(userPicture);
-
       const options = {
         selfie: userPicture,
         gender,
@@ -137,8 +135,8 @@ const RegisterWalletTwo = ({navigation}) => {
       };
 
       console.log(options);
-      console.log(token);
-      //   const res = await client.post('/api/update_wallet', options);
+
+      const res = await client.post('/api/update_wallet', options);
 
       // fetch('https://staging.moosbu.com/api/update_wallet', {
       //   method: 'post',
@@ -151,22 +149,21 @@ const RegisterWalletTwo = ({navigation}) => {
       //   .then(res => console.log(res))
       //   .catch(e => console.log(e));
 
-      axios
-        .post('https://staging.moosbu.com/api/update_wallet', options, {
-          headers: {
-            Authorization: 'Bearer ' + token,
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
+      // axios
+      //   .post('https://staging.moosbu.com/api/update_wallet', options, {
+      //     headers: {
+      //       Authorization: 'Bearer ' + token,
+      //       'Content-Type': 'application/json',
+      //     },
+      //   })
+      //   .then(response => console.log(response))
+      //   .catch(error => console.error(error));
 
-      // console.log(res);
+      console.log(res);
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
-      notifyMessage(error);
+      handleApiError(error);
     }
   };
 
@@ -202,23 +199,25 @@ const RegisterWalletTwo = ({navigation}) => {
             }}>
             Activate Your Wallet
           </Text>
-          <Text style={{...FONTS.small, fontWeight: 700}}>Step 2 of 2</Text>
+          <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 2 of 2</Text>
         </View>
-        <Text style={{textAlign: 'center', ...FONTS.medium, fontWeight: 600}}>
-          Kindly fill the details below to activate your wallet
-        </Text>
+
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: 20,
+            gap: 20,
           }}>
+          <Text style={{textAlign: 'center', ...FONTS.medium}}>
+            Kindly fill the details below to activate your wallet
+          </Text>
           <View
             style={{
               width: 80,
               height: 80,
               borderRadius: 40,
-              backgroundColor: COLORS.secondary,
+              backgroundColor: COLORS.textSecondary,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
@@ -231,6 +230,7 @@ const RegisterWalletTwo = ({navigation}) => {
           <Text style={styles.label}>BVN</Text>
           <TextInput
             placeholder="Input your BVN here"
+            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             value={bvn}
             onChangeText={text => setBvn(text)}
@@ -325,18 +325,37 @@ const RegisterWalletTwo = ({navigation}) => {
             <Text style={styles.label}>Date of Birth</Text>
             <TextInput
               placeholder="Select DOB"
+              placeholderTextColor={COLORS.grayText}
               style={styles.input}
-              value={date.toDateString()}
+              value={uiDate}
               onPressIn={() => setOpen(true)}
             />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Gender</Text>
-            <TextInput
-              placeholder="Select Gender"
-              value={gender}
+            <Dropdown
               style={styles.input}
-              onChangeText={text => setGender(text)}
+              placeholderStyle={[
+                styles.input,
+                {borderWidth: 0, color: COLORS.textGray},
+              ]}
+              itemTextStyle={{
+                ...FONTS.small,
+              }}
+              selectedTextStyle={{...FONTS.small}}
+              data={genders}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Select Gender' : '...'}
+              value={value}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setValue(item.value);
+                setGender(item.label);
+                setIsFocus(false);
+              }}
             />
           </View>
         </View>
@@ -347,7 +366,7 @@ const RegisterWalletTwo = ({navigation}) => {
           date={date}
           onConfirm={date => {
             setOpen(false);
-            setDate(date);
+            setUiDate(formatDate(date));
           }}
           onCancel={() => {
             setOpen(false);
@@ -438,12 +457,12 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {flex: 1},
-  label: {...COLORS.medium, lineHeight: 14.4},
+  label: {...FONTS.small, color: COLORS.label},
   input: {
     borderWidth: 1,
     marginTop: 3,
     borderRadius: 5,
-    height: 44,
+    height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
     fontSize: 12,
@@ -454,7 +473,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-  listItem: {...FONTS.medium, flex: 1},
+  listItem: {...FONTS.small, color: COLORS.label, fontWeight: '400', flex: 1},
 
   button: {
     minWidth: '80%',

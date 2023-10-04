@@ -65,29 +65,6 @@ export default function ConfirmTransferDetails({route}) {
     amount: amount,
   };
 
-  const handleVerify = async () => {
-    setButtonLoading(true);
-    try {
-      const {data} = await client.post('/api/transfer', options);
-      console.log(data);
-
-      const {id, attributes} = data.data;
-      setTransferId(id);
-
-      // if (attributes?.status == 'FAILED') {
-      //   setButtonLoading(false);
-      //   return notifyMessage(attributes?.failureReason);
-      // }
-
-      console.log(id, attributes);
-      setButtonLoading(false);
-      setShowPinForm(true);
-    } catch (error) {
-      setButtonLoading(false);
-      handleApiError(error);
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
@@ -95,73 +72,79 @@ export default function ConfirmTransferDetails({route}) {
           <ActivityIndicator size={'large'} color={COLORS.primary} />
         </View>
       ) : (
-        <>
-          <View style={styles.details}>
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Send To:</Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-between',
+            paddingVertical: 20,
+          }}>
+          <>
+            <View style={styles.details}>
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Send To:</Text>
+                </View>
+
+                <View style={styles.column}>
+                  <Text style={styles.text}>{accountName}</Text>
+                </View>
               </View>
 
-              <View style={styles.column}>
-                <Text style={styles.text}>{accountName}</Text>
-              </View>
-            </View>
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Account Number:</Text>
+                </View>
 
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Account Number:</Text>
-              </View>
-
-              <View style={styles.column}>
-                <Text style={styles.text}>{accountNumber}</Text>
-              </View>
-            </View>
-
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Bank Name:</Text>
+                <View style={styles.column}>
+                  <Text style={styles.text}>{accountNumber}</Text>
+                </View>
               </View>
 
-              <View style={styles.column}>
-                <Text style={styles.text}>{bank}</Text>
-              </View>
-            </View>
-          </View>
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Bank Name:</Text>
+                </View>
 
-          <View style={styles.details}>
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Amount:</Text>
-              </View>
-
-              <View style={styles.column}>
-                <Text style={styles.text}>{amount}</Text>
+                <View style={styles.column}>
+                  <Text style={styles.text}>{bank}</Text>
+                </View>
               </View>
             </View>
 
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Transfer fee:</Text>
+            <View style={styles.details}>
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Amount:</Text>
+                </View>
+
+                <View style={styles.column}>
+                  <Text style={styles.text}>{`\u20A6 ${amount}`}</Text>
+                </View>
               </View>
 
-              <View style={styles.column}>
-                <Text style={styles.text}>{transferFee}</Text>
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Transfer fee:</Text>
+                </View>
+
+                <View style={styles.column}>
+                  <Text style={styles.text}>{`\u20A6 ${transferFee}`}</Text>
+                </View>
+              </View>
+
+              <View style={styles.row}>
+                <View style={styles.column}>
+                  <Text style={styles.text}>Total Amount:</Text>
+                </View>
+
+                <View style={styles.column}>
+                  <Text style={styles.text}>
+                    {`\u20A6 ${parseInt(amount) + transferFee}`}
+                  </Text>
+                </View>
               </View>
             </View>
-
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <Text style={styles.text}>Total Amount:</Text>
-              </View>
-
-              <View style={styles.column}>
-                <Text style={styles.text}>
-                  {parseInt(amount) + transferFee}
-                </Text>
-              </View>
-            </View>
-          </View>
-
+          </>
           <FormButton
             title={'Pay Securely'}
             loading={buttonLoading}
@@ -172,14 +155,14 @@ export default function ConfirmTransferDetails({route}) {
                 color={COLORS.white}
               />
             }
-            onPress={handleVerify}
+            onPress={() => setShowPinForm(true)}
             buttonStyle={styles.buttonStylye}
           />
 
           <Modal visible={showPinForm} animationType="slide" transparent={true}>
-            <EnterPin setShowPinForm={setShowPinForm} id={transferId} />
+            <EnterPin setShowPinForm={setShowPinForm} options={options} />
           </Modal>
-        </>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -209,10 +192,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    color: COLORS.textPrimary,
-    ...FONTS.regular,
+    color: COLORS.label,
+    ...FONTS.small,
   },
   buttonStylye: {
-    marginTop: SIZES.base * 2,
+    marginTop: SIZES.base * 6,
   },
 });

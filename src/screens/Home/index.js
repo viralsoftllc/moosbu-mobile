@@ -78,9 +78,9 @@ export default function Home({navigation}) {
     try {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
-      const {data} = await client.get('/api/wallet_balance');
+      const {data} = await client.get('/api/wallet');
       // console.log(data?.balance);
-      dispatch(setWalletBalance(data?.balance));
+      dispatch(setWalletBalance(data?.balance.availableBalance));
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -97,7 +97,9 @@ export default function Home({navigation}) {
       <HomeHeader
         setShowStoresModal={setShowStoresModal}
         loading={loading}
-        storeImageUrl={storeDetails?.logo ? storeDetails?.logo : null}
+        storeImageUrl={
+          storeDetails?.logo == 'logo.png' ? null : storeDetails?.logo
+        }
       />
 
       <ScrollView

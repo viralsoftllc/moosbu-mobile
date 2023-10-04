@@ -129,23 +129,25 @@ const RegisterWalletOne = ({navigation}) => {
             }}>
             Activate Your Wallet
           </Text>
-          <Text style={{...FONTS.small, fontWeight: 700}}>Step 1 of 2</Text>
+          <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 1 of 2</Text>
         </View>
-        <Text style={{textAlign: 'center', ...FONTS.medium, fontWeight: 600}}>
-          Kindly fill the details below to activate your wallet
-        </Text>
+
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: 20,
+            gap: 20,
           }}>
+          <Text style={{textAlign: 'center', ...FONTS.medium}}>
+            Kindly fill the details below to activate your wallet
+          </Text>
           <View
             style={{
               width: 80,
               height: 80,
               borderRadius: 40,
-              backgroundColor: COLORS.secondary,
+              backgroundColor: COLORS.textSecondary,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
@@ -153,7 +155,7 @@ const RegisterWalletOne = ({navigation}) => {
           </View>
         </View>
       </View>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView style={{marginVertical: 50}}>
         <View
           style={{
             flexDirection: 'row',
@@ -173,6 +175,8 @@ const RegisterWalletOne = ({navigation}) => {
               <Text style={styles.label}>First Name</Text>
               <TextInput
                 placeholder="First Name"
+                placeholderTextColor={COLORS.grayText}
+                inlineImageLeft="hi"
                 style={styles.input}
                 value={firstName}
                 onChangeText={text => setFirstName(text)}
@@ -183,6 +187,7 @@ const RegisterWalletOne = ({navigation}) => {
               <Text style={styles.label}>Last Name</Text>
               <TextInput
                 placeholder="Last Name"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={lastName}
                 onChangeText={text => setLastName(text)}
@@ -203,6 +208,7 @@ const RegisterWalletOne = ({navigation}) => {
               <Text style={styles.label}>Email Address</Text>
               <TextInput
                 placeholder="Email Address"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={email}
                 onChangeText={text => setEmail(text)}
@@ -213,6 +219,7 @@ const RegisterWalletOne = ({navigation}) => {
               <Text style={styles.label}>Phone Number</Text>
               <TextInput
                 placeholder="Phone Number"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={phoneNumber}
                 onChangeText={text => setPhoneNumber(text)}
@@ -257,6 +264,7 @@ const RegisterWalletOne = ({navigation}) => {
               <Text style={styles.label}>Address</Text>
               <TextInput
                 placeholder="Address Line 1"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={addressLine_1}
                 onChangeText={text => setAddressLine_1(text)}
@@ -266,6 +274,7 @@ const RegisterWalletOne = ({navigation}) => {
               <Text></Text>
               <TextInput
                 placeholder="Address Line 2 (Optional}"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={addressLine_2}
                 onChangeText={text => setAddressLine_2(text)}
@@ -284,6 +293,7 @@ const RegisterWalletOne = ({navigation}) => {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="city"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={city}
                 onChangeText={text => setCity(text)}
@@ -292,6 +302,7 @@ const RegisterWalletOne = ({navigation}) => {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Postal Code"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={postalCode}
                 onChangeText={text => setPostalCode(text)}
@@ -310,6 +321,7 @@ const RegisterWalletOne = ({navigation}) => {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="State"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={state}
                 onChangeText={text => setState(text)}
@@ -318,6 +330,7 @@ const RegisterWalletOne = ({navigation}) => {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Country"
+                placeholderTextColor={COLORS.grayText}
                 style={styles.input}
                 value={country}
                 onChangeText={text => setCountry(text.trim())}
@@ -327,34 +340,27 @@ const RegisterWalletOne = ({navigation}) => {
             </View>
           </View>
         </View>
-
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              handleReg();
-              // navigation.navigate('RegisterWalletTwo')
-            }}
-            style={styles.button}>
-            {loading ? (
-              <ActivityIndicator color={COLORS.white} size={'large'} />
-            ) : (
-              <Text
-                style={{
-                  color: COLORS.white,
-                  ...FONTS.regular,
-                  fontWeight: 700,
-                }}>
-                Continue
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity onPress={handleReg} style={styles.button}>
+          {loading ? (
+            <ActivityIndicator color={COLORS.white} size={'large'} />
+          ) : (
+            <Text
+              style={{
+                color: COLORS.white,
+                ...FONTS.regular,
+                fontWeight: 700,
+              }}>
+              Continue
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -362,15 +368,15 @@ const RegisterWalletOne = ({navigation}) => {
 export default RegisterWalletOne;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, gap: 50, padding: 20},
+  container: {gap: 50, padding: 20, justifyContent: 'flex-start'},
 
   inputContainer: {flex: 0.5},
-  label: {...COLORS.medium, lineHeight: 14.4},
+  label: {...FONTS.small, color: COLORS.label, fontWeight: '500'},
   input: {
     borderWidth: 1,
     marginTop: 3,
     borderRadius: 5,
-    height: 44,
+    height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
     fontSize: 12,

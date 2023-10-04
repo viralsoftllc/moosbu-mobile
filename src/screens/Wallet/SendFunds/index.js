@@ -136,15 +136,25 @@ export default function SendFunds({navigation}) {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginTop: 10,
+              marginBottom: 50,
             }}>
-            <Text
-              style={{
-                ...FONTS.regular,
-                color: COLORS.textPrimary,
-                fontWeight: '700',
-              }}>
-              Send Fund
-            </Text>
+            <View>
+              <Text
+                style={{
+                  ...FONTS.regular,
+                  color: COLORS.textPrimary,
+                  fontWeight: '700',
+                }}>
+                Send Money
+              </Text>
+              <Text
+                style={{
+                  ...FONTS.small,
+                  color: COLORS.textGray,
+                }}>
+                Provide account information of the recipient
+              </Text>
+            </View>
 
             <Pressable
               onPress={() => {
@@ -154,21 +164,28 @@ export default function SendFunds({navigation}) {
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View>
-          <View style={{gap: 15, marginVertical: 30}}>
-            <View>
-              <Text style={styles.label}>
-                Provide account information of recipient
-              </Text>
+          <View style={{gap: 15, marginBottom: 100}}>
+            <View style={{marginBottom: 40}}>
               <TextInput
                 style={styles.input}
                 onChangeText={text => setAccountNumber(text)}
                 inputMode="numeric"
+                placeholder="Enter account number "
+                placeholderTextColor={COLORS.grayText}
               />
             </View>
-            <View>
+            <View style={{marginBottom: 40}}>
               <Text style={styles.label}>Select Recipient Bank</Text>
               <Dropdown
                 style={styles.input}
+                placeholderStyle={[
+                  styles.input,
+                  {borderWidth: 0, color: COLORS.textGray},
+                ]}
+                itemTextStyle={{
+                  ...FONTS.small,
+                }}
+                selectedTextStyle={{...FONTS.small}}
                 data={bankList}
                 maxHeight={300}
                 labelField="label"
@@ -191,12 +208,16 @@ export default function SendFunds({navigation}) {
                   style={styles.input}
                   onChangeText={text => setAmount(text)}
                   inputMode="numeric"
+                  placeholder="Enter amount"
+                  placeholderTextColor={COLORS.grayText}
                 />
               </View>
               <View style={{flex: 1}}>
                 <Text style={styles.label}>Description</Text>
                 <TextInput
                   style={styles.input}
+                  placeholder="Transaction description"
+                  placeholderTextColor={COLORS.grayText}
                   onChangeText={text => setDescription(text)}
                 />
               </View>
@@ -281,15 +302,15 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     ...FONTS.medium,
   },
-  label: {...FONTS.medium},
+  label: {...FONTS.small, color: COLORS.label},
   input: {
     borderWidth: 1,
     marginTop: 3,
     borderRadius: 5,
-    height: 44,
+    height: 50,
     padding: 10,
-    borderColor: COLORS.borderColor,
-    ...FONTS.regular,
+    borderColor: COLORS.borderGray,
+    ...FONTS.small,
   },
   button: {
     minWidth: '80%',
