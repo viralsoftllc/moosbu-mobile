@@ -59,7 +59,7 @@ export default function ConfirmTransferDetails({route}) {
 
   const options = {
     account_name: accountName,
-    account_number: 3072705914,
+    account_number: accountNumber,
     bank_code: bankCode,
     bank_id: bankId,
     amount: amount,

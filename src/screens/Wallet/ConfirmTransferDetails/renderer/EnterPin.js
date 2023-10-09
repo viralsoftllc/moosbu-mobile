@@ -16,11 +16,14 @@ export default function EnterPin({setShowPinForm, options}) {
 
   const handleTransfer = async () => {
     setLoading(true);
+    console.log(options);
     try {
       const res = await client.post('/api/transfer', {
         ...options,
         pin: code,
       });
+
+      console.log(res.data);
 
       const {attributes} = res.data.data;
       console.log(attributes);

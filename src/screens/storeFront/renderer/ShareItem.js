@@ -8,7 +8,14 @@ import FormButton from '../../../shared/components/FormButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function ShareItem({setShowShareModal, title, subtitle, link}) {
+const storeName = 'oracle';
+
+export default function ShareItem({
+  setShowShareModal,
+  title,
+  subtitle,
+  productId,
+}) {
   const [copied, setCopied] = useState(false);
   const [media, setMedia] = useState('');
 
@@ -99,7 +106,10 @@ export default function ShareItem({setShowShareModal, title, subtitle, link}) {
 
           <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
-            <Text style={styles.link}>{link || ''}</Text>
+            <Text
+              style={
+                styles.link
+              }>{`https://www.moosbu.store/${storeName}/products/${productId}`}</Text>
             <Pressable
               onPress={() => copyToClipboard(link || '')}
               style={styles.copyBtn}>

@@ -41,11 +41,13 @@ const RegisterWalletOne = ({navigation}) => {
     });
     const {code} = country;
 
-    setCountryCode(prev => (prev = code));
+    return setCountryCode(prev => (prev = code));
   };
 
   //function to handle wallet registration
-  const handleReg = async () => {
+  const handleReg = async country => {
+    handleCountry(country);
+
     //Handle input validation
     if (!firstName || !lastName) {
       return notifyMessage('Name cannot be blank');
@@ -66,7 +68,6 @@ const RegisterWalletOne = ({navigation}) => {
     }
 
     //Convert Country to Code
-    handleCountry(country);
 
     const options = {
       firstName,
@@ -346,7 +347,9 @@ const RegisterWalletOne = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <TouchableOpacity onPress={handleReg} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => handleReg(country)}
+          style={styles.button}>
           {loading ? (
             <ActivityIndicator color={COLORS.white} size={'large'} />
           ) : (

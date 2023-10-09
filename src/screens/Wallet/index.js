@@ -14,8 +14,14 @@ import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
-import {selectWalletBalance} from '../../redux/slices/wallet/selectors';
-import {setWalletBalance} from '../../redux/slices/wallet/slice';
+import {
+  selectWalletBalance,
+  selectAccountNumber,
+} from '../../redux/slices/wallet/selectors';
+import {
+  setAccountNumber,
+  setWalletBalance,
+} from '../../redux/slices/wallet/slice';
 import client from '../../shared/api/client';
 import handleApiError from '../../shared/components/handleApiError';
 import routes from '../../shared/constants/routes';
@@ -29,6 +35,9 @@ import copyToClipboard from '../../shared/utils/copyToClipboard';
 export default function Wallet() {
   const {navigate} = useNavigation();
   const balance = useSelector(selectWalletBalance);
+  const accountNumber = useSelector(selectAccountNumber);
+
+  console.log(accountNumber);
   const dispatch = useDispatch();
 
   const [showBalance, setShowBalance] = useState(true);
@@ -44,8 +53,11 @@ export default function Wallet() {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
-      console.log(data);
+      // console.log(data);
+      console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(data?.balance.availableBalance));
+      dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
+
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -458,7 +470,7 @@ export default function Wallet() {
                 ...FONTS.h3,
                 color: COLORS.primary,
               }}>
-              0123679373
+              {accountNumber}
             </Text>
             <Pressable onPress={() => copyToClipboard('0123679373')}>
               <Ficon name="copy" size={15} color={COLORS.primary} />
