@@ -41,10 +41,6 @@ export default function EnterPin() {
         />
       </View>
 
-      <Text style={styles.info}>
-        Please enter your passcode or use your fingerprint ID
-      </Text>
-
       <Pressable style={styles.iconView}>
         <UseIcon
           type={'MaterialIcons'}
@@ -99,5 +95,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderColor: COLORS.primary,
     marginBottom: SIZES.base * 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

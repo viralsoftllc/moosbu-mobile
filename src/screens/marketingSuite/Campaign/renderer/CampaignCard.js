@@ -14,6 +14,8 @@ export default function CampaignCard({
   imageUrl,
   handleDeleteItem,
   onPress,
+  sent,
+  delivered,
 }) {
   // let b = {
   //   channel: 'sms',
@@ -66,13 +68,13 @@ export default function CampaignCard({
 
   return (
     <Pressable style={styles.container} onPress={closeCtaView}>
-      <View style={[styles.imageBox]}>
+      {/* <View style={[styles.imageBox]}>
         <Image
           source={getSource()}
           resizeMode={'contain'}
           style={styles.image}
         />
-      </View>
+      </View> */}
 
       <View style={styles.details}>
         <View style={[styles.flex, styles.nameWrapper]}>
@@ -133,6 +135,11 @@ export default function CampaignCard({
 
           <Text style={[styles.status, {color: getColor()}]}>{status}</Text>
         </View> */}
+
+        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+          <Text style={{...FONTS.small}}>Sent: {sent}</Text>
+          <Text style={{...FONTS.small}}>Delivered: {delivered}</Text>
+        </View>
       </View>
     </Pressable>
   );
@@ -147,7 +154,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: SIZES.base,
+    padding: SIZES.base,
   },
   ctaText: {
     ...FONTS.medium,

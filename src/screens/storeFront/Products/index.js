@@ -75,16 +75,16 @@ export default function Products() {
 
     try {
       const res = await client.get('/api/products');
-      const {data} = res;
-      console.log('products response');
-      console.log(res);
       console.log(res.data);
+      const {data} = res;
+
+      console.log(data[0]);
 
       setLoading(false);
 
-      dispatch(setProducts(data));
+      dispatch(setProducts(data[0]));
       // setItems(data);
-      setFilteredItems(data);
+      setFilteredItems(data[0]);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
@@ -135,20 +135,21 @@ export default function Products() {
               setShowShareModal={setShowShareModal}
               handleEditItem={() => handleEditItem(item)}
               handleDeleteItem={handleDeleteItem}
+              productId={item.id}
             />
           ))
         ) : !loading ? (
           <EmptyItemInfo message={'No products to display'} />
         ) : null}
       </ScrollView>
-
+      {/* 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem setShowShareModal={setShowShareModal} title="Product" />
       </Modal>
 
       <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
         <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'Product'} />
-      </Modal>
+      </Modal> */}
     </View>
   );
 }

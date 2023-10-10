@@ -7,8 +7,13 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import UseIcon from '../../../shared/utils/UseIcon';
 
+import {useSelector} from 'react-redux';
+import {selectAccountNumber} from '../../../redux/slices/wallet/selectors';
+
 export default function BankTransfer() {
   const {setOptions} = useNavigation();
+
+  const accountNumber = useSelector(selectAccountNumber);
 
   const copyToClipboard = content => {
     Clipboard.setString(content);
@@ -26,7 +31,7 @@ export default function BankTransfer() {
         <Text style={styles.title}>Your Moosbu Account Number</Text>
 
         <Pressable style={styles.acctNumberBtn} onPress={copyToClipboard}>
-          <Text style={styles.acctNumber}>00011222333</Text>
+          <Text style={styles.acctNumber}>{accountNumber}</Text>
 
           <UseIcon
             type={'MaterialCommunityIcons'}

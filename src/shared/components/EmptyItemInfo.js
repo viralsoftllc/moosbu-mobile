@@ -1,11 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {SIZES} from '../../assets/themes';
+import {SIZES, FONTS} from '../../assets/themes';
 
 export default function EmptyItemInfo({message}) {
   return (
     <View style={styles.container}>
-      <Text>{message}</Text>
+      <Text style={{...FONTS.regular}}>{message}</Text>
     </View>
   );
 }

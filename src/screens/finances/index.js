@@ -1,7 +1,17 @@
-import {StyleSheet, Text, View, TouchableOpacity, Modal} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+} from 'react-native';
 import React, {useState} from 'react';
 import WalletType from './renderers/walletType';
-import {COLORS, FONTS} from '../../assets/themes';
+import HalfScreen from './renderers/halfScreen';
+import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {verticalScale} from 'react-native-size-matters';
 
 const Finances = ({navigation}) => {
   const [createWalletModal, setCreateWalletModal] = useState(false);
@@ -13,15 +23,44 @@ const Finances = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{
+            alignSelf: 'flex-start',
+            height: verticalScale(30),
+            width: verticalScale(30),
+            borderWidth: 1,
+            borderColor: COLORS.borderGray,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: SIZES.radius / 2,
+          }}>
+          <Icon name="arrow-back" size={16} />
+        </Pressable>
         <Text
+          style={{
+            ...FONTS.h4,
+            fontWeight: 700,
+          }}>
+          Business Banking
+        </Text>
+        <Text></Text>
+      </View>
+      <View>
+        {/* <Text
           style={{
             ...FONTS.h3,
             fontWeight: 800,
             marginTop: 50,
           }}>
           Business Banking
-        </Text>
+        </Text> */}
         <Text
           style={{
             ...FONTS.medium,
@@ -59,8 +98,9 @@ const Finances = ({navigation}) => {
       <View style={styles.notice}>
         <Text
           style={{
-            ...FONTS.medium,
+            ...FONTS.small,
             textAlign: 'center',
+            fontWeight: '700',
           }}>
           Banking/financial services offered on the Moosbu Super Business App
           are provided by CBN-licensed and NDIC-insured banks and financial
@@ -82,28 +122,17 @@ const Finances = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Camera')}
-        style={styles.button}>
-        <Text
-          style={{
-            color: COLORS.white,
-            ...FONTS.regular,
-            fontWeight: 700,
-          }}>
-          Open Camera
-        </Text>
-      </TouchableOpacity>
-
       <Modal
         visible={createWalletModal}
         animationType="slide"
         transparent={true}
         style={{padding: 20}}>
-        <WalletType
-          navigate={handlePress}
-          setCreateWalletModel={setCreateWalletModal}
-        />
+        <HalfScreen>
+          <WalletType
+            navigate={handlePress}
+            setCreateWalletModel={setCreateWalletModal}
+          />
+        </HalfScreen>
       </Modal>
     </View>
   );
@@ -112,14 +141,19 @@ const Finances = ({navigation}) => {
 export default Finances;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, padding: 20, gap: 40},
+  container: {
+    flex: 1,
+    padding: 20,
+    gap: 40,
+    backgroundColor: COLORS.white,
+    justifyContent: 'flex-start',
+  },
   list: {
     gap: 5,
     flexDirection: 'row',
-    fontFamily: 'Lato',
   },
 
-  listItem: {...FONTS.medium},
+  listItem: {...FONTS.medium, fontWeight: '500'},
 
   notice: {
     backgroundColor: '#E4EDF9',

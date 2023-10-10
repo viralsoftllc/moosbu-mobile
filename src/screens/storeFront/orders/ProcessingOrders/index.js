@@ -80,13 +80,27 @@ export default function ProcessingOrders() {
         showsVerticalScrollIndicator={false}>
         {loading ? <ActivityIndicator size={'large'} /> : null}
 
-        {!loading && !filteredItems?.length ? (
+        {/* {!loading && !filteredItems?.length ? (
           <EmptyItemInfo message={'Orders are empty'} />
-        ) : null}
+        ) : null} */}
 
-        {filteredItems?.map((order, i) => (
-          <OrderCard key={i} order={order} />
-        ))}
+        {searchText
+          ? filteredItems?.map((order, i) => {
+              if (order.status === 'pending') {
+                return <OrderCard key={i} order={order} />;
+              }
+            })
+          : null}
+
+        {!searchText ? (
+          orders?.map((order, i) => {
+            if (order.status === 'pending') {
+              return <OrderCard key={i} order={order} />;
+            }
+          })
+        ) : (
+          <EmptyItemInfo message={'Orders are empty'} />
+        )}
       </ScrollView>
     </View>
   );

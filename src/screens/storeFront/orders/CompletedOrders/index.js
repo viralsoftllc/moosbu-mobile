@@ -16,7 +16,7 @@ export default function CompletedOrders() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
-  // console.log(orders);
+  console.log(orders);
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
@@ -82,13 +82,25 @@ export default function CompletedOrders() {
         showsVerticalScrollIndicator={false}>
         {loading ? <ActivityIndicator size={'large'} /> : null}
 
-        {!loading && !filteredItems?.length ? (
+        {!loading && filteredItems?.length == 0 ? (
           <EmptyItemInfo message={'Orders are empty'} />
         ) : null}
 
-        {filteredItems?.map((order, i) => (
-          <OrderCard key={i} order={order} />
-        ))}
+        {searchText
+          ? filteredItems?.map((order, i) => {
+              if (order.status === 'completed') {
+                return <OrderCard key={i} order={order} />;
+              }
+            })
+          : null}
+
+        {!searchText
+          ? orders?.map((order, i) => {
+              if (order.status === 'completed') {
+                return <OrderCard key={i} order={order} />;
+              }
+            })
+          : null}
       </ScrollView>
     </View>
   );

@@ -13,11 +13,17 @@ import MenuTabBarButton from './MenuTabBarButton';
 import Menu from '../../../screens/Menu';
 import MoreStack from '../stacks/MoreStack';
 import Wallet from '../../../screens/Wallet';
+import Finances from '../../../screens/finances';
 import OrderTopTabNavigator from '../screens/OrderTopTabNavigator';
+
+import {useSelector} from 'react-redux';
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+  const store = useSelector(selectStoreDetails);
+
   return (
     <Tab.Navigator
       //   tabBar={props => <CustomTabBar {...props} />}
@@ -58,7 +64,7 @@ export default function BottomTabNavigator() {
 
       <Tab.Screen
         name={routes.WALLET}
-        component={Wallet}
+        component={store?.accountID ? Wallet : Finances}
         options={{
           tabBarButton: props => (
             <CustomTabBarButton

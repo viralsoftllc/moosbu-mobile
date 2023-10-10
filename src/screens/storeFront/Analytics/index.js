@@ -9,10 +9,14 @@ import handleApiError from '../../../shared/components/handleApiError';
 import Loader from '../../../shared/components/Loader';
 import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import {selectTotalCustomers} from '../../../redux/slices/businessOvervew/selectors';
 
 export default function Analytics() {
   const {setOptions} = useNavigation();
   const store = useSelector(selectStoreDetails);
+  const businessOvervew = useSelector(selectTotalCustomers);
+
+  console.log(businessOvervew);
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);

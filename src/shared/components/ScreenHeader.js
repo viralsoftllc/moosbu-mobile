@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius / 2,
   },
   title: {
-    color: COLORS.textPrimary,
+    color: COLORS.label,
     ...FONTS.h5,
   },
   subtitle: {

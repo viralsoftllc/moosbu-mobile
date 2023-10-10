@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View, Modal} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
+import ShareItem from '../../renderer/ShareItem';
+import DeleteItem from '../../../../shared/components/DeleteItem';
+
 export default function ProductCard({
-  setShowShareModal,
+  // setShowShareModal,
   handleEditItem,
   handleDeleteItem,
   product,
+  productId,
 }) {
   const [showCta, setShowCta] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   function toggleCtaView() {
     setShowCta(!showCta);
@@ -95,9 +101,26 @@ export default function ProductCard({
           </Pressable>
         </View>
       </View>
+
+      <Modal visible={showShareModal} animationType="slide" transparent={true}>
+        <ShareItem
+          setShowShareModal={setShowShareModal}
+          title="Product"
+          productId={productId}
+        />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem setShowDeleteModal={setShowDeleteModal} title={'Product'} />
+      </Modal>
     </Pressable>
   );
 }
+
+// () => {
+//   handleEditItem();
+//   // closeCtaView();
+// }
 
 const styles = StyleSheet.create({
   container: {

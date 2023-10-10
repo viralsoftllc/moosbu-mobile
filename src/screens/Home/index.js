@@ -18,6 +18,7 @@ import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import {
   setTotalCustomers,
   setTotalProducts,
+  setTotalOrders,
 } from '../../redux/slices/businessOvervew/slice';
 import {setStoreDetails, setStoreUrl} from '../../redux/slices/store/slice';
 import {selectUser} from '../../redux/slices/user/selectors';
@@ -36,9 +37,11 @@ import WalletBalance from './renderers/WalletBalance';
 import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
 import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
+import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
+  const storeDetails = useSelector(selectStoreDetails);
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
@@ -57,8 +60,9 @@ export default function Home({navigation}) {
       console.log(data);
       dispatch(setStoreDetails(data?.store));
       dispatch(setStoreUrl(data?.store_url));
-      dispatch(setTotalCustomers(data?.$customers));
+      dispatch(setTotalCustomers(data?.customers));
       dispatch(setTotalProducts(data?.total_product));
+      dispatch(setTotalOrders(data?.orders.length));
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -74,9 +78,9 @@ export default function Home({navigation}) {
     try {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
-      const {data} = await client.get('/api/wallet_balance');
+      const {data} = await client.get('/api/wallet');
       // console.log(data?.balance);
-      dispatch(setWalletBalance(data?.balance));
+      dispatch(setWalletBalance(data?.balance.availableBalance));
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -90,7 +94,13 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HomeHeader setShowStoresModal={setShowStoresModal} loading={loading} />
+      <HomeHeader
+        setShowStoresModal={setShowStoresModal}
+        loading={loading}
+        storeImageUrl={
+          storeDetails?.logo == 'logo.png' ? null : storeDetails?.logo
+        }
+      />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -121,9 +131,9 @@ export default function Home({navigation}) {
             <StoreRevenue />
           </View>
 
-          <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
             <Text>Go to finances</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Business overview */}
           <BusinessOverview />

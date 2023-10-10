@@ -87,9 +87,16 @@ export default function AllOrders() {
           <EmptyItemInfo message={'Orders are empty'} />
         ) : null}
 
-        {filteredItems?.map((order, i) => (
-          <OrderCard key={i} order={order} />
-        ))}
+        {searchText
+          ? filteredItems?.map((order, i) => (
+              <OrderCard key={i} order={order} />
+            ))
+          : null}
+
+        {!searchText
+          ? orders?.map((order, i) => <OrderCard key={i} order={order} />)
+          : null}
+
         {/* <OrderCard /> */}
       </ScrollView>
     </View>

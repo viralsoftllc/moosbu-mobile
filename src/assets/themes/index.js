@@ -19,6 +19,7 @@ export const COLORS = {
   debit: '#F84343',
   credit: '#27AE60',
   pending: '#FFA21D',
+  label: '#282828',
 };
 
 export const SIZES = {
