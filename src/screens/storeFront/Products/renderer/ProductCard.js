@@ -14,6 +14,7 @@ export default function ProductCard({
   handleDeleteItem,
   product,
   productId,
+  store,
 }) {
   const [showCta, setShowCta] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -107,6 +108,7 @@ export default function ProductCard({
           setShowShareModal={setShowShareModal}
           title="Product"
           productId={productId}
+          storeName={store}
         />
       </Modal>
 

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState} from 'react';
 import WalletType from './renderers/walletType';
@@ -22,7 +23,7 @@ const Finances = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View
         style={{
           flexDirection: 'row',
@@ -134,7 +135,7 @@ const Finances = ({navigation}) => {
           />
         </HalfScreen>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
 

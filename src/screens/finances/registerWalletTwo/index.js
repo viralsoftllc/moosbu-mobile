@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Image,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -168,213 +169,214 @@ const RegisterWalletTwo = ({navigation}) => {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}>
-      <View style={{gap: 20}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Pressable
-            onPress={() => navigation.goBack()}
-            style={{
-              alignSelf: 'flex-start',
-              height: verticalScale(30),
-              width: verticalScale(30),
-              borderWidth: 1,
-              borderColor: COLORS.borderGray,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: SIZES.radius / 2,
-            }}>
-            <Icon name="arrow-back" size={16} />
-          </Pressable>
-          <Text
-            style={{
-              ...FONTS.h4,
-              fontWeight: 700,
-            }}>
-            Activate Your Wallet
-          </Text>
-          <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 2 of 2</Text>
-        </View>
-
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 20,
-            gap: 20,
-          }}>
-          <Text style={{textAlign: 'center', ...FONTS.medium}}>
-            Kindly fill the details below to activate your wallet
-          </Text>
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}>
+        <View style={{gap: 20}}>
           <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 40,
-              backgroundColor: COLORS.textSecondary,
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Icon name="lock-outline" size={40} color={COLORS.primary} />
-          </View>
-        </View>
-      </View>
-      <KeyboardAvoidingView style={{gap: 30}}>
-        <View>
-          <Text style={styles.label}>BVN</Text>
-          <TextInput
-            placeholder="Input your BVN here"
-            placeholderTextColor={COLORS.grayText}
-            style={styles.input}
-            value={bvn}
-            onChangeText={text => setBvn(text)}
-            inputMode="numeric"
-          />
-        </View>
-        <View style={{gap: 10}}>
-          {uri ? (
-            <Image
-              source={{uri}}
+            <Pressable
+              onPress={() => navigation.goBack()}
               style={{
-                width: 200,
-                height: 200,
-                alignSelf: 'center',
-              }}
-              resizeMode="cover"
-            />
-          ) : (
+                alignSelf: 'flex-start',
+                height: verticalScale(30),
+                width: verticalScale(30),
+                borderWidth: 1,
+                borderColor: COLORS.borderGray,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: SIZES.radius / 2,
+              }}>
+              <Icon name="arrow-back" size={16} />
+            </Pressable>
+            <Text
+              style={{
+                ...FONTS.h4,
+                fontWeight: 700,
+              }}>
+              Activate Your Wallet
+            </Text>
+            <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 2 of 2</Text>
+          </View>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+              gap: 20,
+            }}>
+            <Text style={{textAlign: 'center', ...FONTS.medium}}>
+              Kindly fill the details below to activate your wallet
+            </Text>
             <View
               style={{
-                borderWidth: 1,
-                padding: 20,
+                width: 80,
+                height: 80,
+                borderRadius: 40,
+                backgroundColor: COLORS.textSecondary,
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: 100,
-                height: 100,
-                borderRadius: 100,
-                alignSelf: 'center',
-                borderColor: COLORS.borderGray,
               }}>
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="camera-outline"
-                color={COLORS.borderGray}
-                size={40}
-              />
+              <Icon name="lock-outline" size={40} color={COLORS.primary} />
             </View>
-          )}
-
-          <View style={{flexDirection: 'row', gap: 20}}>
-            <Pressable
-              onPress={handleCamera}
-              style={{
-                height: 44,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderStyle: 'dashed',
-                borderWidth: 1,
-                flex: 1,
-                backgroundColor: COLORS.lightSecondaryBackground,
-                borderColor: COLORS.borderGray,
-              }}>
-              <Text
-                style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
-                Take a Selfie
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={handleGallery}
-              style={{
-                height: 44,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderStyle: 'dashed',
-                borderWidth: 1,
-                flex: 1,
-                borderColor: COLORS.borderGray,
-                backgroundColor: COLORS.lightSecondaryBackground,
-              }}>
-              <Text
-                style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
-                Choose from Gallery
-              </Text>
-            </Pressable>
           </View>
-
-          <Text style={{textAlign: 'center', ...FONTS.tiny, fontWeight: 600}}>
-            Please provide us with a good photo of yourself. Make sure to hold
-            device at eye level and center your face when you are ready.
-          </Text>
         </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-
-            alignItems: 'center',
-            gap: 10,
-          }}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Date of Birth</Text>
+        <KeyboardAvoidingView style={{gap: 30}}>
+          <View>
+            <Text style={styles.label}>BVN</Text>
             <TextInput
-              placeholder="Select DOB"
+              placeholder="Input your BVN here"
               placeholderTextColor={COLORS.grayText}
               style={styles.input}
-              value={uiDate}
-              onPressIn={() => setOpen(true)}
+              value={bvn}
+              onChangeText={text => setBvn(text)}
+              inputMode="numeric"
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Gender</Text>
-            <Dropdown
-              style={styles.input}
-              placeholderStyle={[
-                styles.input,
-                {borderWidth: 0, color: COLORS.textGray},
-              ]}
-              itemTextStyle={{
-                ...FONTS.small,
-              }}
-              selectedTextStyle={{...FONTS.small}}
-              data={genders}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Select Gender' : '...'}
-              value={value}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setValue(item.value);
-                setGender(item.label);
-                setIsFocus(false);
-              }}
-            />
+          <View style={{gap: 10}}>
+            {uri ? (
+              <Image
+                source={{uri}}
+                style={{
+                  width: 200,
+                  height: 200,
+                  alignSelf: 'center',
+                }}
+                resizeMode="cover"
+              />
+            ) : (
+              <View
+                style={{
+                  borderWidth: 1,
+                  padding: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 100,
+                  height: 100,
+                  borderRadius: 100,
+                  alignSelf: 'center',
+                  borderColor: COLORS.borderGray,
+                }}>
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="camera-outline"
+                  color={COLORS.borderGray}
+                  size={40}
+                />
+              </View>
+            )}
+
+            <View style={{flexDirection: 'row', gap: 20}}>
+              <Pressable
+                onPress={handleCamera}
+                style={{
+                  height: 44,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderStyle: 'dashed',
+                  borderWidth: 1,
+                  flex: 1,
+                  backgroundColor: COLORS.lightSecondaryBackground,
+                  borderColor: COLORS.borderGray,
+                }}>
+                <Text
+                  style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                  Take a Selfie
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={handleGallery}
+                style={{
+                  height: 44,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderStyle: 'dashed',
+                  borderWidth: 1,
+                  flex: 1,
+                  borderColor: COLORS.borderGray,
+                  backgroundColor: COLORS.lightSecondaryBackground,
+                }}>
+                <Text
+                  style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                  Choose from Gallery
+                </Text>
+              </Pressable>
+            </View>
+
+            <Text style={{textAlign: 'center', ...FONTS.tiny, fontWeight: 600}}>
+              Please provide us with a good photo of yourself. Make sure to hold
+              device at eye level and center your face when you are ready.
+            </Text>
           </View>
-        </View>
 
-        <DatePicker
-          modal
-          open={open}
-          date={date}
-          onConfirm={date => {
-            setOpen(false);
-            setUiDate(formatDate(date));
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-          mode="date"
-        />
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
 
-        {/* <DropDownPicker
+              alignItems: 'center',
+              gap: 10,
+            }}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Date of Birth</Text>
+              <TextInput
+                placeholder="Select DOB"
+                placeholderTextColor={COLORS.grayText}
+                style={styles.input}
+                value={uiDate}
+                onPressIn={() => setOpen(true)}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Gender</Text>
+              <Dropdown
+                style={styles.input}
+                placeholderStyle={[
+                  styles.input,
+                  {borderWidth: 0, color: COLORS.textGray},
+                ]}
+                itemTextStyle={{
+                  ...FONTS.small,
+                }}
+                selectedTextStyle={{...FONTS.small}}
+                data={genders}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Select Gender' : '...'}
+                value={value}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setValue(item.value);
+                  setGender(item.label);
+                  setIsFocus(false);
+                }}
+              />
+            </View>
+          </View>
+
+          <DatePicker
+            modal
+            open={open}
+            date={date}
+            onConfirm={date => {
+              setOpen(false);
+              setUiDate(formatDate(date));
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+            mode="date"
+          />
+
+          {/* <DropDownPicker
           open={dropdownOpen}
           value={dropdownValue}
           items={items}
@@ -382,68 +384,69 @@ const RegisterWalletTwo = ({navigation}) => {
           setValue={setDropdownValue}
           setItems={setItems}
         /> */}
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
 
-      <View
-        style={{
-          backgroundColor: '#FFD8D8',
-          padding: 20,
-          borderRadius: 10,
-        }}>
-        <Text style={{color: '#FF6F6F', marginBottom: 5, ...FONTS.regular}}>
-          Why do we need your BVN
-        </Text>
-        <View style={styles.list}>
-          <Text>{`\u25CF`}</Text>
-          <Text style={styles.listItem}>
-            We only need your BVN to verify your identity
+        <View
+          style={{
+            backgroundColor: '#FFD8D8',
+            padding: 20,
+            borderRadius: 10,
+          }}>
+          <Text style={{color: '#FF6F6F', marginBottom: 5, ...FONTS.regular}}>
+            Why do we need your BVN
           </Text>
-        </View>
-        <View style={styles.list}>
-          <Text>{`\u25CF`}</Text>
-          <Text style={styles.listItem}>
-            Your BVN is necessary for opening a bank account.
-          </Text>
-        </View>
-        <View style={styles.list}>
-          <Text>{`\u25CF`}</Text>
-          <Text style={styles.listItem}>
-            Your BVN does not give us access to your funds and transactions.
-          </Text>
-        </View>
-        <View style={styles.list}>
-          <Text>{`\u25CF`}</Text>
-          <Text style={styles.listItem}>
-            Your BVN is sent to and secured by our partner bank to carry out
-            verification.
-          </Text>
-        </View>
-        <View style={styles.list}>
-          <Text>{`\u25CF`}</Text>
-          <Text style={styles.listItem}>
-            Dial <Text style={{fontWeight: 600}}>*565*0#</Text> on your
-            registered phone number to get your BVN.
-          </Text>
-        </View>
-      </View>
-
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <TouchableOpacity onPress={handleRegister} style={styles.button}>
-          {loading ? (
-            <ActivityIndicator size={'large'} color={'white'} />
-          ) : (
-            <Text
-              style={{
-                color: COLORS.white,
-                ...FONTS.regular,
-                fontWeight: 700,
-              }}>
-              Continue
+          <View style={styles.list}>
+            <Text>{`\u25CF`}</Text>
+            <Text style={styles.listItem}>
+              We only need your BVN to verify your identity
             </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          </View>
+          <View style={styles.list}>
+            <Text>{`\u25CF`}</Text>
+            <Text style={styles.listItem}>
+              Your BVN is necessary for opening a bank account.
+            </Text>
+          </View>
+          <View style={styles.list}>
+            <Text>{`\u25CF`}</Text>
+            <Text style={styles.listItem}>
+              Your BVN does not give us access to your funds and transactions.
+            </Text>
+          </View>
+          <View style={styles.list}>
+            <Text>{`\u25CF`}</Text>
+            <Text style={styles.listItem}>
+              Your BVN is sent to and secured by our partner bank to carry out
+              verification.
+            </Text>
+          </View>
+          <View style={styles.list}>
+            <Text>{`\u25CF`}</Text>
+            <Text style={styles.listItem}>
+              Dial <Text style={{fontWeight: 600}}>*565*0#</Text> on your
+              registered phone number to get your BVN.
+            </Text>
+          </View>
+        </View>
+
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity onPress={handleRegister} style={styles.button}>
+            {loading ? (
+              <ActivityIndicator size={'large'} color={'white'} />
+            ) : (
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.regular,
+                  fontWeight: 700,
+                }}>
+                Continue
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -453,7 +456,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     gap: 50,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 100,
   },
 
   inputContainer: {flex: 1},

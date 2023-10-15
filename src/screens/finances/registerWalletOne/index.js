@@ -1,5 +1,6 @@
 import {
   StyleSheet,
+  SafeAreaView,
   Text,
   View,
   ScrollView,
@@ -99,279 +100,270 @@ const RegisterWalletOne = ({navigation}) => {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}>
-      <View style={{gap: 20}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Pressable
-            onPress={() => navigation.goBack()}
-            style={{
-              alignSelf: 'flex-start',
-              height: verticalScale(30),
-              width: verticalScale(30),
-              borderWidth: 1,
-              borderColor: COLORS.borderGray,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: SIZES.radius / 2,
-            }}>
-            <Icon name="arrow-back" size={16} />
-          </Pressable>
-          <Text
-            style={{
-              ...FONTS.h4,
-              fontWeight: 700,
-            }}>
-            Activate Your Wallet
-          </Text>
-          <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 1 of 2</Text>
-        </View>
-
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 20,
-            gap: 20,
-          }}>
-          <Text style={{textAlign: 'center', ...FONTS.medium}}>
-            Kindly fill the details below to activate your wallet
-          </Text>
-          <View
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: 40,
-              backgroundColor: COLORS.textSecondary,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Icon name="lock-outline" size={40} color={COLORS.primary} />
-          </View>
-        </View>
-      </View>
-      <KeyboardAvoidingView style={{marginVertical: 50}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}>
+        <View style={{gap: 20}}>
           <View
             style={{
               flexDirection: 'row',
-              flexWrap: 'wrap',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              gap: 10,
             }}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>First Name</Text>
-              <TextInput
-                placeholder="First Name"
-                placeholderTextColor={COLORS.grayText}
-                inlineImageLeft="hi"
-                style={styles.input}
-                value={firstName}
-                onChangeText={text => setFirstName(text)}
-                autoCapitalize="words"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Last Name</Text>
-              <TextInput
-                placeholder="Last Name"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={lastName}
-                onChangeText={text => setLastName(text)}
-                autoCapitalize="words"
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Email Address</Text>
-              <TextInput
-                placeholder="Email Address"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={email}
-                onChangeText={text => setEmail(text)}
-                inputMode="email"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Phone Number</Text>
-              <TextInput
-                placeholder="Phone Number"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={phoneNumber}
-                onChangeText={text => setPhoneNumber(text)}
-                inputMode="tel"
-              />
-            </View>
-          </View>
-        </View>
-
-        {/* <View style={{flex: 1}}>
-          <View style={[styles.inputContainer]}>
-            <Text style={styles.label}>Last Name</Text>
-            <TextInput
-              placeholder="Last Name"
-              style={styles.input}
-              value={lastName}
-              onChangeText={text => setLastName(text)}
-              autoCapitalize="words"
-            />
-          </View>
-          <View style={styles.inputContainer}></View>
-        </View> */}
-
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 20,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Address</Text>
-              <TextInput
-                placeholder="Address Line 1"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={addressLine_1}
-                onChangeText={text => setAddressLine_1(text)}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text></Text>
-              <TextInput
-                placeholder="Address Line 2 (Optional}"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={addressLine_2}
-                onChangeText={text => setAddressLine_2(text)}
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="city"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={city}
-                onChangeText={text => setCity(text)}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Postal Code"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={postalCode}
-                onChangeText={text => setPostalCode(text)}
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="State"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={state}
-                onChangeText={text => setState(text)}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Country"
-                placeholderTextColor={COLORS.grayText}
-                style={styles.input}
-                value={country}
-                onChangeText={text => setCountry(text.trim())}
-                autoComplete="off"
-                autoCapitalize="words"
-              />
-            </View>
-          </View>
-        </View>
-      </KeyboardAvoidingView>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <TouchableOpacity
-          onPress={() => handleReg(country)}
-          style={styles.button}>
-          {loading ? (
-            <ActivityIndicator color={COLORS.white} size={'large'} />
-          ) : (
+            <Pressable
+              onPress={() => navigation.goBack()}
+              style={{
+                alignSelf: 'flex-start',
+                height: verticalScale(30),
+                width: verticalScale(30),
+                borderWidth: 1,
+                borderColor: COLORS.borderGray,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: SIZES.radius / 2,
+              }}>
+              <Icon name="arrow-back" size={16} />
+            </Pressable>
             <Text
               style={{
-                color: COLORS.white,
-                ...FONTS.regular,
+                ...FONTS.h4,
                 fontWeight: 700,
               }}>
-              Continue
+              Activate Your Wallet
             </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 1 of 2</Text>
+          </View>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+              gap: 20,
+            }}>
+            <Text style={{textAlign: 'center', ...FONTS.medium}}>
+              Kindly fill the details below to activate your wallet
+            </Text>
+            <View
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 40,
+                backgroundColor: COLORS.textSecondary,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Icon name="lock-outline" size={40} color={COLORS.primary} />
+            </View>
+          </View>
+        </View>
+        <KeyboardAvoidingView style={{marginVertical: 50}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>First Name</Text>
+                <TextInput
+                  placeholder="First Name"
+                  placeholderTextColor={COLORS.grayText}
+                  inlineImageLeft="hi"
+                  style={styles.input}
+                  value={firstName}
+                  onChangeText={text => setFirstName(text)}
+                  autoCapitalize="words"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Last Name</Text>
+                <TextInput
+                  placeholder="Last Name"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={lastName}
+                  onChangeText={text => setLastName(text)}
+                  autoCapitalize="words"
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Email Address</Text>
+                <TextInput
+                  placeholder="Email Address"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={email}
+                  onChangeText={text => setEmail(text)}
+                  inputMode="email"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Phone Number</Text>
+                <TextInput
+                  placeholder="Phone Number"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={phoneNumber}
+                  onChangeText={text => setPhoneNumber(text)}
+                  inputMode="tel"
+                />
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Address</Text>
+                <TextInput
+                  placeholder="Address Line 1"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={addressLine_1}
+                  onChangeText={text => setAddressLine_1(text)}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text></Text>
+                <TextInput
+                  placeholder="Address Line 2 (Optional}"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={addressLine_2}
+                  onChangeText={text => setAddressLine_2(text)}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="city"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={city}
+                  onChangeText={text => setCity(text)}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Postal Code"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={postalCode}
+                  onChangeText={text => setPostalCode(text)}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="State"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={state}
+                  onChangeText={text => setState(text)}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Country"
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  value={country}
+                  onChangeText={text => setCountry(text.trim())}
+                  autoComplete="off"
+                  autoCapitalize="words"
+                />
+              </View>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => handleReg(country)}
+            style={styles.button}>
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} size={'large'} />
+            ) : (
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.regular,
+                  fontWeight: 700,
+                }}>
+                Continue
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default RegisterWalletOne;
 
 const styles = StyleSheet.create({
-  container: {gap: 50, padding: 20, justifyContent: 'flex-start'},
+  container: {
+    gap: 50,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    justifyContent: 'flex-start',
+    paddingBottom: 100,
+  },
 
   inputContainer: {flex: 0.5},
   label: {...FONTS.small, color: COLORS.label, fontWeight: '500'},

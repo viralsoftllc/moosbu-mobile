@@ -24,11 +24,13 @@ import ProductCard from './renderer/ProductCard';
 import {setProducts} from '../../../redux/slices/catalog/slice';
 import {selectProducts} from '../../../redux/slices/catalog/selectors';
 import UseIcon from '../../../shared/utils/UseIcon';
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 
 export default function Products() {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
+  const store = useSelector(selectStoreDetails);
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -136,6 +138,7 @@ export default function Products() {
               handleEditItem={() => handleEditItem(item)}
               handleDeleteItem={handleDeleteItem}
               productId={item.id}
+              store={store.slug}
             />
           ))
         ) : !loading ? (

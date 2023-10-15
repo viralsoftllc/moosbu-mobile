@@ -52,6 +52,8 @@ import Finances from '../../screens/finances';
 import RegisterWalletOne from '../../screens/finances/registerWalletOne';
 import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
 
+import TransferSuccessful from '../../screens/Wallet/TransferSuccessful/TransferSuccessful';
+
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
@@ -146,6 +148,10 @@ export default function MainNavigator() {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name={'TransferSuccessful'}
+        component={TransferSuccessful}
       />
       <Stack.Screen
         name={routes.STORE_SETTINGS_STACK}

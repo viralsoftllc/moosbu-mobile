@@ -8,13 +8,14 @@ import FormButton from '../../../shared/components/FormButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-const storeName = 'oracle';
+// const storeName = 'oracle';
 
 export default function ShareItem({
   setShowShareModal,
   title,
   subtitle,
   productId,
+  storeName,
 }) {
   const [copied, setCopied] = useState(false);
   const [media, setMedia] = useState('');
@@ -111,7 +112,12 @@ export default function ShareItem({
                 styles.link
               }>{`https://www.moosbu.store/${storeName}/products/${productId}`}</Text>
             <Pressable
-              onPress={() => copyToClipboard(link || '')}
+              onPress={() =>
+                copyToClipboard(
+                  `https://www.moosbu.store/${storeName}/products/${productId}` ||
+                    '',
+                )
+              }
               style={styles.copyBtn}>
               <UseIcon type={'AntDesign'} name="copy1" color={COLORS.white} />
               <Text style={styles.copyText}>{copied ? 'Copied' : 'Copy'}</Text>

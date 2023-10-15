@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
+import {useNavigation} from '@react-navigation/native';
+
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import handleApiError from '../../../../shared/components/handleApiError';
@@ -11,10 +13,13 @@ import {ActivityIndicator} from 'react-native-paper';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 
 export default function EnterPin({setShowPinForm, options}) {
+  const navigation = useNavigation();
+
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
 
   const handleTransfer = async () => {
+    navigation.navigate('TransferSuccessful');
     setLoading(true);
     console.log(options);
     try {
