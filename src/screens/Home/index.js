@@ -10,6 +10,7 @@ import {
   RefreshControl,
   Pressable,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -94,6 +95,8 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
+
       <HomeHeader
         setShowStoresModal={setShowStoresModal}
         loading={loading}

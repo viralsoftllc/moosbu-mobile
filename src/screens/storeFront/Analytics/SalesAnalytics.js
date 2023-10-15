@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StatusBar, Platform, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import Chart from './renderers/Chart';
@@ -23,10 +23,14 @@ const filters = [
 export default function SalesAnalytics() {
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}>
         <OverviewHeader />
         <OverviewCard label={'Total sales'} amount="N3,000,000" percent="20%" />
 

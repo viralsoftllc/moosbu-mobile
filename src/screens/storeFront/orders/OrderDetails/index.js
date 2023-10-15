@@ -1,6 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import Items from './renderer/Items';
 import ShippingDetails from './renderer/ShippingDetails';
@@ -37,10 +43,13 @@ export default function OrderDetails() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+        }}>
         {/* {params?.order?.product?.length ? (
           <Items products={params?.order?.product} />
         ) : null} */}
@@ -72,12 +81,13 @@ export default function OrderDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: SIZES.paddingHorizontal,
+    paddingHorizontal: 20,
     paddingVertical: SIZES.base,
     backgroundColor: COLORS.white,
   },
   contentContainerStyle: {
     paddingBottom: SIZES.base * 2,
+    paddingHorizontal: SIZES.paddingHorizontal,
   },
   orderText: {
     color: COLORS.textPrimary,

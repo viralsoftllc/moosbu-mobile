@@ -1,5 +1,11 @@
 import React, {useCallback, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  View,
+  StatusBar,
+} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -64,6 +70,7 @@ export default function AllOrders() {
   return (
     <View style={styles.container}>
       {/* <Search filter={false} /> */}
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.searchView}>
         <SearchBar
           placeholder={'Search order'}

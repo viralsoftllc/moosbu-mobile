@@ -1,5 +1,5 @@
 import React, {useLayoutEffect} from 'react';
-import {Linking, SafeAreaView, StyleSheet, Text} from 'react-native';
+import {Linking, SafeAreaView, StatusBar, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import {COLORS, SIZES, FONTS} from '../../../assets/themes';
@@ -17,6 +17,7 @@ export default function CashFlowComingSoon() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       {/* <ComingSoon
         page={'Cash Flow'}
         iconType={'MaterialCommunityIcons'}

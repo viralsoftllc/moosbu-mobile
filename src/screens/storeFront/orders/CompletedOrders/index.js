@@ -1,5 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  View,
+  StatusBar,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
@@ -62,6 +68,7 @@ export default function CompletedOrders() {
   return (
     <View style={styles.container}>
       {/* <Search filter={false} /> */}
+      <StatusBar backgroundColor={COLORS.primary} />
 
       <View style={styles.searchView}>
         <SearchBar

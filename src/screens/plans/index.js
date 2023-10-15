@@ -8,6 +8,8 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 import {useNavigation} from '@react-navigation/native';
@@ -40,6 +42,7 @@ export default function Plans() {
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor={COLORS.primary} />
         <View style={styles.innerView}>
           <View style={styles.planPeriodContainer}>
             <View style={styles.planPeriodButtons}>
@@ -80,7 +83,10 @@ export default function Plans() {
           <ScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.contentContainerStyle}>
+            contentContainerStyle={[
+              styles.contentContainerStyle,
+              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+            ]}>
             <View>
               <View style={styles.unlockDisplayView}>
                 <Text style={styles.unlockDisplayHeader}>

@@ -1,6 +1,14 @@
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
-import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import routes from '../../shared/constants/routes';
@@ -277,9 +285,13 @@ export default function Menu() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.menuContainer}>
         <ScrollView
-          contentContainerStyle={styles.contentContainerStyle}
+          contentContainerStyle={{
+            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingBottom: 100,
+          }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
           {menus.map((menu, i) => (

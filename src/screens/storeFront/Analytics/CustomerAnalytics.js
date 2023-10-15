@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, StatusBar, Platform, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import Chart from './renderers/Chart';
@@ -19,10 +19,14 @@ const filters = [
 export default function CustomerAnalytics() {
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}>
         <OverviewHeader />
         <OverviewCard
           label={'Total customers'}

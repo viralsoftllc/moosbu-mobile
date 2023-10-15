@@ -7,6 +7,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -87,6 +89,8 @@ export default function Campaign() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
+
       <Search
         items={items}
         filteredItems={filteredItems}
@@ -99,7 +103,10 @@ export default function Campaign() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={getCampaigns} />
         }>

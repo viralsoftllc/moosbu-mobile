@@ -8,6 +8,8 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
@@ -101,7 +103,12 @@ export default function BussinessRegistration() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         {loading ? (

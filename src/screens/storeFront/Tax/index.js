@@ -6,6 +6,8 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  StatusBar,
+  Platform,
   StyleSheet,
   View,
 } from 'react-native';
@@ -128,6 +130,7 @@ export default function Tax() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.container}>
         {/* <Search
           items={items}
@@ -158,7 +161,10 @@ export default function Tax() {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.contentContainerStyle}>
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+          ]}>
           {loading ? <ActivityIndicator size={'large'} /> : null}
 
           {filteredItems?.length ? (

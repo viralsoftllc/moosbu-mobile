@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  StatusBar,
   View,
   ActivityIndicator,
 } from 'react-native';
@@ -67,6 +68,7 @@ export default function ConfirmTransferDetails({route}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       {loading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size={'large'} color={COLORS.primary} />

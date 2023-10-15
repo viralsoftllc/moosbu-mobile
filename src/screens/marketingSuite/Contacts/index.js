@@ -7,6 +7,9 @@ import {
   RefreshControl,
   ScrollView,
   StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Platform,
   View,
 } from 'react-native';
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -115,7 +118,8 @@ export default function Contacts() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.searchContainer}>
         <View style={styles.searchView}>
           <SearchBar
@@ -140,7 +144,10 @@ export default function Contacts() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={getContacts} />
         }>
@@ -173,7 +180,7 @@ export default function Contacts() {
           loading={deleting}
         />
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 

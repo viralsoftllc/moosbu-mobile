@@ -57,19 +57,19 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
 
           <FormInput
             label={'Enter Transaction Pin'}
-            placeholder={'Enter 4 digit pin'}
+            placeholder={'Enter 6 digit pin'}
             value={pin}
             onChangeText={text => setPin(text)}
-            maxLength={4}
+            maxLength={6}
             keyboardType="number-pad"
             secureTextEntry={true}
           />
 
           <FormInput
             label={'Confirm Transaction Pin'}
-            placeholder={'Confirm 4 digit pin'}
+            placeholder={'Confirm 6 digit pin'}
             value={pin2}
-            maxLength={4}
+            maxLength={6}
             onChangeText={text => setPin2(text)}
             keyboardType="number-pad"
             secureTextEntry={true}

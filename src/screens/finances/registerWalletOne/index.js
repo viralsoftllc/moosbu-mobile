@@ -4,6 +4,7 @@ import {
   Text,
   View,
   ScrollView,
+  StatusBar,
   TextInput,
   TouchableOpacity,
   Pressable,
@@ -18,6 +19,7 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 import handleApiError from '../../../shared/components/handleApiError';
 import {countryListAllIsoData} from '../../../shared/countryList';
 import {verticalScale} from 'react-native-size-matters';
+import {Dropdown} from 'react-native-element-dropdown';
 
 const RegisterWalletOne = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -31,6 +33,10 @@ const RegisterWalletOne = ({navigation}) => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [countryCode, setCountryCode] = useState('');
+
+  //country picker variables
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const middleName = '';
@@ -47,7 +53,7 @@ const RegisterWalletOne = ({navigation}) => {
 
   //function to handle wallet registration
   const handleReg = async country => {
-    handleCountry(country);
+    // handleCountry(country);
 
     //Handle input validation
     if (!firstName || !lastName) {
@@ -81,7 +87,7 @@ const RegisterWalletOne = ({navigation}) => {
       city,
       postalCode,
       state,
-      country: countryCode,
+      country: 'NG',
     };
     // console.log(options);
     setLoading(true);
@@ -101,6 +107,7 @@ const RegisterWalletOne = ({navigation}) => {
 
   return (
     <SafeAreaView>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}>
@@ -314,7 +321,7 @@ const RegisterWalletOne = ({navigation}) => {
                 />
               </View>
               <View style={styles.inputContainer}>
-                <TextInput
+                {/* <TextInput
                   placeholder="Country"
                   placeholderTextColor={COLORS.grayText}
                   style={styles.input}
@@ -322,6 +329,30 @@ const RegisterWalletOne = ({navigation}) => {
                   onChangeText={text => setCountry(text.trim())}
                   autoComplete="off"
                   autoCapitalize="words"
+                /> */}
+                <Dropdown
+                  style={styles.input}
+                  placeholderStyle={[
+                    styles.input,
+                    {borderWidth: 0, color: COLORS.textGray},
+                  ]}
+                  itemTextStyle={{
+                    ...FONTS.small,
+                  }}
+                  selectedTextStyle={{...FONTS.small}}
+                  data={[{label: 'Nigeria', value: 'NG'}]}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? 'Select Country' : '...'}
+                  value={value}
+                  onFocus={() => setIsFocus(true)}
+                  onBlur={() => setIsFocus(false)}
+                  onChange={item => {
+                    setValue(item.value);
+                    setCountry(item.label);
+                    setIsFocus(false);
+                  }}
                 />
               </View>
             </View>

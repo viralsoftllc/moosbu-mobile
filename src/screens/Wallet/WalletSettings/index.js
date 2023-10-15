@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Modal, SafeAreaView, StyleSheet, StatusBar, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
@@ -23,6 +23,7 @@ export default function WalletSettings() {
   return (
     <>
       <SafeAreaView style={styles.safeAreaView}>
+        <StatusBar backgroundColor={COLORS.primary} />
         <View style={styles.container}>
           <RowLink
             title={'Create Transaction Pin'}
@@ -30,12 +31,12 @@ export default function WalletSettings() {
             onPress={() => setShowCreateTransactionPinForm(true)}
             iconName={'security'}
           />
-          <RowLink
+          {/* <RowLink
             title={'Set Withdraw Account'}
             route={routes.PAYOUT_SETTINGS}
             iconName={'bank'}
             iconType={'MaterialCommunityIcons'}
-          />
+          /> */}
         </View>
       </SafeAreaView>
 
@@ -64,11 +65,12 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: SIZES.paddingHorizontal,
+    // paddingHorizontal: SIZES.paddingHorizontal,
   },
   container: {
     flex: 1,
     paddingTop: SIZES.base * 3,
+    paddingHorizontal: 20,
   },
   form: {
     marginBottom: SIZES.base * 2,

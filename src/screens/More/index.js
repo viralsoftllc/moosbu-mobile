@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
 
@@ -16,10 +24,14 @@ export default function More() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}>
         <View style={styles.headerView}>
           <ImageIcon
             style={styles.imageIcon}

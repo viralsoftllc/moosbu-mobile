@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Platform,
+  StatusBar,
   Text,
   View,
 } from 'react-native';
@@ -26,7 +28,11 @@ export default function SubscriptionPayment() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.top}>

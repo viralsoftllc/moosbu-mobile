@@ -1,7 +1,14 @@
 import Clipboard from '@react-native-community/clipboard';
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
@@ -27,6 +34,7 @@ export default function BankTransfer() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View>
         <Text style={styles.title}>Your Moosbu Account Number</Text>
 

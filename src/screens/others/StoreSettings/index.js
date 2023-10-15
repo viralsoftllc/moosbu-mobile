@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  StatusBar,
+  View,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -19,6 +26,7 @@ export default function StoreSettings() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.cards}>
         <Pressable
           style={styles.card}

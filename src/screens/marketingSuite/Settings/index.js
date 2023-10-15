@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, StatusBar, Platform, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import routes from '../../../shared/constants/routes';
@@ -14,7 +14,10 @@ export default function Settings() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}>
         <SettingsRow onPress={() => navigate(routes.SETTINGS_ID)} />
       </ScrollView>
     </View>

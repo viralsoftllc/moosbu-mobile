@@ -6,6 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
@@ -42,7 +44,12 @@ export default function Profile() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingBottom: 100,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.imageIcon}>

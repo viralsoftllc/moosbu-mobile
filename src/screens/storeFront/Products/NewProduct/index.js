@@ -1,6 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Modal,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import client from '../../../../shared/api/client';
 import handleApiError from '../../../../shared/components/handleApiError';
@@ -192,8 +200,12 @@ export default function NewProduct() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.container}>
         <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
           <NewProductForm

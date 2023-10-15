@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -261,6 +262,9 @@ export default function GeneralSettings() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         refreshControl={

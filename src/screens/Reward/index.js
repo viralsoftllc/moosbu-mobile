@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -21,11 +23,15 @@ export default function Reward() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       {/* <ComingSoon page={'Reward'} iconType={'Ionicons'} iconName={'ios-gift'} /> */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}>
         <View style={styles.flex}>
           <View style={styles.header}>
             <Text style={styles.headerText}>Refer And Earn</Text>

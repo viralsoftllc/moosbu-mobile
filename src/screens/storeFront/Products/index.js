@@ -8,6 +8,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import SearchBar from 'react-native-platform-searchbar';
@@ -99,6 +101,7 @@ export default function Products() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.searchContainer}>
         <View style={styles.searchView}>
           <SearchBar
@@ -123,7 +126,10 @@ export default function Products() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={getAllProducts} />
         }>

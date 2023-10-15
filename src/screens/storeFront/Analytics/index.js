@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {COLORS, SIZES, FONTS} from '../../../assets/themes';
 import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
@@ -61,11 +68,15 @@ export default function Analytics() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.contentContainerStyle}>
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+          ]}>
           {loading ? (
             <Loader loading={loading} />
           ) : (

@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -104,11 +105,15 @@ export default function SendFunds({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <Search filter={false} />
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS === 'ios' ? 20 : 0,
+        }}>
         <View style={styles.options}>
           <View style={styles.option}>
             <Pressable
@@ -321,7 +326,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: SIZES.paddingHorizontal,
+    paddingHorizontal: 20,
   },
   options: {
     flexDirection: 'row',

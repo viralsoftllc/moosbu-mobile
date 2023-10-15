@@ -7,6 +7,7 @@ import {
   View,
   Keyboard,
   Modal,
+  StatusBar,
 } from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -76,6 +77,7 @@ export default function MBot() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ComingSoon
         page={'M Bot'}
         iconType={'MaterialCommunityIcons'}

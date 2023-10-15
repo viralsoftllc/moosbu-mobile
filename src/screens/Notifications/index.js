@@ -11,6 +11,8 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -56,6 +58,7 @@ export default function Notifications() {
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor={COLORS.primary} />
         {loading ? <ActivityIndicator /> : null}
 
         {!loading && !notifications?.length ? (
@@ -68,6 +71,10 @@ export default function Notifications() {
 
         {notifications?.length ? (
           <ScrollView
+            contentContainerStyle={{
+              paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+              paddingBottom: 100,
+            }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             refreshControl={

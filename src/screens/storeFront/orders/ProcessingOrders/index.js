@@ -1,5 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  StatusBar,
+  View,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import SearchBar from 'react-native-platform-searchbar';
 import {useDispatch, useSelector} from 'react-redux';
@@ -61,6 +67,7 @@ export default function ProcessingOrders() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.searchView}>
         <SearchBar
           placeholder={'Search order'}

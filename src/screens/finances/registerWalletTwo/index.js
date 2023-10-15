@@ -10,6 +10,7 @@ import {
   Image,
   ActivityIndicator,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -170,6 +171,7 @@ const RegisterWalletTwo = ({navigation}) => {
 
   return (
     <SafeAreaView>
+      <StatusBar backgroundColor={COLORS.primary} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}>

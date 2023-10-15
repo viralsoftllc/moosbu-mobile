@@ -8,6 +8,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
@@ -123,6 +125,8 @@ export default function Category() {
         handleNewItem={handleNewItem}
       /> */}
 
+      <StatusBar backgroundColor={COLORS.primary} />
+
       <View style={styles.searchContainer}>
         <View style={styles.searchView}>
           <SearchBar
@@ -147,7 +151,10 @@ export default function Category() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={getAllCategories} />
         }>

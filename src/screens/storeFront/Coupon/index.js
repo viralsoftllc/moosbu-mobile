@@ -7,6 +7,8 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  StatusBar,
+  Platform,
 } from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -138,6 +140,7 @@ export default function Coupon() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
       <View style={styles.searchContainer}>
         <View style={styles.searchView}>
           <SearchBar
@@ -162,7 +165,10 @@ export default function Coupon() {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+        ]}>
         {loading ? <ActivityIndicator size={'large'} /> : null}
         {!loading && !filteredItems?.length ? (
           <EmptyItemInfo message={'No coupon to display'} />

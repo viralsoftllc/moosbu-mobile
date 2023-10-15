@@ -6,6 +6,7 @@ import {
   Modal,
   Pressable,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import React, {useState} from 'react';
 import WalletType from './renderers/walletType';
@@ -24,6 +25,8 @@ const Finances = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} />
+
       <View
         style={{
           flexDirection: 'row',
