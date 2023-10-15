@@ -79,7 +79,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <StatusBar barStyle={'default'} backgroundColor={COLORS.primary} />
+      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.primary} />
       <Instance />
     </Provider>
   );
