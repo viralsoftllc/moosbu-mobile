@@ -1,6 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
 import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
@@ -61,6 +67,9 @@ export default function BvnVerification() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <FormInput

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, KeyboardAvoidingView, View} from 'react-native';
 
 import {COLORS, SIZES, FONTS} from '../../../../assets/themes';
 import FormInput from '../../../../shared/components/FormInput';
@@ -50,37 +50,39 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
       <ShortModal
         handleToggleShortModal={handleToggleShortModal}
         title={'Create Transaction Pin'}>
-        <View>
-          <Text style={styles.subtitle}>
-            Transaction PIN is required for withdrawal
-          </Text>
+        <KeyboardAvoidingView behavior="padding">
+          <View>
+            <Text style={styles.subtitle}>
+              Transaction PIN is required for withdrawal
+            </Text>
 
-          <FormInput
-            label={'Enter Transaction Pin'}
-            placeholder={'Enter 6 digit pin'}
-            value={pin}
-            onChangeText={text => setPin(text)}
-            maxLength={6}
-            keyboardType="number-pad"
-            secureTextEntry={true}
+            <FormInput
+              label={'Enter Transaction Pin'}
+              placeholder={'Enter 6 digit pin'}
+              value={pin}
+              onChangeText={text => setPin(text)}
+              maxLength={6}
+              keyboardType="number-pad"
+              secureTextEntry={true}
+            />
+
+            <FormInput
+              label={'Confirm Transaction Pin'}
+              placeholder={'Confirm 6 digit pin'}
+              value={pin2}
+              maxLength={6}
+              onChangeText={text => setPin2(text)}
+              keyboardType="number-pad"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <FormButton
+            title={'Create Pin'}
+            onPress={handleCreatePin}
+            loading={loading}
           />
-
-          <FormInput
-            label={'Confirm Transaction Pin'}
-            placeholder={'Confirm 6 digit pin'}
-            value={pin2}
-            maxLength={6}
-            onChangeText={text => setPin2(text)}
-            keyboardType="number-pad"
-            secureTextEntry={true}
-          />
-        </View>
-
-        <FormButton
-          title={'Create Pin'}
-          onPress={handleCreatePin}
-          loading={loading}
-        />
+        </KeyboardAvoidingView>
       </ShortModal>
     </>
   );

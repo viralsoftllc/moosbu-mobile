@@ -207,7 +207,7 @@ export default function EditProduct() {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 1,
-            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
           }}
           nestedScrollEnabled={true}>
           <EditProductForm

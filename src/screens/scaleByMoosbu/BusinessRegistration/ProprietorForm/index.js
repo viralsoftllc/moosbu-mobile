@@ -4,6 +4,7 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -114,6 +115,9 @@ export default function ProprietorForm() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
+        contentContainerStyle={{
+          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+        }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <FormInput

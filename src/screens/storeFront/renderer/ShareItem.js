@@ -170,8 +170,9 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
   },
   link: {
-    ...FONTS.medium,
+    ...FONTS.tiny,
     marginLeft: SIZES.base,
+    width: '60%',
   },
   shareTypeView: {
     alignSelf: 'flex-start',
@@ -204,6 +205,7 @@ const styles = StyleSheet.create({
   copyText: {
     color: COLORS.white,
     marginLeft: SIZES.base / 2,
+    ...FONTS.small,
   },
   linkText: {
     marginTop: SIZES.base * 2,

@@ -104,7 +104,7 @@ export default function Campaign() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
           paddingBottom: 100,
         }}
         refreshControl={

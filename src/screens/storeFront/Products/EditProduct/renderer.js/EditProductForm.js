@@ -142,6 +142,7 @@ export default function EditProductForm({
           placeholder="Enter Product Details"
           value={product?.description}
           onChangeText={text => setProduct({...product, description: text})}
+          multiline={true}
         />
 
         {/* <Pressable

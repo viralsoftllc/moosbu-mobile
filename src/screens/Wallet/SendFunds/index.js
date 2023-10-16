@@ -11,6 +11,7 @@ import {
   View,
   ActivityIndicator,
   StatusBar,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -187,92 +188,94 @@ export default function SendFunds({navigation}) {
                   <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
                 </Pressable>
               </View>
-              <View style={{gap: 15, marginBottom: 30}}>
-                <View style={{marginBottom: 10}}>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={text => setAccountNumber(text)}
-                    inputMode="numeric"
-                    placeholder="Enter account number "
-                    placeholderTextColor={COLORS.grayText}
-                    value={accountNumber}
-                  />
+              <KeyboardAvoidingView behavior="padding">
+                <View style={{gap: 15, marginBottom: 30}}>
+                  <View style={{marginBottom: 10}}>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={text => setAccountNumber(text)}
+                      inputMode="numeric"
+                      placeholder="Enter account number "
+                      placeholderTextColor={COLORS.grayText}
+                      value={accountNumber}
+                    />
 
-                  <Text style={{...FONTS.medium}}>{accountName}</Text>
-                </View>
-                <View style={{marginBottom: 10}}>
-                  <Text style={styles.label}>Select Recipient Bank</Text>
-                  <Dropdown
-                    style={styles.input}
-                    placeholderStyle={[
-                      styles.input,
-                      {borderWidth: 0, color: COLORS.textGray},
-                    ]}
-                    itemTextStyle={{
-                      ...FONTS.small,
-                    }}
-                    selectedTextStyle={{...FONTS.small}}
-                    data={bankList}
-                    maxHeight={300}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={!isFocus ? 'Select Bank' : '...'}
-                    value={value}
-                    onFocus={() => setIsFocus(true)}
-                    onBlur={() => setIsFocus(false)}
-                    onChange={async item => {
-                      if (accountNumber.length !== 10) {
-                        setValue('');
-                        setBank('');
-                        return notifyMessage(
-                          'Please input correct acount number',
-                        );
-                      } else {
-                        setValue(item.value);
-                        setBank(item.label);
-                        setIsFocus(false);
+                    <Text style={{...FONTS.medium}}>{accountName}</Text>
+                  </View>
+                  <View style={{marginBottom: 10}}>
+                    <Text style={styles.label}>Select Recipient Bank</Text>
+                    <Dropdown
+                      style={styles.input}
+                      placeholderStyle={[
+                        styles.input,
+                        {borderWidth: 0, color: COLORS.textGray},
+                      ]}
+                      itemTextStyle={{
+                        ...FONTS.small,
+                      }}
+                      selectedTextStyle={{...FONTS.small}}
+                      data={bankList}
+                      maxHeight={300}
+                      labelField="label"
+                      valueField="value"
+                      placeholder={!isFocus ? 'Select Bank' : '...'}
+                      value={value}
+                      onFocus={() => setIsFocus(true)}
+                      onBlur={() => setIsFocus(false)}
+                      onChange={async item => {
+                        if (accountNumber.length !== 10) {
+                          setValue('');
+                          setBank('');
+                          return notifyMessage(
+                            'Please input correct acount number',
+                          );
+                        } else {
+                          setValue(item.value);
+                          setBank(item.label);
+                          setIsFocus(false);
 
-                        await verifyAccount();
-                      }
-                    }}
-                  />
-                </View>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.label}>Amount</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        borderWidth: 1,
-                        marginTop: 3,
-                        borderRadius: 5,
-                        gap: 5,
-                        padding: 3,
-                        borderColor: COLORS.borderGray,
-                        height: 50,
-                      }}>
-                      <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
+                          await verifyAccount();
+                        }
+                      }}
+                    />
+                  </View>
+                  <View style={{flexDirection: 'row', gap: 10}}>
+                    <View style={{flex: 1}}>
+                      <Text style={styles.label}>Amount</Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          borderWidth: 1,
+                          marginTop: 3,
+                          borderRadius: 5,
+                          gap: 5,
+                          padding: 3,
+                          borderColor: COLORS.borderGray,
+                          height: 50,
+                        }}>
+                        <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
+                        <TextInput
+                          style={{}}
+                          onChangeText={text => setAmount(text)}
+                          inputMode="numeric"
+                          placeholder="Enter amount"
+                          placeholderTextColor={COLORS.grayText}
+                        />
+                      </View>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text style={styles.label}>Description</Text>
                       <TextInput
-                        style={{}}
-                        onChangeText={text => setAmount(text)}
-                        inputMode="numeric"
-                        placeholder="Enter amount"
+                        style={styles.input}
+                        placeholder="Transaction description"
                         placeholderTextColor={COLORS.grayText}
+                        onChangeText={text => setDescription(text)}
                       />
                     </View>
                   </View>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.label}>Description</Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Transaction description"
-                      placeholderTextColor={COLORS.grayText}
-                      onChangeText={text => setDescription(text)}
-                    />
-                  </View>
                 </View>
-              </View>
+              </KeyboardAvoidingView>
 
               <Pressable
                 onPress={() => {

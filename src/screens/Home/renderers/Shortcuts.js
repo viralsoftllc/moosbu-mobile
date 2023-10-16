@@ -62,16 +62,16 @@ export default function Shortcuts() {
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Shortcuts</Text>
 
-      <ScrollView
+      {/* <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.menus}>
-          {shortcuts.map((nav, index) => (
-            <MenuCard key={index} nav={nav} style={styles.menuCard} />
-          ))}
-        </View>
-      </ScrollView>
+        showsVerticalScrollIndicator={false}> */}
+      <View style={styles.menus}>
+        {shortcuts.map((nav, index) => (
+          <MenuCard key={index} nav={nav} style={styles.menuCard} />
+        ))}
+      </View>
+      {/* </ScrollView> */}
     </View>
   );
 }

@@ -17,9 +17,13 @@ import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import {
   selectWalletBalance,
   selectAccountNumber,
+  selectAccountName,
+  selectBank,
 } from '../../redux/slices/wallet/selectors';
 import {
+  setAccountName,
   setAccountNumber,
+  setBank,
   setWalletBalance,
 } from '../../redux/slices/wallet/slice';
 import client from '../../shared/api/client';
@@ -36,6 +40,8 @@ export default function Wallet() {
   const {navigate} = useNavigation();
   const balance = useSelector(selectWalletBalance);
   const accountNumber = useSelector(selectAccountNumber);
+  const accountName = useSelector(selectAccountName);
+  const bank = useSelector(selectBank);
 
   console.log(accountNumber);
   const dispatch = useDispatch();
@@ -57,6 +63,8 @@ export default function Wallet() {
       console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(data?.balance.availableBalance));
       dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
+      dispatch(setAccountName(data?.details[0].attributes.accountName));
+      dispatch(setBank(data?.details[0].attributes.bank.name));
 
       setWalletLoading(false);
     } catch (error) {
@@ -452,9 +460,9 @@ export default function Wallet() {
               ...FONTS.medium,
               color: COLORS.label,
               marginTop: 50,
-              marginBottom: 30,
+              marginBottom: 10,
             }}>
-            Your Moosbu Account Number
+            {bank}
           </Text>
 
           <View
@@ -482,7 +490,7 @@ export default function Wallet() {
               alignSelf: 'center',
               color: COLORS.grayText,
             }}>
-            Moosbu Bank Service
+            {accountName}
           </Text>
 
           <Text

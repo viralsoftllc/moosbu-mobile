@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 
@@ -73,12 +74,13 @@ export default function Support() {
   }
 
   function handlePhone() {
-    Linking.openURL('tel://08104775719');
+    Linking.openURL('tel://+234013303373');
   }
 
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor={COLORS.primary} />
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}

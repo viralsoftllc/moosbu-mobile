@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Pressable, SafeAreaView} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import LongButton from './renderer/LongButton';
 
 const TransferSuccessful = () => {
   return (
@@ -40,7 +41,23 @@ const TransferSuccessful = () => {
           }}>
           What Would You Like To Do Next?
         </Text>
-        <View style={{gap: 20, marginTop: 30}}></View>
+        <View style={{gap: 15, marginTop: 20}}>
+          <LongButton
+            icon="cache"
+            title="Repeat Transaction"
+            label="Make this payment again"
+          />
+          <LongButton
+            icon="share-outline"
+            title="Share Receipt"
+            label="Share receipt with others"
+          />
+          <LongButton
+            icon="home-variant-outline"
+            title="Go Home"
+            label="Go To Moosbu Homepage "
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
