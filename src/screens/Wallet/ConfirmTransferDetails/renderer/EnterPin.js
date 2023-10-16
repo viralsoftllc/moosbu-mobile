@@ -19,7 +19,6 @@ export default function EnterPin({setShowPinForm, options}) {
   const [code, setCode] = useState('');
 
   const handleTransfer = async () => {
-    navigation.navigate('TransferSuccessful');
     setLoading(true);
     console.log(options);
     try {
@@ -30,16 +29,19 @@ export default function EnterPin({setShowPinForm, options}) {
 
       console.log(res.data);
 
-      const {attributes} = res.data.data;
+      const {attributes} = res.data;
       console.log(attributes);
 
       const {status, failureReason, reason} = attributes;
 
       if (status == 'FAILED') {
-        notifyMessage(failureReason);
+        navigation.navigate('TransferDeclined', options);
       }
       if (status == 'PENDING') {
         notifyMessage(reason);
+      }
+      if (status == 'COMPLETED') {
+        navigation.navigate('TransferSuccessful', options);
       }
 
       setLoading(false);

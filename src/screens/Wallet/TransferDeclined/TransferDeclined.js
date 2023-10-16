@@ -1,16 +1,17 @@
 import {StyleSheet, Text, View, Pressable, SafeAreaView} from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
 
-const TransferSuccessful = ({navigation, route}) => {
+const TransferDeclined = ({navigation, route}) => {
   const {account_name, amount} = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1}}>
         <View style={styles.logoContainer}>
-          <Icon name="check-circle-outline" size={80} color="green" />
+          <Icon name="error-outline" size={80} color="red" />
         </View>
         <View style={{marginTop: 20}}>
           <Text
@@ -19,7 +20,7 @@ const TransferSuccessful = ({navigation, route}) => {
               ...FONTS.h3,
               textAlign: 'center',
             }}>
-            Transaction Successful
+            Transaction Declined
           </Text>
 
           <Text
@@ -36,7 +37,7 @@ const TransferSuccessful = ({navigation, route}) => {
                 currency: 'NGN',
               }).format(parseInt(amount))}
             </Text>{' '}
-            was successfully sent to{' '}
+            was not successfully sent to{' '}
             <Text style={{fontWeight: '700'}}>{account_name}</Text>
           </Text>
         </View>
@@ -83,10 +84,10 @@ const TransferSuccessful = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Icon name={'cached'} color={COLORS.primary} size={30} />
+                <MIcon name={'cached'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Repeat Transaction</Text>
+                <Text style={{fontWeight: '600'}}>Try Again</Text>
                 <Text style={{color: COLORS.gray}}>
                   Make this payment again
                 </Text>
@@ -94,11 +95,7 @@ const TransferSuccessful = ({navigation, route}) => {
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />
           </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('TransferDeclined');
-            }}>
+          <Pressable style={styles.button} onPress={() => {}}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
                 style={{
@@ -110,13 +107,11 @@ const TransferSuccessful = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Icon name={'share-outline'} color={COLORS.primary} size={30} />
+                <MIcon name={'close'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Share Receipt</Text>
-                <Text style={{color: COLORS.gray}}>
-                  Share receipt with others
-                </Text>
+                <Text style={{fontWeight: '600'}}>Cancel Payment</Text>
+                <Text style={{color: COLORS.gray}}>Cancel this payment</Text>
               </View>
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />
@@ -137,7 +132,7 @@ const TransferSuccessful = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Icon
+                <MIcon
                   name={'home-variant-outline'}
                   color={COLORS.primary}
                   size={30}
@@ -156,7 +151,7 @@ const TransferSuccessful = ({navigation, route}) => {
   );
 };
 
-export default TransferSuccessful;
+export default TransferDeclined;
 
 const styles = StyleSheet.create({
   container: {

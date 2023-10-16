@@ -154,7 +154,14 @@ export default function Wallet() {
 
             <View style={styles.amountView}>
               <Text style={styles.amount}>
-                {showBalance ? `₦${balance || 0}` : '***********'}
+                {showBalance
+                  ? `${
+                      Intl.NumberFormat('en-NG', {
+                        style: 'currency',
+                        currency: 'NGN',
+                      }).format(balance) || 0
+                    }`
+                  : '***********'}
               </Text>
               {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
               <Pressable
@@ -459,7 +466,7 @@ export default function Wallet() {
               alignSelf: 'center',
               ...FONTS.medium,
               color: COLORS.label,
-              marginTop: 50,
+              marginTop: 20,
               marginBottom: 10,
             }}>
             {bank}

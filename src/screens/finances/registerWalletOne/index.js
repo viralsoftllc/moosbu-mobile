@@ -10,6 +10,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -165,7 +166,9 @@ const RegisterWalletOne = ({navigation}) => {
             </View>
           </View>
         </View>
-        <KeyboardAvoidingView style={{marginVertical: 50}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          style={{gap: 10}}>
           <View
             style={{
               flexDirection: 'row',
@@ -237,7 +240,6 @@ const RegisterWalletOne = ({navigation}) => {
               </View>
             </View>
           </View>
-
           <View
             style={{
               flexDirection: 'row',
@@ -357,29 +359,29 @@ const RegisterWalletOne = ({navigation}) => {
               </View>
             </View>
           </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => handleReg(country)}
+              style={styles.button}>
+              {loading ? (
+                <ActivityIndicator color={COLORS.white} size={'large'} />
+              ) : (
+                <Text
+                  style={{
+                    color: COLORS.white,
+                    ...FONTS.regular,
+                    fontWeight: 700,
+                  }}>
+                  Continue
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => handleReg(country)}
-            style={styles.button}>
-            {loading ? (
-              <ActivityIndicator color={COLORS.white} size={'large'} />
-            ) : (
-              <Text
-                style={{
-                  color: COLORS.white,
-                  ...FONTS.regular,
-                  fontWeight: 700,
-                }}>
-                Continue
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );

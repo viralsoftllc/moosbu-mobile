@@ -38,7 +38,14 @@ export default function WalletBalance({loading, handlePress}) {
         ) : (
           <>
             <Text style={styles.amount}>
-              {showBalance ? `₦${balance ? balance : 0}` : '**********'}
+              {showBalance
+                ? `${
+                    Intl.NumberFormat('en-NG', {
+                      style: 'currency',
+                      currency: 'NGN',
+                    }).format(balance) || 0
+                  }`
+                : '**********'}
             </Text>
 
             <Pressable
@@ -62,7 +69,9 @@ const styles = StyleSheet.create({
   amount: {
     color: COLORS.textPrimary,
     ...FONTS.h4,
+    fontWeight: '600',
     marginRight: SIZES.base / 2,
+    width: '80%',
   },
   amountView: {
     display: 'flex',
