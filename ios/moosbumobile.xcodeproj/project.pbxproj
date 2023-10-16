@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* moosbumobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* moosbumobileTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-moosbumobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-moosbumobile.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -44,8 +43,9 @@
 		3971EC502A627ED3001198F8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3971EC312A627ED3001198F8 /* Octicons.ttf */; };
 		3971EC512A627ED3001198F8 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3971EC322A627ED3001198F8 /* Zocial.ttf */; };
 		3971EC522A627ED3001198F8 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3971EC322A627ED3001198F8 /* Zocial.ttf */; };
-		7699B88040F8A987B510C191 /* libPods-moosbumobile-moosbumobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-moosbumobile-moosbumobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A7A9D79B6B9670CCEE38178E /* libPods-moosbumobile-moosbumobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 548E57BE8529CC45FC967D9A /* libPods-moosbumobile-moosbumobileTests.a */; };
+		D74867E337184D90B387162D /* libPods-moosbumobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 411741AB200F5ADBE095B307 /* libPods-moosbumobile.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +68,6 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = moosbumobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = moosbumobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = moosbumobile/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-moosbumobile-moosbumobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-moosbumobile-moosbumobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3971EC232A627ED1001198F8 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		3971EC242A627ED1001198F8 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		3971EC252A627ED1001198F8 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
@@ -85,12 +84,14 @@
 		3971EC302A627ED3001198F8 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
 		3971EC312A627ED3001198F8 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		3971EC322A627ED3001198F8 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-moosbumobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile.debug.xcconfig"; path = "Target Support Files/Pods-moosbumobile/Pods-moosbumobile.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-moosbumobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile.release.xcconfig"; path = "Target Support Files/Pods-moosbumobile/Pods-moosbumobile.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile-moosbumobileTests.debug.xcconfig"; path = "Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-moosbumobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-moosbumobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39F9E7C52ADB360700AA7CD1 /* moosbumobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = moosbumobile.entitlements; path = moosbumobile/moosbumobile.entitlements; sourceTree = "<group>"; };
+		411741AB200F5ADBE095B307 /* libPods-moosbumobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-moosbumobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		483A277F163143266D013DC6 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile-moosbumobileTests.debug.xcconfig"; path = "Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		548E57BE8529CC45FC967D9A /* libPods-moosbumobile-moosbumobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-moosbumobile-moosbumobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = moosbumobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile-moosbumobileTests.release.xcconfig"; path = "Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		9EFA3EE6DB9844F9489DC3FC /* Pods-moosbumobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile.debug.xcconfig"; path = "Target Support Files/Pods-moosbumobile/Pods-moosbumobile.debug.xcconfig"; sourceTree = "<group>"; };
+		9FADFD2E9C0B2980A1FBB32B /* Pods-moosbumobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile.release.xcconfig"; path = "Target Support Files/Pods-moosbumobile/Pods-moosbumobile.release.xcconfig"; sourceTree = "<group>"; };
+		E06F8E401E79FF053D5275FE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moosbumobile-moosbumobileTests.release.xcconfig"; path = "Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -99,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-moosbumobile-moosbumobileTests.a in Frameworks */,
+				A7A9D79B6B9670CCEE38178E /* libPods-moosbumobile-moosbumobileTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-moosbumobile.a in Frameworks */,
+				D74867E337184D90B387162D /* libPods-moosbumobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +135,7 @@
 		13B07FAE1A68108700A75B9A /* moosbumobile */ = {
 			isa = PBXGroup;
 			children = (
+				39F9E7C52ADB360700AA7CD1 /* moosbumobile.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -148,8 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-moosbumobile.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-moosbumobile-moosbumobileTests.a */,
+				411741AB200F5ADBE095B307 /* libPods-moosbumobile.a */,
+				548E57BE8529CC45FC967D9A /* libPods-moosbumobile-moosbumobileTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,10 +214,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-moosbumobile.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-moosbumobile.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */,
+				9EFA3EE6DB9844F9489DC3FC /* Pods-moosbumobile.debug.xcconfig */,
+				9FADFD2E9C0B2980A1FBB32B /* Pods-moosbumobile.release.xcconfig */,
+				483A277F163143266D013DC6 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */,
+				E06F8E401E79FF053D5275FE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -227,12 +229,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "moosbumobileTests" */;
 			buildPhases = (
-				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
+				634490F0E9610083F5DFA4B7 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
-				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
+				18EE56B3608F9697714DA5EC /* [CP] Embed Pods Frameworks */,
+				2A1B23E3A6E01AAA8B2E71EB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,14 +250,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "moosbumobile" */;
 			buildPhases = (
-				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				C0440DE5B052958D11E20DC9 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
-				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				66AC45E3C7D85A0B6DF2B270 /* [CP] Embed Pods Frameworks */,
+				45C637038C45BAAE7C8EA314 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -370,24 +372,58 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+		18EE56B3608F9697714DA5EC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
+		2A1B23E3A6E01AAA8B2E71EB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		45C637038C45BAAE7C8EA314 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		634490F0E9610083F5DFA4B7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -409,7 +445,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+		66AC45E3C7D85A0B6DF2B270 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C0440DE5B052958D11E20DC9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -429,57 +482,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile/Pods-moosbumobile-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moosbumobile-moosbumobileTests/Pods-moosbumobile-moosbumobileTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -534,9 +536,10 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */;
+			baseConfigurationReference = 483A277F163143266D013DC6 /* Pods-moosbumobile-moosbumobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7599A8LPUP;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -553,7 +556,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moosbu.moosbuos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/moosbumobile.app/moosbumobile";
 			};
@@ -561,10 +564,11 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */;
+			baseConfigurationReference = E06F8E401E79FF053D5275FE /* Pods-moosbumobile-moosbumobileTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 7599A8LPUP;
 				INFOPLIST_FILE = moosbumobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -577,7 +581,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moosbu.moosbuos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/moosbumobile.app/moosbumobile";
 			};
@@ -585,11 +589,13 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-moosbumobile.debug.xcconfig */;
+			baseConfigurationReference = 9EFA3EE6DB9844F9489DC3FC /* Pods-moosbumobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = moosbumobile/moosbumobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7599A8LPUP;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = moosbumobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -602,7 +608,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moosbu.moosbuos;
 				PRODUCT_NAME = moosbumobile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -612,11 +618,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-moosbumobile.release.xcconfig */;
+			baseConfigurationReference = 9FADFD2E9C0B2980A1FBB32B /* Pods-moosbumobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = moosbumobile/moosbumobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7599A8LPUP;
 				INFOPLIST_FILE = moosbumobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -628,7 +636,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.moosbu.moosbuos;
 				PRODUCT_NAME = moosbumobile;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

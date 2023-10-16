@@ -24,7 +24,7 @@ export default function OrderTopTabNavigator() {
   return (
     <Tab.Navigator
       tabBar={props => <TopTabBar {...props} />}
-      style={{paddingTop: SIZES.base * 2, backgroundColor: COLORS.white}}>
+      style={{paddingTop: SIZES.base * 5, backgroundColor: COLORS.white}}>
       <Tab.Screen
         name={routes.ALL_ORDERS}
         component={AllOrders}
