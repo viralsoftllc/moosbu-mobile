@@ -395,6 +395,8 @@ export default function SendFunds({navigation}) {
                   itemTextStyle={{
                     ...FONTS.small,
                   }}
+                  search
+                  searchPlaceholder="Search bank..."
                   selectedTextStyle={{...FONTS.small}}
                   data={bankList}
                   maxHeight={300}

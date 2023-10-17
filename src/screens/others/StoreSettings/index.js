@@ -41,8 +41,7 @@ export default function StoreSettings() {
 
         <Pressable
           style={[styles.card, styles.currency]}
-          // onPress={() => navigate(routes.CURRENCY_SETTINGS)}
-        >
+          onPress={() => navigate(routes.CURRENCY_SETTINGS)}>
           <UseIcon
             type={'MaterialCommunityIcons'}
             name="bank"

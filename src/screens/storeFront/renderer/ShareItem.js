@@ -107,11 +107,12 @@ export default function ShareItem({
 
           <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
-            <Text
-              style={
-                styles.link
-              }>{`https://www.moosbu.store/${storeName}/products/${productId}`}</Text>
-            <Pressable
+            <Text style={styles.link}>
+              {title == 'store'
+                ? `https://www.moosbu.store/${storeName}`
+                : `https://www.moosbu.store/${storeName}/products/${productId}`}
+            </Text>
+            {/* <Pressable
               onPress={() =>
                 copyToClipboard(
                   `https://www.moosbu.store/${storeName}/products/${productId}` ||
@@ -121,13 +122,22 @@ export default function ShareItem({
               style={styles.copyBtn}>
               <UseIcon type={'AntDesign'} name="copy1" color={COLORS.white} />
               <Text style={styles.copyText}>{copied ? 'Copied' : 'Copy'}</Text>
-            </Pressable>
+            </Pressable> */}
           </View>
 
           <FormButton
-            title={'Share'}
-            // style={{backgroundColor: media ? COLORS.primary : COLORS.grayText}}
-            disabled={media ? false : true}
+            title={'Copy'}
+            style={{backgroundColor: COLORS.primary}}
+            // disabled={media ? false : true}
+            onPress={() =>
+              copyToClipboard(
+                `${
+                  title == 'store'
+                    ? `https://www.moosbu.store/${storeName}`
+                    : `https://www.moosbu.store/${storeName}/products/${productId}`
+                }`,
+              )
+            }
           />
         </View>
       </View>
@@ -147,6 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius / 2,
     overflow: 'hidden',
     marginBottom: SIZES.base * 3,
+    height: 50,
   },
   flex: {
     display: 'flex',
@@ -170,9 +181,9 @@ const styles = StyleSheet.create({
     color: COLORS.grayText,
   },
   link: {
-    ...FONTS.tiny,
+    ...FONTS.small,
     marginLeft: SIZES.base,
-    width: '60%',
+    // width: '60%',
   },
   shareTypeView: {
     alignSelf: 'flex-start',

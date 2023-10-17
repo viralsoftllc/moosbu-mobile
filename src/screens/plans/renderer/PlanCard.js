@@ -25,7 +25,7 @@ export default function PlanCard({
           styles.planHeader,
           {backgroundColor: isPaid ? COLORS.primary : COLORS.borderGray},
         ]}>
-        <Text style={styles.planHeaderText}>₦{price || 0}/Month</Text>
+        <Text style={styles.planHeaderText}>₦{price}</Text>
       </View>
 
       <View style={styles.content}>

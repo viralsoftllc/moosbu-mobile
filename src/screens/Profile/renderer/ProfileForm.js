@@ -25,6 +25,7 @@ export default function ProfileForm({profile, setProfile}) {
         placeholder="Your email address"
         onChangeText={text => setProfile({...profile, email: text})}
         value={profile?.email}
+        editable={false}
       />
 
       <FormInput

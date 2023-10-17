@@ -8,7 +8,7 @@ const TransferSuccessful = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
         <View style={styles.logoContainer}>
           <Icon name="check-circle-outline" size={80} color="green" />
         </View>
@@ -97,7 +97,7 @@ const TransferSuccessful = ({navigation, route}) => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('TransferDeclined');
+              navigation.navigate('TransactionDetails');
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View

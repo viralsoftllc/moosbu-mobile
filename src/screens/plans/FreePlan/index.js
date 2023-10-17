@@ -26,7 +26,7 @@ const benefits2 = [
   {label: 'Third Party Integrations:', value: 'None'},
 ];
 
-export default function FreePlan({isActive}) {
+export default function FreePlan({isActive, price}) {
   const [showPlanDetails, setShowPlanDetails] = useState(false);
 
   function handleToggleDetails() {
@@ -42,6 +42,7 @@ export default function FreePlan({isActive}) {
         isActive={isActive}
         title={'Free Forever Plan'}
         businessScale={'Smaller business'}
+        price={price}
       />
 
       <Modal visible={showPlanDetails} animationType="slide" transparent={true}>

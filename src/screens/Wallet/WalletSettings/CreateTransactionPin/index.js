@@ -9,6 +9,8 @@ import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 import ShortModal from '../../../../shared/components/ShortModal';
 
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+
 export default function CreateTransactionPin({handleToggleShortModal}) {
   const [pin, setPin] = useState('');
   const [pin2, setPin2] = useState('');
@@ -65,6 +67,17 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
               keyboardType="number-pad"
               secureTextEntry={true}
             />
+
+            {/* <OTPInputView
+              style={{}}
+              pinCount={6}
+              keyboardType={'number-pad'}
+              autoFocusOnLoad={false}
+              codeInputFieldStyle={styles.codeInputFieldStyle}
+              onCodeFilled={otp => setPin(otp)}
+              onCodeChanged={otp => setPin(otp)}
+              code={pin}
+            /> */}
 
             <FormInput
               label={'Confirm Transaction Pin'}

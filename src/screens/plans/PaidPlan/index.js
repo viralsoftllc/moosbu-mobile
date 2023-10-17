@@ -32,7 +32,7 @@ const benefits2 = [
   {label: 'Third Party Integrations:', value: 'None'},
 ];
 
-export default function PaidPlan({isActive}) {
+export default function PaidPlan({isActive, price}) {
   const [showPlanDetails, setShowPlanDetails] = useState(false);
   // const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -65,7 +65,7 @@ export default function PaidPlan({isActive}) {
         benefits={benefits}
         onGetStarted={handleTogglePaymentModal}
         onLearnMore={handleToggleDetails}
-        price={'5,000'}
+        price={price}
         isPaid={true}
         title={'Paid Plan'}
         businessScale={'Bigger business'}

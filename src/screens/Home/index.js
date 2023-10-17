@@ -133,8 +133,9 @@ export default function Home({navigation}) {
             <WalletBalance loading={walletLoading} />
             <StoreRevenue />
           </View>
-
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Finances')}>
+          {/* 
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TransactionDetails')}>
             <Text>Go to finances</Text>
           </TouchableOpacity> */}
 

@@ -143,6 +143,7 @@ export default function HomeHeader({
           setShowShareModal={setShowShareModal}
           title={'store'}
           link={link || ''}
+          storeName={store && store.slug}
         />
       </Modal>
     </>

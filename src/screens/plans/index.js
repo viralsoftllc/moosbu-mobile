@@ -27,6 +27,7 @@ export default function Plans() {
   const user = useSelector(selectUser);
 
   const [isMonthly, setIsMonthly] = useState(true);
+  const [isYearly, setIsYearly] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
 
   function toggleComparisonModal() {
@@ -47,7 +48,10 @@ export default function Plans() {
           <View style={styles.planPeriodContainer}>
             <View style={styles.planPeriodButtons}>
               <Pressable
-                onPress={() => setIsMonthly(true)}
+                onPress={() => {
+                  setIsMonthly(true);
+                  setIsYearly(false);
+                }}
                 style={[
                   styles.planPeriodButton,
                   isMonthly && styles.planActive,
@@ -64,7 +68,10 @@ export default function Plans() {
               <View style={styles.planButtonSpacer} />
 
               <Pressable
-                onPress={() => setIsMonthly(false)}
+                onPress={() => {
+                  setIsMonthly(false);
+                  setIsYearly(true);
+                }}
                 style={[
                   styles.planPeriodButton,
                   !isMonthly && styles.planActive,
@@ -98,9 +105,17 @@ export default function Plans() {
                 </Text>
               </View>
 
-              <FreePlan isActive={user?.plan !== 2} />
+              {!isYearly ? (
+                <FreePlan isActive={user?.plan !== 2} price="0 / Month" />
+              ) : (
+                <FreePlan isActive={user?.plan !== 2} price="0 / Year" />
+              )}
 
-              <PaidPlan isActive={user?.plan === 2} />
+              {!isYearly ? (
+                <PaidPlan isActive={user?.plan === 2} price="5000 / Month" />
+              ) : (
+                <PaidPlan isActive={user?.plan === 2} price="50,000 / Year" />
+              )}
 
               <Pressable
                 style={styles.detailedViewBtn}

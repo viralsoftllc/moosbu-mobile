@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    // backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.primary,
     height: verticalScale(43),
     borderRadius: SIZES.radius,
   },

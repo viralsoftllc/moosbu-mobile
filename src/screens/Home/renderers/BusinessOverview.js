@@ -33,7 +33,7 @@ export default function BusinessOverview() {
       <View style={styles.businessOverviewHeader}>
         <Text style={styles.sectionTitle}>Business Overview</Text>
 
-        <View style={styles.businessOverviewPeriod}>
+        {/* <View style={styles.businessOverviewPeriod}>
           <Pressable
             onPress={() => setShowFilter(!showFilter)}
             style={styles.businessOverviewPeriodHeader}>
@@ -68,7 +68,7 @@ export default function BusinessOverview() {
               </Pressable>
             </View>
           ) : null}
-        </View>
+        </View> */}
       </View>
 
       {/* Cards */}

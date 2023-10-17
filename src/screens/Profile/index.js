@@ -8,9 +8,13 @@ import {
   View,
   StatusBar,
   Platform,
+  Image,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
+
+import {launchImageLibrary} from 'react-native-image-picker';
+import {uploadImageToCloudinary} from '../../shared/hooks/uploadToCloudinary';
 
 import {COLORS, SIZES} from '../../assets/themes';
 import {selectStoreDetails} from '../../redux/slices/store/selectors';
@@ -25,6 +29,48 @@ export default function Profile() {
   const user = useSelector(selectUser);
   const store = useSelector(selectStoreDetails);
   const [profile, setProfile] = useState({});
+
+  //Image picker variables
+  const [uri, setUri] = useState('');
+  const [fileResponse, setFileResponse] = useState({});
+
+  //handle image from gallery
+  const handleGallery = async () => {
+    await launchImageLibrary(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+        selectionLimit: 1,
+      },
+      res => {
+        // console.log('res from image picker - cover image');
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setUri(res.assets[0].uri);
+          setFileResponse(res.assets[0]);
+        }
+      },
+    );
+  };
+
+  //Upload image in bit64 format to get url
+  async function uploadToGetUrl(base64) {
+    try {
+      const data = await uploadImageToCloudinary(base64);
+      return data?.url;
+    } catch (error) {
+      console.log('error');
+      return error;
+    }
+  }
 
   useEffect(() => {
     setProfile({
@@ -53,9 +99,22 @@ export default function Profile() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.imageIcon}>
-          <ImageIcon size={verticalScale(100)} margin={0} />
+          {uri ? (
+            <Image
+              source={{uri}}
+              style={{
+                width: 150,
+                height: 150,
+                alignSelf: 'center',
+                borderRadius: 75,
+              }}
+              resizeMode="cover"
+            />
+          ) : (
+            <ImageIcon size={verticalScale(100)} margin={0} />
+          )}
 
-          <Pressable style={styles.cameraView}>
+          <Pressable style={styles.cameraView} onPress={handleGallery}>
             <UseIcon
               type={'AntDesign'}
               name="camerao"
