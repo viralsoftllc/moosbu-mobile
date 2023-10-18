@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Finances from '../../screens/finances';
 import RegisterWalletOne from '../../screens/finances/registerWalletOne';
 import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
+import TransactionDetails from '../../screens/Wallet/TransactionDetails/TransactionDetails';
 
 import {authScreens} from './screens';
 

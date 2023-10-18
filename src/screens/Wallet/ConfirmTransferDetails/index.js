@@ -64,6 +64,7 @@ export default function ConfirmTransferDetails({route}) {
     bank_code: bankCode,
     bank_id: bankId,
     amount: amount,
+    bank: bank,
   };
 
   return (

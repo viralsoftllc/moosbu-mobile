@@ -29,19 +29,25 @@ export default function EnterPin({setShowPinForm, options}) {
 
       console.log(res.data);
 
-      const {attributes} = res.data;
+      const {attributes, id} = res.data;
       console.log(attributes);
 
-      const {status, failureReason, reason} = attributes;
+      const {status, failureReason, reason, createdAt} = attributes;
 
       if (status == 'FAILED') {
+        setShowPinForm(false);
         navigation.navigate('TransferDeclined', options);
       }
       if (status == 'PENDING') {
         notifyMessage(reason);
       }
       if (status == 'COMPLETED') {
-        navigation.navigate('TransferSuccessful', options);
+        setShowPinForm(false);
+        navigation.navigate('TransferSuccessful', {
+          ...options,
+          time: createdAt,
+          transactionId: id,
+        });
       }
 
       setLoading(false);

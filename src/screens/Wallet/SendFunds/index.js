@@ -51,24 +51,6 @@ export default function SendFunds({navigation}) {
     });
   }, [setOptions]);
 
-  // Fetch account information
-  const verifyAccount = async () => {
-    try {
-      setIsFetching(true);
-      const details = await client.get(
-        `/api/verify_account?accountNumber=${accountNumber}&bankCode=${value}`,
-      );
-      // console.log(details.data);
-      const {attributes} = details.data;
-
-      setIsFetching(false);
-
-      return setAccountName(prev => attributes?.accountName);
-    } catch (error) {
-      handleApiError(error);
-    }
-  };
-
   // const handleSubmit = async () => {
   //   await verifyAccount()
   //     .then(
@@ -104,7 +86,28 @@ export default function SendFunds({navigation}) {
     fetchBanks();
   }, [isFetching]);
 
-  useEffect(() => console.log(accountName), [accountName]);
+  useEffect(() => {
+    const verifyAccount = async () => {
+      try {
+        setIsFetching(true);
+        const response = await client.get(
+          `/api/verify_account?accountNumber=${accountNumber}&bankCode=${value}`,
+        );
+        const {data} = response;
+        const {attributes} = data;
+
+        setAccountName(attributes?.accountName);
+        setIsFetching(false);
+      } catch (error) {
+        // Handle the error appropriately, e.g., show an error message or log the error.
+        console.error('Error while verifying account:', error);
+        setIsFetching(false);
+      }
+    };
+
+    // Call the verifyAccount function when the 'bank' dependency changes.
+    verifyAccount();
+  }, [bank, value]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -380,6 +383,7 @@ export default function SendFunds({navigation}) {
                   placeholder="Enter account number "
                   placeholderTextColor={COLORS.grayText}
                   value={accountNumber}
+                  maxLength={10}
                 />
 
                 <Text style={{...FONTS.medium}}>{accountName}</Text>
@@ -417,8 +421,6 @@ export default function SendFunds({navigation}) {
                       setValue(item.value);
                       setBank(item.label);
                       setIsFocus(false);
-
-                      await verifyAccount();
                     }
                   }}
                 />
@@ -558,5 +560,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     gap: 5,
+    marginTop: 50,
   },
 });

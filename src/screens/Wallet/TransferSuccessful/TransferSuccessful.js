@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
 
 const TransferSuccessful = ({navigation, route}) => {
-  const {account_name, amount} = route.params;
+  const {account_name, account_number, amount, bank, time, transactionId} =
+    route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -97,7 +98,14 @@ const TransferSuccessful = ({navigation, route}) => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('TransactionDetails');
+              navigation.navigate('TransactionDetails', {
+                account_name,
+                account_number,
+                amount,
+                bank,
+                time,
+                transactionId,
+              });
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
