@@ -29,8 +29,14 @@ export default function ShareItem({
     <SafeAreaView style={styles.shareModal}>
       <View style={styles.modalContainer}>
         <View style={styles.container}>
-          <View style={styles.flex}>
-            <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              marginVertical: 15,
+            }}>
+            <View style={{width: '80%'}}>
               <Text style={styles.title}>
                 {title ? `Share your ${title} link` : 'Share as'}
               </Text>

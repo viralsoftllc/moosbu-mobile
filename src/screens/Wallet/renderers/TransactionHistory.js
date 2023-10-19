@@ -160,7 +160,6 @@ import TransactionRow from './TransactionRow';
 export default function TransactionHistory({loading, transactions}) {
   const [showFilter, setShowFilter] = useState(false);
   const [filterBy, setFilterBy] = useState('All');
-  console.log('transactions');
   console.log(transactions);
 
   function handleFilter(params) {

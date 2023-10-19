@@ -236,6 +236,7 @@ const RegisterWalletOne = ({navigation}) => {
                   value={phoneNumber}
                   onChangeText={text => setPhoneNumber(text)}
                   inputMode="tel"
+                  maxLength={11}
                 />
               </View>
             </View>

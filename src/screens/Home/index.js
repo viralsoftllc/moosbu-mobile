@@ -148,18 +148,22 @@ export default function Home({navigation}) {
               <StoreRevenue />
             </View>
           </ScrollView> */}
-
-          <SwiperFlatList
-            showPagination={true}
-            paginationActiveColor={COLORS.primary}
-            contentContainerStyle={{gap: 10}}>
-            <View style={{width: windowWidth - 35}}>
-              <WalletBalance loading={walletLoading} />
-            </View>
-            <View style={{width: windowWidth - 40}}>
-              <StoreRevenue />
-            </View>
-          </SwiperFlatList>
+          <View style={{paddingVertical: 20}}>
+            <SwiperFlatList
+              paginationActiveColor={COLORS.primary}
+              contentContainerStyle={{
+                gap: 20,
+                marginBottom: 20,
+                paddingRight: 50,
+              }}>
+              <View style={{width: windowWidth - 40}}>
+                <WalletBalance loading={walletLoading} />
+              </View>
+              <View style={{width: windowWidth - 60}}>
+                <StoreRevenue />
+              </View>
+            </SwiperFlatList>
+          </View>
 
           {/* <TouchableOpacity
             onPress={() => navigation.navigate('SuccessfulRegistration')}>

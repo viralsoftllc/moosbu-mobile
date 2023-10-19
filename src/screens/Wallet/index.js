@@ -44,7 +44,7 @@ export default function Wallet() {
   const accountName = useSelector(selectAccountName);
   const bank = useSelector(selectBank);
 
-  console.log(accountNumber);
+  // console.log(accountNumber);
   const dispatch = useDispatch();
 
   const [showBalance, setShowBalance] = useState(true);
@@ -63,7 +63,7 @@ export default function Wallet() {
 
       const balanceinNaira = data?.balance.availableBalance / 100;
       // console.log(data);
-      console.log(data?.details[0].attributes.accountNumber);
+      // console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(balanceinNaira));
       dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
       dispatch(setAccountName(data?.details[0].attributes.accountName));

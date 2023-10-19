@@ -20,8 +20,15 @@ import {useSelector} from 'react-redux';
 import {selectUser} from '../../../redux/slices/user/selectors';
 
 const TransactionDetails = ({navigation, route}) => {
-  const {account_name, account_number, amount, bank, time, transactionId} =
-    route.params;
+  const {
+    account_name,
+    account_number,
+    amount,
+    bank,
+    time,
+    transactionId,
+    description,
+  } = route.params;
 
   const user = useSelector(selectUser);
 
@@ -142,7 +149,7 @@ const TransactionDetails = ({navigation, route}) => {
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>Description</Text>
-              <Text style={styles.content}>Maintenance</Text>
+              <Text style={styles.content}>{description}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>Transaction Type</Text>

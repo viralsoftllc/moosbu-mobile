@@ -3,8 +3,13 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ion from 'react-native-vector-icons/Ionicons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import {logUserOut} from '../../auth/Logout';
+import {useDispatch} from 'react-redux';
+import {setToken} from '../../../redux/slices/auth/slice';
 
 const SuccessfulRegistration = ({navigation}) => {
+  const dispatch = useDispatch();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -27,7 +32,9 @@ const SuccessfulRegistration = ({navigation}) => {
         <Pressable
           style={styles.button}
           onPress={() => {
-            navigation.navigate('Wallet');
+            // navigation.navigate('Wallet');
+            logUserOut();
+            dispatch(setToken(null));
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
             <View
@@ -52,7 +59,9 @@ const SuccessfulRegistration = ({navigation}) => {
         <Pressable
           style={styles.button}
           onPress={() => {
-            navigation.navigate('Main', {screen: 'Home Tab'});
+            // navigation.navigate('Main', {screen: 'Home Tab'});
+            logUserOut();
+            dispatch(setToken(null));
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
             <View

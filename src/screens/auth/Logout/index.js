@@ -24,6 +24,10 @@ import FormButton from '../../../shared/components/FormButton';
 import Cache from '../../../shared/utils/Cache';
 import UseIcon from '../../../shared/utils/UseIcon';
 
+export async function logUserOut() {
+  Cache.clearAll();
+}
+
 export default function Logout() {
   const {goBack} = useNavigation();
   const dispatch = useDispatch();

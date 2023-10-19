@@ -18,11 +18,14 @@ import OrderTopTabNavigator from '../screens/OrderTopTabNavigator';
 
 import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import {selectUser} from '../../../redux/slices/user/selectors';
+import RegisterWalletTwo from '../../../screens/finances/registerWalletTwo';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const store = useSelector(selectStoreDetails);
+  const user = useSelector(selectUser);
 
   return (
     <Tab.Navigator
@@ -64,7 +67,13 @@ export default function BottomTabNavigator() {
 
       <Tab.Screen
         name={routes.WALLET}
-        component={store?.accountID ? Wallet : Finances}
+        component={
+          store?.accountID && user?.customerID
+            ? Wallet
+            : user?.customerID
+            ? RegisterWalletTwo
+            : Finances
+        }
         options={{
           tabBarButton: props => (
             <CustomTabBarButton

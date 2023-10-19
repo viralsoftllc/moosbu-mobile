@@ -27,9 +27,13 @@ import {selectToken} from '../../../redux/slices/auth/selectors';
 import axios from 'axios';
 import {Dropdown} from 'react-native-element-dropdown';
 import handleApiError from '../../../shared/components/handleApiError';
+import {logUserOut} from '../../auth/Logout';
+import {setToken} from '../../../redux/slices/auth/slice';
+import {useDispatch} from 'react-redux';
 
 const RegisterWalletTwo = ({navigation}) => {
   const token = useSelector(selectToken);
+  const dispatch = useDispatch();
 
   const [uri, setUri] = useState('');
   const [date, setDate] = useState(new Date());
@@ -161,11 +165,18 @@ const RegisterWalletTwo = ({navigation}) => {
       //   .then(response => console.log(response))
       //   .catch(error => console.error(error));
 
-      console.log(res);
+      console.log(res.data);
+
+      const {data} = res.data;
+      if (data.attributes.accountType == 'REGULAR') {
+        navigation.navigate('SuccessfulRegistration');
+      }
       setLoading(false);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
+      logUserOut();
+      dispatch(setToken(null));
     }
   };
 

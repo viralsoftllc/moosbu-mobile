@@ -24,8 +24,9 @@ export default function OrderTopTabNavigator() {
           style={{
             ...FONTS.regular,
             fontWeight: '600',
-            marginVertical: 20,
+            paddingVertical: 20,
             textAlign: 'center',
+            backgroundColor: COLORS.white,
           }}>
           Orders
         </Text>

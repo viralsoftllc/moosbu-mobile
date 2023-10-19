@@ -63,8 +63,9 @@ export default function ConfirmTransferDetails({route}) {
     account_number: accountNumber,
     bank_code: bankCode,
     bank_id: bankId,
-    amount: amount,
+    amount: parseInt(amount) + 50,
     bank: bank,
+    description,
   };
 
   return (

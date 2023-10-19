@@ -29,7 +29,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (attributes?.direction.toLowerCase() === 'send') {
+    if (attributes?.direction.toLowerCase() === 'debit') {
       return (
         <UseIcon
           type="Feather"
@@ -104,12 +104,17 @@ export default function TransactionRow({transaction}) {
           </View>
           <View>
             <Text style={[styles.text, {color: getColor()}]}>
-              ₦{transaction?.amount}
+              {Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(attributes?.amount / 100)}
             </Text>
           </View>
         </View>
 
-        <Text style={styles.date}>12, June 2023-2:12:08</Text>
+        <Text style={styles.date}>
+          {new Date(attributes?.createdAt).toLocaleString()}
+        </Text>
       </View>
     </View>
   );
