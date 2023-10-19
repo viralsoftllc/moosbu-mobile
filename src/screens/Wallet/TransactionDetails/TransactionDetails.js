@@ -1,4 +1,11 @@
-import {StyleSheet, SafeAreaView, Pressable, Text, View} from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Pressable,
+  Image,
+  Text,
+  View,
+} from 'react-native';
 import React, {useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ion from 'react-native-vector-icons/Ionicons';
@@ -9,9 +16,15 @@ import Share from 'react-native-share';
 import {ScrollView} from 'react-native-gesture-handler';
 import copyToClipboard from '../../../shared/utils/copyToClipboard';
 
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../../redux/slices/user/selectors';
+
 const TransactionDetails = ({navigation, route}) => {
   const {account_name, account_number, amount, bank, time, transactionId} =
     route.params;
+
+  const user = useSelector(selectUser);
+
   const viewRef = useRef();
   const [visible, setVisible] = useState(true);
 
@@ -92,15 +105,34 @@ const TransactionDetails = ({navigation, route}) => {
             backgroundColor: 'white',
             paddingHorizontal: 10,
           }}>
-          <View style={{marginVertical: 15}}>
-            <Text style={{...FONTS.h3, fontWeight: '700'}}>{amount}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={require('../../../assets/images/moosbuu.png')}
+              style={{width: 150, height: 150}}
+              resizeMode="contain"
+            />
+            <Text style={{...FONTS.regular}}>Transaction Receipt</Text>
+          </View>
+          <View style={{marginVertical: 10}}>
+            <Text style={{...FONTS.h3, fontWeight: '700'}}>
+              {' '}
+              {Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(parseInt(amount))}
+            </Text>
             <Text style={styles.label}>{new Date(time).toLocaleString()}</Text>
           </View>
 
           <View style={{gap: 10}}>
             <View style={styles.info}>
               <Text style={styles.label}>From</Text>
-              <Text style={styles.content}>Emilagba Idrees Afolabi</Text>
+              <Text style={styles.content}>{user.name}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>To</Text>
@@ -148,7 +180,7 @@ const TransactionDetails = ({navigation, route}) => {
                 </Pressable>
               ) : null}
             </View>
-            <View style={styles.info}>
+            <View style={[styles.info, {marginBottom: 50}]}>
               <Text style={styles.label}>Transaction Status</Text>
               <Text style={styles.content}>Successful</Text>
             </View>
@@ -159,7 +191,7 @@ const TransactionDetails = ({navigation, route}) => {
           More Actions
         </Text>
 
-        <View style={{gap: 15}}>
+        <View style={{gap: 20}}>
           <Pressable
             style={styles.button}
             onPress={() => {

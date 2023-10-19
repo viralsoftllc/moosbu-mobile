@@ -239,6 +239,7 @@ const RegisterWalletTwo = ({navigation}) => {
               value={bvn}
               onChangeText={text => setBvn(text)}
               inputMode="numeric"
+              maxLength={11}
             />
           </View>
           <View style={{gap: 10}}>

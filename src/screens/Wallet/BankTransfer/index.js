@@ -1,4 +1,3 @@
-import Clipboard from '@react-native-community/clipboard';
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
 import {
@@ -9,6 +8,8 @@ import {
   Text,
   View,
 } from 'react-native';
+
+import copyToClipboard from '../../../shared/utils/copyToClipboard';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
@@ -22,9 +23,9 @@ export default function BankTransfer() {
 
   const accountNumber = useSelector(selectAccountNumber);
 
-  const copyToClipboard = content => {
-    Clipboard.setString(content);
-  };
+  // const copyToClipboard = content => {
+  //   Clipboard.setString(content);
+  // };
 
   useLayoutEffect(() => {
     setOptions({
@@ -38,7 +39,9 @@ export default function BankTransfer() {
       <View>
         <Text style={styles.title}>Your Moosbu Account Number</Text>
 
-        <Pressable style={styles.acctNumberBtn} onPress={copyToClipboard}>
+        <Pressable
+          style={styles.acctNumberBtn}
+          onPress={() => copyToClipboard(accountNumber)}>
           <Text style={styles.acctNumber}>{accountNumber}</Text>
 
           <UseIcon

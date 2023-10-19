@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   StatusBar,
+  Text,
 } from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import {useEffect} from 'react';
@@ -18,6 +19,8 @@ import {setOrders} from '../../../../redux/slices/orders/slice';
 import handleApiError from '../../../../shared/components/handleApiError';
 import {selectOrders} from '../../../../redux/slices/orders/selectors';
 import EmptyItemInfo from '../../../../shared/components/EmptyItemInfo';
+import {FONTS} from '../../../../assets/themes';
+import ScreenHeader from '../../../../shared/components/ScreenHeader';
 
 export default function AllOrders() {
   const [loading, setLoading] = useState(false);

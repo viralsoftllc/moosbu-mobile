@@ -10,6 +10,7 @@ import {
   RefreshControl,
   Pressable,
   TouchableOpacity,
+  Dimensions,
   StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
@@ -40,10 +41,15 @@ import Recommendations from './renderers/Recommendations';
 import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
 import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
+import SwiperFlatList from 'react-native-swiper-flatlist';
+
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
   const storeDetails = useSelector(selectStoreDetails);
   const dispatch = useDispatch();
+
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
   const [showStoresModal, setShowStoresModal] = useState(false);
@@ -81,7 +87,7 @@ export default function Home({navigation}) {
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
       // console.log(data?.balance);
-      dispatch(setWalletBalance(data?.balance.availableBalance));
+      dispatch(setWalletBalance(data?.balance.availableBalance / 100));
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -129,13 +135,34 @@ export default function Home({navigation}) {
           </View>
 
           {/* wallet and revenue */}
-          <View style={styles.balances}>
-            <WalletBalance loading={walletLoading} />
-            <StoreRevenue />
-          </View>
-          {/* 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TransactionDetails')}>
+          {/* <ScrollView
+            pagingEnabled
+            indicatorStyle="black"
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{gap: 40, padding: 20}}>
+            <View style={{width: windowWidth - 100}}>
+              <WalletBalance loading={walletLoading} />
+            </View>
+            <View style={{width: windowWidth - 100}}>
+              <StoreRevenue />
+            </View>
+          </ScrollView> */}
+
+          <SwiperFlatList
+            showPagination={true}
+            paginationActiveColor={COLORS.primary}
+            contentContainerStyle={{gap: 10}}>
+            <View style={{width: windowWidth - 35}}>
+              <WalletBalance loading={walletLoading} />
+            </View>
+            <View style={{width: windowWidth - 40}}>
+              <StoreRevenue />
+            </View>
+          </SwiperFlatList>
+
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate('SuccessfulRegistration')}>
             <Text>Go to finances</Text>
           </TouchableOpacity> */}
 

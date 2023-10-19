@@ -25,6 +25,16 @@ export default function More() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
+      <Text
+        style={{
+          ...FONTS.regular,
+          fontWeight: '600',
+          marginBottom: 20,
+          marginTop: 10,
+          textAlign: 'center',
+        }}>
+        More
+      </Text>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

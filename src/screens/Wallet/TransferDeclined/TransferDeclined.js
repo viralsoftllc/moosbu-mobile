@@ -9,7 +9,7 @@ const TransferDeclined = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
         <View style={styles.logoContainer}>
           <Icon name="error-outline" size={80} color="red" />
         </View>
@@ -95,7 +95,11 @@ const TransferDeclined = ({navigation, route}) => {
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />
           </Pressable>
-          <Pressable style={styles.button} onPress={() => {}}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate('Wallet');
+            }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
                 style={{

@@ -1,30 +1,44 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {useNavigation} from '@react-navigation/native';
+import {Text} from 'react-native';
 
 import TopTabBar from '../components/TopTabBar';
 import routes from '../../../shared/constants/routes';
 import AllOrders from '../../../screens/storeFront/orders/AllOrders';
 import ProcessingOrders from '../../../screens/storeFront/orders/ProcessingOrders';
 import CompletedOrders from '../../../screens/storeFront/orders/CompletedOrders';
-import {COLORS, SIZES} from '../../../assets/themes';
+import {COLORS, SIZES, FONTS} from '../../../assets/themes';
+
+import ScreenHeader from '../../../shared/components/ScreenHeader';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function OrderTopTabNavigator() {
-  // const {setOptions} = useNavigation();
+  const {setOptions} = useNavigation();
 
-  // useLayoutEffect(() => {
-  //   setOptions({
-  //     header: () => <ScreenHeader title={'Orders'} />,
-  //     headerShown: true,
-  //   });
-  //   return () => {};
-  // }, [setOptions]);
+  useLayoutEffect(() => {
+    setOptions({
+      header: () => (
+        <Text
+          style={{
+            ...FONTS.regular,
+            fontWeight: '600',
+            marginVertical: 20,
+            textAlign: 'center',
+          }}>
+          Orders
+        </Text>
+      ),
+      headerShown: true,
+    });
+    return () => {};
+  }, [setOptions]);
 
   return (
     <Tab.Navigator
       tabBar={props => <TopTabBar {...props} />}
-      style={{paddingTop: SIZES.base * 5, backgroundColor: COLORS.white}}>
+      style={{backgroundColor: COLORS.white}}>
       <Tab.Screen
         name={routes.ALL_ORDERS}
         component={AllOrders}

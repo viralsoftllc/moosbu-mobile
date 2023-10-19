@@ -52,6 +52,8 @@ import Finances from '../../screens/finances';
 import RegisterWalletOne from '../../screens/finances/registerWalletOne';
 import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
 
+import SuccessfulRegistration from '../../screens/finances/SuccessfulRegistration/SuccessfulRegistration';
+
 import TransferSuccessful from '../../screens/Wallet/TransferSuccessful/TransferSuccessful';
 import TransferDeclined from '../../screens/Wallet/TransferDeclined/TransferDeclined';
 import TransactionDetails from '../../screens/Wallet/TransactionDetails/TransactionDetails';
@@ -106,26 +108,20 @@ export default function MainNavigator() {
         component={Logout}
         options={{headerShown: false}}
       />
-
       <Stack.Screen name={routes.AUTOMATION} component={Automation} />
-
       <Stack.Screen
         // options={{headerShown: false}}
         name={routes.M_BOT}
         component={MBot}
       />
       {/* <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} /> */}
-
       <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
-
       <Stack.Screen name={routes.INTEGRATION} component={Integration} />
       <Stack.Screen name={routes.SUPPORT} component={Support} />
-
       <Stack.Screen
         name={routes.BUSINESS_REGISTRATION}
         component={BussinessRegistration}
       />
-
       <Stack.Screen
         name={routes.CHOOSE_PAYMENT_METHOD}
         component={ChoosePaymentMethod}
@@ -151,7 +147,6 @@ export default function MainNavigator() {
           headerShown: false,
         }}
       />
-
       {/* Successful screen */}
       <Stack.Screen
         name={'TransferSuccessful'}
@@ -167,7 +162,6 @@ export default function MainNavigator() {
           headerShown: false,
         }}
       />
-
       {/* Transaction Details */}
       <Stack.Screen
         name={'TransactionDetails'}
@@ -176,7 +170,6 @@ export default function MainNavigator() {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
         name={routes.STORE_SETTINGS_STACK}
         component={StoreSettingsStack}
@@ -212,7 +205,6 @@ export default function MainNavigator() {
       <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
       <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
       <Stack.Screen name={routes.MEDIA_RESOURCES} component={MediaResources} />
-
       <Stack.Screen
         name="Finances"
         component={Finances}
@@ -233,6 +225,11 @@ export default function MainNavigator() {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name="SuccessfulRegistration"
+        component={SuccessfulRegistration}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

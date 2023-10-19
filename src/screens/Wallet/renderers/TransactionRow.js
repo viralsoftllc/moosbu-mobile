@@ -4,8 +4,10 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function TransactionRow({transaction}) {
+  const {attributes} = transaction;
+
   function getIcon() {
-    if (transaction?.type?.toLowerCase() === 'order') {
+    if (attributes?.direction.toLowerCase() === 'order') {
       return (
         <UseIcon
           type="FAIcon5"
@@ -16,7 +18,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (transaction?.type?.toLowerCase() === 'funding') {
+    if (attributes?.direction.toLowerCase() === 'funding') {
       return (
         <UseIcon
           type="MaterialIcons"
@@ -27,7 +29,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (transaction?.type?.toLowerCase() === 'send') {
+    if (attributes?.direction.toLowerCase() === 'send') {
       return (
         <UseIcon
           type="Feather"
@@ -37,7 +39,7 @@ export default function TransactionRow({transaction}) {
         />
       );
     }
-    if (transaction?.type?.toLowerCase() === 'deposit') {
+    if (attributes?.direction.toLowerCase() === 'deposit') {
       return (
         <UseIcon
           type="Feather"
@@ -48,7 +50,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (transaction?.type?.toLowerCase() === 'withdraw') {
+    if (attributes?.direction.toLowerCase() === 'withdraw') {
       return (
         <UseIcon type="FAIcon" name="bank" color={COLORS.textGray} size={14} />
       );

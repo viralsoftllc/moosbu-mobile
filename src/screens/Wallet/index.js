@@ -35,6 +35,7 @@ import HalfScreen from '../finances/renderers/halfScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ficon from 'react-native-vector-icons/Feather';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
+import ScreenHeader from '../../shared/components/ScreenHeader';
 
 export default function Wallet() {
   const {navigate} = useNavigation();
@@ -59,9 +60,11 @@ export default function Wallet() {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
+
+      const balanceinNaira = data?.balance.availableBalance / 100;
       // console.log(data);
       console.log(data?.details[0].attributes.accountNumber);
-      dispatch(setWalletBalance(data?.balance.availableBalance));
+      dispatch(setWalletBalance(balanceinNaira));
       dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
       dispatch(setAccountName(data?.details[0].attributes.accountName));
       dispatch(setBank(data?.details[0].attributes.bank.name));
@@ -78,11 +81,13 @@ export default function Wallet() {
 
     try {
       // console.log('Fetching wallet transactions');
-      const {data} = await client.get('/api/transactions');
-      // console.log(data);
+      const {data} = await client.get('/api/wallet');
+      console.log(data);
+
+      const {transactions} = data;
       setTransactionsLoading(false);
 
-      setTransactions(data);
+      setTransactions(transactions);
     } catch (error) {
       setTransactionsLoading(false);
       handleApiError(error);
@@ -123,7 +128,16 @@ export default function Wallet() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <ScreenHeader title={'Wallet'} /> */}
+      <Text
+        style={{
+          ...FONTS.regular,
+          fontWeight: '600',
+          marginBottom: 20,
+          marginTop: 10,
+          textAlign: 'center',
+        }}>
+        Wallet
+      </Text>
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -487,7 +501,7 @@ export default function Wallet() {
               }}>
               {accountNumber}
             </Text>
-            <Pressable onPress={() => copyToClipboard('0123679373')}>
+            <Pressable onPress={() => copyToClipboard(accountNumber)}>
               <Ficon name="copy" size={15} color={COLORS.primary} />
             </Pressable>
           </View>
@@ -619,7 +633,6 @@ const styles = StyleSheet.create({
   },
   main: {
     paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base * 2,
   },
   title: {
     ...FONTS.regular,

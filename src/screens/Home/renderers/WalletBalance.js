@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     ...FONTS.h4,
     fontWeight: '600',
     marginRight: SIZES.base / 2,
-    width: '80%',
+    // width: '80%',
   },
   amountView: {
     display: 'flex',
@@ -80,13 +80,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   container: {
-    width: '48%',
+    flex: 1,
     paddingHorizontal: SIZES.base,
     paddingVertical: SIZES.base * 2,
     borderRadius: SIZES.radius,
     backgroundColor: 'rgba(2, 71, 166, 0.2)',
     height: verticalScale(90),
-    overflow: 'scroll',
   },
   description: {
     ...FONTS.small,
