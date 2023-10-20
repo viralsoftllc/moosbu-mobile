@@ -7,9 +7,7 @@ const Stack = createStackNavigator();
 
 export default function StoreSettingsStack() {
   return (
-    <Stack.Navigator
-    // initialRouteName={routes.MENU}
-    >
+    <Stack.Navigator initialRouteName={'General'}>
       {Object.entries({...storeSettingsScreen}).map(([name, screen]) => (
         <Stack.Screen name={name} component={screen} key={name} />
       ))}

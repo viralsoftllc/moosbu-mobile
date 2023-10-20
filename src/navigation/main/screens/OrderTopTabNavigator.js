@@ -1,7 +1,7 @@
 import React, {useLayoutEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useNavigation} from '@react-navigation/native';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 
 import TopTabBar from '../components/TopTabBar';
 import routes from '../../../shared/constants/routes';
@@ -11,6 +11,7 @@ import CompletedOrders from '../../../screens/storeFront/orders/CompletedOrders'
 import {COLORS, SIZES, FONTS} from '../../../assets/themes';
 
 import ScreenHeader from '../../../shared/components/ScreenHeader';
+import StoreRevenue from '../../../screens/Home/renderers/StoreRevenue';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,16 +21,19 @@ export default function OrderTopTabNavigator() {
   useLayoutEffect(() => {
     setOptions({
       header: () => (
-        <Text
-          style={{
-            ...FONTS.regular,
-            fontWeight: '600',
-            paddingVertical: 20,
-            textAlign: 'center',
-            backgroundColor: COLORS.white,
-          }}>
-          Orders
-        </Text>
+        <View style={{paddingHorizontal: 20, backgroundColor: 'white'}}>
+          <Text
+            style={{
+              ...FONTS.regular,
+              fontWeight: '600',
+              paddingVertical: 20,
+              textAlign: 'center',
+              backgroundColor: COLORS.white,
+            }}>
+            Orders
+          </Text>
+          <StoreRevenue />
+        </View>
       ),
       headerShown: true,
     });

@@ -43,11 +43,15 @@ export default function More() {
           paddingBottom: 100,
         }}>
         <View style={styles.headerView}>
-          <ImageIcon
-            style={styles.imageIcon}
-            // imageUrl={require('../../assets/images/accountProfile.png')}
-            size={verticalScale(45)}
-          />
+          {store.logo !== 'logo.png' ? (
+            <ImageIcon style={styles.imageIcon} imageUrl={store.logo} />
+          ) : (
+            <ImageIcon
+              style={styles.imageIcon}
+              // imageUrl={require('../../assets/images/accountProfile.png')}
+              size={verticalScale(45)}
+            />
+          )}
 
           <View style={styles.details}>
             <Text style={styles.name}>{store?.name || ''}</Text>

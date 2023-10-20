@@ -78,7 +78,7 @@ export default function GeneralSettings() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'General setting'} />,
+      header: () => <ScreenHeader title={'Store settings'} />,
     });
   }, [setOptions]);
 

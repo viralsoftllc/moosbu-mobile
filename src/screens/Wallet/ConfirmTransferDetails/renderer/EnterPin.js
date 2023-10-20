@@ -91,6 +91,7 @@ export default function EnterPin({setShowPinForm, options}) {
                 onCodeFilled={otp => setCode(otp)}
                 onCodeChanged={otp => setCode(otp)}
                 code={code}
+                secureTextEntry={true}
               />
             </View>
           </View>

@@ -9,26 +9,35 @@ import {
   StatusBar,
   Platform,
   Image,
+  Text,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
-
+import {useDispatch} from 'react-redux';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {uploadImageToCloudinary} from '../../shared/hooks/uploadToCloudinary';
 
 import {COLORS, SIZES} from '../../assets/themes';
 import {selectStoreDetails} from '../../redux/slices/store/selectors';
 import {selectUser} from '../../redux/slices/user/selectors';
+import {setUserDetails} from '../../redux/slices/user/slice';
 import ImageIcon from '../../shared/components/ImageIcon';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 import UseIcon from '../../shared/utils/UseIcon';
 import ProfileForm from './renderer/ProfileForm';
+import client from '../../shared/api/client';
+import handleApiError from '../../shared/components/handleApiError';
+import notifyMessage from '../../shared/hooks/notifyMessage';
 
 export default function Profile() {
+  const [loading, setLoading] = useState(false);
+
   const {setOptions} = useNavigation();
   const user = useSelector(selectUser);
   const store = useSelector(selectStoreDetails);
   const [profile, setProfile] = useState({});
+
+  const dispatch = useDispatch();
 
   //Image picker variables
   const [uri, setUri] = useState('');
@@ -72,11 +81,32 @@ export default function Profile() {
     }
   }
 
+  const handleUpdate = async () => {
+    setLoading(true);
+    const userImage = await uploadToGetUrl(fileResponse?.base64);
+    console.log(userImage);
+    try {
+      const res = await client.put('/api/update/user', {
+        avatar: userImage,
+      });
+
+      const {data} = res.data;
+      console.log(res.data);
+      dispatch(setUserDetails(data));
+      notifyMessage('Success');
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
+
   useEffect(() => {
     setProfile({
-      name: store?.name || '',
+      name: user?.name || '',
       email: user?.email || '',
-      phone_number: store?.phone_number || '',
+      phone_number: user?.phone_number || '',
+      avatar: user?.avatar,
     });
 
     return () => {};
@@ -99,9 +129,9 @@ export default function Profile() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.imageIcon}>
-          {uri ? (
+          {profile?.avatar !== 'avatar.png' || uri ? (
             <Image
-              source={{uri}}
+              source={{uri: profile?.avatar || uri}}
               style={{
                 width: 150,
                 height: 150,
@@ -123,7 +153,12 @@ export default function Profile() {
           </Pressable>
         </View>
 
-        <ProfileForm profile={profile} setProfile={setProfile} />
+        <ProfileForm
+          profile={profile}
+          setProfile={setProfile}
+          loading={loading}
+          handleUpdate={handleUpdate}
+        />
       </ScrollView>
     </SafeAreaView>
   );

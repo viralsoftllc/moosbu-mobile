@@ -8,7 +8,12 @@ import FormButton from '../../../shared/components/FormButton';
 import FormInput from '../../../shared/components/FormInput';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function ProfileForm({profile, setProfile}) {
+export default function ProfileForm({
+  profile,
+  setProfile,
+  loading,
+  handleUpdate,
+}) {
   const {navigate} = useNavigation();
 
   return (
@@ -18,6 +23,7 @@ export default function ProfileForm({profile, setProfile}) {
         placeholder="Your full name"
         onChangeText={text => setProfile({...profile, name: text})}
         value={profile?.name}
+        editable={false}
       />
 
       <FormInput
@@ -42,7 +48,12 @@ export default function ProfileForm({profile, setProfile}) {
         <UseIcon type={'AntDesign'} name="right" />
       </Pressable>
 
-      <FormButton title={'Save'} buttonStyle={styles.buttonStyle} />
+      <FormButton
+        title={'Update Picture'}
+        buttonStyle={styles.buttonStyle}
+        loading={loading}
+        onPress={handleUpdate}
+      />
     </View>
   );
 }

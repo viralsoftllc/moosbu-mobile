@@ -148,7 +148,7 @@ export default function Home({navigation}) {
               <StoreRevenue />
             </View>
           </ScrollView> */}
-          <View style={{paddingVertical: 20}}>
+          {/* <View style={{paddingVertical: 20}}>
             <SwiperFlatList
               paginationActiveColor={COLORS.primary}
               contentContainerStyle={{
@@ -163,6 +163,10 @@ export default function Home({navigation}) {
                 <StoreRevenue />
               </View>
             </SwiperFlatList>
+          </View> */}
+
+          <View style={{marginVertical: 20}}>
+            <WalletBalance />
           </View>
 
           {/* <TouchableOpacity

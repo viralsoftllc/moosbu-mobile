@@ -19,7 +19,7 @@ export default function MoreStack() {
         <Stack.Screen name={name} component={screen} key={name} />
       ))}
       <Stack.Screen
-        name={routes.STORE_SETTINGS_STACK}
+        name={'General Settings'}
         component={StoreSettingsStack}
         options={{
           headerShown: false,

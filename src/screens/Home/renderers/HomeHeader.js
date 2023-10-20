@@ -45,7 +45,12 @@ export default function HomeHeader({
         <Pressable>
           <View style={styles.header}>
             <View style={styles.leftHeader}>
-              <Pressable onPress={() => navigate(routes.PROFILE)}>
+              <Pressable
+                onPress={() =>
+                  navigate(routes.STORE_SETTINGS_STACK, {
+                    screen: routes.GENERAL_SETTINGS,
+                  })
+                }>
                 {
                   <ImageIcon
                     size={verticalScale(20)}
@@ -143,7 +148,7 @@ export default function HomeHeader({
           setShowShareModal={setShowShareModal}
           title={'store'}
           link={link || ''}
-          subtitle="Organize your orders by sharing your store \n link with your customers"
+          subtitle="Organize your orders by sharing your store link with your customers"
           storeName={store && store.slug}
         />
       </Modal>

@@ -20,7 +20,7 @@ export default function StoreSettings() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Store setting'} />,
+      header: () => <ScreenHeader title={'General settings'} />,
     });
   }, [setOptions]);
 

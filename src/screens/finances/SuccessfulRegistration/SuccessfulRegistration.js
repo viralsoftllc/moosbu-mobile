@@ -23,7 +23,7 @@ const SuccessfulRegistration = ({navigation}) => {
               ...FONTS.h3,
               textAlign: 'center',
             }}>
-            Registration Successful
+            Wallet Successfully Created.
           </Text>
         </View>
       </View>
