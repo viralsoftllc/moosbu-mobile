@@ -1,17 +1,27 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, Modal, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
+import ShareItem from '../../renderer/ShareItem';
+import DeleteItem from '../../../../shared/components/DeleteItem';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
+
 export default function CategoryCard({
-  setShowShareModal,
+  // setShowShareModal,
   category,
   subtitle,
   handleEditItem,
   handleDeleteItem,
+  catId,
+  store,
 }) {
   const [showCta, setShowCta] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   function toggleCtaView() {
     setShowCta(!showCta);
@@ -20,6 +30,23 @@ export default function CategoryCard({
   function closeCtaView() {
     if (showCta) {
       setShowCta(false);
+    }
+  }
+
+  async function deleteCategory() {
+    setDeleting(true);
+
+    try {
+      const {data} = await client.delete(`/api/product_category/${catId}`);
+
+      console.log('delete response');
+      console.log(data);
+      setDeleting(false);
+      setShowDeleteModal(false);
+      getAllCategories();
+    } catch (error) {
+      setDeleting(false);
+      handleApiError(error);
     }
   }
 
@@ -54,7 +81,12 @@ export default function CategoryCard({
 
           {showCta ? (
             <View style={styles.ctaView}>
-              <Pressable style={styles.cta} onPress={handleEditItem}>
+              <Pressable
+                style={styles.cta}
+                onPress={() => {
+                  closeCtaView();
+                  handleEditItem(category);
+                }}>
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
@@ -62,7 +94,12 @@ export default function CategoryCard({
                 <Text style={styles.ctaText}>Move to top</Text>
               </Pressable> */}
 
-              <Pressable style={styles.cta} onPress={handleDeleteItem}>
+              <Pressable
+                style={styles.cta}
+                onPress={() => {
+                  closeCtaView();
+                  setShowDeleteModal(true);
+                }}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>
                   Delete category
                 </Text>
@@ -88,6 +125,25 @@ export default function CategoryCard({
         </Pressable>
         {/* </View> */}
       </View>
+
+      <Modal visible={showShareModal} animationType="slide" transparent={true}>
+        <ShareItem
+          setShowShareModal={setShowShareModal}
+          title={'Product category'}
+          categoryId={catId}
+          storeName={store}
+          link={`https://www.moosbu.store/${store}?category=${catId}`}
+        />
+      </Modal>
+
+      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
+        <DeleteItem
+          setShowDeleteModal={setShowDeleteModal}
+          title={'category'}
+          onDelete={deleteCategory}
+          loading={deleting}
+        />
+      </Modal>
     </Pressable>
   );
 }

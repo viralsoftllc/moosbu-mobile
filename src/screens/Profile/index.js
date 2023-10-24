@@ -131,7 +131,7 @@ export default function Profile() {
         <View style={styles.imageIcon}>
           {profile?.avatar !== 'avatar.png' || uri ? (
             <Image
-              source={{uri: profile?.avatar || uri}}
+              source={{uri: uri || profile?.avatar}}
               style={{
                 width: 150,
                 height: 150,

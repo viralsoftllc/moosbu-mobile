@@ -9,12 +9,22 @@ import ImageIcon from '../../../shared/components/ImageIcon';
 import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 import ShortModal from '../../../shared/components/ShortModal';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
-export default function Stores({setShowStoresModal, setShowNewStoreModal}) {
+export default function Stores({
+  setShowStoresModal,
+  setShowNewStoreModal,
+  level,
+}) {
   const store = useSelector(selectStoreDetails);
   const [selectedStore, setSelectedStore] = useState(store?.id);
 
   function handleNewStore() {
+    if (level == 1) {
+      return notifyMessage(
+        'Please upgrade to paid version to own multiple stores.',
+      );
+    }
     setShowStoresModal(false);
     setShowNewStoreModal(true);
   }

@@ -30,7 +30,7 @@ export default function More() {
           ...FONTS.regular,
           fontWeight: '600',
           marginBottom: 20,
-          marginTop: 10,
+          marginTop: 20,
           textAlign: 'center',
         }}>
         More

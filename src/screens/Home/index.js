@@ -192,6 +192,7 @@ export default function Home({navigation}) {
         <Stores
           setShowStoresModal={setShowStoresModal}
           setShowNewStoreModal={setShowNewStoreModal}
+          level={user ? user?.plan : 1}
         />
       </Modal>
 

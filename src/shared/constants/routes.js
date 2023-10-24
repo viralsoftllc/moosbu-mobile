@@ -111,7 +111,7 @@ export default {
   // others -> Shipping/Location
   SHIPPING_TAB: 'Shipping Tab',
   SHIPPING_LOCATION: 'Shipping/Location',
-  SHIPPING: 'Shipping',
+  SHIPPING: 'Shipping Method',
   SHIPPING_DETAILS: 'Shipping Details',
   SHIPPING_HISTORY: 'Shipping History',
   NEW_SHIPPING: 'New Shipping',

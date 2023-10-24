@@ -16,6 +16,7 @@ export default function ShareItem({
   subtitle,
   productId,
   storeName,
+  link,
 }) {
   const [copied, setCopied] = useState(false);
   const [media, setMedia] = useState('');
@@ -114,8 +115,8 @@ export default function ShareItem({
           <Text style={styles.linkText}>{title} link</Text>
           <View style={[styles.flex, styles.copyView]}>
             <Text style={styles.link}>
-              {title == 'store'
-                ? `https://www.moosbu.store/${storeName}`
+              {link || title == 'store'
+                ? link || `https://www.moosbu.store/${storeName}`
                 : `https://www.moosbu.store/${storeName}/products/${productId}`}
             </Text>
             {/* <Pressable
@@ -138,8 +139,8 @@ export default function ShareItem({
             onPress={() =>
               copyToClipboard(
                 `${
-                  title == 'store'
-                    ? `https://www.moosbu.store/${storeName}`
+                  link || title == 'store'
+                    ? link || `https://www.moosbu.store/${storeName}`
                     : `https://www.moosbu.store/${storeName}/products/${productId}`
                 }`,
               )

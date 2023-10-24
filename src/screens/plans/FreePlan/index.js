@@ -13,6 +13,10 @@ const benefits = [
   {label: 'Marketing Campaigns:', value: '100 free credits'},
 ];
 
+function handleTogglePaymentModal() {
+  setShowPaymentModal(!showPaymentModal);
+}
+
 const benefits2 = [
   {
     label: 'Personalised AI powered assistant:',
@@ -37,7 +41,9 @@ export default function FreePlan({isActive, price}) {
     <View style={styles.container}>
       <PlanCard
         benefits={benefits}
-        onGetStarted={() => {}}
+        onGetStarted={() => {
+          handleToggleDetails;
+        }}
         onLearnMore={handleToggleDetails}
         isActive={isActive}
         title={'Free Forever Plan'}

@@ -27,10 +27,13 @@ import {setCategories} from '../../../redux/slices/catalog/slice';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import UseIcon from '../../../shared/utils/UseIcon';
 
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+
 export default function Category() {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const categories = useSelector(selectCategories);
+  const store = useSelector(selectStoreDetails);
 
   // const [filteredItems, setFilteredItems] = useState([]);
   // const filteredItems = [];
@@ -72,9 +75,8 @@ export default function Category() {
     navigate(routes.EDIT_CATEGORY, {category});
   }
 
-  function handleDeleteItem(param) {
+  function handleDeleteItem() {
     setShowDeleteModal(true);
-    setSelectedItem(param);
   }
 
   const getAllCategories = useCallback(async () => {
@@ -171,11 +173,13 @@ export default function Category() {
             setShowShareModal={setShowShareModal}
             handleEditItem={() => handleEditItem(item)}
             handleDeleteItem={() => handleDeleteItem(item)}
+            catId={item.id}
+            store={store.slug}
           />
         ))}
       </ScrollView>
 
-      <Modal visible={showShareModal} animationType="slide" transparent={true}>
+      {/* <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem
           setShowShareModal={setShowShareModal}
           title={'product category'}
@@ -189,7 +193,7 @@ export default function Category() {
           onDelete={deleteCategory}
           loading={deleting}
         />
-      </Modal>
+      </Modal> */}
     </View>
   );
 }
@@ -214,7 +218,7 @@ const styles = StyleSheet.create({
   iconView: {
     borderWidth: 1,
     borderColor: COLORS.grayText,
-    height: verticalScale(32),
+    height: verticalScale(40),
     width: verticalScale(40),
     display: 'flex',
     alignItems: 'center',
@@ -224,14 +228,14 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     backgroundColor: COLORS.white,
-    height: verticalScale(32),
+    height: verticalScale(40),
   },
   plusIcon: {
     backgroundColor: COLORS.secondary,
     borderColor: COLORS.secondary,
   },
   search: {
-    height: verticalScale(32),
+    height: verticalScale(40),
     borderWidth: 1,
     borderRadius: SIZES.radius / 2,
     borderColor: COLORS.borderGray,

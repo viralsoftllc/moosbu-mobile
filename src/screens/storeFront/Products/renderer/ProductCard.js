@@ -27,8 +27,6 @@ export default function ProductCard({
   function closeCtaView() {
     if (showCta) {
       setShowCta(false);
-    } else {
-      handleEditItem();
     }
   }
 
@@ -66,7 +64,12 @@ export default function ProductCard({
 
           {showCta ? (
             <View style={styles.ctaView}>
-              <Pressable style={styles.cta} onPress={handleEditItem}>
+              <Pressable
+                style={styles.cta}
+                onPress={() => {
+                  closeCtaView();
+                  handleEditItem(product);
+                }}>
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
@@ -74,7 +77,12 @@ export default function ProductCard({
                 <Text style={styles.ctaText}>Move to top</Text>
               </Pressable> */}
 
-              <Pressable style={styles.cta} onPress={handleDeleteItem}>
+              <Pressable
+                style={styles.cta}
+                onPress={() => {
+                  closeCtaView();
+                  setShowDeleteModal(true);
+                }}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>
                   Delete Product
                 </Text>

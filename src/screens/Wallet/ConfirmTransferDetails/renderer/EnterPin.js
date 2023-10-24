@@ -86,7 +86,7 @@ export default function EnterPin({setShowPinForm, options}) {
                 style={styles.otpView}
                 pinCount={6}
                 keyboardType={'number-pad'}
-                autoFocusOnLoad
+                autoFocusOnLoad={false}
                 codeInputFieldStyle={styles.codeInputFieldStyle}
                 onCodeFilled={otp => setCode(otp)}
                 onCodeChanged={otp => setCode(otp)}

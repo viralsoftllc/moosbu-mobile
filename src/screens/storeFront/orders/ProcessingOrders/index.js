@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base * 2,
   },
   search: {
-    height: verticalScale(32),
+    height: verticalScale(40),
     borderWidth: 1,
     borderRadius: SIZES.radius / 2,
     borderColor: COLORS.borderGray,
@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     backgroundColor: COLORS.white,
-    height: verticalScale(32),
+    height: verticalScale(40),
   },
 });

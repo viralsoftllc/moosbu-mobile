@@ -16,7 +16,7 @@ export default function ShippingTopTabNavigator() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Shipping/Location'} />,
+      header: () => <ScreenHeader title={'Shipping Method/Location'} />,
     });
   }, [setOptions]);
 

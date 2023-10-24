@@ -380,7 +380,7 @@ export default function SendFunds({navigation}) {
               maxLength={10}
             />
             <View style={{paddingTop: 10}}>
-              {isFetching ? (
+              {isFetching && bank ? (
                 <ActivityIndicator size="small" color={COLORS.primary} />
               ) : (
                 <Text style={{...FONTS.medium}}>{accountName}</Text>
@@ -439,11 +439,12 @@ export default function SendFunds({navigation}) {
                 }}>
                 <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
                 <TextInput
-                  style={{}}
+                  style={{width: '90%', ...FONTS.small}}
                   onChangeText={text => setAmount(text)}
                   inputMode="numeric"
                   placeholder="Enter amount"
                   placeholderTextColor={COLORS.grayText}
+                  value={amount}
                 />
               </View>
             </View>

@@ -1,10 +1,10 @@
 import {
   StyleSheet,
+  Text,
+  View,
   SafeAreaView,
   Pressable,
   Image,
-  Text,
-  View,
   ScrollView,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
@@ -16,24 +16,8 @@ import ViewShot from 'react-native-view-shot';
 import Share from 'react-native-share';
 import copyToClipboard from '../../../shared/utils/copyToClipboard';
 
-import {useSelector} from 'react-redux';
-import {selectUser} from '../../../redux/slices/user/selectors';
-
-const TransactionDetails = ({navigation, route}) => {
-  const {
-    account_name,
-    account_number,
-    amount,
-    bank,
-    time,
-    transactionId,
-    description,
-  } = route.params;
-
-  const user = useSelector(selectUser);
-
+const HistoryDetails = () => {
   const viewRef = useRef();
-  const [visible, setVisible] = useState(true);
 
   const captureViewShot = async () => {
     setVisible(false);
@@ -54,7 +38,6 @@ const TransactionDetails = ({navigation, route}) => {
       console.error('Error sharing screenshot:', error);
     }
   };
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white, padding: 10}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -131,25 +114,25 @@ const TransactionDetails = ({navigation, route}) => {
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
                 currency: 'NGN',
-              }).format(parseInt(amount))}
+              }).format(parseInt(200))}
             </Text>
-            <Text style={styles.label}>{new Date(time).toLocaleString()}</Text>
+            <Text style={styles.label}>time</Text>
           </View>
 
           <View style={{gap: 10}}>
             <View style={styles.info}>
               <Text style={styles.label}>From</Text>
-              <Text style={styles.content}>{user.name}</Text>
+              <Text style={styles.content}>{'user'}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>To</Text>
-              <Text style={styles.content}>{account_name}</Text>
-              <Text style={styles.content}>{account_number}</Text>
-              <Text style={styles.content}>{bank}</Text>
+              <Text style={styles.content}>{'account_name'}</Text>
+              <Text style={styles.content}>{'account_number'}</Text>
+              <Text style={styles.content}>{'bank'}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>Description</Text>
-              <Text style={styles.content}>{description}</Text>
+              <Text style={styles.content}>{'description'}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>Transaction Type</Text>
@@ -174,18 +157,8 @@ const TransactionDetails = ({navigation, route}) => {
               ]}>
               <View>
                 <Text style={styles.label}>Transaction Reference</Text>
-                <Text style={styles.content}>{transactionId}</Text>
+                <Text style={styles.content}>{'transactionId'}</Text>
               </View>
-              {visible ? (
-                <Pressable
-                  onPress={() => copyToClipboard(transactionId)}
-                  style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-                  <Text style={{color: COLORS.primary, ...FONTS.small}}>
-                    Copy
-                  </Text>
-                  <Ion name="copy-outline" size={16} color={COLORS.primary} />
-                </Pressable>
-              ) : null}
             </View>
             <View style={[styles.info, {marginBottom: 50}]}>
               <Text style={styles.label}>Transaction Status</Text>
@@ -193,73 +166,12 @@ const TransactionDetails = ({navigation, route}) => {
             </View>
           </View>
         </ViewShot>
-
-        <Text style={{...FONTS.h4, fontWeight: '700', marginVertical: 30}}>
-          More Actions
-        </Text>
-
-        <View style={{gap: 20}}>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('Send Funds');
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  borderColor: COLORS.tabBg,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon name={'cached'} color={COLORS.primary} size={30} />
-              </View>
-              <View>
-                <Text style={{fontWeight: '600'}}>Repeat Transaction</Text>
-                <Text style={{color: COLORS.textGray, ...FONTS.small}}>
-                  Make this payment again
-                </Text>
-              </View>
-            </View>
-            <Icon name="chevron-right" size={24} color={COLORS.gray} />
-          </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('TransactionDetails');
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  borderColor: COLORS.tabBg,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Ion name="warning-outline" color={COLORS.primary} size={30} />
-              </View>
-              <View>
-                <Text style={{fontWeight: '600'}}>Report Transactions</Text>
-                <Text style={{color: COLORS.textGray, ...FONTS.small}}>
-                  Report an issue with this transaction
-                </Text>
-              </View>
-            </View>
-            <Icon name="chevron-right" size={24} color={COLORS.gray} />
-          </Pressable>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default TransactionDetails;
+export default HistoryDetails;
 
 const styles = StyleSheet.create({
   info: {borderBottomWidth: 1, borderColor: COLORS.borderGray},

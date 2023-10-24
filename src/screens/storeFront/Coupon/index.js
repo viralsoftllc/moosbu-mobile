@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   iconView: {
     borderWidth: 1,
     borderColor: COLORS.grayText,
-    height: verticalScale(32),
+    height: verticalScale(40),
     width: verticalScale(40),
     display: 'flex',
     alignItems: 'center',
@@ -298,14 +298,14 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     backgroundColor: COLORS.white,
-    height: verticalScale(32),
+    height: verticalScale(40),
   },
   plusIcon: {
     backgroundColor: COLORS.secondary,
     borderColor: COLORS.secondary,
   },
   search: {
-    height: verticalScale(32),
+    height: verticalScale(40),
     borderWidth: 1,
     borderRadius: SIZES.radius / 2,
     borderColor: COLORS.borderGray,
