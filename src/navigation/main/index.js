@@ -57,6 +57,7 @@ import SuccessfulRegistration from '../../screens/finances/SuccessfulRegistratio
 import TransferSuccessful from '../../screens/Wallet/TransferSuccessful/TransferSuccessful';
 import TransferDeclined from '../../screens/Wallet/TransferDeclined/TransferDeclined';
 import TransactionDetails from '../../screens/Wallet/TransactionDetails/TransactionDetails';
+import TransactionPending from '../../screens/Wallet/TransactionPending/TransactionPending';
 
 const Stack = createStackNavigator();
 
@@ -162,6 +163,13 @@ export default function MainNavigator() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="TransactionPending"
+        component={TransactionPending}
+        options={{headerShown: false}}
+      />
+
       {/* Transaction Details */}
       <Stack.Screen
         name={'TransactionDetails'}

@@ -28,7 +28,10 @@ const TransactionDetails = ({navigation, route}) => {
     time,
     transactionId,
     description,
+    status,
   } = route.params;
+
+  console.log(time);
 
   const user = useSelector(selectUser);
 
@@ -189,7 +192,7 @@ const TransactionDetails = ({navigation, route}) => {
             </View>
             <View style={[styles.info, {marginBottom: 50}]}>
               <Text style={styles.label}>Transaction Status</Text>
-              <Text style={styles.content}>Successful</Text>
+              <Text style={styles.content}>{status}</Text>
             </View>
           </View>
         </ViewShot>

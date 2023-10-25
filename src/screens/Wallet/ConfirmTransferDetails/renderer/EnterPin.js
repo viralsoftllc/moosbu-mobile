@@ -39,7 +39,12 @@ export default function EnterPin({setShowPinForm, options}) {
         navigation.navigate('TransferDeclined', options);
       }
       if (status == 'PENDING') {
-        notifyMessage(reason);
+        navigation.navigate('TransactionPending', {
+          ...options,
+          time: createdAt,
+          transactionId: id,
+          status,
+        });
       }
       if (status == 'COMPLETED') {
         setShowPinForm(false);
@@ -47,6 +52,7 @@ export default function EnterPin({setShowPinForm, options}) {
           ...options,
           time: createdAt,
           transactionId: id,
+          status,
         });
       }
 

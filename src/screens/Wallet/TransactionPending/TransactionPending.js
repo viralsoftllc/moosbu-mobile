@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, Pressable, SafeAreaView} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, Pressable} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
 
-const TransferSuccessful = ({navigation, route}) => {
+const TransactionPending = ({navigation, route}) => {
   const {
     account_name,
     account_number,
@@ -14,12 +14,11 @@ const TransferSuccessful = ({navigation, route}) => {
     description,
     status,
   } = route.params;
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1, justifyContent: 'center'}}>
         <View style={styles.logoContainer}>
-          <Icon name="check-circle-outline" size={80} color="green" />
+          <Icon name="timelapse" size={80} color="orange" />
         </View>
         <View style={{marginTop: 20}}>
           <Text
@@ -28,7 +27,7 @@ const TransferSuccessful = ({navigation, route}) => {
               ...FONTS.h3,
               textAlign: 'center',
             }}>
-            Transaction Successful
+            Transaction Processing...
           </Text>
 
           <Text
@@ -38,28 +37,10 @@ const TransferSuccessful = ({navigation, route}) => {
               fontWeight: '400',
               textAlign: 'center',
             }}>
-            <Text style={{fontWeight: '700'}}>
-              {' '}
-              {Intl.NumberFormat('en-NG', {
-                style: 'currency',
-                currency: 'NGN',
-              }).format(parseInt(amount))}
-            </Text>{' '}
-            was successfully sent to{' '}
-            <Text style={{fontWeight: '700'}}>{account_name}</Text>
+            You will be notified shortly on the status of the transaction.
           </Text>
         </View>
-      </View>
-      <View style={{flex: 1}}>
-        <Text
-          style={{
-            color: '#282828',
-            ...FONTS.medium,
-            fontWeight: '600',
-          }}>
-          What Would You Like To Do Next?
-        </Text>
-        <View style={{gap: 15, marginTop: 20}}>
+        <View style={{gap: 15, marginTop: 50}}>
           <Pressable
             style={styles.button}
             onPress={() => {
@@ -98,7 +79,6 @@ const TransferSuccessful = ({navigation, route}) => {
                 time,
                 transactionId,
                 description,
-                status,
               });
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
@@ -158,7 +138,7 @@ const TransferSuccessful = ({navigation, route}) => {
   );
 };
 
-export default TransferSuccessful;
+export default TransactionPending;
 
 const styles = StyleSheet.create({
   container: {

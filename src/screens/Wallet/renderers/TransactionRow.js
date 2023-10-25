@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
+import {useNavigation} from '@react-navigation/native';
 
 export default function TransactionRow({transaction}) {
-  const {attributes} = transaction;
+  const navigation = useNavigation();
 
   function getIcon() {
     if (attributes?.direction.toLowerCase() === 'order') {
@@ -85,8 +86,25 @@ export default function TransactionRow({transaction}) {
   //     if (transaction?.type?.toLowerCase() === 'deposit')
   //   }
 
+  const {attributes, id} = transaction;
+
+  const amount = attributes.amount / 100;
+
   return (
-    <View style={[styles.flex, styles.container]}>
+    <Pressable
+      onPress={() => {
+        navigation.navigate('TransactionDetails', {
+          // account_name,
+          // account_number,
+          amount,
+          // bank,
+          time: attributes.transactionDate,
+          transactionId: id,
+          // description,
+          status: attributes.direction,
+        });
+      }}
+      style={[styles.flex, styles.container]}>
       {getIcon()}
 
       <View style={styles.detailsContainer}>
@@ -116,7 +134,7 @@ export default function TransactionRow({transaction}) {
           {new Date(attributes?.createdAt).toLocaleString()}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({
