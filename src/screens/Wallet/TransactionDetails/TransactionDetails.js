@@ -31,8 +31,6 @@ const TransactionDetails = ({navigation, route}) => {
     status,
   } = route.params;
 
-  console.log(time);
-
   const user = useSelector(selectUser);
 
   const viewRef = useRef();

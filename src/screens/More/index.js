@@ -80,12 +80,12 @@ export default function More() {
 
         {/* <LinkRow title={'Team Members'} iconName="people-outline" /> */}
 
-        <LinkRow
+        {/* <LinkRow
           title={'Upgrade Account'}
           iconName="pricetag-outline"
           iconType="Ionicons"
           route={routes.PLAN}
-        />
+        /> */}
 
         <LinkRow title={'About Moosbu'} iconName="info-outline" />
 

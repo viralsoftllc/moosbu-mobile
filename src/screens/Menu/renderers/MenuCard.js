@@ -35,8 +35,8 @@ export default function MenuCard({nav, style}) {
 }
 const styles = StyleSheet.create({
   container: {
-    height: verticalScale(75),
-    width: verticalScale(75),
+    height: verticalScale(70),
+    width: verticalScale(70),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.white,

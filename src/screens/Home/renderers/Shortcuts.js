@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   menuCard: {
     backgroundColor: COLORS.tabBg,

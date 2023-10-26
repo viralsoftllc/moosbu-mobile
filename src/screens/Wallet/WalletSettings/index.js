@@ -49,14 +49,14 @@ export default function WalletSettings() {
         />
       </Modal>
 
-      <Modal
+      {/* <Modal
         visible={showCreateTransactionPinForm}
         animationType="slide"
         transparent={true}>
         <CreateTransactionPin
           handleToggleShortModal={() => setShowCreateTransactionPinForm(false)}
         />
-      </Modal>
+      </Modal> */}
     </>
   );
 }
