@@ -173,7 +173,7 @@ export default function TransactionHistory({loading, transactions}) {
         <Text style={styles.title}>Transaction History</Text>
 
         {/* Filter options */}
-        <View style={styles.transactionFilter}>
+        {/* <View style={styles.transactionFilter}>
           <Pressable
             onPress={() => setShowFilter(!showFilter)}
             style={styles.transactionFilterHeader}>
@@ -208,7 +208,7 @@ export default function TransactionHistory({loading, transactions}) {
               </Pressable>
             </View>
           ) : null}
-        </View>
+        </View> */}
       </View>
 
       {/* Transactions */}

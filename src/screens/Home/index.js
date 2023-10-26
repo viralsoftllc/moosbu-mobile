@@ -42,14 +42,12 @@ import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
 import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
 import SwiperFlatList from 'react-native-swiper-flatlist';
+import Test from '../Test';
 
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
   const storeDetails = useSelector(selectStoreDetails);
   const dispatch = useDispatch();
-
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
   const [showStoresModal, setShowStoresModal] = useState(false);
@@ -101,41 +99,48 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
 
-      <HomeHeader
-        setShowStoresModal={setShowStoresModal}
-        loading={loading}
-        storeImageUrl={
-          storeDetails?.logo == 'logo.png' ? null : storeDetails?.logo
-        }
-      />
+      {walletLoading ? (
+        <Test />
+      ) : (
+        <>
+          <HomeHeader
+            setShowStoresModal={setShowStoresModal}
+            loading={loading}
+            storeImageUrl={
+              storeDetails?.logo == 'logo.png' ? null : storeDetails?.logo
+            }
+          />
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={{flex: 1}}
-        contentContainerStyle={{flexGrow: 1}}
-        refreshControl={
-          <RefreshControl onRefresh={fetchDashboardData} refreshing={false} />
-        }>
-        <View style={styles.main}>
-          <View style={styles.welcomeTextView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name={'hand-wave'}
-              color={'#6A462F'}
-              size={verticalScale(13)}
-            />
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1}}
+            refreshControl={
+              <RefreshControl
+                onRefresh={fetchDashboardData}
+                refreshing={false}
+              />
+            }>
+            <View style={styles.main}>
+              <View style={styles.welcomeTextView}>
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name={'hand-wave'}
+                  color={'#6A462F'}
+                  size={verticalScale(13)}
+                />
 
-            <Text style={styles.welcomeText}>
-              Welcome{' '}
-              <Text style={styles.name}>{user ? user?.name : 'back'}</Text>
-            </Text>
-          </View>
+                <Text style={styles.welcomeText}>
+                  Welcome{' '}
+                  <Text style={styles.name}>{user ? user?.name : 'back'}</Text>
+                </Text>
+              </View>
 
-          {/* wallet and revenue */}
-          {/* <ScrollView
+              {/* wallet and revenue */}
+              {/* <ScrollView
             pagingEnabled
             indicatorStyle="black"
             horizontal
@@ -148,7 +153,7 @@ export default function Home({navigation}) {
               <StoreRevenue />
             </View>
           </ScrollView> */}
-          {/* <View style={{paddingVertical: 20}}>
+              {/* <View style={{paddingVertical: 20}}>
             <SwiperFlatList
               paginationActiveColor={COLORS.primary}
               contentContainerStyle={{
@@ -165,59 +170,64 @@ export default function Home({navigation}) {
             </SwiperFlatList>
           </View> */}
 
-          <View style={{marginVertical: 20}}>
-            <WalletBalance />
-          </View>
+              <View style={{marginVertical: 20}}>
+                <WalletBalance />
+              </View>
 
-          {/* <TouchableOpacity
+              {/* <TouchableOpacity
             onPress={() => navigation.navigate('SuccessfulRegistration')}>
             <Text>Go to finances</Text>
           </TouchableOpacity> */}
 
-          {/* Business overview */}
-          <BusinessOverview />
+              {/* Business overview */}
+              <BusinessOverview />
 
-          {/* Missing actions */}
-          <MissingActions />
+              {/* Missing actions */}
+              <MissingActions />
 
-          {/* Shortcuts */}
-          <Shortcuts />
+              {/* Shortcuts */}
+              <Shortcuts />
 
-          {/* Recommendations */}
-          <Recommendations />
-        </View>
-      </ScrollView>
+              {/* Recommendations */}
+              <Recommendations />
+            </View>
+          </ScrollView>
 
-      <Modal visible={showStoresModal} transparent={true} animationType="slide">
-        <Stores
-          setShowStoresModal={setShowStoresModal}
-          setShowNewStoreModal={setShowNewStoreModal}
-          level={user ? user?.plan : 1}
-        />
-      </Modal>
+          <Modal
+            visible={showStoresModal}
+            transparent={true}
+            animationType="slide">
+            <Stores
+              setShowStoresModal={setShowStoresModal}
+              setShowNewStoreModal={setShowNewStoreModal}
+              level={user ? user?.plan : 1}
+            />
+          </Modal>
 
-      <Modal
-        visible={showNewStoreModal}
-        transparent={true}
-        animationType="slide">
-        <NewStore
-          setShowNewStoreModal={setShowNewStoreModal}
-          setShowStoresModal={setShowStoresModal}
-          setShowSuccessModal={setShowSuccessModal}
-        />
-      </Modal>
+          <Modal
+            visible={showNewStoreModal}
+            transparent={true}
+            animationType="slide">
+            <NewStore
+              setShowNewStoreModal={setShowNewStoreModal}
+              setShowStoresModal={setShowStoresModal}
+              setShowSuccessModal={setShowSuccessModal}
+            />
+          </Modal>
 
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          message={'New store created'}
-          subtitle={'You can now switch between stores'}
-          onPress={() => setShowNewStoreModal(false)}
-        />
-      </Modal>
+          <Modal
+            visible={showSuccessModal}
+            animationType="slide"
+            transparent={true}>
+            <UpdateSuccessful
+              setShowSuccessModal={setShowSuccessModal}
+              message={'New store created'}
+              subtitle={'You can now switch between stores'}
+              onPress={() => setShowNewStoreModal(false)}
+            />
+          </Modal>
+        </>
+      )}
     </SafeAreaView>
   );
 }

@@ -1,6 +1,13 @@
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {useNavigation} from '@react-navigation/native';
@@ -11,9 +18,16 @@ import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 import {ActivityIndicator} from 'react-native-paper';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import Test from '../../../Test';
+import {useDispatch} from 'react-redux';
+import {setWalletBalance} from '../../../../redux/slices/wallet/slice';
 
 export default function EnterPin({setShowPinForm, options}) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const {width} = Dimensions.get('window');
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
@@ -58,66 +72,76 @@ export default function EnterPin({setShowPinForm, options}) {
 
       setLoading(false);
     } catch (error) {
-      handleApiError(error);
       setLoading(false);
+      handleApiError(error);
+    } finally {
+      const {data} = await client.get('/api/wallet');
+      const balanceinNaira = data?.balance.availableBalance / 100;
+      dispatch(setWalletBalance(balanceinNaira));
     }
   };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.modalContainer}>
-        <View style={styles.container}>
-          <View>
-            <View style={styles.flex}>
-              <View style={{flex: 2}}>
-                <Text style={styles.title}>Enter your Moosbu pin</Text>
-                <Text style={styles.subtitle}>
-                  Your Moosbu pin is required to complete this transaction
-                </Text>
+        {loading ? (
+          <Test />
+        ) : (
+          <View style={styles.container}>
+            <View>
+              <View style={styles.flex}>
+                <View style={{flex: 2}}>
+                  <Text style={styles.title}>Enter your Moosbu pin</Text>
+                  <Text style={styles.subtitle}>
+                    Your Moosbu pin is required to complete this transaction
+                  </Text>
+                </View>
+
+                <View>
+                  <Pressable
+                    onPress={() => {
+                      setShowPinForm(false);
+                    }}
+                    style={styles.closeBtn}>
+                    <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
+                  </Pressable>
+                </View>
               </View>
 
               <View>
-                <Pressable
-                  onPress={() => {
-                    setShowPinForm(false);
-                  }}
-                  style={styles.closeBtn}>
-                  <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
-                </Pressable>
+                <OTPInputView
+                  style={styles.otpView}
+                  pinCount={6}
+                  keyboardType={'number-pad'}
+                  autoFocusOnLoad={false}
+                  codeInputFieldStyle={styles.codeInputFieldStyle}
+                  onCodeFilled={otp => setCode(otp)}
+                  onCodeChanged={otp => setCode(otp)}
+                  code={code}
+                  secureTextEntry={true}
+                />
               </View>
             </View>
 
-            <View>
-              <OTPInputView
-                style={styles.otpView}
-                pinCount={6}
-                keyboardType={'number-pad'}
-                autoFocusOnLoad={false}
-                codeInputFieldStyle={styles.codeInputFieldStyle}
-                onCodeFilled={otp => setCode(otp)}
-                onCodeChanged={otp => setCode(otp)}
-                code={code}
-                secureTextEntry={true}
-              />
-            </View>
+            <Pressable style={styles.iconView} onPress={handleTransfer}>
+              {loading ? (
+                <ActivityIndicator color="white" size="small" />
+              ) : (
+                <>
+                  <UseIcon
+                    type={'Feather'}
+                    name="send"
+                    size={verticalScale(15)}
+                    color={COLORS.white}
+                  />
+                  <Text style={{color: COLORS.white, ...FONTS.medium}}>
+                    Send
+                  </Text>
+                </>
+              )}
+            </Pressable>
           </View>
-
-          <Pressable style={styles.iconView} onPress={handleTransfer}>
-            {loading ? (
-              <ActivityIndicator color="white" size="small" />
-            ) : (
-              <>
-                <UseIcon
-                  type={'Feather'}
-                  name="send"
-                  size={verticalScale(15)}
-                  color={COLORS.white}
-                />
-                <Text style={{color: COLORS.white, ...FONTS.medium}}>Send</Text>
-              </>
-            )}
-          </Pressable>
-        </View>
+        )}
       </View>
     </SafeAreaView>
   );

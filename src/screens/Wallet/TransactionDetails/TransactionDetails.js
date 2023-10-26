@@ -127,7 +127,7 @@ const TransactionDetails = ({navigation, route}) => {
             <Text style={{...FONTS.regular}}>Transaction Receipt</Text>
           </View>
           <View style={{marginVertical: 10}}>
-            <Text style={{...FONTS.h3, fontWeight: '700'}}>
+            <Text style={{...FONTS.h3}}>
               {' '}
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
@@ -161,7 +161,13 @@ const TransactionDetails = ({navigation, route}) => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={styles.content}>Outward Transfer</Text>
-                <Text style={styles.content}>#0.00</Text>
+                <Text style={styles.content}>
+                  {' '}
+                  {Intl.NumberFormat('en-NG', {
+                    style: 'currency',
+                    currency: 'NGN',
+                  }).format(parseInt(status == 'Debit' ? 50 : 0))}
+                </Text>
               </View>
             </View>
             <View
@@ -271,7 +277,6 @@ const styles = StyleSheet.create({
   },
   content: {
     ...FONTS.medium,
-    fontWeight: '700',
     color: COLORS.label,
     marginBottom: 10,
   },

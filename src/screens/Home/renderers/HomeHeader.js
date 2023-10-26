@@ -146,7 +146,7 @@ export default function HomeHeader({
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem
           setShowShareModal={setShowShareModal}
-          title={'store'}
+          title={'Store'}
           link={`https://moosbu.store/${store?.slug}` || ''}
           subtitle="Organize your orders by sharing your store link with your customers"
           storeName={store && store.slug}

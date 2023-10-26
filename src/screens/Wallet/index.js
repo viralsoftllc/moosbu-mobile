@@ -36,6 +36,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ficon from 'react-native-vector-icons/Feather';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
 import ScreenHeader from '../../shared/components/ScreenHeader';
+import Test from '../Test';
 
 export default function Wallet() {
   const {navigate} = useNavigation();
@@ -128,79 +129,83 @@ export default function Wallet() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text
-        style={{
-          ...FONTS.regular,
-          fontWeight: '600',
-          marginBottom: 20,
-          marginTop: 10,
-          textAlign: 'center',
-        }}>
-        Wallet
-      </Text>
+      {walletLoading ? (
+        <Test />
+      ) : (
+        <>
+          <Text
+            style={{
+              ...FONTS.regular,
+              fontWeight: '600',
+              marginBottom: 20,
+              marginTop: 10,
+              textAlign: 'center',
+            }}>
+            Wallet
+          </Text>
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        refreshControl={
-          <RefreshControl
-            refreshing={walletLoading}
-            onRefresh={() => {
-              setWalletLoading(true);
-              getWalletBalance();
-            }}
-          />
-        }>
-        <View style={styles.main}>
-          {/* Card */}
-          <View style={styles.balanceCard}>
-            <View style={styles.titleView}>
-              <UseIcon
-                type={'Ionicons'}
-                name="wallet-outline"
-                size={verticalScale(15)}
-                color={COLORS.white}
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            refreshControl={
+              <RefreshControl
+                refreshing={walletLoading}
+                onRefresh={() => {
+                  setWalletLoading(true);
+                  getWalletBalance();
+                }}
               />
+            }>
+            <View style={styles.main}>
+              {/* Card */}
+              <View style={styles.balanceCard}>
+                <View style={styles.titleView}>
+                  <UseIcon
+                    type={'Ionicons'}
+                    name="wallet-outline"
+                    size={verticalScale(15)}
+                    color={COLORS.white}
+                  />
 
-              <Text style={styles.title}>Wallet Balance</Text>
-            </View>
+                  <Text style={styles.title}>Wallet Balance</Text>
+                </View>
 
-            <View style={styles.amountView}>
-              <Text style={styles.amount}>
-                {showBalance
-                  ? `${
-                      Intl.NumberFormat('en-NG', {
-                        style: 'currency',
-                        currency: 'NGN',
-                      }).format(balance) || 0
-                    }`
-                  : '***********'}
-              </Text>
-              {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
-              <Pressable
-                style={styles.visbleIcon}
-                onPress={() => setShowBalance(!showBalance)}>
-                <UseIcon
-                  type={'Ionicons'}
-                  name={showBalance ? 'eye-off-outline' : 'eye-outline'}
-                  size={20}
-                  color={COLORS.white}
-                />
-              </Pressable>
-            </View>
+                <View style={styles.amountView}>
+                  <Text style={styles.amount}>
+                    {showBalance
+                      ? `${
+                          Intl.NumberFormat('en-NG', {
+                            style: 'currency',
+                            currency: 'NGN',
+                          }).format(balance) || 0
+                        }`
+                      : '***********'}
+                  </Text>
+                  {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
+                  <Pressable
+                    style={styles.visbleIcon}
+                    onPress={() => setShowBalance(!showBalance)}>
+                    <UseIcon
+                      type={'Ionicons'}
+                      name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+                      size={20}
+                      color={COLORS.white}
+                    />
+                  </Pressable>
+                </View>
 
-            <Text style={styles.date}>{new Date().toDateString()}</Text>
+                <Text style={styles.date}>{new Date().toDateString()}</Text>
 
-            {/* <View style={styles.cashflowView}>
+                {/* <View style={styles.cashflowView}>
               <Text style={styles.sent}>Sent ₦0</Text>
               <Text style={styles.received}>Received ₦0</Text>
             </View> */}
-          </View>
+              </View>
 
-          {/* CTA */}
-          <View style={styles.ctaView}>
-            {/* {ctaData?.map((cta, i) => (
+              {/* CTA */}
+              <View style={styles.ctaView}>
+                {/* {ctaData?.map((cta, i) => (
               <View key={i} style={styles.ctaWrapper}>
                 <Pressable
                   style={styles.ctaBtn}
@@ -217,49 +222,49 @@ export default function Wallet() {
               </View>
             ))} */}
 
-            <View style={styles.ctaWrapper}>
-              <Pressable
-                style={styles.ctaBtn}
-                onPress={() => navigate(routes.WALLET_SETTINGS)}>
-                <UseIcon
-                  type={'Feather'}
-                  name={'settings'}
-                  color={COLORS.white}
-                  size={16}
-                />
-              </Pressable>
+                <View style={styles.ctaWrapper}>
+                  <Pressable
+                    style={styles.ctaBtn}
+                    onPress={() => navigate(routes.WALLET_SETTINGS)}>
+                    <UseIcon
+                      type={'Feather'}
+                      name={'settings'}
+                      color={COLORS.white}
+                      size={16}
+                    />
+                  </Pressable>
 
-              <Text style={styles.ctaLabel}>{'Settings'}</Text>
-            </View>
-            <View style={styles.ctaWrapper}>
-              <Pressable
-                style={styles.ctaBtn}
-                onPress={() => navigate(routes.SEND_FUNDS)}>
-                <UseIcon
-                  type={'Feather'}
-                  name={'arrow-up-right'}
-                  color={COLORS.white}
-                  size={16}
-                />
-              </Pressable>
+                  <Text style={styles.ctaLabel}>{'Settings'}</Text>
+                </View>
+                <View style={styles.ctaWrapper}>
+                  <Pressable
+                    style={styles.ctaBtn}
+                    onPress={() => navigate(routes.SEND_FUNDS)}>
+                    <UseIcon
+                      type={'Feather'}
+                      name={'arrow-up-right'}
+                      color={COLORS.white}
+                      size={16}
+                    />
+                  </Pressable>
 
-              <Text style={styles.ctaLabel}>{'Send'}</Text>
-            </View>
-            <View style={styles.ctaWrapper}>
-              <Pressable
-                style={styles.ctaBtn}
-                onPress={() => setModalOpen(true)}>
-                <UseIcon
-                  type={'Feather'}
-                  name={'arrow-down-left'}
-                  color={COLORS.white}
-                  size={16}
-                />
-              </Pressable>
+                  <Text style={styles.ctaLabel}>{'Send'}</Text>
+                </View>
+                <View style={styles.ctaWrapper}>
+                  <Pressable
+                    style={styles.ctaBtn}
+                    onPress={() => setModalOpen(true)}>
+                    <UseIcon
+                      type={'Feather'}
+                      name={'arrow-down-left'}
+                      color={COLORS.white}
+                      size={16}
+                    />
+                  </Pressable>
 
-              <Text style={styles.ctaLabel}>{'Deposit'}</Text>
-            </View>
-            {/* <View style={styles.ctaWrapper}>
+                  <Text style={styles.ctaLabel}>{'Deposit'}</Text>
+                </View>
+                {/* <View style={styles.ctaWrapper}>
               <Pressable
                 style={styles.ctaBtn}
                 onPress={() => navigate(routes.WITHDRAW)}>
@@ -273,17 +278,17 @@ export default function Wallet() {
 
               <Text style={styles.ctaLabel}>{'Withdraw'}</Text>
             </View> */}
-          </View>
+              </View>
 
-          {/* Transaction history */}
-          <TransactionHistory
-            showFilterOptions
-            loading={transactionsLoading}
-            transactions={transactions}
-          />
-        </View>
-      </ScrollView>
-      {/* <Modal visible={modalOpen} animationType="slide" transparent={true}>
+              {/* Transaction history */}
+              <TransactionHistory
+                showFilterOptions
+                loading={transactionsLoading}
+                transactions={transactions}
+              />
+            </View>
+          </ScrollView>
+          {/* <Modal visible={modalOpen} animationType="slide" transparent={true}>
         <HalfScreen>
           <View
             style={{
@@ -453,79 +458,79 @@ export default function Wallet() {
           </View>
         </HalfScreen>
       </Modal> */}
-      <Modal visible={modalOpen} animationType="slide" transparent>
-        <HalfScreen>
-          <View
-            style={{
-              marginVertical: 20,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexDirection: 'row',
-            }}>
-            <Text
-              style={{
-                ...FONTS.regular,
-                color: COLORS.label,
-                textAlign: 'center',
-              }}>
-              NGN Bank Transfer
-            </Text>
-            <Pressable onPress={() => setModalOpen(false)} style={{}}>
-              <Icon name="close" size={25} />
-            </Pressable>
-          </View>
+          <Modal visible={modalOpen} animationType="slide" transparent>
+            <HalfScreen>
+              <View
+                style={{
+                  marginVertical: 20,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Text
+                  style={{
+                    ...FONTS.regular,
+                    color: COLORS.label,
+                    textAlign: 'center',
+                  }}>
+                  NGN Bank Transfer
+                </Text>
+                <Pressable onPress={() => setModalOpen(false)} style={{}}>
+                  <Icon name="close" size={25} />
+                </Pressable>
+              </View>
 
-          <Text
-            style={{
-              alignSelf: 'center',
-              ...FONTS.medium,
-              color: COLORS.label,
-              marginTop: 20,
-              marginBottom: 10,
-            }}>
-            {bank}
-          </Text>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  ...FONTS.medium,
+                  color: COLORS.label,
+                  marginTop: 20,
+                  marginBottom: 10,
+                }}>
+                {bank}
+              </Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 15,
-              alignSelf: 'center',
-            }}>
-            <Text
-              style={{
-                fontWeight: 600,
-                ...FONTS.h3,
-                color: COLORS.primary,
-              }}>
-              {accountNumber}
-            </Text>
-            <Pressable onPress={() => copyToClipboard(accountNumber)}>
-              <Ficon name="copy" size={15} color={COLORS.primary} />
-            </Pressable>
-          </View>
-          <Text
-            style={{
-              ...FONTS.small,
-              alignSelf: 'center',
-              color: COLORS.grayText,
-            }}>
-            {accountName}
-          </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 15,
+                  alignSelf: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 600,
+                    ...FONTS.h3,
+                    color: COLORS.primary,
+                  }}>
+                  {accountNumber}
+                </Text>
+                <Pressable onPress={() => copyToClipboard(accountNumber)}>
+                  <Ficon name="copy" size={15} color={COLORS.primary} />
+                </Pressable>
+              </View>
+              <Text
+                style={{
+                  ...FONTS.small,
+                  alignSelf: 'center',
+                  color: COLORS.grayText,
+                }}>
+                {accountName}
+              </Text>
 
-          <Text
-            style={{
-              ...FONTS.small,
-              color: COLORS.grayText,
-              alignSelf: 'center',
-              marginTop: 50,
-            }}>
-            Your Moosbu NGN Wallet will be instantly funded if you make a bank
-            transfer to the account number shown.
-          </Text>
+              <Text
+                style={{
+                  ...FONTS.small,
+                  color: COLORS.grayText,
+                  alignSelf: 'center',
+                  marginTop: 50,
+                }}>
+                Your Moosbu NGN Wallet will be instantly funded if you make a
+                bank transfer to the account number shown.
+              </Text>
 
-          {/* <View style={{marginTop: 20}}>
+              {/* <View style={{marginTop: 20}}>
             <View style={{flexDirection: 'row', marginVertical: 5}}>
               <Text style={{flex: 0.4, ...FONTS.medium, fontWeight: 700}}>
                 Account Number :
@@ -547,7 +552,7 @@ export default function Wallet() {
             </View>
           </View> */}
 
-          {/* <Pressable
+              {/* <Pressable
             style={{
               height: 44,
               width: '80%',
@@ -566,8 +571,10 @@ export default function Wallet() {
               I have made payment
             </Text>
           </Pressable> */}
-        </HalfScreen>
-      </Modal>
+            </HalfScreen>
+          </Modal>
+        </>
+      )}
     </SafeAreaView>
   );
 }

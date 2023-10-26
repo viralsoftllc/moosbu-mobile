@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: '#fff',
+    padding: 20,
   },
   contentContainerStyle: {
     flexGrow: 1,
