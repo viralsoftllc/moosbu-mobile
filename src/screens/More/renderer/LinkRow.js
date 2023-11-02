@@ -10,6 +10,7 @@ export default function LinkRow({
   iconName,
   route,
   iconType = 'MaterialIcons',
+  onPress,
 }) {
   const {navigate} = useNavigation();
 
@@ -20,7 +21,9 @@ export default function LinkRow({
   }
 
   return (
-    <Pressable style={styles.container} onPress={handleNavigation}>
+    <Pressable
+      style={styles.container}
+      onPress={route ? handleNavigation : onPress}>
       <UseIcon
         name={iconName}
         type={iconType}

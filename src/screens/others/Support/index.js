@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base * 3,
   },
   sectionTitle: {
-    ...FONTS.h6,
+    ...FONTS.h5,
     marginBottom: SIZES.base,
   },
   sectionContent: {
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    ...FONTS.h6,
+    ...FONTS.h5,
     marginBottom: SIZES.base / 5,
   },
   subtitle: {
@@ -351,7 +351,6 @@ const styles = StyleSheet.create({
   readMoreText: {
     color: COLORS.primary,
     ...FONTS.h5,
-    fontWeight: 'bold',
     marginRight: SIZES.base / 2,
   },
   style: {

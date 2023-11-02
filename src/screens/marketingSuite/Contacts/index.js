@@ -26,6 +26,7 @@ import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
 import {setContacts} from '../../../redux/slices/engagement/slice';
 import {selectContacts} from '../../../redux/slices/engagement/selectors';
+import Test from '../../Test';
 
 export default function Contacts() {
   const {navigate} = useNavigation();
@@ -120,66 +121,79 @@ export default function Contacts() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search Contact by name'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
 
-        <Pressable
-          style={[styles.iconView, styles.plusIcon]}
-          onPress={handleNewItem}>
-          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-        </Pressable>
-      </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search Contact by name'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
+              />
+            </View>
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-          paddingBottom: 100,
-        }}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getContacts} />
-        }>
-        {loading ? <ActivityIndicator /> : null}
+            <Pressable
+              style={[styles.iconView, styles.plusIcon]}
+              onPress={handleNewItem}>
+              <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+            </Pressable>
+          </View>
 
-        {!filteredItems?.length ? (
-          <EmptyItemInfo message={'Contacts are empty'} />
-        ) : null}
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+              paddingBottom: 100,
+            }}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getContacts} />
+            }>
+            {loading ? <ActivityIndicator /> : null}
 
-        {filteredItems?.map((contact, i) => (
-          <ContactCard
-            key={i}
-            contact={contact}
-            setShowShareModal={setShowShareModal}
-            handleEditItem={() => handleEditItem(contact)}
-            handleDeleteItem={() => handleDeleteItem(contact)}
-          />
-        ))}
-      </ScrollView>
+            {!filteredItems?.length ? (
+              <EmptyItemInfo message={'Contacts are empty'} />
+            ) : null}
 
-      <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} />
-      </Modal>
+            {filteredItems?.map((contact, i) => (
+              <ContactCard
+                key={i}
+                contact={contact}
+                setShowShareModal={setShowShareModal}
+                handleEditItem={() => handleEditItem(contact)}
+                handleDeleteItem={() => handleDeleteItem(contact)}
+              />
+            ))}
+          </ScrollView>
 
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={selectedItem?.name}
-          onDelete={deletePhonebook}
-          loading={deleting}
-        />
-      </Modal>
+          <Modal
+            visible={showShareModal}
+            animationType="slide"
+            transparent={true}>
+            <ShareItem setShowShareModal={setShowShareModal} />
+          </Modal>
+
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={selectedItem?.name}
+              onDelete={deletePhonebook}
+              loading={deleting}
+            />
+          </Modal>
+        </>
+      )}
     </SafeAreaView>
   );
 }

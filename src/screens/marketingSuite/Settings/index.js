@@ -5,6 +5,7 @@ import {ScrollView, StyleSheet, StatusBar, Platform, View} from 'react-native';
 import {COLORS, SIZES} from '../../../assets/themes';
 import routes from '../../../shared/constants/routes';
 import SettingsRow from './renderer/SettingsRow';
+import LinkRow from '../../More/renderer/LinkRow';
 
 export default function Settings() {
   const {navigate} = useNavigation();
@@ -18,7 +19,18 @@ export default function Settings() {
           paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
           paddingBottom: 100,
         }}>
-        <SettingsRow onPress={() => navigate(routes.SETTINGS_ID)} />
+        <LinkRow
+          title="SMS Sender ID"
+          route={routes.SETTINGS_ID}
+          iconName={'swap-vertical'}
+          iconType="Ionicons"
+        />
+        <LinkRow
+          iconName="payments"
+          iconType="MaterialIcons"
+          title="Marketing Tokens"
+          onPress={() => navigate('TokenScreen')}
+        />
       </ScrollView>
     </View>
   );

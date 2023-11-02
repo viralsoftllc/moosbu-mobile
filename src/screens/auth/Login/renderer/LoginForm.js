@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     marginBottom: SIZES.base * 4,
     color: COLORS.textSecondary,
+    fontFamily: 'Lato-Regular',
   },
   buttonStyle: {
     backgroundColor: COLORS.primary,

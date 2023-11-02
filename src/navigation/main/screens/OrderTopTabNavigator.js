@@ -24,8 +24,7 @@ export default function OrderTopTabNavigator() {
         <View style={{paddingHorizontal: 20, backgroundColor: 'white'}}>
           <Text
             style={{
-              ...FONTS.regular,
-              fontWeight: '600',
+              ...FONTS.h5,
               paddingVertical: 20,
               textAlign: 'center',
               backgroundColor: COLORS.white,

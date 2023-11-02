@@ -7,6 +7,7 @@ export const storeSlice = createSlice({
   initialState: {
     store: null,
     storeUrl: null,
+    stores: [],
   },
   reducers: {
     setStoreDetails: (state, action) => {
@@ -15,11 +16,14 @@ export const storeSlice = createSlice({
     setStoreUrl: (state, action) => {
       state.storeUrl = action.payload;
     },
+    setStores: (state, action) => {
+      state.stores = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {setStoreDetails, setStoreUrl} = storeSlice.actions;
+export const {setStoreDetails, setStoreUrl, setStores} = storeSlice.actions;
 const {actions, reducer} = storeSlice;
 
 export {actions, reducer, name};

@@ -25,6 +25,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLocations} from '../../../redux/slices/shipping/slice';
 import {selectLocations} from '../../../redux/slices/shipping/selectors';
 import UseIcon from '../../../shared/utils/UseIcon';
+import Test from '../../Test';
 
 export default function Location() {
   const dispatch = useDispatch();
@@ -124,106 +125,118 @@ export default function Location() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search locations'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
-
-        <Pressable
-          style={[styles.iconView, styles.plusIcon]}
-          onPress={handleNewItem}>
-          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-        </Pressable>
-      </View>
-
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getLocations} />
-        }>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
-
-        {!loading && !locations?.length ? (
-          <EmptyItemInfo message={'No locations to display'} />
-        ) : null}
-
-        {filteredItems?.length
-          ? filteredItems?.map((location, i) => (
-              <LocationCard
-                location={location}
-                key={i}
-                handleEditItem={() => {
-                  setSelectedItem(location);
-                  handleEditItem();
-                }}
-                handleDeleteItem={() => {
-                  setSelectedItem(location);
-                  handleDeleteItem();
-                }}
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search locations'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
               />
-            ))
-          : null}
-      </ScrollView>
+            </View>
 
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={'location'}
-          onDelete={handleDelete}
-          loading={deleting}
-        />
-      </Modal>
+            <Pressable
+              style={[styles.iconView, styles.plusIcon]}
+              onPress={handleNewItem}>
+              <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+            </Pressable>
+          </View>
 
-      <Modal visible={showNewForm} animationType="slide" transparent={true}>
-        <NewLocation
-          setShowNewForm={setShowNewForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Location details successfully added',
-              'Your location details is updated now',
-            )
-          }
-        />
-      </Modal>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainerStyle}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getLocations} />
+            }>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
 
-      <Modal visible={showEditForm} animationType="slide" transparent={true}>
-        <EditLocation
-          setShowEditForm={setShowEditForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Location details updated successfully',
-              'Your location details is updated now',
-            )
-          }
-          selectedItem={selectedItem}
-        />
-      </Modal>
+            {!loading && !locations?.length ? (
+              <EmptyItemInfo message={'No locations to display'} />
+            ) : null}
 
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          message={response.message}
-          subtitle={response.subtitle}
-          onPress={() => {
-            setResponse({message: '', subtitle: ''});
-            getLocations();
-          }}
-        />
-      </Modal>
+            {filteredItems?.length
+              ? filteredItems?.map((location, i) => (
+                  <LocationCard
+                    location={location}
+                    key={i}
+                    handleEditItem={() => {
+                      setSelectedItem(location);
+                      handleEditItem();
+                    }}
+                    handleDeleteItem={() => {
+                      setSelectedItem(location);
+                      handleDeleteItem();
+                    }}
+                  />
+                ))
+              : null}
+          </ScrollView>
+
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={'location'}
+              onDelete={handleDelete}
+              loading={deleting}
+            />
+          </Modal>
+
+          <Modal visible={showNewForm} animationType="slide" transparent={true}>
+            <NewLocation
+              setShowNewForm={setShowNewForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Location details successfully added',
+                  'Your location details is updated now',
+                )
+              }
+            />
+          </Modal>
+
+          <Modal
+            visible={showEditForm}
+            animationType="slide"
+            transparent={true}>
+            <EditLocation
+              setShowEditForm={setShowEditForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Location details updated successfully',
+                  'Your location details is updated now',
+                )
+              }
+              selectedItem={selectedItem}
+            />
+          </Modal>
+
+          <Modal
+            visible={showSuccessModal}
+            animationType="slide"
+            transparent={true}>
+            <UpdateSuccessful
+              setShowSuccessModal={setShowSuccessModal}
+              message={response.message}
+              subtitle={response.subtitle}
+              onPress={() => {
+                setResponse({message: '', subtitle: ''});
+                getLocations();
+              }}
+            />
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

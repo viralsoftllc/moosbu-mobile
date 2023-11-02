@@ -31,6 +31,8 @@ export default function NewCampaignForm({
   const [openDateModal, setOpenDateModal] = useState(false);
   const [openTimeModal, setOpenTimeModal] = useState(false);
 
+  const [characterCount, setCharacterCount] = useState(0);
+
   const contacts = useSelector(selectContacts);
   // console.log('contacts');
   // console.log(contacts);
@@ -167,7 +169,10 @@ export default function NewCampaignForm({
       <TextAreaInput
         label={'Campaign Message'}
         placeholder="Enter campaign message"
-        onChangeText={text => setCampaign({...campaign, content: text})}
+        onChangeText={text => {
+          setCharacterCount(text.length);
+          setCampaign({...campaign, content: text});
+        }}
         value={campaign?.content}
       />
       <View
@@ -177,8 +182,26 @@ export default function NewCampaignForm({
           marginTop: -20,
           marginBottom: 25,
         }}>
-        <Text style={{...FONTS.tiny}}>160 Characters = 1 sms </Text>
-        <Text style={{...FONTS.tiny}}> 1 sms = #3</Text>
+        <View>
+          <Text style={{...FONTS.tiny}}>{characterCount} Characters</Text>
+          <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
+            160 Characters = 1 sms{' '}
+          </Text>
+        </View>
+
+        <View>
+          <Text style={{...FONTS.tiny, textAlign: 'right'}}>
+            {Math.ceil(characterCount / 160)} sms
+          </Text>
+          <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
+            (1 sms ={' '}
+            {Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(3)}
+            )
+          </Text>
+        </View>
       </View>
 
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -187,12 +210,15 @@ export default function NewCampaignForm({
           onPress={() => {
             setChecked(!checked);
           }}
+          color={COLORS.primary}
         />
         <Text style={{...FONTS.medium, color: COLORS.primary}}>Send later</Text>
       </View>
       {checked ? (
         <View style={{marginVertical: 20}}>
-          <Text style={{...FONTS.medium, marginBottom: 10}}>Schedule Time</Text>
+          <Text style={{...FONTS.medium, marginBottom: 10}}>
+            Schedule Time{' '}
+          </Text>
           <View style={{flexDirection: 'row', gap: 10, marginBottom: 30}}>
             <TextInput
               value={date.toDateString()}

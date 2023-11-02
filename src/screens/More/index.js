@@ -7,6 +7,8 @@ import {
   StatusBar,
   Platform,
   ScrollView,
+  Linking,
+  Pressable,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
@@ -22,13 +24,17 @@ export default function More() {
   const user = useSelector(selectUser);
   const store = useSelector(selectStoreDetails);
 
+  const browser = async url => {
+    console.log('Pressed');
+    await Linking.openURL(url);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
       <Text
         style={{
-          ...FONTS.regular,
-          fontWeight: '600',
+          ...FONTS.h5,
           marginBottom: 20,
           marginTop: 20,
           textAlign: 'center',
@@ -87,7 +93,11 @@ export default function More() {
           route={routes.PLAN}
         /> */}
 
-        <LinkRow title={'About Moosbu'} iconName="info-outline" />
+        <LinkRow
+          title={'About Moosbu'}
+          iconName="info-outline"
+          onPress={() => browser('https://moosbu.com/about-company/')}
+        />
 
         <LinkRow
           title={'General Settings'}
@@ -95,7 +105,19 @@ export default function More() {
           iconType="MaterialCommunityIcons"
           route={routes.STORE_SETTINGS_STACK}
         />
-        <LinkRow title={'Sign out'} iconName="logout" route={routes.LOGOUT} />
+        <LinkRow
+          title={'Privacy Policy'}
+          iconType="MaterialCommunityIcons"
+          iconName="shield-lock-outline"
+          onPress={() => browser('https://moosbu.com/privacy-policy/')}
+        />
+        <LinkRow
+          title={'Terms of Use'}
+          iconType="MaterialCommunityIcons"
+          iconName="file-document-outline"
+          onPress={() => browser('https://moosbu.com/terms-of-use/')}
+        />
+        <LinkRow title={'Sign Out'} iconName="logout" route={routes.LOGOUT} />
       </ScrollView>
     </SafeAreaView>
   );

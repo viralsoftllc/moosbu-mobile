@@ -29,6 +29,14 @@ export default function RegistrationForm({
         onChangeText={text => setCredentials({...credentials, name: text})}
       />
       <FormInput
+        placeholder={'Phone Number'}
+        value={credentials?.phone_number}
+        onChangeText={text =>
+          setCredentials({...credentials, phone_number: text})
+        }
+      />
+
+      <FormInput
         placeholder={'Store Name'}
         value={credentials?.store_name}
         onChangeText={text =>
@@ -67,6 +75,14 @@ export default function RegistrationForm({
               color={COLORS.textPrimary}
             />
           </Pressable>
+        }
+      />
+
+      <FormInput
+        placeholder={'Referal Code'}
+        value={credentials?.referred_by}
+        onChangeText={text =>
+          setCredentials({...credentials, referred_by: text})
         }
       />
 
@@ -122,12 +138,15 @@ const styles = StyleSheet.create({
   },
   texts: {
     marginLeft: SIZES.base / 2,
+    fontFamily: 'Lato-Regular',
   },
   text: {
     marginHorizontal: SIZES.base / 4,
     color: COLORS.textPrimary,
+    fontFamily: 'Lato-Regular',
   },
   link: {
     color: COLORS.textSecondary,
+    fontFamily: 'Lato-Regular',
   },
 });

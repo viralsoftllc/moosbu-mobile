@@ -23,7 +23,12 @@ export default function StoreRevenue() {
 
       <View style={styles.amountView}>
         <Text style={styles.amount}>
-          {showBalance ? `₦${0}` : '**********'}
+          {showBalance
+            ? Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(0)
+            : '**********'}
         </Text>
 
         <Pressable
@@ -105,9 +110,8 @@ const styles = StyleSheet.create({
     width: 30,
   },
   title: {
-    ...FONTS.regular,
+    ...FONTS.h5,
     marginLeft: SIZES.base / 1.5,
-    fontWeight: 'bold',
     color: COLORS.textPrimary,
   },
   titleView: {

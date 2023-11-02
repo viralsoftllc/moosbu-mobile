@@ -30,18 +30,22 @@ export default function Register() {
     password_confirmation: '',
     store_name: '',
     name: '',
+    phone_number: '',
+    referred_by: '',
   });
 
   async function register() {
     console.log('credentials');
     console.log(credentials);
-    setLoading(true);
 
     if (!credentials?.email) {
       return notifyMessage('Email is required');
     }
     if (!credentials?.name) {
       return notifyMessage('Full Name is required');
+    }
+    if (!credentials?.phone_number) {
+      return notifyMessage('Phone number is required');
     }
     if (!credentials?.store_name) {
       return notifyMessage('Store name is required');
@@ -60,6 +64,8 @@ export default function Register() {
         'Please agree to our terms of service and privacy policy',
       );
     }
+
+    setLoading(true);
 
     try {
       console.log('Registration Api started');

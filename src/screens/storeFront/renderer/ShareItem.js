@@ -7,6 +7,7 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import ImageIcon from '../../../shared/components/ImageIcon';
 import UseIcon from '../../../shared/utils/UseIcon';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 // const storeName = 'oracle';
 
@@ -39,10 +40,10 @@ export default function ShareItem({
             }}>
             <View style={{width: '80%'}}>
               <Text style={styles.title}>
-                {title ? `Share your ${title} link` : 'Share as'}
+                {title ? `Share Your ${title} Link` : 'Share as'}
               </Text>
               <Text style={styles.subtitleText}>
-                {subtitle ? subtitle : 'Share link on your social networks'}
+                {subtitle ? subtitle : 'Share links on your social networks'}
               </Text>
             </View>
 
@@ -112,7 +113,7 @@ export default function ShareItem({
             </Pressable>
           </View> */}
 
-          <Text style={styles.linkText}>{title} link</Text>
+          <Text style={styles.linkText}>{title} Link</Text>
           <View style={[styles.flex, styles.copyView]}>
             <Text style={styles.link}>
               {link || title == 'store'
@@ -136,15 +137,16 @@ export default function ShareItem({
             title={'Copy'}
             style={{backgroundColor: COLORS.primary}}
             // disabled={media ? false : true}
-            onPress={() =>
+            onPress={() => {
+              notifyMessage('Copied');
               copyToClipboard(
                 `${
                   link || title == 'store'
                     ? link || `https://www.moosbu.store/${storeName}`
                     : `https://www.moosbu.store/${storeName}/products/${productId}`
                 }`,
-              )
-            }
+              );
+            }}
           />
         </View>
       </View>

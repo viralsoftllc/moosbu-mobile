@@ -20,6 +20,7 @@ import CampaignCard from './renderer/CampaignCard';
 import handleApiError from '../../../shared/components/handleApiError';
 import client from '../../../shared/api/client';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
+import Test from '../../Test';
 
 export default function Campaign() {
   const {navigate} = useNavigation();
@@ -91,56 +92,68 @@ export default function Campaign() {
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
 
-      <Search
-        items={items}
-        filteredItems={filteredItems}
-        handleNewItem={handleNewItem}
-        filter={false}
-        handleSearch={searchFilterFunction}
-        searchText={searchText}
-      />
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <Search
+            items={items}
+            filteredItems={filteredItems}
+            handleNewItem={handleNewItem}
+            filter={false}
+            handleSearch={searchFilterFunction}
+            searchText={searchText}
+          />
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
-          paddingBottom: 100,
-        }}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getCampaigns} />
-        }>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
+              paddingBottom: 100,
+            }}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getCampaigns} />
+            }>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
 
-        {!loading && !items?.length ? (
-          <EmptyItemInfo message={'No campaigns to display'} />
-        ) : null}
+            {!loading && !items?.length ? (
+              <EmptyItemInfo message={'No campaigns to display'} />
+            ) : null}
 
-        {!loading && filteredItems?.length
-          ? filteredItems?.map((campaign, i) => (
-              <CampaignCard
-                key={i}
-                campaign={campaign}
-                onPress={() => navigate(routes.RESEND_CAMPAIGN, {campaign})}
-                setShowShareModal={setShowShareModal}
-                handleEditItem={handleEditItem}
-                imageUrl={require('../../../assets/images/mail1.png')}
-                handleDeleteItem={handleDeleteItem}
-              />
-            ))
-          : null}
-      </ScrollView>
+            {!loading && filteredItems?.length
+              ? filteredItems?.map((campaign, i) => (
+                  <CampaignCard
+                    key={i}
+                    campaign={campaign}
+                    onPress={() => navigate(routes.RESEND_CAMPAIGN, {campaign})}
+                    setShowShareModal={setShowShareModal}
+                    handleEditItem={handleEditItem}
+                    imageUrl={require('../../../assets/images/mail1.png')}
+                    handleDeleteItem={handleDeleteItem}
+                  />
+                ))
+              : null}
+          </ScrollView>
 
-      <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem setShowShareModal={setShowShareModal} />
-      </Modal>
+          <Modal
+            visible={showShareModal}
+            animationType="slide"
+            transparent={true}>
+            <ShareItem setShowShareModal={setShowShareModal} />
+          </Modal>
 
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={'campaign'}
-        />
-      </Modal>
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={'campaign'}
+            />
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

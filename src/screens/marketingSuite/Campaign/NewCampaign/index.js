@@ -9,6 +9,8 @@ import {
   Text,
 } from 'react-native';
 
+// import {Modal} from 'react-native-paper';
+
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
@@ -29,6 +31,8 @@ export default function NewCampaign() {
   const [campaign, setCampaign] = useState({
     channel: 'sms',
   });
+
+  // const [] = useState(false)
 
   const [checked, setChecked] = useState(false);
 

@@ -69,6 +69,7 @@ export default function Wallet() {
       dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
       dispatch(setAccountName(data?.details[0].attributes.accountName));
       dispatch(setBank(data?.details[0].attributes.bank.name));
+      setTransactions(data?.transactions);
 
       setWalletLoading(false);
     } catch (error) {
@@ -77,28 +78,27 @@ export default function Wallet() {
     }
   }, [dispatch]);
 
-  const getWalletTransactions = useCallback(async () => {
-    setTransactionsLoading(true);
+  // const getWalletTransactions = useCallback(async () => {
+  //   setTransactionsLoading(true);
 
-    try {
-      // console.log('Fetching wallet transactions');
-      const {data} = await client.get('/api/wallet');
-      console.log(data);
+  //   try {
+  //     // console.log('Fetching wallet transactions');
+  //     const {data} = await client.get('/api/wallet');
+  //     console.log(data);
 
-      const {transactions} = data;
-      setTransactionsLoading(false);
+  //     const {transactions} = data;
+  //     setTransactionsLoading(false);
 
-      setTransactions(transactions);
-    } catch (error) {
-      setTransactionsLoading(false);
-      handleApiError(error);
-    }
-  }, []);
+  //     setTransactions(transactions);
+  //   } catch (error) {
+  //     setTransactionsLoading(false);
+  //     handleApiError(error);
+  //   }
+  // }, []);
 
   useEffect(() => {
     getWalletBalance();
-    getWalletTransactions();
-  }, [getWalletTransactions, getWalletBalance]);
+  }, [getWalletBalance]);
 
   const ctaData = [
     {
@@ -135,8 +135,8 @@ export default function Wallet() {
         <>
           <Text
             style={{
-              ...FONTS.regular,
-              fontWeight: '600',
+              ...FONTS.h5,
+
               marginBottom: 20,
               marginTop: 10,
               textAlign: 'center',
@@ -469,7 +469,7 @@ export default function Wallet() {
                 }}>
                 <Text
                   style={{
-                    ...FONTS.regular,
+                    ...FONTS.h5,
                     color: COLORS.label,
                     textAlign: 'center',
                   }}>
@@ -500,7 +500,6 @@ export default function Wallet() {
                 }}>
                 <Text
                   style={{
-                    fontWeight: 600,
                     ...FONTS.h3,
                     color: COLORS.primary,
                   }}>

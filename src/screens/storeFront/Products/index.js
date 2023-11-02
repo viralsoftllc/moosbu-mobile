@@ -27,6 +27,7 @@ import {setProducts} from '../../../redux/slices/catalog/slice';
 import {selectProducts} from '../../../redux/slices/catalog/selectors';
 import UseIcon from '../../../shared/utils/UseIcon';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import Test from '../../Test';
 
 export default function Products() {
   const {navigate} = useNavigation();
@@ -102,55 +103,63 @@ export default function Products() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search products'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
 
-        <Pressable
-          style={[styles.iconView, styles.plusIcon]}
-          onPress={handleNewItem}>
-          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-        </Pressable>
-      </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search products'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
+              />
+            </View>
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.contentContainerStyle,
-          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-        ]}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getAllProducts} />
-        }>
-        {loading ? <ActivityIndicator /> : null}
+            <Pressable
+              style={[styles.iconView, styles.plusIcon]}
+              onPress={handleNewItem}>
+              <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+            </Pressable>
+          </View>
 
-        {filteredItems?.length > 0 ? (
-          filteredItems?.map((item, i) => (
-            <ProductCard
-              product={item}
-              key={i}
-              setShowShareModal={setShowShareModal}
-              handleEditItem={() => handleEditItem(item)}
-              handleDeleteItem={handleDeleteItem}
-              productId={item.id}
-              store={store.slug}
-            />
-          ))
-        ) : !loading ? (
-          <EmptyItemInfo message={'No products to display'} />
-        ) : null}
-      </ScrollView>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[
+              styles.contentContainerStyle,
+              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+            ]}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getAllProducts} />
+            }>
+            {loading ? <ActivityIndicator /> : null}
+
+            {filteredItems?.length > 0 ? (
+              filteredItems?.map((item, i) => (
+                <ProductCard
+                  product={item}
+                  key={i}
+                  setShowShareModal={setShowShareModal}
+                  handleEditItem={() => handleEditItem(item)}
+                  handleDeleteItem={handleDeleteItem}
+                  productId={item.id}
+                  store={store.slug}
+                />
+              ))
+            ) : !loading ? (
+              <EmptyItemInfo message={'No products to display'} />
+            ) : null}
+          </ScrollView>
+        </>
+      )}
+
       {/* 
       <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem setShowShareModal={setShowShareModal} title="Product" />

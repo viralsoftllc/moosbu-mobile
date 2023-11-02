@@ -22,7 +22,11 @@ import {
   setTotalProducts,
   setTotalOrders,
 } from '../../redux/slices/businessOvervew/slice';
-import {setStoreDetails, setStoreUrl} from '../../redux/slices/store/slice';
+import {
+  setStoreDetails,
+  setStoreUrl,
+  setStores,
+} from '../../redux/slices/store/slice';
 import {selectUser} from '../../redux/slices/user/selectors';
 import {setWalletBalance} from '../../redux/slices/wallet/slice';
 import client from '../../shared/api/client';
@@ -39,7 +43,10 @@ import WalletBalance from './renderers/WalletBalance';
 import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
 import UpdateSuccessful from '../../shared/components/UpdateSuccessful';
-import {selectStoreDetails} from '../../redux/slices/store/selectors';
+import {
+  selectStoreDetails,
+  selectStores,
+} from '../../redux/slices/store/selectors';
 
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import Test from '../Test';
@@ -47,6 +54,9 @@ import Test from '../Test';
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
   const storeDetails = useSelector(selectStoreDetails);
+  const stores = useSelector(selectStores);
+
+  console.log(stores);
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
@@ -62,7 +72,7 @@ export default function Home({navigation}) {
       // console.log('Fetching dashboard data');
       const {data} = await client.get('/api/dashboard');
       console.log('dashboard data');
-      console.log(data);
+      // console.log(data);
       dispatch(setStoreDetails(data?.store));
       dispatch(setStoreUrl(data?.store_url));
       dispatch(setTotalCustomers(data?.customers));
@@ -97,6 +107,21 @@ export default function Home({navigation}) {
     getWalletBalance();
   }, [getWalletBalance]);
 
+  const fetchStores = useCallback(async () => {
+    console.log('Fetching stores');
+    try {
+      const res = await client.get('/api/get_stores');
+      dispatch(setStores(res.data.data));
+      // console.log(res.data.data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchStores();
+  }, [fetchStores]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
@@ -120,7 +145,10 @@ export default function Home({navigation}) {
             contentContainerStyle={{flexGrow: 1}}
             refreshControl={
               <RefreshControl
-                onRefresh={fetchDashboardData}
+                onRefresh={() => {
+                  fetchDashboardData();
+                  fetchStores();
+                }}
                 refreshing={false}
               />
             }>

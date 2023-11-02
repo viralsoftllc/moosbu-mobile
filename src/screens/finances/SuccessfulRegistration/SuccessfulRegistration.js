@@ -20,7 +20,7 @@ const SuccessfulRegistration = ({navigation}) => {
           <Text
             style={{
               color: COLORS.label,
-              ...FONTS.h3,
+              ...FONTS.h5,
               textAlign: 'center',
             }}>
             Wallet Successfully Created.
@@ -50,8 +50,10 @@ const SuccessfulRegistration = ({navigation}) => {
               <Ion name={'wallet-outline'} color={COLORS.primary} size={30} />
             </View>
             <View>
-              <Text style={{fontWeight: '600'}}>Go to Dashboard</Text>
-              <Text style={{color: COLORS.gray}}>Go to Wallet Dashboard</Text>
+              <Text style={{fontFamily: 'Lato-Bold'}}>Go to Dashboard</Text>
+              <Text style={{...FONTS.small, color: COLORS.gray}}>
+                Go to Wallet Dashboard
+              </Text>
             </View>
           </View>
           <Icon name="chevron-right" size={24} color={COLORS.gray} />
@@ -81,8 +83,10 @@ const SuccessfulRegistration = ({navigation}) => {
               />
             </View>
             <View>
-              <Text style={{fontWeight: '600'}}>Go Home</Text>
-              <Text style={{color: COLORS.gray}}>Go To Moosbu Homepage</Text>
+              <Text style={{fontFamily: 'Lato-Bold'}}>Go Home</Text>
+              <Text style={{...FONTS.small, color: COLORS.gray}}>
+                Go To Moosbu Homepage
+              </Text>
             </View>
           </View>
           <Icon name="chevron-right" size={24} color={COLORS.gray} />

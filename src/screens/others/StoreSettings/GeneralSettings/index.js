@@ -572,7 +572,7 @@ export default function GeneralSettings() {
         <FormButton
           title={'Delete Store'}
           buttonStyle={styles.logoutButtonStyle}
-          textStyle={styles.textStyle}
+          textStyle={{color: 'white'}}
           onPress={handleDeleteItem}
         />
       </ScrollView>
@@ -647,10 +647,10 @@ const styles = StyleSheet.create({
     ...FONTS.regular,
   },
   logoutButtonStyle: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.red,
     marginTop: SIZES.base * 2,
     borderWidth: 1,
-    borderColor: COLORS.primary,
+    borderColor: 'transparent',
     marginBottom: SIZES.base * 5,
   },
   textStyle: {

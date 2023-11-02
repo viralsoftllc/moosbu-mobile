@@ -25,6 +25,7 @@ import UseIcon from '../../../shared/utils/UseIcon';
 import EditTax from './EditTax';
 import NewTax from './NewTax';
 import TaxCard from './renderer/TaxCard';
+import Test from '../../Test';
 
 export default function Tax() {
   const {setOptions} = useNavigation();
@@ -131,122 +132,138 @@ export default function Tax() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View style={styles.container}>
-        {/* <Search
+
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.container}>
+            {/* <Search
           items={items}
           filteredItems={filteredItems}
           handleNewItem={handleNewItem}
         /> */}
-        <View style={styles.searchContainer}>
-          <View style={styles.searchView}>
-            <SearchBar
-              placeholder={'Search taxes'}
-              value={searchText}
-              onChangeText={text => searchFilterFunction(text.trim())}
-              onClear={text => searchFilterFunction('')}
-              style={styles.search}
-              inputStyle={styles.inputStyle}
-              platform={'ios'}
-              cancelText=""
-            />
+            <View style={styles.searchContainer}>
+              <View style={styles.searchView}>
+                <SearchBar
+                  placeholder={'Search taxes'}
+                  value={searchText}
+                  onChangeText={text => searchFilterFunction(text.trim())}
+                  onClear={text => searchFilterFunction('')}
+                  style={styles.search}
+                  inputStyle={styles.inputStyle}
+                  platform={'ios'}
+                  cancelText=""
+                />
+              </View>
+
+              <Pressable
+                style={[styles.iconView, styles.plusIcon]}
+                onPress={handleNewItem}>
+                <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+              </Pressable>
+            </View>
+
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={[
+                styles.contentContainerStyle,
+                {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+              ]}>
+              {loading ? <ActivityIndicator size={'large'} /> : null}
+
+              {filteredItems?.length ? (
+                filteredItems.map((item, i) => (
+                  <TaxCard
+                    key={i}
+                    tax={item}
+                    title={'VAT'}
+                    subtitle="Value added tax charge on items purchased"
+                    amount={'7%'}
+                    icon={
+                      <UseIcon
+                        name="ticket-percent-outline"
+                        type={'MaterialCommunityIcons'}
+                        color={COLORS.textPrimary}
+                      />
+                    }
+                    handleEditItem={() => {
+                      setSelectedItem(item);
+                      handleEditItem(item);
+                    }}
+                    handleDeleteItem={() => {
+                      setSelectedItem(item);
+                      handleDeleteItem();
+                    }}
+                  />
+                ))
+              ) : !loading ? (
+                <EmptyItemInfo message={'No taxes to display'} />
+              ) : null}
+            </ScrollView>
           </View>
 
-          <Pressable
-            style={[styles.iconView, styles.plusIcon]}
-            onPress={handleNewItem}>
-            <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-          </Pressable>
-        </View>
+          <Modal
+            visible={showNewTaxForm}
+            animationType="slide"
+            transparent={true}>
+            <NewTax
+              setShowNewTaxForm={setShowNewTaxForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Tax successfully added',
+                  'Your taxes will be updated',
+                )
+              }
+            />
+          </Modal>
 
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={[
-            styles.contentContainerStyle,
-            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-          ]}>
-          {loading ? <ActivityIndicator size={'large'} /> : null}
+          <Modal
+            visible={showEditTaxForm}
+            animationType="slide"
+            transparent={true}>
+            <EditTax
+              setShowEditTaxForm={setShowEditTaxForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Tax updated successfully',
+                  'Your taxes will be updated',
+                )
+              }
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
+            />
+          </Modal>
 
-          {filteredItems?.length ? (
-            filteredItems.map((item, i) => (
-              <TaxCard
-                key={i}
-                tax={item}
-                title={'VAT'}
-                subtitle="Value added tax charge on items purchased"
-                amount={'7%'}
-                icon={
-                  <UseIcon
-                    name="ticket-percent-outline"
-                    type={'MaterialCommunityIcons'}
-                    color={COLORS.textPrimary}
-                  />
-                }
-                handleEditItem={() => {
-                  setSelectedItem(item);
-                  handleEditItem(item);
-                }}
-                handleDeleteItem={() => {
-                  setSelectedItem(item);
-                  handleDeleteItem();
-                }}
-              />
-            ))
-          ) : !loading ? (
-            <EmptyItemInfo message={'No taxes to display'} />
-          ) : null}
-        </ScrollView>
-      </View>
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={'tax'}
+              loading={deleting}
+              onDelete={handleDelete}
+            />
+          </Modal>
 
-      <Modal visible={showNewTaxForm} animationType="slide" transparent={true}>
-        <NewTax
-          setShowNewTaxForm={setShowNewTaxForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Tax successfully added',
-              'Your taxes will be updated',
-            )
-          }
-        />
-      </Modal>
-
-      <Modal visible={showEditTaxForm} animationType="slide" transparent={true}>
-        <EditTax
-          setShowEditTaxForm={setShowEditTaxForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Tax updated successfully',
-              'Your taxes will be updated',
-            )
-          }
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-        />
-      </Modal>
-
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={'tax'}
-          loading={deleting}
-          onDelete={handleDelete}
-        />
-      </Modal>
-
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          onPress={() => {
-            setResponse({message: '', subtitle: ''});
-            getAllTaxes();
-          }}
-          message={response.message}
-          subtitle={response.subtitle}
-        />
-      </Modal>
+          <Modal
+            visible={showSuccessModal}
+            animationType="slide"
+            transparent={true}>
+            <UpdateSuccessful
+              setShowSuccessModal={setShowSuccessModal}
+              onPress={() => {
+                setResponse({message: '', subtitle: ''});
+                getAllTaxes();
+              }}
+              message={response.message}
+              subtitle={response.subtitle}
+            />
+          </Modal>
+        </>
+      )}
     </SafeAreaView>
   );
 }

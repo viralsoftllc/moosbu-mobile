@@ -7,9 +7,15 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import ImageIcon from '../../../shared/components/ImageIcon';
 // import FormButton from '../../../shared/components/FormButton';
 import {useSelector} from 'react-redux';
-import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import {
+  selectStoreDetails,
+  selectStores,
+} from '../../../redux/slices/store/selectors';
 import ShortModal from '../../../shared/components/ShortModal';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+
+import {useDispatch} from 'react-redux';
+import {setStoreDetails} from '../../../redux/slices/store/slice';
 
 export default function Stores({
   setShowStoresModal,
@@ -17,7 +23,10 @@ export default function Stores({
   level,
 }) {
   const store = useSelector(selectStoreDetails);
+  const stores = useSelector(selectStores);
   const [selectedStore, setSelectedStore] = useState(store?.id);
+
+  const dispatch = useDispatch();
 
   function handleNewStore() {
     if (level == 1) {
@@ -42,24 +51,34 @@ export default function Stores({
         </Pressable>
 
         <View style={styles.stores}>
-          <Pressable style={[styles.flex, styles.store]}>
-            <ImageIcon margin={0} size={scale(25)} />
+          {stores.map((store, index) => (
+            <Pressable
+              key={index}
+              style={[styles.flex, styles.store]}
+              onPress={() => {
+                setSelectedStore(store?.id);
+                dispatch(setStoreDetails(store));
+              }}>
+              <ImageIcon margin={0} size={scale(25)} />
 
-            <Text style={styles.storeName}>{store?.name}</Text>
+              <Text style={styles.storeName}>{store?.name}</Text>
 
-            <UseIcon
-              name={
-                store?.id === selectedStore
-                  ? 'checkbox-marked-circle'
-                  : 'checkbox-blank-circle-outline'
-              }
-              type={'MaterialCommunityIcons'}
-              size={scale(18)}
-              color={
-                store?.id === selectedStore ? COLORS.credit : COLORS.borderGray
-              }
-            />
-          </Pressable>
+              <UseIcon
+                name={
+                  store?.id === selectedStore
+                    ? 'checkbox-marked-circle'
+                    : 'checkbox-blank-circle-outline'
+                }
+                type={'MaterialCommunityIcons'}
+                size={scale(18)}
+                color={
+                  store?.id === selectedStore
+                    ? COLORS.credit
+                    : COLORS.borderGray
+                }
+              />
+            </Pressable>
+          ))}
         </View>
       </ShortModal>
     </>

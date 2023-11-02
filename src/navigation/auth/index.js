@@ -6,6 +6,10 @@ import RegisterWalletTwo from '../../screens/finances/registerWalletTwo';
 import TransactionDetails from '../../screens/Wallet/TransactionDetails/TransactionDetails';
 import HistoryDetails from '../../screens/Wallet/HistoryDetails/HistoryDetails';
 import Test from '../../screens/Test';
+import TokenScreen from '../../screens/TokenSuccess';
+import BasicDetails from '../../screens/Wallet/businessWallet/BasicDetails';
+import Address from '../../screens/Wallet/businessWallet/Address';
+import OfficerDetails from '../../screens/Wallet/businessWallet/OfficerDetails';
 
 import {authScreens} from './screens';
 
@@ -17,7 +21,9 @@ export default function AuthNavigator() {
       screenOptions={{
         headerShown: false,
       }}>
-      {/* <Stack.Screen name="History" component={Test} /> */}
+      {/* <Stack.Screen name="BasicDetails" component={BasicDetails} />
+      <Stack.Screen name="Address" component={Address} />
+      <Stack.Screen name="OfficerDetails" component={OfficerDetails} /> */}
       {Object.entries({...authScreens}).map(([name, screen]) => (
         <Stack.Screen name={name} component={screen} key={name} />
       ))}

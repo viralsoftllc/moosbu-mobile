@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderLeftColor: COLORS.primary,
   },
   chartTitle: {
-    ...FONTS.h6,
+    ...FONTS.h5,
   },
   chartFilter: {
     color: COLORS.textGray,

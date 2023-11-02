@@ -1,0 +1,187 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  Pressable,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import React, {useState} from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {verticalScale} from 'react-native-size-matters';
+import {useNavigation} from '@react-navigation/native';
+
+import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+
+const Address = () => {
+  const {navigate, goBack} = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [website, setWebsite] = useState('');
+
+  return (
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}>
+        <View style={{gap: 20}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Pressable
+              onPress={() => goBack()}
+              style={{
+                alignSelf: 'flex-start',
+                height: verticalScale(30),
+                width: verticalScale(30),
+                borderWidth: 1,
+                borderColor: COLORS.borderGray,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: SIZES.radius / 2,
+              }}>
+              <Icon name="arrow-back" size={16} />
+            </Pressable>
+            <Text
+              style={{
+                ...FONTS.h4,
+                fontWeight: '700',
+              }}>
+              Activate Your Wallet
+            </Text>
+            <Text style={{...FONTS.tiny, fontWeight: '700'}}>Step 2 of 3</Text>
+          </View>
+
+          <Text style={{textAlign: 'center', ...FONTS.medium}}>
+            Kindly fill the details below to activate your wallet
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              ...FONTS.medium,
+              color: COLORS.textGray,
+            }}>
+            Address
+          </Text>
+
+          <View style={{gap: 15}}>
+            <TextInput
+              placeholder="Email Address"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={email}
+              onChangeText={text => setEmail(text)}
+              autoCapitalize="words"
+            />
+            <TextInput
+              placeholder="Phone Number"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={phoneNumber}
+              onChangeText={text => setPhoneNumber(text)}
+            />
+            <TextInput
+              placeholder="Address"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={address}
+              onChangeText={text => setAddress(text)}
+              multiline={true}
+            />
+
+            <TextInput
+              placeholder="City"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={city}
+              onChangeText={text => setCity(text)}
+              autoCapitalize="words"
+            />
+            <TextInput
+              placeholder="State"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={state}
+              onChangeText={text => setState(text)}
+              autoCapitalize="words"
+            />
+            <TextInput
+              placeholder="Country"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={country}
+              onChangeText={text => setCountry(text)}
+              autoCapitalize="words"
+            />
+            <TextInput
+              placeholder="Website"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={website}
+              onChangeText={text => setWebsite(text)}
+              autoCapitalize="words"
+            />
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
+            <TouchableOpacity
+              onPress={() => navigate('OfficerDetails')}
+              style={styles.button}>
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.regular,
+                  fontWeight: '700',
+                }}>
+                Continue
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default Address;
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 50,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    justifyContent: 'flex-start',
+    paddingBottom: 100,
+  },
+  input: {
+    borderWidth: 1,
+    marginTop: 3,
+    borderRadius: 5,
+    height: 50,
+    padding: 10,
+    borderColor: COLORS.borderGray,
+    fontSize: 12,
+  },
+  button: {
+    minWidth: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    padding: 15,
+    borderRadius: 10,
+  },
+});

@@ -28,6 +28,7 @@ import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
+import Test from '../../Test';
 
 export default function Category() {
   const {navigate} = useNavigation();
@@ -129,55 +130,61 @@ export default function Category() {
 
       <StatusBar backgroundColor={COLORS.primary} />
 
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search Categories'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search Categories'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
+              />
+            </View>
 
-        <Pressable
-          style={[styles.iconView, styles.plusIcon]}
-          onPress={handleNewItem}>
-          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-        </Pressable>
-      </View>
+            <Pressable
+              style={[styles.iconView, styles.plusIcon]}
+              onPress={handleNewItem}>
+              <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+            </Pressable>
+          </View>
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.contentContainerStyle,
-          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-        ]}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getAllCategories} />
-        }>
-        {loading ? <ActivityIndicator /> : null}
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[
+              styles.contentContainerStyle,
+              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+            ]}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getAllCategories} />
+            }>
+            {loading ? <ActivityIndicator /> : null}
 
-        {!loading && !filteredItems?.length ? (
-          <EmptyItemInfo message={'No categories to display'} />
-        ) : null}
+            {!loading && !filteredItems?.length ? (
+              <EmptyItemInfo message={'No categories to display'} />
+            ) : null}
 
-        {filteredItems?.map((item, i) => (
-          <CategoryCard
-            category={item}
-            key={i}
-            setShowShareModal={setShowShareModal}
-            handleEditItem={() => handleEditItem(item)}
-            handleDeleteItem={() => handleDeleteItem(item)}
-            catId={item.id}
-            store={store.slug}
-          />
-        ))}
-      </ScrollView>
+            {filteredItems?.map((item, i) => (
+              <CategoryCard
+                category={item}
+                key={i}
+                setShowShareModal={setShowShareModal}
+                handleEditItem={() => handleEditItem(item)}
+                handleDeleteItem={() => handleDeleteItem(item)}
+                catId={item.id}
+                store={store.slug}
+              />
+            ))}
+          </ScrollView>
+        </>
+      )}
 
       {/* <Modal visible={showShareModal} animationType="slide" transparent={true}>
         <ShareItem

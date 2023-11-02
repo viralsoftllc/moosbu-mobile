@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+import {PanResponder, Alert, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import BottomTabNavigator from './components/BottomTabNavigator';
 import routes from '../../shared/constants/routes';
@@ -58,187 +59,234 @@ import TransferSuccessful from '../../screens/Wallet/TransferSuccessful/Transfer
 import TransferDeclined from '../../screens/Wallet/TransferDeclined/TransferDeclined';
 import TransactionDetails from '../../screens/Wallet/TransactionDetails/TransactionDetails';
 import TransactionPending from '../../screens/Wallet/TransactionPending/TransactionPending';
+import TokenScreen from '../../screens/TokenScreen';
+import TokenSuccess from '../../screens/TokenSuccess';
+
+import {useDispatch} from 'react-redux';
+import {setToken} from '../../redux/slices/auth/slice';
 
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
+  const dispatch = useDispatch();
+  const timerId = useRef(false);
+  const [timeForInactivityInSecond, setTimeForInactivityInSecond] = useState(5);
+
+  useEffect(() => {
+    resetInactivityTimeout();
+  }, []);
+
+  const panResponder = React.useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => {
+        console.log('user starts touch');
+        resetInactivityTimeout();
+      },
+    }),
+  ).current;
+
+  const resetInactivityTimeout = () => {
+    clearTimeout(timerId.current);
+    timerId.current = setTimeout(() => {
+      // dispatch(setToken(null));
+    }, timeForInactivityInSecond * 1000);
+  };
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name={routes.MAIN}
-        component={BottomTabNavigator}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={routes.MENU_STACK}
-        component={MenuStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={routes.CUSTOMERS}
-        component={CustomerTopTabNavigator}
-      />
-      <Stack.Screen
-        name={routes.SHIPPING_TAB}
-        component={ShippingStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={routes.CASHFLOW_TAB}
-        component={CashFlowComingSoon}
-        // component={CashFlowStack}
-        // options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={routes.ENGAGEMNT_TAB}
-        component={EngagementStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name={routes.COUPON} component={Coupon} />
-      <Stack.Screen name={routes.TAX} component={Tax} />
-      <Stack.Screen
-        name={routes.PRODUCTS_STACK}
-        component={ProductsStack}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name={routes.ANALYTICS} component={Analytics} />
-      <Stack.Screen name={routes.PROFILE} component={Profile} />
-      <Stack.Screen name={routes.CHANGE_PASSWORD} component={ChangePassword} />
-      <Stack.Screen
-        name={routes.LOGOUT}
-        component={Logout}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen name={routes.AUTOMATION} component={Automation} />
-      <Stack.Screen
-        // options={{headerShown: false}}
-        name={routes.M_BOT}
-        component={MBot}
-      />
-      {/* <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} /> */}
-      <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
-      <Stack.Screen name={routes.INTEGRATION} component={Integration} />
-      <Stack.Screen name={routes.SUPPORT} component={Support} />
-      <Stack.Screen
-        name={routes.BUSINESS_REGISTRATION}
-        component={BussinessRegistration}
-      />
-      <Stack.Screen
-        name={routes.CHOOSE_PAYMENT_METHOD}
-        component={ChoosePaymentMethod}
-      />
-      <Stack.Screen name={routes.SEND_FUNDS} component={SendFunds} />
-      <Stack.Screen name={routes.PAYOUT_SETTINGS} component={PayoutSettings} />
-      <Stack.Screen name={routes.WALLET_SETTINGS} component={WalletSettings} />
-      <Stack.Screen
-        name={routes.CREATE_TRANSACTION_PIN}
-        component={CreateTransactionPin}
-      />
-      <Stack.Screen name={routes.WITHDRAW} component={Withdraw} />
-      <Stack.Screen name={routes.BANK_TRANSFER} component={BankTransfer} />
-      <Stack.Screen
-        name={routes.CONFIRM_TRANSFER_DETAILS}
-        component={ConfirmTransferDetails}
-      />
-      <Stack.Screen name={routes.ENTER_PIN} component={EnterPin} />
-      <Stack.Screen
-        name={routes.BUSINESS_REGISTRATION_STACK}
-        component={BusinessRegistrationStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-      {/* Successful screen */}
-      <Stack.Screen
-        name={'TransferSuccessful'}
-        component={TransferSuccessful}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={'TransferDeclined'}
-        component={TransferDeclined}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
-        name="TransactionPending"
-        component={TransactionPending}
-        options={{headerShown: false}}
-      />
-
-      {/* Transaction Details */}
-      <Stack.Screen
-        name={'TransactionDetails'}
-        component={TransactionDetails}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={routes.STORE_SETTINGS_STACK}
-        component={StoreSettingsStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={routes.PAYMENT_PROVIDER}
-        component={PaymentProviderTopTabNavigator}
-      />
-      <Stack.Screen
-        name={routes.LOGISTICS_PROVIDER}
-        // component={LogisticsProviderTopTabNavigator}
-        component={InbuiltLogistics}
-      />
-      <Stack.Screen name={routes.REWARD_INFO} component={RewardInfo} />
-      <Stack.Screen
-        name={routes.PAY_SUBSCRIPTION}
-        component={SubscriptionPayment}
-      />
-      <Stack.Screen name={routes.NOTIFICATIONS} component={Notifications} />
-      <Stack.Screen
-        name={routes.SHIPPING_DETAILS}
-        component={ShippingHistoryDetails}
-      />
-      <Stack.Screen name={routes.PLAN} component={Plans} />
-      {/* <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} /> */}
-      <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
-      <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
-      {/* <Stack.Screen name={routes.KYC} component={Kyc} /> */}
-      {/* <Stack.Screen name={routes.SELFIE} component={Selfie} /> */}
-      <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
-      <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
-      <Stack.Screen name={routes.MEDIA_RESOURCES} component={MediaResources} />
-      <Stack.Screen
-        name="Finances"
-        component={Finances}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="RegisterWalletOne"
-        component={RegisterWalletOne}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="RegisterWalletTwo"
-        component={RegisterWalletTwo}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="SuccessfulRegistration"
-        component={SuccessfulRegistration}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
+    <View style={{flex: 1}} {...panResponder.pandHandlers}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name={routes.MAIN}
+          component={BottomTabNavigator}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.MENU_STACK}
+          component={MenuStack}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.CUSTOMERS}
+          component={CustomerTopTabNavigator}
+        />
+        <Stack.Screen
+          name={routes.SHIPPING_TAB}
+          component={ShippingStack}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.CASHFLOW_TAB}
+          component={CashFlowComingSoon}
+          // component={CashFlowStack}
+          // options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.ENGAGEMNT_TAB}
+          component={EngagementStack}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name={routes.COUPON} component={Coupon} />
+        <Stack.Screen name={routes.TAX} component={Tax} />
+        <Stack.Screen
+          name={routes.PRODUCTS_STACK}
+          component={ProductsStack}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name={routes.ANALYTICS} component={Analytics} />
+        <Stack.Screen name={routes.PROFILE} component={Profile} />
+        <Stack.Screen
+          name={routes.CHANGE_PASSWORD}
+          component={ChangePassword}
+        />
+        <Stack.Screen
+          name={routes.LOGOUT}
+          component={Logout}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name={routes.AUTOMATION} component={Automation} />
+        <Stack.Screen
+          // options={{headerShown: false}}
+          name={routes.M_BOT}
+          component={MBot}
+        />
+        {/* <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} /> */}
+        <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
+        <Stack.Screen name={routes.INTEGRATION} component={Integration} />
+        <Stack.Screen name={routes.SUPPORT} component={Support} />
+        <Stack.Screen
+          name={routes.BUSINESS_REGISTRATION}
+          component={BussinessRegistration}
+        />
+        <Stack.Screen
+          name={routes.CHOOSE_PAYMENT_METHOD}
+          component={ChoosePaymentMethod}
+        />
+        <Stack.Screen name={routes.SEND_FUNDS} component={SendFunds} />
+        <Stack.Screen
+          name={routes.PAYOUT_SETTINGS}
+          component={PayoutSettings}
+        />
+        <Stack.Screen
+          name={routes.WALLET_SETTINGS}
+          component={WalletSettings}
+        />
+        <Stack.Screen
+          name={routes.CREATE_TRANSACTION_PIN}
+          component={CreateTransactionPin}
+        />
+        <Stack.Screen name={routes.WITHDRAW} component={Withdraw} />
+        <Stack.Screen name={routes.BANK_TRANSFER} component={BankTransfer} />
+        <Stack.Screen
+          name={routes.CONFIRM_TRANSFER_DETAILS}
+          component={ConfirmTransferDetails}
+        />
+        <Stack.Screen name={routes.ENTER_PIN} component={EnterPin} />
+        <Stack.Screen
+          name={routes.BUSINESS_REGISTRATION_STACK}
+          component={BusinessRegistrationStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* Successful screen */}
+        <Stack.Screen
+          name={'TransferSuccessful'}
+          component={TransferSuccessful}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={'TransferDeclined'}
+          component={TransferDeclined}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="TransactionPending"
+          component={TransactionPending}
+          options={{headerShown: false}}
+        />
+        {/* Transaction Details */}
+        <Stack.Screen
+          name={'TransactionDetails'}
+          component={TransactionDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={routes.STORE_SETTINGS_STACK}
+          component={StoreSettingsStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={routes.PAYMENT_PROVIDER}
+          component={PaymentProviderTopTabNavigator}
+        />
+        <Stack.Screen
+          name={routes.LOGISTICS_PROVIDER}
+          // component={LogisticsProviderTopTabNavigator}
+          component={InbuiltLogistics}
+        />
+        <Stack.Screen name={routes.REWARD_INFO} component={RewardInfo} />
+        <Stack.Screen
+          name={routes.PAY_SUBSCRIPTION}
+          component={SubscriptionPayment}
+        />
+        <Stack.Screen name={routes.NOTIFICATIONS} component={Notifications} />
+        <Stack.Screen
+          name={routes.SHIPPING_DETAILS}
+          component={ShippingHistoryDetails}
+        />
+        <Stack.Screen name={routes.PLAN} component={Plans} />
+        {/* <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} /> */}
+        <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
+        <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
+        {/* <Stack.Screen name={routes.KYC} component={Kyc} /> */}
+        {/* <Stack.Screen name={routes.SELFIE} component={Selfie} /> */}
+        <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
+        <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
+        <Stack.Screen
+          name={routes.MEDIA_RESOURCES}
+          component={MediaResources}
+        />
+        <Stack.Screen
+          name="Finances"
+          component={Finances}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="RegisterWalletOne"
+          component={RegisterWalletOne}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="RegisterWalletTwo"
+          component={RegisterWalletTwo}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SuccessfulRegistration"
+          component={SuccessfulRegistration}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen name="TokenScreen" component={TokenScreen} />
+        <Stack.Screen
+          name="TokenSuccess"
+          component={TokenSuccess}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </View>
   );
 }

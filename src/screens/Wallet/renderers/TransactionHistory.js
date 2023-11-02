@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
   },
   title: {
     ...FONTS.h5,
-    fontWeight: '700',
     color: COLORS.textPrimary,
   },
   transactionFilter: {

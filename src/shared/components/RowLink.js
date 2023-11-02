@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: SIZES.base * 2,
     ...FONTS.regular,
-    fontWeight: '500',
     color: COLORS.textPrimary,
   },
 });

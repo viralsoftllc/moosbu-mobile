@@ -46,8 +46,8 @@ const Finances = ({navigation}) => {
         </Pressable>
         <Text
           style={{
-            ...FONTS.h4,
-            fontWeight: 700,
+            fontFamily: 'Lato-Black',
+            fontSize: 20,
           }}>
           Business Banking
         </Text>
@@ -101,7 +101,7 @@ const Finances = ({navigation}) => {
           style={{
             ...FONTS.small,
             textAlign: 'center',
-            fontWeight: '700',
+            fontFamily: 'Lato-Bold',
           }}>
           Banking/financial services offered on the Moosbu Super Business App
           are provided by CBN-licensed and NDIC-insured banks and financial
@@ -115,8 +115,7 @@ const Finances = ({navigation}) => {
           <Text
             style={{
               color: COLORS.white,
-              ...FONTS.regular,
-              fontWeight: 700,
+              ...FONTS.h5,
             }}>
             Create Your Business Wallet
           </Text>

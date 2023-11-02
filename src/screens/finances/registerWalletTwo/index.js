@@ -210,11 +210,10 @@ const RegisterWalletTwo = ({navigation}) => {
             <Text
               style={{
                 ...FONTS.h4,
-                fontWeight: 700,
               }}>
               Activate Your Wallet
             </Text>
-            <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 2 of 2</Text>
+            <Text style={{...FONTS.tiny}}>Step 2 of 2</Text>
           </View>
 
           <View
@@ -300,7 +299,11 @@ const RegisterWalletTwo = ({navigation}) => {
                   borderColor: COLORS.borderGray,
                 }}>
                 <Text
-                  style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Lato-Bold',
+                    fontSize: 12,
+                  }}>
                   Take a Selfie
                 </Text>
               </Pressable>
@@ -317,13 +320,17 @@ const RegisterWalletTwo = ({navigation}) => {
                   backgroundColor: COLORS.lightSecondaryBackground,
                 }}>
                 <Text
-                  style={{textAlign: 'center', fontSize: 12, fontWeight: 600}}>
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Lato-Bold',
+                    fontSize: 12,
+                  }}>
                   Choose from Gallery
                 </Text>
               </Pressable>
             </View>
 
-            <Text style={{textAlign: 'center', ...FONTS.tiny, fontWeight: 600}}>
+            <Text style={{textAlign: 'center', ...FONTS.tiny}}>
               Please provide us with a good photo of yourself. Make sure to hold
               device at eye level and center your face when you are ready.
             </Text>
@@ -446,13 +453,12 @@ const RegisterWalletTwo = ({navigation}) => {
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <TouchableOpacity onPress={handleRegister} style={styles.button}>
             {loading ? (
-              <ActivityIndicator size={'large'} color={'white'} />
+              <ActivityIndicator size={'small'} color={'white'} />
             ) : (
               <Text
                 style={{
                   color: COLORS.white,
-                  ...FONTS.regular,
-                  fontWeight: 700,
+                  ...FONTS.h5,
                 }}>
                 Continue
               </Text>
@@ -484,7 +490,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    fontSize: 12,
+    ...FONTS.medium,
   },
 
   list: {
@@ -492,7 +498,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
-  listItem: {...FONTS.small, color: COLORS.label, fontWeight: '400', flex: 1},
+  listItem: {...FONTS.small, color: COLORS.label, flex: 1},
 
   button: {
     minWidth: '80%',

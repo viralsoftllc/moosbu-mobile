@@ -19,6 +19,7 @@ import {setCustomers} from '../../../redux/slices/customers/slice';
 import {selectCustomers} from '../../../redux/slices/customers/selectors';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
+import Test from '../../Test';
 
 export default function Customers() {
   const {navigate} = useNavigation();
@@ -82,39 +83,45 @@ export default function Customers() {
         searchText={searchText}
       /> */}
 
-      <View style={styles.searchView}>
-        <SearchBar
-          placeholder={'Search customer'}
-          value={searchText}
-          onChangeText={text => searchFilterFunction(text.trim())}
-          onClear={text => searchFilterFunction('')}
-          style={styles.search}
-          inputStyle={styles.inputStyle}
-          platform={'ios'}
-          cancelText=""
-        />
-      </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchView}>
+            <SearchBar
+              placeholder={'Search customer'}
+              value={searchText}
+              onChangeText={text => searchFilterFunction(text.trim())}
+              onClear={text => searchFilterFunction('')}
+              style={styles.search}
+              inputStyle={styles.inputStyle}
+              platform={'ios'}
+              cancelText=""
+            />
+          </View>
 
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainerStyle}>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
 
-        {!loading && !customers?.length ? (
-          <EmptyItemInfo message={'No customers to display'} />
-        ) : null}
+            {!loading && !customers?.length ? (
+              <EmptyItemInfo message={'No customers to display'} />
+            ) : null}
 
-        {filteredItems?.length
-          ? filteredItems?.map((item, i) => (
-              <CustomerCard
-                customer={item}
-                key={i}
-                onPress={() => navigate(routes.CUSTOMER_ORDER)}
-              />
-            ))
-          : null}
-      </ScrollView>
+            {filteredItems?.length
+              ? filteredItems?.map((item, i) => (
+                  <CustomerCard
+                    customer={item}
+                    key={i}
+                    onPress={() => navigate(routes.CUSTOMER_ORDER)}
+                  />
+                ))
+              : null}
+          </ScrollView>
+        </>
+      )}
     </SafeAreaView>
   );
 }

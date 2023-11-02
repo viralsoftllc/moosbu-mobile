@@ -95,9 +95,8 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base,
   },
   title: {
-    ...FONTS.regular,
+    ...FONTS.h5,
     marginLeft: SIZES.base / 1.5,
-    fontWeight: 'bold',
     color: COLORS.textPrimary,
   },
   titleView: {

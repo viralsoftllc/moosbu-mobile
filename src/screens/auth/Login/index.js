@@ -5,6 +5,7 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -61,6 +62,7 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -87,6 +89,9 @@ export default function Login() {
           Excited to see you are back. You can continue to track and record your
           business growth and sale.
         </Text>
+        {/* <Pressable onPress={() => navigate('BasicDetails')}>
+          <Text>Wallet</Text>
+        </Pressable> */}
 
         <LoginForm
           setCredentials={setCredentials}

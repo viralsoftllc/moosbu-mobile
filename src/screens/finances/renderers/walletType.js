@@ -27,7 +27,6 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
           <Text
             style={{
               ...FONTS.h5,
-              fontWeight: 800,
             }}>
             Select Wallet Type
           </Text>
@@ -116,7 +115,7 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                   backgroundColor: COLORS.lightSecondaryBackground,
                   borderRadius: 30,
                   textAlign: 'center',
-                  fontFamily: 'Lato',
+                  fontFamily: 'Lato-Bold',
                   padding: 10,
                   width: 100,
                 }}>
@@ -137,8 +136,7 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
           }}>
           <Text
             style={{
-              ...FONTS.regular,
-              fontWeight: 700,
+              ...FONTS.h5,
               color: COLORS.white,
             }}>
             Continue

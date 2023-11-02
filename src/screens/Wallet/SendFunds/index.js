@@ -393,7 +393,11 @@ export default function SendFunds({navigation}) {
               style={styles.input}
               placeholderStyle={[
                 styles.input,
-                {borderWidth: 0, color: COLORS.textGray},
+                {
+                  borderWidth: 0,
+                  color: COLORS.textGray,
+                  fontFamily: 'Lato-Regular',
+                },
               ]}
               itemTextStyle={{
                 ...FONTS.small,
@@ -495,8 +499,7 @@ export default function SendFunds({navigation}) {
         <Text
           style={{
             color: COLORS.white,
-            ...FONTS.regular,
-            fontWeight: 700,
+            ...FONTS.h5,
           }}>
           Proceed
         </Text>

@@ -25,6 +25,7 @@ import NewCoupon from './NewCoupon';
 import CouponCard from './renderer/CouponCard';
 import {verticalScale} from 'react-native-size-matters';
 import SearchBar from 'react-native-platform-searchbar';
+import Test from '../../Test';
 
 export default function Coupon() {
   const {setOptions} = useNavigation();
@@ -141,129 +142,142 @@ export default function Coupon() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search Coupons'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
 
-        <Pressable
-          style={[styles.iconView, styles.plusIcon]}
-          onPress={handleNewItem}>
-          <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-        </Pressable>
-      </View>
-
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.contentContainerStyle,
-          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-        ]}>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
-        {!loading && !filteredItems?.length ? (
-          <EmptyItemInfo message={'No coupon to display'} />
-        ) : null}
-
-        {filteredItems.length
-          ? filteredItems.map((coupon, i) => (
-              <CouponCard
-                key={i}
-                coupon={coupon}
-                title={'MOOSBU2023'}
-                icon={
-                  <UseIcon
-                    name="brightness-percent"
-                    type={'MaterialCommunityIcons'}
-                    color={COLORS.textPrimary}
-                  />
-                }
-                setShowShareModal={setShowShareModal}
-                handleEditItem={() => {
-                  setSelectedCoupon(coupon);
-                  handleEditItem(coupon);
-                }}
-                handleDeleteItem={() => {
-                  setSelectedCoupon(coupon);
-                  handleDeleteItem();
-                }}
-                handleShareItem={handleShareItem}
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search Coupons'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
               />
-            ))
-          : null}
-      </ScrollView>
+            </View>
 
-      <Modal visible={showShareModal} animationType="slide" transparent={true}>
-        <ShareItem
-          setShowShareModal={setShowShareModal}
-          link={selectedCoupon?.code}
-        />
-      </Modal>
+            <Pressable
+              style={[styles.iconView, styles.plusIcon]}
+              onPress={handleNewItem}>
+              <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+            </Pressable>
+          </View>
 
-      <Modal
-        visible={showNewCouponForm}
-        animationType="slide"
-        transparent={true}>
-        <NewCoupon
-          setShowNewCouponForm={setShowNewCouponForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Coupon successfully added',
-              'Your coupons will be updated',
-            )
-          }
-        />
-      </Modal>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[
+              styles.contentContainerStyle,
+              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+            ]}>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
+            {!loading && !filteredItems?.length ? (
+              <EmptyItemInfo message={'No coupon to display'} />
+            ) : null}
 
-      <Modal
-        visible={showEditCouponForm}
-        animationType="slide"
-        transparent={true}>
-        <EditCoupon
-          setShowEditCouponForm={setShowEditCouponForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Coupon updated successfully',
-              'Your coupons will be updated',
-            )
-          }
-          selectedItem={selectedCoupon}
-          setSelectedItem={setSelectedCoupon}
-        />
-      </Modal>
+            {filteredItems.length
+              ? filteredItems.map((coupon, i) => (
+                  <CouponCard
+                    key={i}
+                    coupon={coupon}
+                    title={'MOOSBU2023'}
+                    icon={
+                      <UseIcon
+                        name="brightness-percent"
+                        type={'MaterialCommunityIcons'}
+                        color={COLORS.textPrimary}
+                      />
+                    }
+                    setShowShareModal={setShowShareModal}
+                    handleEditItem={() => {
+                      setSelectedCoupon(coupon);
+                      handleEditItem(coupon);
+                    }}
+                    handleDeleteItem={() => {
+                      setSelectedCoupon(coupon);
+                      handleDeleteItem();
+                    }}
+                    handleShareItem={handleShareItem}
+                  />
+                ))
+              : null}
+          </ScrollView>
 
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={'coupon'}
-          loading={deleting}
-          onDelete={handleDelete}
-        />
-      </Modal>
+          <Modal
+            visible={showShareModal}
+            animationType="slide"
+            transparent={true}>
+            <ShareItem
+              setShowShareModal={setShowShareModal}
+              link={selectedCoupon?.code}
+            />
+          </Modal>
 
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          onPress={() => {
-            setResponse({message: '', subtitle: ''});
-            getAllCoupons();
-          }}
-          message={response.message}
-          subtitle={response.subtitle}
-        />
-      </Modal>
+          <Modal
+            visible={showNewCouponForm}
+            animationType="slide"
+            transparent={true}>
+            <NewCoupon
+              setShowNewCouponForm={setShowNewCouponForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Coupon successfully added',
+                  'Your coupons will be updated',
+                )
+              }
+            />
+          </Modal>
+
+          <Modal
+            visible={showEditCouponForm}
+            animationType="slide"
+            transparent={true}>
+            <EditCoupon
+              setShowEditCouponForm={setShowEditCouponForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Coupon updated successfully',
+                  'Your coupons will be updated',
+                )
+              }
+              selectedItem={selectedCoupon}
+              setSelectedItem={setSelectedCoupon}
+            />
+          </Modal>
+
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={'coupon'}
+              loading={deleting}
+              onDelete={handleDelete}
+            />
+          </Modal>
+
+          <Modal
+            visible={showSuccessModal}
+            animationType="slide"
+            transparent={true}>
+            <UpdateSuccessful
+              setShowSuccessModal={setShowSuccessModal}
+              onPress={() => {
+                setResponse({message: '', subtitle: ''});
+                getAllCoupons();
+              }}
+              message={response.message}
+              subtitle={response.subtitle}
+            />
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

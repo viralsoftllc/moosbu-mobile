@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     margin: SIZES.base,
   },
   cardText: {
+    fontFamily: 'Lato-Regular',
     color: COLORS.textPrimary,
     marginTop: SIZES.base / 2,
   },

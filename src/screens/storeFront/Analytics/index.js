@@ -17,6 +17,7 @@ import Loader from '../../../shared/components/Loader';
 import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 import {selectTotalCustomers} from '../../../redux/slices/businessOvervew/selectors';
+import Test from '../../Test';
 
 export default function Analytics() {
   const {setOptions} = useNavigation();
@@ -77,11 +78,7 @@ export default function Analytics() {
             styles.contentContainerStyle,
             {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
           ]}>
-          {loading ? (
-            <Loader loading={loading} />
-          ) : (
-            <ChartContainer data={data} />
-          )}
+          {loading ? <Test /> : <ChartContainer data={data} />}
         </ScrollView>
       </View>
     </SafeAreaView>

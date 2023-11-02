@@ -136,11 +136,10 @@ const RegisterWalletOne = ({navigation}) => {
             <Text
               style={{
                 ...FONTS.h4,
-                fontWeight: 700,
               }}>
               Activate Your Wallet
             </Text>
-            <Text style={{...FONTS.tiny, fontWeight: 700}}>Step 1 of 2</Text>
+            <Text style={{...FONTS.tiny}}>Step 1 of 2</Text>
           </View>
 
           <View
@@ -360,29 +359,28 @@ const RegisterWalletOne = ({navigation}) => {
               </View>
             </View>
           </View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => handleReg(country)}
-              style={styles.button}>
-              {loading ? (
-                <ActivityIndicator color={COLORS.white} size={'large'} />
-              ) : (
-                <Text
-                  style={{
-                    color: COLORS.white,
-                    ...FONTS.regular,
-                    fontWeight: 700,
-                  }}>
-                  Continue
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
         </KeyboardAvoidingView>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => handleReg(country)}
+            style={styles.button}>
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} size={'small'} />
+            ) : (
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.h5,
+                }}>
+                Continue
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   View,
+  RefreshControl,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import SearchBar from 'react-native-platform-searchbar';
@@ -17,6 +18,7 @@ import {setOrders} from '../../../../redux/slices/orders/slice';
 import client from '../../../../shared/api/client';
 import handleApiError from '../../../../shared/components/handleApiError';
 import EmptyItemInfo from '../../../../shared/components/EmptyItemInfo';
+import Test from '../../../Test';
 
 export default function ProcessingOrders() {
   const [loading, setLoading] = useState(false);
@@ -68,47 +70,56 @@ export default function ProcessingOrders() {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <View style={styles.searchView}>
-        <SearchBar
-          placeholder={'Search order'}
-          value={searchText}
-          onChangeText={text => searchFilterFunction(text.trim())}
-          onClear={text => searchFilterFunction('')}
-          style={styles.search}
-          inputStyle={styles.inputStyle}
-          platform={'ios'}
-          cancelText=""
-        />
-      </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchView}>
+            <SearchBar
+              placeholder={'Search order'}
+              value={searchText}
+              onChangeText={text => searchFilterFunction(text.trim())}
+              onClear={text => searchFilterFunction('')}
+              style={styles.search}
+              inputStyle={styles.inputStyle}
+              platform={'ios'}
+              cancelText=""
+            />
+          </View>
 
-      <ScrollView
-        contentContainerStyle={styles.contentContainerStyle}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
+          <ScrollView
+            contentContainerStyle={styles.contentContainerStyle}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getAllOrders} />
+            }>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
 
-        {/* {!loading && !filteredItems?.length ? (
+            {/* {!loading && !filteredItems?.length ? (
           <EmptyItemInfo message={'Orders are empty'} />
         ) : null} */}
 
-        {searchText
-          ? filteredItems?.map((order, i) => {
-              if (order.status === 'pending') {
-                return <OrderCard key={i} order={order} />;
-              }
-            })
-          : null}
+            {searchText
+              ? filteredItems?.map((order, i) => {
+                  if (order.status === 'pending') {
+                    return <OrderCard key={i} order={order} />;
+                  }
+                })
+              : null}
 
-        {!searchText ? (
-          orders?.map((order, i) => {
-            if (order.status === 'pending') {
-              return <OrderCard key={i} order={order} />;
-            }
-          })
-        ) : (
-          <EmptyItemInfo message={'Orders are empty'} />
-        )}
-      </ScrollView>
+            {!searchText ? (
+              orders?.map((order, i) => {
+                if (order.status === 'pending') {
+                  return <OrderCard key={i} order={order} />;
+                }
+              })
+            ) : (
+              <EmptyItemInfo message={'Orders are empty'} />
+            )}
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }

@@ -18,6 +18,7 @@ import EnterPin from './renderer/EnterPin';
 import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+import Test from '../../Test';
 
 export default function ConfirmTransferDetails({route}) {
   const {accountNumber, amount, bank, bankCode, description} = route.params;
@@ -63,7 +64,7 @@ export default function ConfirmTransferDetails({route}) {
     account_number: accountNumber,
     bank_code: bankCode,
     bank_id: bankId,
-    amount: parseInt(amount) + 50,
+    amount: amount,
     bank: bank,
     description,
   };
@@ -72,9 +73,7 @@ export default function ConfirmTransferDetails({route}) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
       {loading ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size={'large'} color={COLORS.primary} />
-        </View>
+        <Test />
       ) : (
         <View
           style={{

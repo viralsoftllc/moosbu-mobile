@@ -21,6 +21,7 @@ import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import UseIcon from '../../../shared/utils/UseIcon';
+import Test from '../../Test';
 
 export default function Shipping() {
   const [shippings, setShippings] = useState([]);
@@ -119,109 +120,121 @@ export default function Shipping() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchView}>
-          <SearchBar
-            placeholder={'Search shippings'}
-            value={searchText}
-            onChangeText={text => searchFilterFunction(text.trim())}
-            onClear={text => searchFilterFunction('')}
-            style={styles.search}
-            inputStyle={styles.inputStyle}
-            platform={'ios'}
-            cancelText=""
-          />
-        </View>
-
-        {handleNewItem ? (
-          <Pressable
-            style={[styles.iconView, styles.plusIcon]}
-            onPress={handleNewItem}>
-            <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
-          </Pressable>
-        ) : null}
-      </View>
-
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainerStyle}
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={getShippings} />
-        }>
-        {loading ? <ActivityIndicator size={'large'} /> : null}
-
-        {!loading && !filteredItems?.length ? (
-          <EmptyItemInfo message={'No shippings to display'} />
-        ) : null}
-
-        {filteredItems?.length
-          ? filteredItems?.map((shipping, i) => (
-              <ShippingCard
-                key={i}
-                shipping={shipping}
-                handleEditItem={() => {
-                  setSelectedItem(shipping);
-                  handleEditItem(shipping);
-                }}
-                handleDeleteItem={() => {
-                  setSelectedItem(shipping);
-                  handleDeleteItem();
-                }}
+      {loading ? (
+        <Test />
+      ) : (
+        <>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchView}>
+              <SearchBar
+                placeholder={'Search shippings'}
+                value={searchText}
+                onChangeText={text => searchFilterFunction(text.trim())}
+                onClear={text => searchFilterFunction('')}
+                style={styles.search}
+                inputStyle={styles.inputStyle}
+                platform={'ios'}
+                cancelText=""
               />
-            ))
-          : null}
-      </ScrollView>
+            </View>
 
-      <Modal visible={showDeleteModal} animationType="slide" transparent={true}>
-        <DeleteItem
-          setShowDeleteModal={setShowDeleteModal}
-          title={'shipping'}
-          loading={deleting}
-          onDelete={handleDelete}
-        />
-      </Modal>
+            {handleNewItem ? (
+              <Pressable
+                style={[styles.iconView, styles.plusIcon]}
+                onPress={handleNewItem}>
+                <UseIcon type={'AntDesign'} name="plus" color={COLORS.white} />
+              </Pressable>
+            ) : null}
+          </View>
 
-      <Modal visible={showNewForm} animationType="slide" transparent={true}>
-        <NewShipping
-          setShowNewForm={setShowNewForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Shipping details successfully added',
-              'Your shipping details is updated now',
-            )
-          }
-        />
-      </Modal>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentContainerStyle}
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={getShippings} />
+            }>
+            {loading ? <ActivityIndicator size={'large'} /> : null}
 
-      <Modal visible={showEditForm} animationType="slide" transparent={true}>
-        <EditShipping
-          setShowEditForm={setShowEditForm}
-          handleSuccessfulResponse={() =>
-            handleSuccessfulResponse(
-              'Shipping details updated successfully',
-              'Your shipping details is updated now',
-            )
-          }
-          selectedItem={selectedItem}
-          setSelectedItem={setSelectedItem}
-        />
-      </Modal>
+            {!loading && !filteredItems?.length ? (
+              <EmptyItemInfo message={'No shippings to display'} />
+            ) : null}
 
-      <Modal
-        visible={showSuccessModal}
-        animationType="slide"
-        transparent={true}>
-        <UpdateSuccessful
-          setShowSuccessModal={setShowSuccessModal}
-          message={response.message}
-          subtitle={response.subtitle}
-          onPress={() => {
-            setResponse({message: '', subtitle: ''});
-            getShippings();
-          }}
-        />
-      </Modal>
+            {filteredItems?.length
+              ? filteredItems?.map((shipping, i) => (
+                  <ShippingCard
+                    key={i}
+                    shipping={shipping}
+                    handleEditItem={() => {
+                      setSelectedItem(shipping);
+                      handleEditItem(shipping);
+                    }}
+                    handleDeleteItem={() => {
+                      setSelectedItem(shipping);
+                      handleDeleteItem();
+                    }}
+                  />
+                ))
+              : null}
+          </ScrollView>
+
+          <Modal
+            visible={showDeleteModal}
+            animationType="slide"
+            transparent={true}>
+            <DeleteItem
+              setShowDeleteModal={setShowDeleteModal}
+              title={'shipping'}
+              loading={deleting}
+              onDelete={handleDelete}
+            />
+          </Modal>
+
+          <Modal visible={showNewForm} animationType="slide" transparent={true}>
+            <NewShipping
+              setShowNewForm={setShowNewForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Shipping details successfully added',
+                  'Your shipping details is updated now',
+                )
+              }
+            />
+          </Modal>
+
+          <Modal
+            visible={showEditForm}
+            animationType="slide"
+            transparent={true}>
+            <EditShipping
+              setShowEditForm={setShowEditForm}
+              handleSuccessfulResponse={() =>
+                handleSuccessfulResponse(
+                  'Shipping details updated successfully',
+                  'Your shipping details is updated now',
+                )
+              }
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
+            />
+          </Modal>
+
+          <Modal
+            visible={showSuccessModal}
+            animationType="slide"
+            transparent={true}>
+            <UpdateSuccessful
+              setShowSuccessModal={setShowSuccessModal}
+              message={response.message}
+              subtitle={response.subtitle}
+              onPress={() => {
+                setResponse({message: '', subtitle: ''});
+                getShippings();
+              }}
+            />
+          </Modal>
+        </>
+      )}
     </View>
   );
 }

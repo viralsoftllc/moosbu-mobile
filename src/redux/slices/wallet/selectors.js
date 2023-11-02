@@ -5,6 +5,7 @@ const selectBanks = state => state[name].banks;
 const selectAccountNumber = state => state[name].accountNumber;
 const selectAccountName = state => state[name].accountName;
 const selectBank = state => state[name].bank;
+const selectTokens = state => state[name].tokens;
 
 export {
   selectWalletBalance,
@@ -12,4 +13,5 @@ export {
   selectAccountName,
   selectBanks,
   selectBank,
+  selectTokens,
 };
