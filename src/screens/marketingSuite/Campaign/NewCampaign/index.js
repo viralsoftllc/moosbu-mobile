@@ -95,25 +95,25 @@ export default function NewCampaign() {
   async function handleCreateCampaign() {
     setSaving(true);
 
-    if (!campaign?.name) {
-      setSaving(false);
-      return notifyMessage('Campaign Name is required');
-    }
+    // if (!campaign?.name) {
+    //   setSaving(false);
+    //   return notifyMessage('Campaign Name is required');
+    // }
 
-    if (!campaign?.content) {
-      setSaving(false);
-      return notifyMessage('Campaign Content is required');
-    }
+    // if (!campaign?.content) {
+    //   setSaving(false);
+    //   return notifyMessage('Campaign Content is required');
+    // }
 
-    if (!campaign?.phonebook) {
-      setSaving(false);
-      return notifyMessage('Campaign Group is required');
-    }
+    // if (!campaign?.phonebook) {
+    //   setSaving(false);
+    //   return notifyMessage('Campaign Group is required');
+    // }
 
-    if (!campaign?.channel) {
-      setSaving(false);
-      return notifyMessage('Campaign Channel is required');
-    }
+    // if (!campaign?.channel) {
+    //   setSaving(false);
+    //   return notifyMessage('Campaign Channel is required');
+    // }
 
     const payload = {
       name: campaign?.name,

@@ -5,8 +5,13 @@ import {RadioButton} from 'react-native-paper';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const WalletType = ({setCreateWalletModel, navigate}) => {
+import {useNavigation} from '@react-navigation/native';
+
+const WalletType = ({setCreateWalletModel}) => {
   const [checked, setChecked] = React.useState('Individual'); //initial choice
+
+  const {navigate} = useNavigation();
+
   return (
     <View
       style={{
@@ -56,7 +61,7 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                 value="Individual"
                 status={checked === 'Individual' ? 'checked' : 'unchecked'}
                 onPress={() => setChecked('Individual')}
-                color={COLORS.secondary}
+                color={COLORS.primary}
               />
               <View>
                 <Text style={{...FONTS.regular}}>Individual wallet</Text>
@@ -89,8 +94,9 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
                 gap: 10,
                 flex: 0.6,
               }}
-              onPress={() => notifyMessage('Coming soon')}>
+              onPress={() => setChecked('Business')}>
               <RadioButton
+                color={COLORS.primary}
                 value="Business"
                 status={checked === 'Business' ? 'checked' : 'unchecked'}
               />
@@ -126,7 +132,13 @@ const WalletType = ({setCreateWalletModel, navigate}) => {
         </View>
 
         <Pressable
-          onPress={navigate}
+          onPress={() => {
+            setCreateWalletModel(false);
+            if (checked === 'Individual') {
+              return navigate('RegisterWalletOne');
+            }
+            return navigate('BasicDetails');
+          }}
           style={{
             backgroundColor: COLORS.primary,
             borderRadius: 10,

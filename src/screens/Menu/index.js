@@ -233,6 +233,19 @@ const menus = [
         route: routes.CUSTOMERS,
       },
       {
+        title: 'Reward',
+        icon: (
+          <UseIcon
+            type={'AntDesign'}
+            name="gift"
+            size={14}
+            color={COLORS.black}
+          />
+        ),
+        iconBackground: '#F5F1DA',
+        route: routes.REWARD,
+      },
+      {
         title: 'Support',
         icon: (
           <UseIcon

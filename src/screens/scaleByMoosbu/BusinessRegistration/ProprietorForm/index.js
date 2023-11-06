@@ -21,11 +21,17 @@ import AppDatePicker from '../../../../shared/components/AppDatePicker';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import {useSelector} from 'react-redux';
 import {selectbusinessRegistrationDetails} from '../../../../redux/slices/businessRegistration/selectors';
+import {launchCamera} from 'react-native-image-picker';
+import {uploadImageToCloudinary} from '../../../../shared/hooks/uploadToCloudinary';
 
 export default function ProprietorForm() {
   const {setOptions, navigate} = useNavigation();
   const [details, setDetails] = useState({});
   const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
+
+  //category picker variables
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
 
   useEffect(() => {
     setDetails({
@@ -45,7 +51,7 @@ export default function ProprietorForm() {
       header: () => (
         <ScreenHeader
           title={'The Proprietor Information'}
-          subtitle="Step 1 of 4"
+          subtitle="Step 1 of 3"
         />
       ),
     });
@@ -78,7 +84,9 @@ export default function ProprietorForm() {
       details?.gender &&
       details?.nationality &&
       details?.nin &&
-      details?.dob
+      details?.dob &&
+      details?.bvn &&
+      details?.signature
     ) {
       navigate(routes.PROPOSED_BUSINESS, {details});
     } else {
@@ -100,6 +108,63 @@ export default function ProprietorForm() {
     }
 
     return [year, month, day].join('-');
+  }
+
+  //handle NIN image from camera
+  const handleCamera = async target => {
+    await launchCamera(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          if (target === 'nin') {
+            uploadToGetUrl(res.assets[0].base64).then(res =>
+              setDetails({
+                ...details,
+                bvn: res,
+              }),
+            );
+
+            console.log(details);
+            return;
+          }
+
+          if (target === 'signature') {
+            uploadToGetUrl(res.assets[0].base64).then(res =>
+              setDetails({
+                ...details,
+                signature: res,
+              }),
+            );
+
+            console.log(details);
+            return;
+          }
+        }
+      },
+    );
+  };
+
+  //Upload image in bit64 format to get url
+  async function uploadToGetUrl(base64) {
+    try {
+      const data = await uploadImageToCloudinary(base64);
+      return data?.url;
+    } catch (error) {
+      console.log('error');
+      return error;
+    }
   }
 
   // console.log(formatDate(details?.dob));
@@ -239,8 +304,67 @@ export default function ProprietorForm() {
           onChangeText={text => setDetails({...details, nin: text})}
           value={details?.nin}
           maxLength={11}
-          keyboardType={'Number-pad'}
+          keyboardType="Number-pad"
         />
+
+        <View style={{gap: 30}}>
+          <Pressable
+            onPress={() => handleCamera('nin')}
+            style={{
+              height: 44,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderStyle: 'dashed',
+              borderWidth: 1,
+              flex: 1,
+              backgroundColor: COLORS.lightSecondaryBackground,
+              borderColor: COLORS.borderGray,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: 'Lato-Bold',
+                fontSize: 14,
+              }}>
+              Upload your NIN Slip{' '}
+              {details?.bvn && (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="check"
+                  color={COLORS.credit}
+                />
+              )}
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => handleCamera('signature')}
+            style={{
+              height: 44,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderStyle: 'dashed',
+              borderWidth: 1,
+              flex: 1,
+              backgroundColor: COLORS.lightSecondaryBackground,
+              borderColor: COLORS.borderGray,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: 'Lato-Bold',
+                fontSize: 14,
+              }}>
+              Upload your Signature{' '}
+              {details?.signature && (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="check"
+                  color={COLORS.credit}
+                />
+              )}
+            </Text>
+          </Pressable>
+        </View>
 
         <FormButton
           title={'Continue'}
@@ -278,6 +402,7 @@ const styles = StyleSheet.create({
   },
   genderLabel: {
     marginLeft: SIZES.base,
+    ...FONTS.regular,
   },
   genderOption: {
     borderWidth: 1,

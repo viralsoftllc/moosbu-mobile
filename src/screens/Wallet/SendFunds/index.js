@@ -109,6 +109,18 @@ export default function SendFunds({navigation}) {
     verifyAccount();
   }, [bank, value]);
 
+  const numberFormatter = value => {
+    // console.log('1  ' + value + '  ' + typeof value); // Standard input from the textbox
+    if (value == null || value.length === 0) return value; // No crash when empty textbox
+    value = value.replaceAll('.', '').replaceAll(',', ''); // Remove garbage so we can make a number
+    // console.log('2  ' + value + '  ' + typeof value);
+    value = parseInt(value, 10); // toLocaleString needs a Number
+    // console.log('3  ' + value + '  ' + typeof value);
+    if (isNaN(value)) return 0; // Cant make a number then 0
+    console.log(typeof value);
+    return value?.toLocaleString('en-US'); // Cast number to US locale
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
@@ -444,7 +456,9 @@ export default function SendFunds({navigation}) {
                 <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
                 <TextInput
                   style={{width: '90%', ...FONTS.small}}
-                  onChangeText={text => setAmount(text)}
+                  onChangeText={text =>
+                    setAmount(prev => numberFormatter(text))
+                  }
                   inputMode="numeric"
                   placeholder="Enter amount"
                   placeholderTextColor={COLORS.grayText}

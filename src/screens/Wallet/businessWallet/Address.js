@@ -12,6 +12,7 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {verticalScale} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
+import {Dropdown} from 'react-native-element-dropdown';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 
@@ -25,6 +26,10 @@ const Address = () => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [website, setWebsite] = useState('');
+
+  //country picker variables
+  const [valueCountry, setValueCountry] = useState(null);
+  const [isFocusCountry, setIsFocusCountry] = useState(false);
 
   return (
     <SafeAreaView>
@@ -54,12 +59,11 @@ const Address = () => {
             </Pressable>
             <Text
               style={{
-                ...FONTS.h4,
-                fontWeight: '700',
+                ...FONTS.h5,
               }}>
               Activate Your Wallet
             </Text>
-            <Text style={{...FONTS.tiny, fontWeight: '700'}}>Step 2 of 3</Text>
+            <Text style={{...FONTS.tiny}}>Step 2 of 3</Text>
           </View>
 
           <Text style={{textAlign: 'center', ...FONTS.medium}}>
@@ -115,21 +119,30 @@ const Address = () => {
               onChangeText={text => setState(text)}
               autoCapitalize="words"
             />
-            <TextInput
-              placeholder="Country"
-              placeholderTextColor={COLORS.grayText}
+            <Dropdown
               style={styles.input}
-              value={country}
-              onChangeText={text => setCountry(text)}
-              autoCapitalize="words"
-            />
-            <TextInput
-              placeholder="Website"
-              placeholderTextColor={COLORS.grayText}
-              style={styles.input}
-              value={website}
-              onChangeText={text => setWebsite(text)}
-              autoCapitalize="words"
+              placeholderStyle={[
+                {borderWidth: 0, color: COLORS.grayText, ...FONTS.medium},
+              ]}
+              itemTextStyle={{
+                ...FONTS.medium,
+              }}
+              selectedTextStyle={{...FONTS.medium}}
+              data={[
+                {label: 'Nigeria', value: 'NG'},
+                {label: 'Ghana', value: 'GH'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocusCountry ? 'Country' : '...'}
+              value={valueCountry}
+              onFocus={() => setIsFocusCountry(true)}
+              onBlur={() => setIsFocusCountry(false)}
+              onChange={item => {
+                setValueCountry(item.value);
+                setIsFocusCountry(false);
+              }}
             />
           </View>
           <View
@@ -144,8 +157,7 @@ const Address = () => {
               <Text
                 style={{
                   color: COLORS.white,
-                  ...FONTS.regular,
-                  fontWeight: '700',
+                  ...FONTS.h5,
                 }}>
                 Continue
               </Text>
@@ -174,7 +186,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    fontSize: 12,
+    ...FONTS.medium,
   },
   button: {
     minWidth: '80%',

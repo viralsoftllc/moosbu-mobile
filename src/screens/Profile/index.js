@@ -107,6 +107,7 @@ export default function Profile() {
       email: user?.email || '',
       phone_number: user?.phone_number || '',
       avatar: user?.avatar,
+      phone_number: user?.phone_number || '',
     });
 
     return () => {};

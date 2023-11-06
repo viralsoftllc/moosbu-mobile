@@ -7,9 +7,6 @@ import TransactionDetails from '../../screens/Wallet/TransactionDetails/Transact
 import HistoryDetails from '../../screens/Wallet/HistoryDetails/HistoryDetails';
 import Test from '../../screens/Test';
 import TokenScreen from '../../screens/TokenSuccess';
-import BasicDetails from '../../screens/Wallet/businessWallet/BasicDetails';
-import Address from '../../screens/Wallet/businessWallet/Address';
-import OfficerDetails from '../../screens/Wallet/businessWallet/OfficerDetails';
 
 import {authScreens} from './screens';
 

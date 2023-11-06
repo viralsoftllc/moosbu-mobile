@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   name: {
     color: COLORS.textPrimary,
     maxWidth: verticalScale(240),
+    ...FONTS.h5,
   },
   nameWrapper: {
     position: 'relative',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -17,9 +17,16 @@ import FormButton from '../../shared/components/FormButton';
 import UseIcon from '../../shared/utils/UseIcon';
 import routes from '../../shared/constants/routes';
 import {useNavigation} from '@react-navigation/native';
+import ScreenHeader from '../../shared/components/ScreenHeader';
 
 export default function Reward() {
-  const {navigate} = useNavigation();
+  const {setOptions, navigate} = useNavigation();
+
+  useLayoutEffect(() => {
+    setOptions({
+      header: () => <ScreenHeader title="Reward" />,
+    });
+  }, [setOptions]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +74,9 @@ export default function Reward() {
           <Text style={styles.text}>Level 1</Text>
 
           <Pressable style={styles.linkBtn}>
-            <Text style={styles.linkText}>Share your link</Text>
+            <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
+              Share your link
+            </Text>
           </Pressable>
         </View>
 
@@ -84,7 +93,12 @@ export default function Reward() {
 
             <Text style={styles.referralLabel}>Referral Earnings</Text>
             <Text style={styles.referralSublabel}>Earnings Balance</Text>
-            <Text style={styles.referralValue}>N3,000.00</Text>
+            <Text style={styles.referralValue}>
+              {Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(3000)}
+            </Text>
           </View>
 
           <View style={styles.referral}>
@@ -142,10 +156,10 @@ const styles = StyleSheet.create({
   },
   text: {
     ...FONTS.large,
-    fontWeight: 'bold',
     color: COLORS.textPrimary,
     paddingHorizontal: SIZES.base * 5,
     textAlign: 'center',
+    fontFamily: 'Lato-Black',
   },
   subtext: {
     ...FONTS.medium,
@@ -173,12 +187,12 @@ const styles = StyleSheet.create({
     ...FONTS.tiny,
     color: COLORS.grayText,
     marginTop: SIZES.base / 2,
-    fontWeight: '300',
   },
   infoLink: {
     marginLeft: SIZES.base / 2,
     color: COLORS.textSecondary,
-    fontWeight: 'bold',
+    ...FONTS.h5,
+    fontSize: 14,
   },
   linkBtn: {
     alignSelf: 'center',
@@ -190,7 +204,7 @@ const styles = StyleSheet.create({
   },
   referralLabel: {
     color: COLORS.textPrimary,
-    ...FONTS.h5,
+    ...FONTS.regular,
     marginBottom: SIZES.base / 2,
   },
   referralSublabel: {

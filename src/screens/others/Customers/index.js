@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useLayoutEffect} from 'react';
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -20,9 +20,10 @@ import {selectCustomers} from '../../../redux/slices/customers/selectors';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
 import Test from '../../Test';
+import ScreenHeader from '../../../shared/components/ScreenHeader';
 
 export default function Customers() {
-  const {navigate} = useNavigation();
+  const {setOptions, navigate} = useNavigation();
   const dispatch = useDispatch();
 
   const customers = useSelector(selectCustomers);
@@ -31,6 +32,12 @@ export default function Customers() {
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
+
+  useLayoutEffect(() => {
+    setOptions({
+      header: () => <ScreenHeader title={'Customers'} />,
+    });
+  }, [setOptions]);
 
   const searchFilterFunction = text => {
     if (text) {

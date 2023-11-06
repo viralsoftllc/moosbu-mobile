@@ -112,7 +112,7 @@ export default function Support() {
                     color={COLORS.credit}
                   />
                 }
-                onPress={() => setWhatsappModal(true)}
+                onPress={() => Linking.openURL(whatsappLink)}
               />
             </View>
           </View>

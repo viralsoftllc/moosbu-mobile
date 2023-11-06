@@ -97,11 +97,11 @@ export default function CampaignCard({
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
-              <Pressable
+              {/* <Pressable
                 style={styles.cta}
                 onPress={() => setShowShareModal(true)}>
                 <Text style={styles.ctaText}>Share</Text>
-              </Pressable>
+              </Pressable> */}
 
               <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>

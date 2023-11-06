@@ -1,18 +1,30 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import routes from '../../../../shared/constants/routes';
+import {useSelector} from 'react-redux';
+import {selectWalletBalance} from '../../../../redux/slices/wallet/selectors';
+
+import {Modal, IconButton, Button, Chip} from 'react-native-paper';
+import notifyMessage from '../../../../shared/hooks/notifyMessage';
 
 export default function Billing() {
   const {setOptions, navigate} = useNavigation();
 
+  const walletBalance = useSelector(selectWalletBalance);
+
+  const [purchaseCTA, setPurchaseCTA] = useState(false);
+
+  const showPurchaseCTA = () => setPurchaseCTA(true);
+  const hidePurchaseCTA = () => setPurchaseCTA(false);
+
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Billing'} subtitle="Step 4 of 4" />,
+      header: () => <ScreenHeader title={'Billing'} subtitle="Step 3 of 3" />,
     });
 
     return () => {};
@@ -20,14 +32,19 @@ export default function Billing() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.fee}>N 18,000</Text>
+      <Text style={styles.fee}>
+        {' '}
+        {Intl.NumberFormat('en-NG', {
+          style: 'currency',
+          currency: 'NGN',
+        }).format(18000)}
+      </Text>
 
       <View style={styles.textView}>
         <Text style={styles.text}>
           Your payment covers, business name registration, courier and delivery
-          cost, TIN/VAT registration. Once concluded your Moosbu business
-          account will automatically be opened. You can reach us via chat or
-          call our support team on 08024234363536
+          cost, TIN/VAT registration. You can reach us via chat or call our
+          support team on 08024234363536
         </Text>
       </View>
 
@@ -52,13 +69,15 @@ export default function Billing() {
           editable={false}
         />
 
-        <Text style={styles.totalText}>N 22,000</Text>
+        <Text style={styles.totalText}>
+          {Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(18000)}
+        </Text>
       </View>
 
-      <FormButton
-        title={'Continue'}
-        // onPress={() => navigate(routes.BUSINESS_REGISTRATION)}
-      />
+      <FormButton title={'Continue'} onPress={() => showPurchaseCTA(true)} />
 
       <FormButton
         title={'Pay later'}
@@ -66,6 +85,77 @@ export default function Billing() {
         buttonStyle={styles.buttonStyle}
         textStyle={styles.textStyle}
       />
+
+      {/* Purchase CTA */}
+      <Modal
+        visible={purchaseCTA}
+        onDismiss={() => {
+          hidePurchaseCTA();
+        }}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          padding: 20,
+          paddingBottom: 40,
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          left: 0,
+        }}>
+        <IconButton
+          icon="close"
+          mode="outlined"
+          rippleColor={COLORS.secondary}
+          onPress={() => {
+            hidePurchaseCTA();
+          }}
+          size={16}
+          style={{alignSelf: 'flex-end', borderRadius: 8}}
+        />
+        <Text
+          style={{
+            textAlign: 'center',
+            ...FONTS.h5,
+          }}>
+          Pay for Business Registration
+        </Text>
+
+        <View
+          style={{
+            marginVertical: 50,
+            backgroundColor: COLORS.lightSecondaryBackground,
+            padding: 10,
+          }}>
+          <Text style={{...FONTS.h5}}>
+            {' '}
+            Wallet Balance :{' '}
+            {Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(walletBalance)}
+          </Text>
+        </View>
+
+        <Button
+          onPress={() => {
+            if (walletBalance < 18000) {
+              return notifyMessage(
+                'Your balance is insufficient to make this payment',
+              );
+            }
+            hidePurchaseCTA();
+          }}
+          style={{
+            backgroundColor: COLORS.primary,
+            borderRadius: 8,
+            width: '80%',
+            alignSelf: 'center',
+            height: 50,
+          }}
+          labelStyle={{...FONTS.regular}}
+          mode="contained">
+          Continue
+        </Button>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -92,7 +182,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: COLORS.textPrimary,
-    fontWeight: '300',
+    ...FONTS.medium,
   },
   btnContainer: {
     display: 'flex',
@@ -113,12 +203,16 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.base,
     height: '100%',
     paddingHorizontal: SIZES.base * 2,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   inputStyle: {
     borderWidth: 0,
   },
   formInnerBtnText: {
     color: COLORS.white,
+    ...FONTS.regular,
+    alignSelf: 'center',
   },
   totalText: {
     color: COLORS.textPrimary,

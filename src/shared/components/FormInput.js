@@ -41,6 +41,7 @@ export default function FormInput({
             {textAlignVertical: multiline ? 'top' : 'center'},
           ]}
           placeholder={placeholder}
+          placeholderTextColor={COLORS.grayText}
           {...rest}
         />
         {rightIcon ? rightIcon : null}

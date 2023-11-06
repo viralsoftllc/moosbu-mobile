@@ -39,6 +39,7 @@ export default function ProfileForm({
         placeholder="phone number"
         onChangeText={text => setProfile({...profile, phone_number: text})}
         value={profile?.phone_number}
+        editable={false}
       />
 
       <Pressable

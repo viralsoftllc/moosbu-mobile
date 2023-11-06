@@ -51,11 +51,22 @@ export default function NewShipping({
       return notifyMessage('Fill all fields');
     }
 
+    if (!details?.location) {
+      return notifyMessage('Location cannot be blank');
+    }
+
     setSubmitting(true);
+
+    const options = {
+      ...details,
+      price: parseFloat(details?.price.replace(/,/g, '')),
+      location: details?.location.join(', ') || '',
+    };
 
     try {
       console.log('Creating shipping');
-      const res = await client.post('/api/shipping', details);
+      console.log(options);
+      const res = await client.post('/api/shipping', options);
       console.log(res?.data);
       handleSuccessfulResponse();
     } catch (error) {

@@ -11,7 +11,7 @@ export default function RewardInfo() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Info'} />,
+      header: () => <ScreenHeader title={'Info='} />,
     });
   }, [setOptions]);
 
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...FONTS.large,
-    fontWeight: 'bold',
+    fontFamily: 'Lato-Black',
     color: COLORS.textPrimary,
     paddingHorizontal: SIZES.base * 5,
     textAlign: 'center',
@@ -151,16 +151,17 @@ const styles = StyleSheet.create({
     ...FONTS.medium,
     color: COLORS.grayText,
     marginVertical: SIZES.base,
-    fontWeight: '300',
     textAlign: 'center',
   },
   steps: {
     marginBottom: SIZES.base,
     color: COLORS.grayText,
     marginTop: SIZES.base * 3,
+    ...FONTS.medium,
   },
   step: {
     color: COLORS.grayText,
+    ...FONTS.medium,
     marginBottom: SIZES.base / 2,
   },
   card: {
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
   cardLevel: {
     color: COLORS.textPrimary,
     marginBottom: SIZES.base * 1.5,
+    ...FONTS.h5,
   },
   cardPoints: {
     color: COLORS.grayText,
@@ -191,6 +193,7 @@ const styles = StyleSheet.create({
   cardCount: {
     color: COLORS.credit,
     marginBottom: SIZES.base / 2,
+    ...FONTS.medium,
   },
   smallIconView: {
     height: verticalScale(40),

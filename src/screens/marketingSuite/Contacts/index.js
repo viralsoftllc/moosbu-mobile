@@ -28,7 +28,7 @@ import {setContacts} from '../../../redux/slices/engagement/slice';
 import {selectContacts} from '../../../redux/slices/engagement/selectors';
 import Test from '../../Test';
 
-export default function Contacts() {
+export default function Contacts({navigation}) {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const items = useSelector(selectContacts);
@@ -117,6 +117,12 @@ export default function Contacts() {
       handleApiError(error);
     }
   }
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getContacts();
+    });
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

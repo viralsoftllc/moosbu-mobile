@@ -13,6 +13,8 @@ import UseIcon from '../../../../../shared/utils/UseIcon';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
 import SelectModal from '../../../../../shared/components/SelectModal';
 
+import {Checkbox} from 'react-native-paper';
+
 export default function NewProductForm({
   product,
   setProduct,
@@ -27,6 +29,8 @@ export default function NewProductForm({
   const categories = useSelector(selectCategories);
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [checked, setChecked] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -127,6 +131,47 @@ export default function NewProductForm({
           value={product?.description || ''}
           placeholder="Enter Product description"
         />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}>
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setChecked(!checked);
+            }}
+            color={COLORS.primary}
+          />
+          <Text style={{...FONTS.regular, color: COLORS.primary}}>
+            Add Product Variants
+          </Text>
+        </View>
+
+        {checked && (
+          <View>
+            <FormInput
+              label={'Variant Description'}
+              placeholder="Enter variant description"
+              style={{}}
+              onChangeText={text =>
+                setProduct({...product, variant_description: text})
+              }
+              value={product?.variant_description || ''}
+            />
+            <FormInput
+              label={'Product Description'}
+              placeholder="Enter product description"
+              style={{}}
+              onChangeText={text =>
+                setProduct({...product, product_description: text})
+              }
+              value={product?.product_description || ''}
+            />
+          </View>
+        )}
       </View>
 
       <FormButton

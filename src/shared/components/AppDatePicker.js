@@ -26,9 +26,11 @@ export default function AppDatePicker({
   return (
     <>
       <View style={styles.maskedInputView}>
-        {label ? <Text style={[styles.label, FONTS.h6]}>{label}</Text> : null}
+        {label ? (
+          <Text style={[styles.label, FONTS.regular]}>{label}</Text>
+        ) : null}
         <Pressable onPress={() => setOpen(true)} style={styles.pressable}>
-          <Text>{date.toDateString()}</Text>
+          <Text style={FONTS.regular}>{date.toDateString()}</Text>
         </Pressable>
       </View>
 

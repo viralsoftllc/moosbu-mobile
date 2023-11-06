@@ -28,13 +28,13 @@ export default function EditContactForm({
         info={'Separate with "," for multiple numbers'}
       />
 
-      <TextAreaInput
+      {/* <TextAreaInput
         label={'Customer Email'}
         placeholder={'Enter customer’s email '}
         value={details?.emails}
         onChangeText={text => setDetails({...details, emails: text})}
         info={'Separate with "," for multiple emails'}
-      />
+      /> */}
 
       {/* <View style={styles.flex}>
         <UseIcon

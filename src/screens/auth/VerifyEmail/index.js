@@ -15,9 +15,11 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import UseIcon from '../../../shared/utils/UseIcon';
 
-export default function VerifyEmail() {
+export default function VerifyEmail({route}) {
   const {goBack} = useNavigation();
   const [code, setCode] = useState('');
+
+  const {email} = route.params;
 
   function submitPassword(params) {}
 
@@ -39,7 +41,7 @@ export default function VerifyEmail() {
         {/* Todo - verify email */}
         <Text style={styles.message}>
           Please enter the number code sent to your email,{' '}
-          <Text style={styles.email}>joshua@moosbu.com</Text>
+          <Text style={styles.email}>{email}</Text>
         </Text>
 
         <View>

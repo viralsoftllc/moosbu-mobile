@@ -10,8 +10,8 @@ import {
   View,
 } from 'react-native';
 
-// import handleApiError from '../../../../shared/components/handleApiError';
-// import client from '../../../../shared/api/client';
+import handleApiError from '../../../../shared/components/handleApiError';
+import client from '../../../../shared/api/client';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
@@ -23,6 +23,9 @@ import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import {useSelector} from 'react-redux';
 import {selectbusinessRegistrationDetails} from '../../../../redux/slices/businessRegistration/selectors';
 
+import {Dropdown} from 'react-native-element-dropdown';
+import Test from '../../../Test';
+
 export default function ProposedBusiness() {
   const {params} = useRoute();
 
@@ -31,6 +34,7 @@ export default function ProposedBusiness() {
   const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
 
   const [details, setDetails] = useState({});
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (proprietorInfo) {
@@ -50,7 +54,7 @@ export default function ProposedBusiness() {
       header: () => (
         <ScreenHeader
           title={'Tell Us About Your Proposed Business'}
-          subtitle="Step 2 of 4"
+          subtitle="Step 2 of 3"
         />
       ),
     });
@@ -58,164 +62,209 @@ export default function ProposedBusiness() {
     return () => {};
   }, [setOptions]);
 
-  // async function saveInfo() {
-  //   console.log(details);
+  async function saveInfo() {
+    console.log(details);
 
-  //   try {
-  //     setSubmitting(true);
-
-  //     console.log('Submitting biz info');
-  //     const res = await client.post('/api/business_registration', details);
-  //     console.log(res);
-
-  //     setSubmitting(false);
-  //     // navigate(routes.PROPOSED_BUSINESS);
-  //     navigate(routes.BVN_VERIFICATION);
-  //   } catch (error) {
-  //     setSubmitting(false);
-  //     handleApiError(error);
-  //   }
-  // }
-
-  function continueToBvnInfo() {
     if (
-      details?.sole_owner &&
-      details?.business_name &&
-      details?.business_description &&
-      details?.business_category
+      !details?.sole_owner &&
+      !details?.business_name &&
+      !details?.business_description &&
+      !details?.business_category
     ) {
-      navigate(routes.BVN_VERIFICATION, {details});
-    } else {
-      notifyMessage('Please fill all fields');
+      return notifyMessage('Please fill all details');
+    }
+
+    setSubmitting(true);
+    try {
+      console.log('Submitting biz info');
+      const res = await client.post('/api/business_registration', details);
+      console.log(res.data);
+
+      setSubmitting(false);
+      // navigate(routes.PROPOSED_BUSINESS);
+      // navigate(routes.BILLING);
+    } catch (error) {
+      setSubmitting(false);
+      handleApiError(error);
     }
   }
 
+  function continueToBvnInfo() {
+    if (
+      !details?.sole_owner &&
+      !details?.business_name &&
+      !details?.business_description &&
+      !details?.business_category
+    ) {
+      return notifyMessage('Please fill all details');
+    }
+  }
+
+  //indeusty picker variables
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-        }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        <Text style={styles.formlabel}>
-          Are you the sole owner of the business?
-        </Text>
+      {submitting ? (
+        <Test />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          <Text style={styles.formlabel}>
+            Are you the sole owner of the business?
+          </Text>
 
-        <View style={[styles.flex, styles.options]}>
-          <Pressable
-            onPress={() => setDetails({...details, sole_owner: 'yes'})}
-            style={[
-              styles.flex,
-              styles.option,
-              styles.leftFormInput,
-              {
-                borderColor:
-                  details?.sole_owner === 'yes'
-                    ? COLORS.credit
-                    : COLORS.borderGray,
-              },
-            ]}>
-            <UseIcon
-              type={'MaterialIcons'}
-              name={
-                details?.sole_owner === 'yes'
-                  ? 'check-circle-outline'
-                  : 'radio-button-unchecked'
-              }
-              color={
-                details?.sole_owner === 'yes'
-                  ? COLORS.credit
-                  : COLORS.borderGray
-              }
-            />
-            <Text
+          <View style={[styles.flex, styles.options]}>
+            <Pressable
+              onPress={() => setDetails({...details, sole_owner: 'yes'})}
               style={[
-                styles.optionLabel,
+                styles.flex,
+                styles.option,
+                styles.leftFormInput,
                 {
-                  color:
+                  borderColor:
                     details?.sole_owner === 'yes'
                       ? COLORS.credit
-                      : COLORS.grayText,
+                      : COLORS.borderGray,
                 },
               ]}>
-              Yes
-            </Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setDetails({...details, sole_owner: 'no'})}
-            style={[
-              styles.flex,
-              styles.option,
-              styles.rightFormInput,
-              {
-                borderColor:
-                  details?.sole_owner === 'no'
+              <UseIcon
+                type={'MaterialIcons'}
+                name={
+                  details?.sole_owner === 'yes'
+                    ? 'check-circle-outline'
+                    : 'radio-button-unchecked'
+                }
+                color={
+                  details?.sole_owner === 'yes'
                     ? COLORS.credit
-                    : COLORS.borderGray,
-              },
-            ]}>
-            <UseIcon
-              type={'MaterialIcons'}
-              name={
-                details?.sole_owner === 'no'
-                  ? 'check-circle-outline'
-                  : 'radio-button-unchecked'
-              }
-              color={
-                details?.sole_owner === 'no' ? COLORS.credit : COLORS.borderGray
-              }
-            />
-            <Text
+                    : COLORS.borderGray
+                }
+              />
+              <Text
+                style={[
+                  styles.optionLabel,
+                  {
+                    color:
+                      details?.sole_owner === 'yes'
+                        ? COLORS.credit
+                        : COLORS.grayText,
+                  },
+                ]}>
+                Yes
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => setDetails({...details, sole_owner: 'no'})}
               style={[
-                styles.optionLabel,
+                styles.flex,
+                styles.option,
+                styles.rightFormInput,
                 {
-                  color:
+                  borderColor:
                     details?.sole_owner === 'no'
                       ? COLORS.credit
-                      : COLORS.grayText,
+                      : COLORS.borderGray,
                 },
               ]}>
-              No
-            </Text>
-          </Pressable>
-        </View>
+              <UseIcon
+                type={'MaterialIcons'}
+                name={
+                  details?.sole_owner === 'no'
+                    ? 'check-circle-outline'
+                    : 'radio-button-unchecked'
+                }
+                color={
+                  details?.sole_owner === 'no'
+                    ? COLORS.credit
+                    : COLORS.borderGray
+                }
+              />
+              <Text
+                style={[
+                  styles.optionLabel,
+                  {
+                    color:
+                      details?.sole_owner === 'no'
+                        ? COLORS.credit
+                        : COLORS.grayText,
+                  },
+                ]}>
+                No
+              </Text>
+            </Pressable>
+          </View>
 
-        <FormInput
-          label={'Your propose business name'}
-          placeholder={'Enter Your propose business name'}
-          onChangeText={text => setDetails({...details, business_name: text})}
-          value={details?.business_name}
-        />
+          <FormInput
+            label={'Your propose business name'}
+            placeholder={'Enter Your propose business name'}
+            onChangeText={text => setDetails({...details, business_name: text})}
+            value={details?.business_name}
+          />
 
-        <FormInput
-          label={'Business description'}
-          placeholder={'Enter Business description'}
-          // multiline={5}
-          onChangeText={text =>
-            setDetails({...details, business_description: text})
-          }
-          value={details?.business_description}
-        />
+          <FormInput
+            label={'Business description'}
+            placeholder={'Enter Business description'}
+            // multiline={5}
+            onChangeText={text =>
+              setDetails({...details, business_description: text})
+            }
+            value={details?.business_description}
+          />
 
-        <FormInput
+          {/* <FormInput
           label={'Business category'}
           placeholder={'Enter Business category'}
           onChangeText={text =>
             setDetails({...details, business_category: text})
           }
           value={details?.business_category}
-        />
-
-        <FormButton
-          title={'Continue'}
-          buttonStyle={styles.buttonStyle}
-          // loading={submitting}
-          onPress={continueToBvnInfo}
-          // onPress={() => navigate(routes.BVN_VERIFICATION)}
-        />
-      </ScrollView>
+        /> */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Business category</Text>
+            <Dropdown
+              style={styles.input}
+              placeholderStyle={[
+                styles.input,
+                {borderWidth: 0, color: COLORS.textGray},
+              ]}
+              itemTextStyle={{
+                ...FONTS.regular,
+              }}
+              selectedTextStyle={{...FONTS.regular}}
+              data={[
+                {label: 'Auto', value: 'Male'},
+                {label: 'FMCG', value: 'Female'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Select business category' : '...'}
+              value={value}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setValue(item.value);
+                setIsFocus(false);
+                setDetails({...details, business_category: item.label});
+              }}
+            />
+          </View>
+          <FormButton
+            title={'Register Business'}
+            buttonStyle={styles.buttonStyle}
+            // loading={submitting}
+            onPress={saveInfo}
+            // onPress={() => navigate(routes.BVN_VERIFICATION)}
+          />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -244,6 +293,7 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     marginLeft: SIZES.base,
+    ...FONTS.regular,
   },
   option: {
     borderWidth: 1,
@@ -266,5 +316,16 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: SIZES.base * 3,
     marginBottom: SIZES.base,
+  },
+  inputContainer: {flex: 1, gap: 10},
+  label: {...FONTS.regular, color: COLORS.label},
+  input: {
+    borderWidth: 1,
+    marginTop: 3,
+    borderRadius: 5,
+    height: 50,
+    padding: 10,
+    borderColor: COLORS.borderGray,
+    ...FONTS.regular,
   },
 });

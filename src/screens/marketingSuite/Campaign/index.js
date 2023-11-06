@@ -22,8 +22,8 @@ import client from '../../../shared/api/client';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import Test from '../../Test';
 
-export default function Campaign() {
-  const {navigate} = useNavigation();
+export default function Campaign({navigation}) {
+  const {navigate, addListener} = useNavigation();
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   // const items = [];
@@ -37,8 +37,8 @@ export default function Campaign() {
     navigate(routes.NEW_CAMPAIGN);
   }
 
-  function handleEditItem() {
-    navigate(routes.EDIT_CAMPAIGN);
+  function handleEditItem(data) {
+    navigate(routes.EDIT_CAMPAIGN, data);
   }
 
   function handleDeleteItem() {
@@ -65,6 +65,12 @@ export default function Campaign() {
   useEffect(() => {
     getCampaigns();
   }, [getCampaigns]);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getCampaigns();
+    });
+  }, [navigation]);
 
   const [searchText, setSearchText] = useState('');
 
@@ -128,7 +134,7 @@ export default function Campaign() {
                     campaign={campaign}
                     onPress={() => navigate(routes.RESEND_CAMPAIGN, {campaign})}
                     setShowShareModal={setShowShareModal}
-                    handleEditItem={handleEditItem}
+                    handleEditItem={() => handleEditItem(campaign)}
                     imageUrl={require('../../../assets/images/mail1.png')}
                     handleDeleteItem={handleDeleteItem}
                   />

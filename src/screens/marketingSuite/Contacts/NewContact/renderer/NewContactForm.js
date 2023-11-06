@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
+import {Modal, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
 import SelectModal from '../../../../../shared/components/SelectModal';
 import TextAreaInput from '../../../../../shared/components/TeaxtAreaInput';
+import {Checkbox} from 'react-native-paper';
 
 export default function NewContactForm({
   setDetails,
@@ -14,6 +15,10 @@ export default function NewContactForm({
   handleCreate,
   fetchContacts,
   contactsFetchedFromApi,
+  contactsPermission,
+  setContactsPermission,
+  policyChecked,
+  setPolicyChecked,
 }) {
   const [showContactGroup, setShowContactGroup] = useState(false);
 
@@ -24,18 +29,24 @@ export default function NewContactForm({
           <TextAreaInput
             label={'Phone Numbers'}
             placeholder={'Enter customer’s phone number'}
-            value={details?.numbers}
-            onChangeText={text => setDetails({...details, numbers: text})}
+            // value={}
+            onChangeText={text => {
+              setDetails({...details, number: text, numbers: text});
+            }}
             info={'Separate with "," for multiple numbers'}
           />
 
-          <TextAreaInput
+          <Text style={{...FONTS.regular}}>
+            Total Phone Numbers: {details.numbers.split(',').length}
+          </Text>
+
+          {/* <TextAreaInput
             label={'Emails'}
             placeholder={'Enter customer’s email'}
             value={details?.emails}
             onChangeText={text => setDetails({...details, emails: text})}
             info={'Separate with "," for multiple emails'}
-          />
+          /> */}
         </>
       );
     } else {
@@ -124,9 +135,53 @@ export default function NewContactForm({
         numberOfLines={3}
       />
       <FormInput placeholder={'Zip code'} /> */}
+      <View
+        style={{
+          backgroundColor: COLORS.lightSecondaryBackground,
+          padding: 20,
+          borderRadius: 10,
+          marginVertical: 50,
+          gap: 10,
+        }}>
+        <Text style={{marginBottom: 10, ...FONTS.h5}}>DISCLAIMER</Text>
+        <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
+          <Checkbox
+            status={contactsPermission ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setContactsPermission(!contactsPermission);
+            }}
+            color={COLORS.primary}
+          />
 
+          <Text style={{...FONTS.medium, width: '90%'}}>
+            You agree that this contacts have given you permission to contact
+            them
+          </Text>
+        </View>
+        <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
+          <Checkbox
+            status={policyChecked ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setPolicyChecked(!policyChecked);
+            }}
+            color={COLORS.primary}
+          />
+          <Text style={{...FONTS.medium, width: '90%'}}>
+            You agree to adhere to moosbu privacy policy and terms of use
+          </Text>
+        </View>
+
+        <Text
+          style={{
+            ...FONTS.medium,
+            fontFamily: 'Lato-Bold',
+            marginVertical: 10,
+          }}>
+          NOTE: Moosbu will never contact your contacts on your behalf
+        </Text>
+      </View>
       <FormButton
-        title={'Save info'}
+        title={'Create Contact Group'}
         onPress={handleCreate}
         loading={loading}
         containerStyle={{marginTop: 'auto'}}
@@ -137,9 +192,9 @@ export default function NewContactForm({
           filteredItems={[
             {name: 'All Customers', value: 'all', id: 1},
             {name: 'By product category', value: 'price', id: 2},
-            {name: 'By product type', value: 'type', id: 3},
-            {name: 'By price range', value: 'all', id: 4},
-            {name: 'By date of purchase', value: 'date', id: 5},
+            // {name: 'By product type', value: 'type', id: 3},
+            {name: 'By price range', value: 'all', id: 3},
+            {name: 'By date of purchase', value: 'date', id: 4},
           ]}
           title={'Choose Contact Group'}
           setShowModal={setShowContactGroup}

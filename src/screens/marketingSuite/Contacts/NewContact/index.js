@@ -12,20 +12,26 @@ import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 import Loader from '../../../../shared/components/Loader';
 import routes from '../../../../shared/constants/routes';
+import Test from '../../../Test';
 
 export default function NewContact() {
-  const {setOptions, navigate} = useNavigation();
+  const {setOptions, navigate, addListener} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [details, setDetails] = useState({
     name: '',
     numbers: '',
-    emails: '',
+    emails: 'placeholder',
     type: '',
   });
   console.log(details);
   const [loading, setLoading] = useState(false);
   const [loadingContacts, setLoadingContacts] = useState(false);
   const [contactsFetchedFromApi, setContactsFetchedFromApi] = useState(false);
+
+  const [contactsPermission, setContactsPermission] = useState(false);
+  const [policyChecked, setPolicyChecked] = useState(false);
+
+  const [number, setNumber] = useState(null);
 
   useLayoutEffect(() => {
     setOptions({
@@ -39,8 +45,6 @@ export default function NewContact() {
   }
 
   async function handleCreate() {
-    setLoading(true);
-
     if (!details?.name) {
       setLoading(false);
       return notifyMessage('Name is required');
@@ -51,10 +55,19 @@ export default function NewContact() {
       return notifyMessage('Number is required');
     }
 
-    if (!details?.emails) {
-      setLoading(false);
-      return notifyMessage('Email is required');
+    // if (!details?.emails) {
+    //   setLoading(false);
+    //   return notifyMessage('Email is required');
+    // }
+
+    if (policyChecked === false) {
+      return notifyMessage('Privacy policy is required');
     }
+    if (contactsPermission === false) {
+      return notifyMessage('Contacts permission is required');
+    }
+
+    setLoading(true);
 
     try {
       const res = await client.post('/api/phonebook', details);
@@ -63,7 +76,7 @@ export default function NewContact() {
       console.log(res.data);
 
       setLoading(false);
-      setDetails({name: '', numbers: '', emails: '', type: ''});
+      setDetails({name: '', numbers: '', emails: 'placeholder', type: ''});
       handleSuccessfulResponse();
     } catch (error) {
       setLoading(false);
@@ -119,19 +132,27 @@ export default function NewContact() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flexGrow: 1}}>
-          <NewContactForm
-            setDetails={setDetails}
-            details={details}
-            loading={loading}
-            handleCreate={handleCreate}
-            fetchContacts={fetchContacts}
-            contactsFetchedFromApi={contactsFetchedFromApi}
-          />
-        </ScrollView>
+        {loadingContacts ? (
+          <Test />
+        ) : (
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}>
+            <NewContactForm
+              setDetails={setDetails}
+              details={details}
+              loading={loading}
+              handleCreate={handleCreate}
+              fetchContacts={fetchContacts}
+              contactsFetchedFromApi={contactsFetchedFromApi}
+              contactsPermission={contactsPermission}
+              setContactsPermission={setContactsPermission}
+              policyChecked={policyChecked}
+              setPolicyChecked={setPolicyChecked}
+            />
+          </ScrollView>
+        )}
       </View>
 
       <Modal
@@ -149,7 +170,7 @@ export default function NewContact() {
         />
       </Modal>
 
-      <Loader loading={loadingContacts} message={'Fetching contacts'} />
+      {/* <Loader loading={loadingContacts} message={'Fetching contacts'} /> */}
     </SafeAreaView>
   );
 }

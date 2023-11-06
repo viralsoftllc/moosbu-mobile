@@ -14,6 +14,9 @@ import {Checkbox} from 'react-native-paper';
 import notifyMessage from '../../../../../shared/hooks/notifyMessage';
 import DatePicker from 'react-native-date-picker';
 import {TextInput} from 'react-native-gesture-handler';
+import {Dropdown} from 'react-native-element-dropdown';
+import {selectTokens} from '../../../../../redux/slices/wallet/selectors';
+import Test from '../../../../Test';
 
 export default function NewCampaignForm({
   loading,
@@ -34,240 +37,319 @@ export default function NewCampaignForm({
   const [characterCount, setCharacterCount] = useState(0);
 
   const contacts = useSelector(selectContacts);
+  const tokenBalance = useSelector(selectTokens);
+
+  console.log(tokenBalance);
+
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+
+  const formattedContacts = contacts.map(x => {
+    let num = x.number.split(',');
+    num = num.length;
+    return {label: x.name, value: num, ...x};
+  });
   // console.log('contacts');
-  // console.log(contacts);
+  console.log(contacts);
   // const [sendLater, setSendLater] = useState(false);
 
   return (
-    <View>
-      <FormInput
-        label={'Campaign Name'}
-        placeholder="Campaign name"
-        value={campaign?.name}
-        onChangeText={text => setCampaign({...campaign, name: text})}
-      />
-
-      {/* <FormInput label={'Campaign Type'} placeholder="Email" /> */}
-
-      <Text style={styles.formlabel}>Campaign Channel</Text>
-
-      <View style={styles.flex}>
-        <Pressable
-          style={[
-            styles.channel,
-            styles.flex,
-            {
-              borderColor:
-                campaign?.channel === 'sms' ? COLORS.credit : COLORS.borderGray,
-            },
-          ]}
-          onPress={() => setCampaign({...campaign, channel: 'sms'})}>
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="message-processing-outline"
-            color={
-              campaign?.channel === 'sms' ? COLORS.credit : COLORS.textPrimary
-            }
+    <>
+      {loading ? (
+        <Test />
+      ) : (
+        <View>
+          <FormInput
+            label={'Campaign Name'}
+            placeholder="Campaign name"
+            value={campaign?.name}
+            onChangeText={text => setCampaign({...campaign, name: text})}
           />
-          <Text
-            style={[
-              styles.channelText,
-              {
-                color:
+
+          {/* <FormInput label={'Campaign Type'} placeholder="Email" /> */}
+
+          <Text style={styles.formlabel}>Campaign Channel</Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Pressable
+              style={[
+                styles.channel,
+                styles.flex,
+                {
+                  borderColor:
+                    campaign?.channel === 'sms'
+                      ? COLORS.credit
+                      : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => setCampaign({...campaign, channel: 'sms'})}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="message-processing-outline"
+                color={
                   campaign?.channel === 'sms'
                     ? COLORS.credit
-                    : COLORS.textPrimary,
-              },
-            ]}>
-            SMS
-          </Text>
-        </Pressable>
+                    : COLORS.textPrimary
+                }
+              />
+              <Text
+                style={[
+                  styles.channelText,
+                  {
+                    color:
+                      campaign?.channel === 'sms'
+                        ? COLORS.credit
+                        : COLORS.textPrimary,
+                  },
+                ]}>
+                SMS
+              </Text>
+            </Pressable>
 
-        <Pressable
-          style={[
-            styles.channel,
-            styles.flex,
-            {
-              borderColor:
-                campaign?.channel === 'whatsapp'
-                  ? COLORS.credit
-                  : COLORS.borderGray,
-            },
-          ]}
-          onPress={() => notifyMessage('coming soon')}>
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="whatsapp"
-            color={
-              campaign?.channel === 'whatsapp'
-                ? COLORS.credit
-                : COLORS.textPrimary
-            }
-          />
-          <Text
-            style={[
-              styles.channelText,
-              {
-                color:
+            <Pressable
+              style={[
+                styles.channel,
+                styles.flex,
+                {
+                  borderColor:
+                    campaign?.channel === 'whatsapp'
+                      ? COLORS.credit
+                      : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => notifyMessage('coming soon')}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="whatsapp"
+                color={
                   campaign?.channel === 'whatsapp'
                     ? COLORS.credit
-                    : COLORS.textPrimary,
-              },
-            ]}>
-            Whatsapp
-          </Text>
-        </Pressable>
+                    : COLORS.textPrimary
+                }
+              />
+              <Text
+                style={[
+                  styles.channelText,
+                  {
+                    color:
+                      campaign?.channel === 'whatsapp'
+                        ? COLORS.credit
+                        : COLORS.textPrimary,
+                  },
+                ]}>
+                Whatsapp
+              </Text>
+            </Pressable>
 
-        <Pressable
-          style={[
-            styles.channel,
-            styles.flex,
-            {
-              borderColor:
-                campaign?.channel === 'email'
-                  ? COLORS.credit
-                  : COLORS.borderGray,
-            },
-          ]}
-          onPress={() => notifyMessage('coming soon')}>
-          <UseIcon
-            type={'MaterialCommunityIcons'}
-            name="email-outline"
-            color={
-              campaign?.channel === 'email' ? COLORS.credit : COLORS.textPrimary
-            }
-          />
-          <Text
-            style={[
-              styles.channelText,
-              {
-                color:
+            <Pressable
+              style={[
+                styles.channel,
+                styles.flex,
+                {
+                  marginRight: 0,
+                  borderColor:
+                    campaign?.channel === 'email'
+                      ? COLORS.credit
+                      : COLORS.borderGray,
+                },
+              ]}
+              onPress={() => notifyMessage('coming soon')}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="email-outline"
+                color={
                   campaign?.channel === 'email'
                     ? COLORS.credit
-                    : COLORS.textPrimary,
-              },
-            ]}>
-            Email
-          </Text>
-        </Pressable>
-      </View>
+                    : COLORS.textPrimary
+                }
+              />
+              <Text
+                style={[
+                  styles.channelText,
 
-      <SelectModalFormInput
+                  {
+                    color:
+                      campaign?.channel === 'email'
+                        ? COLORS.credit
+                        : COLORS.textPrimary,
+                  },
+                ]}>
+                Email
+              </Text>
+            </Pressable>
+          </View>
+
+          <View style={{}}>
+            <Text style={{...FONTS.regular, marginBottom: 10}}>
+              Contact Group
+            </Text>
+            <Dropdown
+              style={styles.input}
+              placeholderStyle={{
+                borderWidth: 0,
+                color: COLORS.textGray,
+                ...FONTS.regular,
+              }}
+              itemTextStyle={{
+                ...FONTS.regular,
+              }}
+              selectedTextStyle={{...FONTS.regular}}
+              data={formattedContacts}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Select token' : '...'}
+              value={value}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setValue(prev => item.value);
+                setCampaign({...campaign, phonebook: item});
+                setIsFocus(false);
+              }}
+            />
+            <Text style={{...FONTS.small, marginBottom: 20}}>
+              {' '}
+              Number of contacts: {value || 0}
+            </Text>
+          </View>
+
+          {/* <SelectModalFormInput
         label={'Contact Group'}
         placeholder={'Choose Contact Group'}
         setShowModal={setShowContactGroup}
         selectedItem={campaign?.phonebook}
-      />
+      /> */}
 
-      <FormInput
-        label={'Campaign Title'}
-        placeholder={'Enter campaign title'}
-        value={campaign?.title}
-        onChangeText={text => setCampaign({...campaign, title: text})}
-      />
+          <FormInput
+            label={'Campaign Title'}
+            placeholder={'Enter campaign title'}
+            value={campaign?.title}
+            onChangeText={text => setCampaign({...campaign, title: text})}
+          />
 
-      <TextAreaInput
-        label={'Campaign Message'}
-        placeholder="Enter campaign message"
-        onChangeText={text => {
-          setCharacterCount(text.length);
-          setCampaign({...campaign, content: text});
-        }}
-        value={campaign?.content}
-      />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginTop: -20,
-          marginBottom: 25,
-        }}>
-        <View>
-          <Text style={{...FONTS.tiny}}>{characterCount} Characters</Text>
-          <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
-            160 Characters = 1 sms{' '}
-          </Text>
-        </View>
+          <TextAreaInput
+            label={'Campaign Message'}
+            placeholder="Enter campaign message"
+            onChangeText={text => {
+              setCharacterCount(text.length);
+              setCampaign({...campaign, content: text});
+            }}
+            value={campaign?.content}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: -20,
+              marginBottom: 25,
+            }}>
+            <View>
+              <Text style={{...FONTS.tiny}}>{characterCount} Characters</Text>
+              <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
+                160 Characters = 1 SMS{' '}
+              </Text>
+            </View>
 
-        <View>
-          <Text style={{...FONTS.tiny, textAlign: 'right'}}>
-            {Math.ceil(characterCount / 160)} sms
-          </Text>
-          <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
-            (1 sms ={' '}
-            {Intl.NumberFormat('en-NG', {
-              style: 'currency',
-              currency: 'NGN',
-            }).format(3)}
-            )
-          </Text>
-        </View>
-      </View>
-
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Checkbox
-          status={checked ? 'checked' : 'unchecked'}
-          onPress={() => {
-            setChecked(!checked);
-          }}
-          color={COLORS.primary}
-        />
-        <Text style={{...FONTS.medium, color: COLORS.primary}}>Send later</Text>
-      </View>
-      {checked ? (
-        <View style={{marginVertical: 20}}>
-          <Text style={{...FONTS.medium, marginBottom: 10}}>
-            Schedule Time{' '}
-          </Text>
-          <View style={{flexDirection: 'row', gap: 10, marginBottom: 30}}>
-            <TextInput
-              value={date.toDateString()}
-              placeholder="Select Date"
-              style={styles.input}
-              onPressIn={() => setOpenDateModal(true)}
-            />
-            <TextInput
-              value={time.toLocaleString()}
-              placeholder="Select Time"
-              style={styles.input}
-              onPressIn={() => setOpenTimeModal(true)}
-            />
+            <View>
+              <Text style={{...FONTS.tiny, textAlign: 'right'}}>
+                {Math.ceil(characterCount / 160)} SMS
+              </Text>
+              <Text style={{...FONTS.tiny, color: COLORS.textGray}}>
+                (1 SMS = 1 Messaging Token )
+              </Text>
+            </View>
           </View>
-        </View>
-      ) : null}
 
-      {/* Date modal */}
-      <DatePicker
-        modal
-        open={openDateModal}
-        date={date}
-        onConfirm={date => {
-          setOpenDateModal(false);
-          setDate(date);
-        }}
-        onCancel={() => {
-          setOpenDateModal(false);
-        }}
-        mode="date"
-      />
+          <Text style={{...FONTS.regular, marginBottom: 10}}>
+            Tokens Required :
+            <Text style={{fontFamily: 'Lato-Bold'}}>
+              {value * Math.ceil(characterCount / 160)}
+            </Text>
+          </Text>
 
-      {/* Time modal */}
-      <DatePicker
-        modal
-        open={openTimeModal}
-        date={date}
-        onConfirm={time => {
-          setOpenTimeModal(false);
-          setTime(time.toLocaleTimeString());
-        }}
-        onCancel={() => {
-          setOpenTimeModal(false);
-        }}
-        mode="time"
-        is24hourSource="locale"
-      />
+          <View
+            style={{
+              marginVertical: 10,
+              backgroundColor: COLORS.lightSecondaryBackground,
+              padding: 20,
+            }}>
+            <Text style={{...FONTS.h5}}>
+              {' '}
+              Token Balance: {tokenBalance.sms_token}
+            </Text>
+          </View>
 
-      {/* <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Checkbox
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked(!checked);
+              }}
+              color={COLORS.primary}
+            />
+            <Text style={{...FONTS.medium, color: COLORS.primary}}>
+              Send later
+            </Text>
+          </View>
+          {checked ? (
+            <View style={{marginVertical: 20}}>
+              <Text style={{...FONTS.medium, marginBottom: 10}}>
+                Schedule Time{' '}
+              </Text>
+              <View style={{flexDirection: 'row', gap: 10, marginBottom: 30}}>
+                <TextInput
+                  value={date.toDateString()}
+                  placeholder="Select Date"
+                  style={styles.input}
+                  onPressIn={() => setOpenDateModal(true)}
+                />
+                <TextInput
+                  value={time.toLocaleString()}
+                  placeholder="Select Time"
+                  style={styles.input}
+                  onPressIn={() => setOpenTimeModal(true)}
+                />
+              </View>
+            </View>
+          ) : null}
+
+          {/* Date modal */}
+          <DatePicker
+            modal
+            open={openDateModal}
+            date={date}
+            onConfirm={date => {
+              setOpenDateModal(false);
+              setDate(date);
+            }}
+            onCancel={() => {
+              setOpenDateModal(false);
+            }}
+            mode="date"
+          />
+
+          {/* Time modal */}
+          <DatePicker
+            modal
+            open={openTimeModal}
+            date={date}
+            onConfirm={time => {
+              setOpenTimeModal(false);
+              setTime(time.toLocaleTimeString());
+            }}
+            onCancel={() => {
+              setOpenTimeModal(false);
+            }}
+            mode="time"
+            is24hourSource="locale"
+          />
+
+          {/* <Pressable style={styles.flex} onPress={() => setSendLater(!sendLater)}>
         <UseIcon
           type={'MaterialCommunityIcons'}
           name={sendLater ? 'checkbox-marked' : 'checkbox-blank-outline'}
@@ -283,7 +365,7 @@ export default function NewCampaignForm({
         </Text>
       </Pressable> */}
 
-      {/* {sendLater ? (
+          {/* {sendLater ? (
         <>
           <Text style={styles.scheduleText}>Schedule Time</Text>
           <View style={styles.flex}>
@@ -298,37 +380,37 @@ export default function NewCampaignForm({
         </>
       ) : null} */}
 
-      <View style={styles.flex}>
-        <View style={styles.sendNowBtn}>
-          <FormButton
-            title={'Save and Send'}
-            // title={'Send Now'}
-            fullWidth
-            onPress={handleSaveAndSendCampaign}
-            loading={loading}
-          />
-        </View>
+          <View style={[styles.flex, {marginTop: 20}]}>
+            <View style={styles.sendNowBtn}>
+              <FormButton
+                title={'Save and Send'}
+                // title={'Send Now'}
+                fullWidth
+                onPress={handleSaveAndSendCampaign}
+                loading={loading}
+              />
+            </View>
 
-        <View style={styles.scheduleBtnView}>
-          <FormButton
-            title={'Save for later'}
-            fullWidth
-            buttonStyle={[
-              styles.scheduleBtn,
-              // {borderColor: sendLater ? COLORS.primary : COLORS.borderGray},
-            ]}
-            textStyle={[
-              styles.scheduleBtnText,
-              // {color: sendLater ? COLORS.primary : COLORS.borderGray},
-            ]}
-            // disabled={!sendLater}
-            loading={saving}
-            onPress={handleCreateCampaign}
-          />
-        </View>
-      </View>
+            <View style={styles.scheduleBtnView}>
+              <FormButton
+                title={'Save for later'}
+                fullWidth
+                buttonStyle={[
+                  styles.scheduleBtn,
+                  // {borderColor: sendLater ? COLORS.primary : COLORS.borderGray},
+                ]}
+                textStyle={[
+                  styles.scheduleBtnText,
+                  // {color: sendLater ? COLORS.primary : COLORS.borderGray},
+                ]}
+                // disabled={!sendLater}
+                loading={saving}
+                onPress={handleCreateCampaign}
+              />
+            </View>
+          </View>
 
-      <Modal visible={showContactGroup}>
+          {/* <Modal visible={showContactGroup}>
         <SelectModal
           filteredItems={contacts}
           title={'Choose Contact Group'}
@@ -339,8 +421,10 @@ export default function NewCampaignForm({
             setShowContactGroup(false);
           }}
         />
-      </Modal>
-    </View>
+      </Modal> */}
+        </View>
+      )}
+    </>
   );
 }
 const styles = StyleSheet.create({

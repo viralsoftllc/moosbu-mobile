@@ -82,7 +82,7 @@ export default function Register() {
       Cache.storeObject('@user', data?.user);
 
       setLoading(false);
-      navigate(routes.LOGIN);
+      navigate(routes.VERIFY_EMAIL, {email: credentials.email});
     } catch (error) {
       setLoading(false);
       handleApiError(error);

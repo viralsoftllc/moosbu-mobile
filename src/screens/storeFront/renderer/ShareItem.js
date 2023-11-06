@@ -113,7 +113,7 @@ export default function ShareItem({
             </Pressable>
           </View> */}
 
-          <Text style={styles.linkText}>{title} Link</Text>
+          <Text style={styles.linkText}>{title && `${title} Link`}</Text>
           <View style={[styles.flex, styles.copyView]}>
             <Text style={styles.link}>
               {link || title == 'store'

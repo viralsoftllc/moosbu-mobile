@@ -61,9 +61,14 @@ import TransactionDetails from '../../screens/Wallet/TransactionDetails/Transact
 import TransactionPending from '../../screens/Wallet/TransactionPending/TransactionPending';
 import TokenScreen from '../../screens/TokenScreen';
 import TokenSuccess from '../../screens/TokenSuccess';
+import BasicDetails from '../../screens/Wallet/businessWallet/BasicDetails';
+import Address from '../../screens/Wallet/businessWallet/Address';
+import OfficerDetails from '../../screens/Wallet/businessWallet/OfficerDetails';
 
 import {useDispatch} from 'react-redux';
 import {setToken} from '../../redux/slices/auth/slice';
+import Customers from '../../screens/others/Customers';
+import Reward from '../../screens/Reward';
 
 const Stack = createStackNavigator();
 
@@ -105,10 +110,7 @@ export default function MainNavigator() {
           component={MenuStack}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name={routes.CUSTOMERS}
-          component={CustomerTopTabNavigator}
-        />
+        <Stack.Screen name={routes.CUSTOMERS} component={Customers} />
         <Stack.Screen
           name={routes.SHIPPING_TAB}
           component={ShippingStack}
@@ -286,6 +288,34 @@ export default function MainNavigator() {
           component={TokenSuccess}
           options={{headerShown: false}}
         />
+
+        <Stack.Screen
+          name="BasicDetails"
+          component={BasicDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Address"
+          component={Address}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="OfficerDetails"
+          component={OfficerDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name={routes.REWARD} component={Reward} />
+        {/* <Stack.Screen
+          name={routes.REWARD_INFO}
+          component={RewardInfo}
+          options={{headerShown: false}}
+        /> */}
       </Stack.Navigator>
     </View>
   );

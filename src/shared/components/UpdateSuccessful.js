@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: COLORS.white,
+    ...FONTS.medium,
   },
   deleteBtn: {
     backgroundColor: COLORS.credit,
@@ -113,13 +114,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: COLORS.credit,
-    ...FONTS.regular,
-    fontWeight: '600',
+    ...FONTS.h5,
     marginBottom: SIZES.base / 2,
   },
   subtitle: {
     color: COLORS.grayText,
     marginBottom: SIZES.base * 2,
+    ...FONTS.medium,
   },
   details: {
     flex: 1,

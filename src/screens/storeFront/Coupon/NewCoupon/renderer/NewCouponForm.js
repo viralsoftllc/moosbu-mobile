@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
+import {Dropdown} from 'react-native-element-dropdown';
 
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
@@ -26,18 +27,61 @@ export default function NewCouponForm({
     return setDetails({...details, code: result});
   }
 
+  //Discount picker variables
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const tokens = [
+    {label: 'Flat Discount', value: '1'},
+    {label: 'Percentage Discount', value: '2'},
+  ];
+
   return (
     <View style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View>
-          <FormInput
-            label={'Coupon Name'}
-            placeholder="Enter coupon name"
-            onChangeText={text => setDetails({...details, name: text})}
-            // style={styles.nameForm}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}>
+            <FormInput
+              label={'Coupon Name'}
+              placeholder="Enter coupon name"
+              onChangeText={text => setDetails({...details, name: text})}
+              style={[styles.smallForm, styles.leftFormInput]}
+            />
+
+            <View style={[styles.smallForm, styles.rightFormInput, {gap: 10}]}>
+              <Text style={{...FONTS.regular}}>Coupon type</Text>
+              <Dropdown
+                style={styles.input}
+                placeholderStyle={[
+                  styles.input,
+                  {borderWidth: 0, color: COLORS.textGray},
+                ]}
+                itemTextStyle={{
+                  ...FONTS.medium,
+                }}
+                selectedTextStyle={{...FONTS.medium}}
+                data={tokens}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Select token' : '...'}
+                value={value}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setValue(prev => item.value);
+                  setIsFocus(false);
+                  setDetails({...details, coupon_type: item.value});
+                }}
+              />
+            </View>
+          </View>
 
           {/* <Pressable
             style={[styles.flex, styles.flatDiscountSwitch]}
@@ -165,4 +209,13 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base * 2,
   },
   nameForm: {marginBottom: 0},
+  input: {
+    borderWidth: 1,
+    marginTop: 3,
+    borderRadius: 5,
+    height: 50,
+    padding: 10,
+    borderColor: COLORS.borderGray,
+    ...FONTS.medium,
+  },
 });

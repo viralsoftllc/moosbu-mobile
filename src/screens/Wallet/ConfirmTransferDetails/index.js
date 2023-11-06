@@ -38,6 +38,8 @@ export default function ConfirmTransferDetails({route}) {
   }, [setOptions]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     //verify account details
     const verifyAccount = async () => {
       setLoading(true);
@@ -57,6 +59,10 @@ export default function ConfirmTransferDetails({route}) {
     };
 
     verifyAccount();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const options = {
@@ -64,7 +70,7 @@ export default function ConfirmTransferDetails({route}) {
     account_number: accountNumber,
     bank_code: bankCode,
     bank_id: bankId,
-    amount: amount,
+    amount: parseFloat(amount.replace(/,/g, '')),
     bank: bank,
     description,
   };
@@ -142,7 +148,9 @@ export default function ConfirmTransferDetails({route}) {
 
                 <View style={styles.column}>
                   <Text style={styles.text}>
-                    {`\u20A6 ${parseInt(amount) + transferFee}`}
+                    {`\u20A6 ${
+                      parseFloat(amount.replace(/,/g, '')) + transferFee
+                    }`}
                   </Text>
                 </View>
               </View>

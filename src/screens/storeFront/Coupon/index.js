@@ -215,6 +215,7 @@ export default function Coupon() {
             <ShareItem
               setShowShareModal={setShowShareModal}
               link={selectedCoupon?.code}
+              subtitle={'Share your coupon'}
             />
           </Modal>
 

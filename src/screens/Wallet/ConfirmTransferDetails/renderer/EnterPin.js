@@ -27,8 +27,6 @@ export default function EnterPin({setShowPinForm, options}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {width} = Dimensions.get('window');
-
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
 
@@ -72,13 +70,16 @@ export default function EnterPin({setShowPinForm, options}) {
 
       setLoading(false);
     } catch (error) {
+      navigation.navigate('TransferDeclined', options);
+      setShowPinForm(false);
       setLoading(false);
       handleApiError(error);
-    } finally {
-      const {data} = await client.get('/api/wallet');
-      const balanceinNaira = data?.balance.availableBalance / 100;
-      dispatch(setWalletBalance(balanceinNaira));
     }
+    // finally {
+    //   const {data} = await client.get('/api/wallet');
+    //   const balanceinNaira = data?.balance.availableBalance / 100;
+    //   dispatch(setWalletBalance(balanceinNaira));
+    // }
   };
 
   return (

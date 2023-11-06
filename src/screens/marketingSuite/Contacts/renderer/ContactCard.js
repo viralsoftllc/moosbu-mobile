@@ -29,7 +29,7 @@ export default function ContactCard({
       return [];
     }
 
-    const split = numbers?.split(', ');
+    const split = numbers?.split(',');
     return split?.length || 0;
   }
 
@@ -59,12 +59,12 @@ export default function ContactCard({
                 <Text style={styles.ctaText}>Edit</Text>
               </Pressable>
 
-              <Pressable
+              {/* <Pressable
                 style={styles.cta}
                 // onPress={() => setShowShareModal(true)}
               >
                 <Text style={styles.ctaText}>View Contacts</Text>
-              </Pressable>
+              </Pressable> */}
 
               <Pressable style={styles.cta} onPress={handleDeleteItem}>
                 <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   address: {
     color: COLORS.grayText,
     ...FONTS.medium,
-    fontWeight: '300',
     marginTop: SIZES.base / 3,
   },
   container: {
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 30,
   },
   contact: {
     color: COLORS.textPrimary,
@@ -142,6 +142,8 @@ const styles = StyleSheet.create({
   name: {
     color: COLORS.textPrimary,
     maxWidth: verticalScale(240),
+    ...FONTS.medium,
+    fontFamily: 'Lato-Bold',
   },
   nameWrapper: {
     position: 'relative',

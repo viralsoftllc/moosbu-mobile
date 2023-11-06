@@ -38,7 +38,7 @@ import copyToClipboard from '../../shared/utils/copyToClipboard';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 import Test from '../Test';
 
-export default function Wallet() {
+export default function Wallet({navigation}) {
   const {navigate} = useNavigation();
   const balance = useSelector(selectWalletBalance);
   const accountNumber = useSelector(selectAccountNumber);
@@ -99,6 +99,12 @@ export default function Wallet() {
   useEffect(() => {
     getWalletBalance();
   }, [getWalletBalance]);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getWalletBalance();
+    });
+  }, [navigation]);
 
   const ctaData = [
     {

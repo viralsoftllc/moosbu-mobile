@@ -109,12 +109,15 @@ export default function Home({navigation}) {
 
   const fetchStores = useCallback(async () => {
     console.log('Fetching stores');
+    setLoading(true);
     try {
       const res = await client.get('/api/get_stores');
       dispatch(setStores(res.data.data));
       // console.log(res.data.data);
+      setLoading(false);
     } catch (error) {
       handleApiError(error);
+      setLoading(false);
     }
   }, [dispatch]);
 
@@ -126,7 +129,7 @@ export default function Home({navigation}) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
 
-      {walletLoading ? (
+      {loading ? (
         <Test />
       ) : (
         <>

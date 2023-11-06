@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
 import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
@@ -8,7 +8,11 @@ import UpdateSuccessful from '../../../../shared/components/UpdateSuccessful';
 import EditCampaignForm from './renderer/EditCampaignForm';
 import routes from '../../../../shared/constants/routes';
 
-export default function EditCampaign() {
+export default function EditCampaign({}) {
+  const {params} = useRoute();
+
+  console.log(params.campaign);
+
   const {setOptions, navigate} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 

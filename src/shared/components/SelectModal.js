@@ -12,6 +12,7 @@ import {verticalScale} from 'react-native-size-matters';
 
 import UseIcon from '../utils/UseIcon';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import Test from '../../screens/Test';
 
 export default function SelectModal({
   setShowModal,
@@ -43,9 +44,7 @@ export default function SelectModal({
 
       <View style={styles.content}>
         <ScrollView contentContainerStyle={styles.containerStyle}>
-          {loading ? (
-            <ActivityIndicator size={'large'} color={COLORS.primary} />
-          ) : null}
+          {loading ? <Test /> : null}
 
           {filteredItems?.length > 0 ? (
             filteredItems?.map((item, i) => (
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
   },
   headerText: {
-    fontWeight: 'bold',
     textAlign: 'center',
     marginLeft: SIZES.base * 3,
     color: COLORS.black,
@@ -174,7 +172,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.base,
     color: COLORS.black,
     ...FONTS.medium,
-    fontWeight: 'bold',
+    fontFamily: 'Lato-Bold',
   },
   iconView: {
     borderRadius: 50,

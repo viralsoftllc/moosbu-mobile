@@ -48,8 +48,8 @@ const TokenScreen = ({navigation}) => {
   const [isFocus, setIsFocus] = useState(false);
   const tokens = [
     {label: 'SMS', value: 3},
-    {label: 'Whatsapp', value: 5},
-    {label: 'Email', value: 3},
+    // {label: 'Whatsapp', value: 5},
+    // {label: 'Email', value: 3},
   ];
 
   const [amount, setAmount] = useState(0);

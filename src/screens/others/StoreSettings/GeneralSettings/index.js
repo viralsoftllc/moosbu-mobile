@@ -347,6 +347,8 @@ export default function GeneralSettings() {
             label={'Store Default Language'}
             placeholder="Select Language"
             style={[styles.smallForm, styles.rightFormInput]}
+            editable={false}
+            value={'English'}
           />
         </View>
 
@@ -440,8 +442,8 @@ export default function GeneralSettings() {
           />
 
           <FormInput
-            label={'Facebook Pixel'}
-            placeholder="Enter Facebook Pixel"
+            label={'Facebook Pixel ID'}
+            placeholder="Enter Pixel ID"
             style={[styles.smallForm, styles.rightFormInput]}
             onChangeText={text =>
               setDetails({...details, facebook_pixel: text})

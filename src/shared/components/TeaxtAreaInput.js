@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
 
@@ -45,7 +45,7 @@ export default function TextAreaInput({
           // maxLength={40}
           // onChangeText={text => onChangeText(text)}
           // value={value}
-          style={{padding: 10, textAlignVertical: 'top'}}
+          style={{padding: 10, textAlignVertical: 'top', ...FONTS.regular}}
           {...rest}
         />
       </View>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base,
   },
   info: {
-    ...FONTS.medium,
+    ...FONTS.small,
     marginTop: SIZES.base / 2,
   },
 });

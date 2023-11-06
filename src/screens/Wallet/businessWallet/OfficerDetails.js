@@ -13,7 +13,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {verticalScale} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 
+import {Dropdown} from 'react-native-element-dropdown';
+
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
+import DatePicker from 'react-native-date-picker';
 
 const OfficerDetails = () => {
   const {navigate, goBack} = useNavigation();
@@ -30,6 +34,29 @@ const OfficerDetails = () => {
   const [state, setState] = useState('');
   const [percentage, setPercentage] = useState('');
   const [dob, setDob] = useState('');
+
+  const [valueTitle, setValueTitle] = useState(null);
+  const [isFocusTitle, setIsFocusTitle] = useState(false);
+
+  const [valueRole, setValueRole] = useState(null);
+  const [isFocusRole, setIsFocusRole] = useState(false);
+
+  //Date picker
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [dateUI, setDateUI] = useState('');
+
+  //format date
+  function formatDate(date = new Date()) {
+    const year = date.toLocaleString('default', {year: 'numeric'});
+    const month = date.toLocaleString('default', {
+      month: '2-digit',
+    });
+    const day = date.toLocaleString('default', {day: '2-digit'});
+
+    const formattedDate = [year, month, day].join('-');
+    return formattedDate;
+  }
 
   return (
     <SafeAreaView>
@@ -59,12 +86,11 @@ const OfficerDetails = () => {
             </Pressable>
             <Text
               style={{
-                ...FONTS.h4,
-                fontWeight: '700',
+                ...FONTS.h5,
               }}>
               Activate Your Wallet
             </Text>
-            <Text style={{...FONTS.tiny, fontWeight: '700'}}>Step 3 of 3</Text>
+            <Text style={{...FONTS.tiny}}>Step 3 of 3</Text>
           </View>
 
           <Text style={{textAlign: 'center', ...FONTS.medium}}>
@@ -80,14 +106,32 @@ const OfficerDetails = () => {
           </Text>
 
           <View style={{gap: 15}}>
-            <TextInput
-              placeholder="Role"
-              placeholderTextColor={COLORS.grayText}
+            <Dropdown
               style={styles.input}
-              value={role}
-              onChangeText={text => setRole(text)}
-              autoCapitalize="words"
+              placeholderStyle={[
+                {borderWidth: 0, color: COLORS.grayText, ...FONTS.medium},
+              ]}
+              itemTextStyle={{
+                ...FONTS.medium,
+              }}
+              selectedTextStyle={{...FONTS.medium}}
+              data={[
+                {label: 'Owner', value: 'mr'},
+                {label: 'Partner', value: 'mrs'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocusRole ? 'Role' : '...'}
+              value={valueRole}
+              onFocus={() => setIsFocusRole(true)}
+              onBlur={() => setIsFocusRole(false)}
+              onChange={item => {
+                setValueRole(item.value);
+                setIsFocusRole(false);
+              }}
             />
+
             <TextInput
               placeholder="First Name"
               placeholderTextColor={COLORS.grayText}
@@ -151,13 +195,32 @@ const OfficerDetails = () => {
               onChangeText={text => setBvn(text)}
               autoCapitalize="words"
             />
-            <TextInput
-              placeholder="Title"
-              placeholderTextColor={COLORS.grayText}
+
+            <Dropdown
               style={styles.input}
-              value={title}
-              onChangeText={text => setTitle(text)}
-              autoCapitalize="words"
+              placeholderStyle={[
+                {borderWidth: 0, color: COLORS.grayText, ...FONTS.medium},
+              ]}
+              itemTextStyle={{
+                ...FONTS.medium,
+              }}
+              selectedTextStyle={{...FONTS.medium}}
+              data={[
+                {label: 'Mr', value: 'mr'},
+                {label: 'Mrs', value: 'mrs'},
+                {label: 'Miss', value: 'ms'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocusTitle ? 'Title' : '...'}
+              value={valueTitle}
+              onFocus={() => setIsFocusTitle(true)}
+              onBlur={() => setIsFocusTitle(false)}
+              onChange={item => {
+                setValueTitle(item.value);
+                setIsFocusTitle(false);
+              }}
             />
             <TextInput
               placeholder="Percentage of Share"
@@ -167,13 +230,26 @@ const OfficerDetails = () => {
               onChangeText={text => setPercentage(text)}
               autoCapitalize="words"
             />
+
+            <DatePicker
+              modal
+              open={open}
+              date={date}
+              onConfirm={date => {
+                setOpen(false);
+                setDateUI(formatDate(date));
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+              mode="date"
+            />
             <TextInput
-              placeholder="Date of Birth"
+              placeholder="Date of birth"
               placeholderTextColor={COLORS.grayText}
               style={styles.input}
-              value={dob}
-              onChangeText={text => setDob(text)}
-              autoCapitalize="words"
+              value={dateUI}
+              onPressIn={() => setOpen(true)}
             />
           </View>
           <View
@@ -183,13 +259,12 @@ const OfficerDetails = () => {
               marginTop: 20,
             }}>
             <TouchableOpacity
-              onPress={() => navigate('')}
+              onPress={() => notifyMessage('Will add the endpoint tonight sir')}
               style={styles.button}>
               <Text
                 style={{
                   color: COLORS.white,
-                  ...FONTS.regular,
-                  fontWeight: '700',
+                  ...FONTS.h5,
                 }}>
                 Continue
               </Text>
@@ -218,7 +293,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    fontSize: 12,
+    ...FONTS.medium,
   },
   button: {
     minWidth: '80%',

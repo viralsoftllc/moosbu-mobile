@@ -50,9 +50,9 @@ export const uploadImageToCloudinary = async base64 => {
       method: 'POST',
     })
       .then(async response => {
-        console.log('response from cloudinary');
+        // console.log('response from cloudinary');
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (!response?.ok) {
           // handle error uploading image

@@ -1,6 +1,6 @@
 import React from 'react';
 import {ActivityIndicator, Modal, SafeAreaView, Text, View} from 'react-native';
-import {COLORS, SIZES} from '../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../assets/themes';
 
 export default function Loader({loading, message}) {
   return (
@@ -18,7 +18,9 @@ export default function Loader({loading, message}) {
               <ActivityIndicator color={COLORS.primary} size="large" />
             ) : null}
             {message ? (
-              <Text style={{marginTop: SIZES.base}}>{message}</Text>
+              <Text style={{marginTop: SIZES.base, ...FONTS.small}}>
+                {message}
+              </Text>
             ) : null}
           </View>
         </View>

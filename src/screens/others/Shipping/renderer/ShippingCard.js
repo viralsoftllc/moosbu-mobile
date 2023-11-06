@@ -70,7 +70,7 @@ export default function ShippingCard({
                 shipping?.price > 0 ? COLORS.textSecondary : COLORS.pending,
             },
           ]}>
-          {Number(shipping?.price) > 0 ? `₦${shipping?.price}` : ''}
+          {Number(shipping?.price) > 0 ? `₦ ${shipping?.price}` : ''}
         </Text>
 
         <View style={[styles.flex, styles.datetime]}>
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
   name: {
     color: COLORS.textPrimary,
     maxWidth: verticalScale(240),
+    ...FONTS.medium,
+    fontFamily: 'Lato-Bold',
   },
   nameWrapper: {
     position: 'relative',
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
   price: {
     // textAlign: 'right',
     color: COLORS.pending,
+    ...FONTS.medium,
   },
   datetime: {
     width: '80%',

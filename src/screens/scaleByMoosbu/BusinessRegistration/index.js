@@ -22,6 +22,8 @@ import handleApiError from '../../../shared/components/handleApiError';
 import {useDispatch, useSelector} from 'react-redux';
 import {setBusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/slice';
 import {selectbusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/selectors';
+import Test from '../../Test';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 export default function BussinessRegistration() {
   const {setOptions, navigate} = useNavigation();
@@ -51,7 +53,7 @@ export default function BussinessRegistration() {
       const {data} = await client.get('/api/business_registrations');
       setLoading(false);
       // console.log('biz reg');
-      // console.log(data);
+      console.log(data);
 
       dispatch(setBusinessRegistrationDetails(data?.[0]));
     } catch (error) {
@@ -104,71 +106,85 @@ export default function BussinessRegistration() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <ScrollView
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-          paddingBottom: 100,
-        }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        {loading ? (
-          <ActivityIndicator size={'large'} style={styles.loader} />
-        ) : null}
+      {loading ? (
+        <Test />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingBottom: 100,
+          }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          {loading ? (
+            <ActivityIndicator size={'large'} style={styles.loader} />
+          ) : null}
 
-        {/* Step 1 */}
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate(routes.PROPRIETOR_INFO)}>
-          <View style={styles.iconView}>
-            {checkProprietorInfo() ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+          {/* Step 1 */}
+          <Pressable
+            style={styles.step}
+            onPress={() => {
+              if (checkProprietorInfo()) {
+                return notifyMessage('Step completed');
+              }
 
-          <View>
-            <Text style={styles.label}>First Step</Text>
-            <Text style={styles.value}>Proprietor information</Text>
-          </View>
-        </Pressable>
+              navigate(routes.PROPRIETOR_INFO);
+            }}>
+            <View style={styles.iconView}>
+              {checkProprietorInfo() ? (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="check"
+                  color={COLORS.credit}
+                />
+              ) : (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="close"
+                  color={COLORS.debit}
+                />
+              )}
+            </View>
 
-        {/* step 2 */}
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate(routes.PROPOSED_BUSINESS)}>
-          <View style={styles.iconView}>
-            {checkBusinessInfo() ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+            <View>
+              <Text style={styles.label}>First Step</Text>
+              <Text style={styles.value}>Proprietor information</Text>
+            </View>
+          </Pressable>
 
-          <View>
-            <Text style={styles.label}>Second Step</Text>
-            <Text style={styles.value}>Business information</Text>
-          </View>
-        </Pressable>
+          {/* step 2 */}
+          <Pressable
+            style={styles.step}
+            onPress={() => {
+              if (checkBvinInfo()) {
+                return notifyMessage('Step completed');
+              }
+              navigate(routes.PROPOSED_BUSINESS);
+            }}>
+            <View style={styles.iconView}>
+              {checkBusinessInfo() ? (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="check"
+                  color={COLORS.credit}
+                />
+              ) : (
+                <UseIcon
+                  type={'MaterialCommunityIcons'}
+                  name="close"
+                  color={COLORS.debit}
+                />
+              )}
+            </View>
 
-        {/* step 3 */}
-        <Pressable
+            <View>
+              <Text style={styles.label}>Second Step</Text>
+              <Text style={styles.value}>Business information</Text>
+            </View>
+          </Pressable>
+
+          {/* step 3 */}
+          {/* <Pressable
           style={styles.step}
           onPress={() => navigate(routes.BVN_VERIFICATION)}>
           <View style={styles.iconView}>
@@ -191,29 +207,33 @@ export default function BussinessRegistration() {
             <Text style={styles.label}>Third Step</Text>
             <Text style={styles.value}>BVN Verification</Text>
           </View>
-        </Pressable>
+        </Pressable> */}
 
-        {/* step 4 */}
-        <Pressable style={styles.step} onPress={() => navigate(routes.BILLING)}>
-          <View style={styles.iconView}>
-            <UseIcon
-              type={'MaterialCommunityIcons'}
-              name="close"
-              color={COLORS.debit}
-            />
-          </View>
+          {/* step 4 */}
+          <Pressable
+            style={styles.step}
+            onPress={() => navigate(routes.BILLING)}>
+            <View style={styles.iconView}>
+              <UseIcon
+                type={'MaterialCommunityIcons'}
+                name="close"
+                color={COLORS.debit}
+              />
+            </View>
 
-          <View>
-            <Text style={styles.label}>Fourth Step</Text>
-            <Text style={styles.value}>Billing</Text>
-          </View>
-        </Pressable>
+            <View>
+              <Text style={styles.label}>Third Step</Text>
+              <Text style={styles.value}>Billing</Text>
+            </View>
+          </Pressable>
 
-        <FormButton
-          title={'Need help? Message Us'}
-          buttonStyle={styles.buttonStyle}
-        />
-      </ScrollView>
+          <FormButton
+            title={'Need help? Contact Us'}
+            buttonStyle={styles.buttonStyle}
+            onPress={() => navigate(routes.CONTACT_SUPPORT)}
+          />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -245,11 +265,12 @@ const styles = StyleSheet.create({
   label: {
     color: COLORS.grayText,
     marginBottom: SIZES.base / 2,
+    ...FONTS.medium,
   },
   value: {
     color: COLORS.textPrimary,
     ...FONTS.regular,
-    fontWeight: 'bold',
+    fontFamily: 'Lato-Bold',
   },
   buttonStyle: {
     marginTop: SIZES.base * 5,
