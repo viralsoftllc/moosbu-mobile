@@ -17,6 +17,7 @@ import DatePicker from 'react-native-date-picker';
 import {Dropdown} from 'react-native-element-dropdown';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 const BasicDetails = () => {
   const {navigate, goBack} = useNavigation();
@@ -30,12 +31,20 @@ const BasicDetails = () => {
   const [country, setCountry] = useState('');
   const [website, setWebsite] = useState('');
 
+  const [details, setDetails] = useState({});
+
   //industry picker variables
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   //industry picker variables
   const [valueType, setValueType] = useState(null);
   const [isFocusType, setIsFocusType] = useState(false);
+
+  //business state variables
+  const [valueState, setValueState] = useState(null);
+  const [valueRegState, setValueRegState] = useState(null);
+  const [isFocusState, setIsFocusState] = useState(false);
+  const [isFocusRegState, setIsFocusRegState] = useState(false);
 
   //Date picker
   const [open, setOpen] = useState(false);
@@ -86,7 +95,7 @@ const BasicDetails = () => {
               }}>
               Activate Your Wallet
             </Text>
-            <Text style={{...FONTS.tiny}}>Step 1 of 3</Text>
+            <Text style={{...FONTS.tiny}}>Step 1 of 2</Text>
           </View>
 
           <Text style={{textAlign: 'center', ...FONTS.medium}}>
@@ -106,16 +115,20 @@ const BasicDetails = () => {
               placeholder="Business Name"
               placeholderTextColor={COLORS.grayText}
               style={styles.input}
-              value={businessName}
-              onChangeText={text => setBusinessName(text)}
+              value={details.businessName}
+              onChangeText={text =>
+                setDetails({...details, businessName: text})
+              }
               autoCapitalize="words"
             />
             <TextInput
               placeholder="Business BVN"
               placeholderTextColor={COLORS.grayText}
               style={styles.input}
-              value={businessBVN}
-              onChangeText={text => setBusinessBVN(text)}
+              value={details.businessBvn}
+              onChangeText={text => setDetails({...details, businessBvn: text})}
+              keyboardType="number-pad"
+              maxLength={11}
             />
 
             <Dropdown
@@ -139,7 +152,88 @@ const BasicDetails = () => {
               onBlur={() => setIsFocus(false)}
               onChange={item => {
                 setValue(item.value);
+                setDetails({...details, industry: item.label});
                 setIsFocus(false);
+              }}
+            />
+
+            <TextInput
+              placeholder="Description"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={details.description}
+              onChangeText={text => setDetails({...details, description: text})}
+              autoCapitalize="words"
+            />
+            {/* <TextInput
+              placeholder="State of Business"
+              placeholderTextColor={COLORS.grayText}
+              style={styles.input}
+              value={details.businessState}
+              onChangeText={text =>
+                setDetails({...details, businessState: text})
+              }
+              autoCapitalize="words"
+            /> */}
+
+            <Dropdown
+              style={styles.input}
+              placeholderStyle={[{borderWidth: 0, color: COLORS.grayText}]}
+              placeholderTextColor={COLORS.grayText}
+              itemTextStyle={{
+                ...FONTS.medium,
+              }}
+              selectedTextStyle={{...FONTS.medium}}
+              data={[
+                {label: 'Abia', value: 'Abia'},
+                {label: 'Adamawa', value: 'Adamawa'},
+                {label: 'Akwa Ibom', value: 'Akwa Ibom'},
+                {label: 'Anambra', value: 'Anambra'},
+                {label: 'Bauchi', value: 'Bauchi'},
+                {label: 'Bayelsa', value: 'Bayelsa'},
+                {label: 'Benue', value: 'Benue'},
+                {label: 'Borno', value: 'Borno'},
+                {label: 'Cross River', value: 'Cross River'},
+                {label: 'Delta', value: 'Delta'},
+                {label: 'Ebonyi', value: 'Ebonyi'},
+                {label: 'Edo', value: 'Edo'},
+                {label: 'Ekiti', value: 'Ekiti'},
+                {label: 'Enugu', value: 'Enugu'},
+                {label: 'FCT - Abuja', value: 'FCT - Abuja'},
+                {label: 'Gombe', value: 'Gombe'},
+                {label: 'Imo', value: 'Imo'},
+                {label: 'Jigawa', value: 'Jigawa'},
+                {label: 'Kaduna', value: 'Kaduna'},
+                {label: 'Kano', value: 'Kano'},
+                {label: 'Katsina', value: 'Katsina'},
+                {label: 'Kebbi', value: 'Kebbi'},
+                {label: 'Kogi', value: 'Kogi'},
+                {label: 'Kwara', value: 'Kwara'},
+                {label: 'Lagos', value: 'Lagos'},
+                {label: 'Nasarawa', value: 'Nasarawa'},
+                {label: 'Niger', value: 'Niger'},
+                {label: 'Ogun', value: 'Ogun'},
+                {label: 'Ondo', value: 'Ondo'},
+                {label: 'Osun', value: 'Osun'},
+                {label: 'Oyo', value: 'Oyo'},
+                {label: 'Plateau', value: 'Plateau'},
+                {label: 'Rivers', value: 'Rivers'},
+                {label: 'Sokoto', value: 'Sokoto'},
+                {label: 'Taraba', value: 'Taraba'},
+                {label: 'Yobe', value: 'Yobe'},
+                {label: 'Zamfara', value: 'Zamfara'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocusState ? 'State of Business' : '...'}
+              value={valueState}
+              onFocus={() => setIsFocusState(true)}
+              onBlur={() => setIsFocusState(false)}
+              onChange={item => {
+                setValueState(item.value);
+                setDetails({...details, businessState: item.label});
+                setIsFocusState(false);
               }}
             />
             <Dropdown
@@ -163,6 +257,7 @@ const BasicDetails = () => {
               onBlur={() => setIsFocusType(false)}
               onChange={item => {
                 setValueType(item.value);
+                setDetails({...details, registrationType: item.label});
                 setIsFocusType(false);
               }}
             />
@@ -174,6 +269,7 @@ const BasicDetails = () => {
               onConfirm={date => {
                 setOpen(false);
                 setDateUI(formatDate(date));
+                setDetails({...details, registrationDate: formatDate(date)});
               }}
               onCancel={() => {
                 setOpen(false);
@@ -188,13 +284,66 @@ const BasicDetails = () => {
               value={dateUI}
               onPressIn={() => setOpen(true)}
             />
-            <TextInput
-              placeholder="Description"
-              placeholderTextColor={COLORS.grayText}
+
+            <Dropdown
               style={styles.input}
-              value={description}
-              onChangeText={text => setDescription(text)}
-              autoCapitalize="words"
+              placeholderStyle={[{borderWidth: 0, color: COLORS.grayText}]}
+              placeholderTextColor={COLORS.grayText}
+              itemTextStyle={{
+                ...FONTS.medium,
+              }}
+              selectedTextStyle={{...FONTS.medium}}
+              data={[
+                {label: 'Abia', value: 'Abia'},
+                {label: 'Adamawa', value: 'Adamawa'},
+                {label: 'Akwa Ibom', value: 'Akwa Ibom'},
+                {label: 'Anambra', value: 'Anambra'},
+                {label: 'Bauchi', value: 'Bauchi'},
+                {label: 'Bayelsa', value: 'Bayelsa'},
+                {label: 'Benue', value: 'Benue'},
+                {label: 'Borno', value: 'Borno'},
+                {label: 'Cross River', value: 'Cross River'},
+                {label: 'Delta', value: 'Delta'},
+                {label: 'Ebonyi', value: 'Ebonyi'},
+                {label: 'Edo', value: 'Edo'},
+                {label: 'Ekiti', value: 'Ekiti'},
+                {label: 'Enugu', value: 'Enugu'},
+                {label: 'FCT - Abuja', value: 'FCT - Abuja'},
+                {label: 'Gombe', value: 'Gombe'},
+                {label: 'Imo', value: 'Imo'},
+                {label: 'Jigawa', value: 'Jigawa'},
+                {label: 'Kaduna', value: 'Kaduna'},
+                {label: 'Kano', value: 'Kano'},
+                {label: 'Katsina', value: 'Katsina'},
+                {label: 'Kebbi', value: 'Kebbi'},
+                {label: 'Kogi', value: 'Kogi'},
+                {label: 'Kwara', value: 'Kwara'},
+                {label: 'Lagos', value: 'Lagos'},
+                {label: 'Nasarawa', value: 'Nasarawa'},
+                {label: 'Niger', value: 'Niger'},
+                {label: 'Ogun', value: 'Ogun'},
+                {label: 'Ondo', value: 'Ondo'},
+                {label: 'Osun', value: 'Osun'},
+                {label: 'Oyo', value: 'Oyo'},
+                {label: 'Plateau', value: 'Plateau'},
+                {label: 'Rivers', value: 'Rivers'},
+                {label: 'Sokoto', value: 'Sokoto'},
+                {label: 'Taraba', value: 'Taraba'},
+                {label: 'Yobe', value: 'Yobe'},
+                {label: 'Zamfara', value: 'Zamfara'},
+              ]}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocusState ? 'State of Registration' : '...'}
+              value={valueRegState}
+              onFocus={() => setIsFocusRegState(true)}
+              onBlur={() => setIsFocusRegState(false)}
+              onChange={item => {
+                setValueRegState(item.value);
+                setDetails({...details, registeredState: item.label});
+                setIsFocusState(false);
+              }}
             />
 
             <TextInput
@@ -202,7 +351,7 @@ const BasicDetails = () => {
               placeholderTextColor={COLORS.grayText}
               style={styles.input}
               value={website}
-              onChangeText={text => setWebsite(text)}
+              onChangeText={text => setDetails({...details, website: text})}
               autoCapitalize="words"
             />
           </View>
@@ -213,7 +362,21 @@ const BasicDetails = () => {
               marginTop: 20,
             }}>
             <TouchableOpacity
-              onPress={() => navigate('Address')}
+              onPress={() => {
+                if (
+                  !details.businessName &&
+                  !details.businessBvn &&
+                  !details.registrationType &&
+                  !details.registrationDate &&
+                  !details.description &&
+                  !details.businessState &&
+                  !details.registeredState
+                ) {
+                  return notifyMessage('Please fill all details');
+                }
+                console.log(details);
+                navigate('OfficerDetails', details);
+              }}
               style={styles.button}>
               <Text
                 style={{

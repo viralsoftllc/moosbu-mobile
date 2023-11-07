@@ -68,7 +68,7 @@ export default function More() {
           </View>
 
           <View style={styles.level}>
-            <Text>Level 1</Text>
+            <Text style={{...FONTS.h5}}>Level 1</Text>
           </View>
         </View>
 
@@ -76,6 +76,13 @@ export default function More() {
           title={'Profile'}
           iconName="person-outline"
           route={routes.PROFILE}
+        />
+
+        <LinkRow
+          title={'Reward'}
+          iconName="gift"
+          iconType="AntDesign"
+          route={routes.REWARD}
         />
 
         <LinkRow

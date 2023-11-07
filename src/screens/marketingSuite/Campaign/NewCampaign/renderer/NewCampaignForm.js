@@ -280,7 +280,7 @@ export default function NewCampaignForm({
             }}>
             <Text style={{...FONTS.h5}}>
               {' '}
-              Token Balance: {tokenBalance.sms_token}
+              Token Balance: {tokenBalance.sms_token || 0}
             </Text>
           </View>
 

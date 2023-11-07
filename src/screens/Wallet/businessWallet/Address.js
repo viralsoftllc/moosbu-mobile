@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {verticalScale} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
@@ -16,8 +16,10 @@ import {Dropdown} from 'react-native-element-dropdown';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 
-const Address = () => {
+const Address = ({route}) => {
   const {navigate, goBack} = useNavigation();
+
+  // const {details} = route.params;
 
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -27,9 +29,15 @@ const Address = () => {
   const [country, setCountry] = useState('');
   const [website, setWebsite] = useState('');
 
+  const [details, setDetails] = useState({});
+
   //country picker variables
   const [valueCountry, setValueCountry] = useState(null);
   const [isFocusCountry, setIsFocusCountry] = useState(false);
+
+  useEffect(() => {
+    setDetails({...route.params});
+  }, [route.params]);
 
   return (
     <SafeAreaView>
