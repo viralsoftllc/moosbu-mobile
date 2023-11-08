@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -19,6 +19,13 @@ import routes from '../../shared/constants/routes';
 import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../redux/slices/user/selectors';
+import client from '../../shared/api/client';
+import handleApiError from '../../shared/components/handleApiError';
+import copyToClipboard from '../../shared/utils/copyToClipboard';
+import notifyMessage from '../../shared/hooks/notifyMessage';
+
 export default function Reward() {
   const {setOptions, navigate} = useNavigation();
 
@@ -27,6 +34,28 @@ export default function Reward() {
       header: () => <ScreenHeader title="Reward" />,
     });
   }, [setOptions]);
+
+  const user = useSelector(selectUser);
+  console.log(user);
+
+  const [numberOfReferrals, setNumberOfReferrals] = useState(1);
+  const [numberOfInvalidReferrals, setNumberOfInvalidReferrals] = useState(0);
+
+  useEffect(() => {
+    const fetchReferrals = async () => {
+      try {
+        const res = await client.get(`/api/ref?refCode=${user.referral_code}`);
+        console.log(res.data);
+        setNumberOfReferrals(res.data['valid refered user']);
+        setNumberOfInvalidReferrals(res.data['invalid refered user']);
+        console.log(numberOfReferrals);
+      } catch (error) {
+        handleApiError(error);
+      }
+    };
+
+    fetchReferrals();
+  }, [numberOfReferrals]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -74,8 +103,11 @@ export default function Reward() {
           <Text style={styles.text}>Level 1</Text>
 
           <Pressable style={styles.linkBtn}>
-            <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
-              Share your link
+            <Text style={{...FONTS.tiny, textAlign: 'center'}}>
+              Referral Code
+            </Text>
+            <Text style={{...FONTS.h5, marginVertical: 5}}>
+              {user.referral_code}
             </Text>
           </Pressable>
         </View>
@@ -97,7 +129,7 @@ export default function Reward() {
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
                 currency: 'NGN',
-              }).format(3000)}
+              }).format(numberOfReferrals * 3000)}
             </Text>
           </View>
 
@@ -112,12 +144,32 @@ export default function Reward() {
             </View>
 
             <Text style={styles.referralLabel}>Number of Referrals</Text>
-            <Text style={styles.referralSublabel}>Total Referrals</Text>
-            <Text style={styles.referralValue}>1</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.referralSublabel}>Valid Referrals</Text>
+              <Text style={styles.referralValue}>{numberOfReferrals}</Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.referralSublabel}>Invalid Referrals</Text>
+              <Text style={styles.referralValue}>
+                {numberOfInvalidReferrals}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.referralSublabel}>Total Referrals</Text>
+              <Text style={styles.referralValue}>
+                {numberOfInvalidReferrals + numberOfReferrals}
+              </Text>
+            </View>
           </View>
         </View>
 
-        <FormButton title={'Refer a Business'} />
+        <FormButton
+          title={'Refer a Business'}
+          onPress={() => {
+            copyToClipboard(user.referral_code);
+            notifyMessage(user.referral_code);
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -210,7 +262,8 @@ const styles = StyleSheet.create({
   referralSublabel: {
     color: COLORS.grayText,
     ...FONTS.medium,
-    marginBottom: SIZES.base * 1.5,
+    marginBottom: SIZES.base,
+    width: '70%',
   },
   referral: {
     paddingHorizontal: SIZES.base,

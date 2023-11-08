@@ -11,7 +11,7 @@ export default function RewardInfo() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Info='} />,
+      header: () => <ScreenHeader title={'Info'} />,
     });
   }, [setOptions]);
 
