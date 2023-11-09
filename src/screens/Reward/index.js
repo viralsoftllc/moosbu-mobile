@@ -32,7 +32,7 @@ export default function Reward() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title="Reward" />,
+      header: () => <ScreenHeader title="Refer and Earn" />,
     });
   }, [setOptions]);
 
@@ -78,7 +78,7 @@ export default function Reward() {
             styles.contentContainerStyle,
             {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
           ]}>
-          <View style={styles.flex}>
+          {/* <View style={styles.flex}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Refer And Earn</Text>
               <Text style={styles.subheaderText}>
@@ -97,7 +97,7 @@ export default function Reward() {
 
               <Text style={styles.infoLink}>Info</Text>
             </Pressable>
-          </View>
+          </View> */}
 
           <View>
             <View style={styles.iconView}>
@@ -173,14 +173,14 @@ export default function Reward() {
               </View>
             </View>
           </View>
-
+          {/* 
           <FormButton
             title={'Refer a Business'}
             onPress={() => {
               copyToClipboard(user.referral_code);
               notifyMessage(user.referral_code);
             }}
-          />
+          /> */}
         </ScrollView>
       )}
     </SafeAreaView>

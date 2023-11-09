@@ -79,7 +79,7 @@ export default function MBot() {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
       <ComingSoon
-        page={'M Bot'}
+        page={'Vera AI'}
         iconType={'MaterialCommunityIcons'}
         iconName="robot"
       />

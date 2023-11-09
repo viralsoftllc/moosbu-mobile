@@ -125,7 +125,7 @@ const menus = [
         route: routes.AUTOMATION,
       },
       {
-        title: 'mBot',
+        title: 'Vera AI',
         icon: (
           <UseIcon
             type={'MaterialCommunityIcons'}
