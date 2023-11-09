@@ -26,6 +26,7 @@ import handleApiError from '../../shared/components/handleApiError';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
 import notifyMessage from '../../shared/hooks/notifyMessage';
 import Test from '../Test';
+import Ficon from 'react-native-vector-icons/Feather';
 
 export default function Reward() {
   const {setOptions, navigate} = useNavigation();
@@ -116,9 +117,15 @@ export default function Reward() {
               <Text style={{...FONTS.tiny, textAlign: 'center'}}>
                 Referral Code
               </Text>
-              <Text style={{...FONTS.h5, marginVertical: 5}}>
-                {user.referral_code}
-              </Text>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+                <Text style={{...FONTS.h5, marginVertical: 5}}>
+                  {user.referral_code}
+                </Text>
+                <Pressable onPress={() => copyToClipboard(user.referral_code)}>
+                  <Ficon name="copy" size={15} color={COLORS.primary} />
+                </Pressable>
+              </View>
             </Pressable>
           </View>
 

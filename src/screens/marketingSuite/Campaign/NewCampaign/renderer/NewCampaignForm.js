@@ -39,7 +39,7 @@ export default function NewCampaignForm({
   const contacts = useSelector(selectContacts);
   const tokenBalance = useSelector(selectTokens);
 
-  console.log(tokenBalance);
+  // console.log(tokenBalance);
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -50,7 +50,7 @@ export default function NewCampaignForm({
     return {label: x.name, value: num, ...x};
   });
   // console.log('contacts');
-  console.log(contacts);
+  // console.log(contacts);
   // const [sendLater, setSendLater] = useState(false);
 
   return (
@@ -280,7 +280,7 @@ export default function NewCampaignForm({
             }}>
             <Text style={{...FONTS.h5}}>
               {' '}
-              Token Balance: {tokenBalance.sms_token || 0}
+              Token Balance: {tokenBalance?.sms_token || 0}
             </Text>
           </View>
 

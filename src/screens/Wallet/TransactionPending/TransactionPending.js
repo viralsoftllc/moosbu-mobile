@@ -60,8 +60,10 @@ const TransactionPending = ({navigation, route}) => {
                 <Icon name={'cached'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Repeat Transaction</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Repeat Transaction
+                </Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
                   Make this payment again
                 </Text>
               </View>
@@ -95,8 +97,10 @@ const TransactionPending = ({navigation, route}) => {
                 <Icon name={'share-outline'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Share Receipt</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Share Receipt
+                </Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
                   Share receipt with others
                 </Text>
               </View>
@@ -126,8 +130,12 @@ const TransactionPending = ({navigation, route}) => {
                 />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Go Home</Text>
-                <Text style={{color: COLORS.gray}}>Go To Moosbu Homepage</Text>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Go Home
+                </Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
+                  Go To Moosbu Homepage
+                </Text>
               </View>
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />

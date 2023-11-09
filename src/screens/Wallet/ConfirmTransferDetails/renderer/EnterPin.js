@@ -41,35 +41,42 @@ export default function EnterPin({setShowPinForm, options}) {
 
       console.log(res.data);
 
-      const {attributes, id} = res.data;
-      console.log(attributes);
+      if (res.data == 'invalid transfer pin') {
+        setLoading(false);
+        return notifyMessage(res.data);
+      }
 
-      const {status, failureReason, reason, createdAt} = attributes;
+      const {transfer_details, id} = res.data;
+      // console.log(attributes);
 
-      if (status == 'FAILED') {
+      const {attributes} = transfer_details;
+
+      if (attributes.status == 'FAILED') {
         setShowPinForm(false);
         navigation.navigate('TransferDeclined', options);
       }
-      if (status == 'PENDING') {
+      if (attributes.status == 'PENDING') {
         navigation.navigate('TransactionPending', {
           ...options,
-          time: createdAt,
+          time: attributes.createdAt,
           transactionId: id,
-          status,
+          status: attributes.status,
         });
       }
-      if (status == 'COMPLETED') {
+      if (attributes.status == 'COMPLETED') {
         setShowPinForm(false);
         navigation.navigate('TransferSuccessful', {
           ...options,
-          time: createdAt,
+          time: attributes.createdAt,
           transactionId: id,
-          status,
+          status: attributes.status,
         });
       }
 
       setLoading(false);
     } catch (error) {
+      console.log(error);
+
       navigation.navigate('TransferDeclined', options);
       setShowPinForm(false);
       setLoading(false);

@@ -81,8 +81,9 @@ export default function NewCampaign() {
     try {
       const res = await client.post('/api/campaign/save_send', payload);
       console.log('New save and send campaign response');
-      console.log(res);
+      // console.log(res);
       console.log(res.data);
+      console.log(res.data.flag);
       setCampaign({channel: ''});
       setLoading(false);
       handleSuccessfulResponse();

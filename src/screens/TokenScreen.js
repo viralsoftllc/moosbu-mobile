@@ -15,6 +15,7 @@ import Test from './Test';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTokens} from '../redux/slices/wallet/slice';
 import {selectTokens} from '../redux/slices/wallet/selectors';
+import notifyMessage from '../shared/hooks/notifyMessage';
 
 const TokenScreen = ({navigation}) => {
   const {setOptions} = useNavigation();
@@ -72,7 +73,7 @@ const TokenScreen = ({navigation}) => {
       }
       setIsLoading(false);
     } catch (error) {
-      setIsFocus(false);
+      setIsLoading(false);
       handleApiError(error);
     }
   };
