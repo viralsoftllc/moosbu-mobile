@@ -105,9 +105,8 @@ export default function Profile() {
     setProfile({
       name: user?.name || '',
       email: user?.email || '',
-      phone_number: user?.phone_number || '',
+      phone_number: user?.phone_number.toString() || '',
       avatar: user?.avatar,
-      phone_number: user?.phone_number || '',
     });
 
     return () => {};

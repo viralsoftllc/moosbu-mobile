@@ -14,9 +14,10 @@ import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import UseIcon from '../../../shared/utils/UseIcon';
+import routes from '../../../shared/constants/routes';
 
 export default function VerifyEmail({route}) {
-  const {goBack} = useNavigation();
+  const {goBack, navigate} = useNavigation();
   const [code, setCode] = useState('');
 
   const {email} = route.params;
@@ -40,11 +41,12 @@ export default function VerifyEmail({route}) {
 
         {/* Todo - verify email */}
         <Text style={styles.message}>
-          Please enter the number code sent to your email,{' '}
-          <Text style={styles.email}>{email}</Text>
+          An email with verification instructions has been sent to{' '}
+          <Text style={styles.email}>{email}</Text>. Please check your email to
+          verify your Moosbu account.
         </Text>
 
-        <View>
+        {/* <View>
           <OTPInputView
             style={styles.otpView}
             pinCount={6}
@@ -55,17 +57,16 @@ export default function VerifyEmail({route}) {
             onCodeChanged={otp => setCode(otp)}
             code={code}
           />
-        </View>
+        </View> */}
 
-        <View>
+        <View style={{marginVertical: 50}}>
+          <Text style={{textAlign: 'center', ...FONTS.medium}}>
+            Completed verification?
+          </Text>
           <FormButton
-            title={'Confirm'}
+            title={'Go to Login Screen'}
             buttonStyle={styles.confirmButtonStyle}
-          />
-          <FormButton
-            title={'Resend code'}
-            buttonStyle={styles.resendButtonStyle}
-            textStyle={styles.textStyle}
+            onPress={() => navigate(routes.LOGIN)}
           />
         </View>
       </ScrollView>
@@ -118,10 +119,12 @@ const styles = StyleSheet.create({
   confirmButtonStyle: {
     marginBottom: SIZES.base,
     backgroundColor: COLORS.primary,
-    marginTop: SIZES.base * 2,
+    marginTop: SIZES.base,
   },
   resendButtonStyle: {
     backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: COLORS.primary,
   },
   textStyle: {
     color: COLORS.primary,

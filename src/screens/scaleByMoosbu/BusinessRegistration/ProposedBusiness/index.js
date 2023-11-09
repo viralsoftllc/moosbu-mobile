@@ -26,6 +26,8 @@ import {selectbusinessRegistrationDetails} from '../../../../redux/slices/busine
 import {Dropdown} from 'react-native-element-dropdown';
 import Test from '../../../Test';
 
+let datum;
+
 export default function ProposedBusiness() {
   const {params} = useRoute();
 
@@ -239,8 +241,113 @@ export default function ProposedBusiness() {
               }}
               selectedTextStyle={{...FONTS.regular}}
               data={[
-                {label: 'Auto', value: 'Male'},
-                {label: 'FMCG', value: 'Female'},
+                {
+                  label: 'Accommodation And Food Services Activities',
+                  value: 'Accommodation And Food Services Activities',
+                },
+                {
+                  label:
+                    'Activities Of Extraterritorial Organisations and Bodies',
+                  value:
+                    'Activities Of Extraterritorial Organisations and Bodies',
+                },
+                {
+                  label:
+                    'Activities Of House As Employment Undifferentiated Goods-And Services-Producing',
+                  value:
+                    'Activities Of House As Employment Undifferentiated Goods-And Services-Producing',
+                },
+                {
+                  label:
+                    'Activities Of Administrative And Support Services Activities',
+                  value:
+                    'Activities Of Administrative And Support Services Activities',
+                },
+                {
+                  label: 'Art, Entertainment And Recreation ',
+                  value: 'Art, Entertainment And Recreation ',
+                },
+                {
+                  label: 'Agriculture Forestry & Fishing ',
+                  value: 'Agriculture Forestry & Fishing ',
+                },
+                {
+                  label: 'Community-Based Association ',
+                  value: 'Community-Based Association ',
+                },
+                {
+                  label: 'Cultural Based Association ',
+                  value: 'Cultural Based Association ',
+                },
+                {label: 'Construction ', value: 'Construction '},
+                {label: 'Education', value: 'Education'},
+                {
+                  label: 'Faith-Based Association',
+                  value: 'Faith-Based Association',
+                },
+                {
+                  label: 'Financial And Insurance Activities',
+                  value: 'Financial And Insurance Activities',
+                },
+                {
+                  label: 'Foundation Based Association',
+                  value: 'Foundation Based Association',
+                },
+                {
+                  label: 'Human Health And Social Work Activities',
+                  value: 'Human Health And Social Work Activities',
+                },
+                {
+                  label: 'Information And Communication',
+                  value: 'Information And Communication',
+                },
+                {label: 'Manufacturing', value: 'Manufacturing'},
+                {label: 'Mining And Quarrying', value: 'Mining And Quarrying'},
+                {
+                  label: 'Other Service Activities',
+                  value: 'Other Service Activities',
+                },
+                {label: 'Others', value: 'Others'},
+                {label: 'Power', value: 'Power'},
+                {
+                  label: 'Professional, Scientific And Technical Activities',
+                  value: 'Professional, Scientific And Technical Activities',
+                },
+                {
+                  label:
+                    'Public Administration And Defence; Defence, Compulsory Social Security ',
+                  value:
+                    'Public Administration And Defence; Defence, Compulsory Social Security ',
+                },
+                {
+                  label: 'Real Estate Activities',
+                  value: 'Real Estate Activities',
+                },
+                {
+                  label: 'Repairs Of Motorvehicles And Motorcycles',
+                  value: 'Repairs Of Motorvehicles And Motorcycles',
+                },
+                {
+                  label: 'Social Clubs Based Association',
+                  value: 'Social Clubs Based Association',
+                },
+                {
+                  label: 'Sporting Based Association',
+                  value: 'Sporting Based Association',
+                },
+                {label: 'Transportation', value: 'Transportation'},
+                {
+                  label:
+                    'Water-supply, Sewerage, Waste Management, And Remediation Activities',
+                  value:
+                    'Water-supply, Sewerage, Waste Management, And Remediation Activities',
+                },
+                {
+                  label:
+                    'Wholesale And Retail Trade; Repair Of Motor Vehicles And Motor Vehicles And Motorcycles',
+                  value:
+                    'Wholesale And Retail Trade; Repair Of Motor Vehicles And Motor Vehicles And Motorcycles',
+                },
               ]}
               maxHeight={300}
               labelField="label"

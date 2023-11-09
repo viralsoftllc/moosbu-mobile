@@ -3,7 +3,7 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import routes from '../../../shared/constants/routes';
-import {COLORS, SIZES} from '../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import FormInput from '../../../shared/components/FormInput';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -37,7 +37,6 @@ export default function ProfileForm({
       <FormInput
         label={'Phone Number'}
         placeholder="phone number"
-        onChangeText={text => setProfile({...profile, phone_number: text})}
         value={profile?.phone_number}
         editable={false}
       />
@@ -46,7 +45,7 @@ export default function ProfileForm({
         style={styles.changePassword}
         onPress={() => navigate(routes.CHANGE_PASSWORD)}>
         <Text style={styles.changePasswordText}>Change Password</Text>
-        <UseIcon type={'AntDesign'} name="right" />
+        <UseIcon type={'AntDesign'} name="right" color={COLORS.primary} />
       </Pressable>
 
       <FormButton
@@ -66,14 +65,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: COLORS.borderGray,
+    borderColor: COLORS.primary,
     paddingVertical: SIZES.base * 1.3,
     borderRadius: SIZES.radius / 2,
     paddingHorizontal: SIZES.base,
     marginVertical: SIZES.base * 2,
   },
   changePasswordText: {
-    color: COLORS.textPrimary,
+    color: COLORS.primary,
+    ...FONTS.h5,
   },
   buttonStyle: {
     backgroundColor: COLORS.primary,

@@ -25,6 +25,7 @@ import client from '../../shared/api/client';
 import handleApiError from '../../shared/components/handleApiError';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
 import notifyMessage from '../../shared/hooks/notifyMessage';
+import Test from '../Test';
 
 export default function Reward() {
   const {setOptions, navigate} = useNavigation();
@@ -38,18 +39,24 @@ export default function Reward() {
   const user = useSelector(selectUser);
   console.log(user);
 
-  const [numberOfReferrals, setNumberOfReferrals] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const [numberOfReferrals, setNumberOfReferrals] = useState(0);
   const [numberOfInvalidReferrals, setNumberOfInvalidReferrals] = useState(0);
 
   useEffect(() => {
     const fetchReferrals = async () => {
+      setLoading(true);
       try {
         const res = await client.get(`/api/ref?refCode=${user.referral_code}`);
         console.log(res.data);
         setNumberOfReferrals(res.data['valid refered user']);
         setNumberOfInvalidReferrals(res.data['invalid refered user']);
+
         console.log(numberOfReferrals);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         handleApiError(error);
       }
     };
@@ -61,116 +68,121 @@ export default function Reward() {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
       {/* <ComingSoon page={'Reward'} iconType={'Ionicons'} iconName={'ios-gift'} /> */}
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.contentContainerStyle,
-          {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-        ]}>
-        <View style={styles.flex}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>Refer And Earn</Text>
-            <Text style={styles.subheaderText}>
-              Extra goodness to secure your Moosbu account
-            </Text>
-          </View>
-
-          <Pressable
-            style={styles.flex}
-            onPress={() => navigate(routes.REWARD_INFO)}>
-            <UseIcon
-              type={'AntDesign'}
-              name="arrowright"
-              color={COLORS.textSecondary}
-            />
-
-            <Text style={styles.infoLink}>Info</Text>
-          </Pressable>
-        </View>
-
-        <View>
-          <View style={styles.iconView}>
-            <UseIcon
-              type={'MaterialIcons'}
-              name="person-add-alt"
-              color={COLORS.white}
-              size={verticalScale(25)}
-            />
-          </View>
-
-          <Text style={styles.subtext}>Refer & Earn Points</Text>
-          <Text style={styles.text}>Level 1</Text>
-
-          <Pressable style={styles.linkBtn}>
-            <Text style={{...FONTS.tiny, textAlign: 'center'}}>
-              Referral Code
-            </Text>
-            <Text style={{...FONTS.h5, marginVertical: 5}}>
-              {user.referral_code}
-            </Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.referralView}>
-          <View style={[styles.referral, styles.borderRight]}>
-            <View style={styles.smallIconView}>
-              <UseIcon
-                type={'MaterialIcons'}
-                name="person-add-alt"
-                color={COLORS.primary}
-                size={verticalScale(18)}
-              />
-            </View>
-
-            <Text style={styles.referralLabel}>Referral Earnings</Text>
-            <Text style={styles.referralSublabel}>Earnings Balance</Text>
-            <Text style={styles.referralValue}>
-              {Intl.NumberFormat('en-NG', {
-                style: 'currency',
-                currency: 'NGN',
-              }).format(numberOfReferrals * 3000)}
-            </Text>
-          </View>
-
-          <View style={styles.referral}>
-            <View style={styles.smallIconView}>
-              <UseIcon
-                type={'MaterialIcons'}
-                name="person-add-alt"
-                color={COLORS.primary}
-                size={verticalScale(18)}
-              />
-            </View>
-
-            <Text style={styles.referralLabel}>Number of Referrals</Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.referralSublabel}>Valid Referrals</Text>
-              <Text style={styles.referralValue}>{numberOfReferrals}</Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.referralSublabel}>Invalid Referrals</Text>
-              <Text style={styles.referralValue}>
-                {numberOfInvalidReferrals}
+      {loading ? (
+        <Test />
+      ) : (
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+          ]}>
+          <View style={styles.flex}>
+            <View style={styles.header}>
+              <Text style={styles.headerText}>Refer And Earn</Text>
+              <Text style={styles.subheaderText}>
+                Extra goodness to secure your Moosbu account
               </Text>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.referralSublabel}>Total Referrals</Text>
-              <Text style={styles.referralValue}>
+
+            <Pressable
+              style={styles.flex}
+              onPress={() => navigate(routes.REWARD_INFO)}>
+              <UseIcon
+                type={'AntDesign'}
+                name="arrowright"
+                color={COLORS.textSecondary}
+              />
+
+              <Text style={styles.infoLink}>Info</Text>
+            </Pressable>
+          </View>
+
+          <View>
+            <View style={styles.iconView}>
+              <UseIcon
+                type={'MaterialIcons'}
+                name="person-add-alt"
+                color={COLORS.white}
+                size={verticalScale(25)}
+              />
+            </View>
+
+            <Text style={styles.subtext}>Refer & Earn Points</Text>
+            <Text style={styles.text}>Level 1</Text>
+
+            <Pressable style={styles.linkBtn}>
+              <Text style={{...FONTS.tiny, textAlign: 'center'}}>
+                Referral Code
+              </Text>
+              <Text style={{...FONTS.h5, marginVertical: 5}}>
+                {user.referral_code}
+              </Text>
+            </Pressable>
+          </View>
+
+          <View style={styles.referralView}>
+            <View style={[styles.referral, styles.borderRight]}>
+              <View style={styles.smallIconView}>
+                <UseIcon
+                  type={'MaterialIcons'}
+                  name="person-add-alt"
+                  color={COLORS.primary}
+                  size={verticalScale(18)}
+                />
+              </View>
+
+              <Text style={styles.referralLabel}>Total Referrals</Text>
+
+              <Text style={{...FONTS.h3}}>
                 {numberOfInvalidReferrals + numberOfReferrals}
               </Text>
+
+              {/* <Text style={styles.referralSublabel}>Earnings Balance</Text>
+              <Text style={styles.referralValue}>
+                {Intl.NumberFormat('en-NG', {
+                  style: 'currency',
+                  currency: 'NGN',
+                }).format(numberOfReferrals * 3000)}
+              </Text> */}
+            </View>
+
+            <View style={styles.referral}>
+              <View style={styles.smallIconView}>
+                <UseIcon
+                  type={'MaterialIcons'}
+                  name="person-add-alt"
+                  color={COLORS.primary}
+                  size={verticalScale(18)}
+                />
+              </View>
+
+              <Text style={styles.referralLabel}>Number of Referrals</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.referralSublabel}>Verified Referrals</Text>
+                <Text style={styles.referralValue}>{numberOfReferrals}</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.referralSublabel}>
+                  Unverified Referrals
+                </Text>
+                <Text style={styles.referralValue}>
+                  {numberOfInvalidReferrals}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        <FormButton
-          title={'Refer a Business'}
-          onPress={() => {
-            copyToClipboard(user.referral_code);
-            notifyMessage(user.referral_code);
-          }}
-        />
-      </ScrollView>
+          <FormButton
+            title={'Refer a Business'}
+            onPress={() => {
+              copyToClipboard(user.referral_code);
+              notifyMessage(user.referral_code);
+            }}
+          />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -257,7 +269,7 @@ const styles = StyleSheet.create({
   referralLabel: {
     color: COLORS.textPrimary,
     ...FONTS.regular,
-    marginBottom: SIZES.base / 2,
+    marginBottom: SIZES.base,
   },
   referralSublabel: {
     color: COLORS.grayText,
@@ -273,7 +285,7 @@ const styles = StyleSheet.create({
   referralView: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     borderWidth: 1,
     borderColor: COLORS.borderGray,
     borderRadius: SIZES.radius,
