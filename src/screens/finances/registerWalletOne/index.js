@@ -359,28 +359,29 @@ const RegisterWalletOne = ({navigation}) => {
               </View>
             </View>
           </View>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              onPress={() => handleReg(country)}
+              style={styles.button}>
+              {loading ? (
+                <ActivityIndicator color={COLORS.white} size={'small'} />
+              ) : (
+                <Text
+                  style={{
+                    color: COLORS.white,
+                    ...FONTS.h5,
+                  }}>
+                  Continue
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => handleReg(country)}
-            style={styles.button}>
-            {loading ? (
-              <ActivityIndicator color={COLORS.white} size={'small'} />
-            ) : (
-              <Text
-                style={{
-                  color: COLORS.white,
-                  ...FONTS.h5,
-                }}>
-                Continue
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );

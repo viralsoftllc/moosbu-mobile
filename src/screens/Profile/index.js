@@ -34,6 +34,7 @@ export default function Profile() {
 
   const {setOptions} = useNavigation();
   const user = useSelector(selectUser);
+  console.log(user);
   const store = useSelector(selectStoreDetails);
   const [profile, setProfile] = useState({});
 
@@ -105,7 +106,7 @@ export default function Profile() {
     setProfile({
       name: user?.name || '',
       email: user?.email || '',
-      phone_number: user?.phone_number.toString() || '',
+      phone_number: String(user?.phone_number) || '',
       avatar: user?.avatar,
     });
 

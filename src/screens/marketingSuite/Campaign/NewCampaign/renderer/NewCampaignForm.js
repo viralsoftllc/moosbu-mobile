@@ -202,7 +202,7 @@ export default function NewCampaignForm({
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus ? 'Select token' : '...'}
+              placeholder={!isFocus ? 'Select campaign group' : '...'}
               value={value}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}

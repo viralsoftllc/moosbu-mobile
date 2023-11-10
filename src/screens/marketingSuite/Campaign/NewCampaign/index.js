@@ -86,6 +86,7 @@ export default function NewCampaign() {
       console.log(res.data.flag);
       setCampaign({channel: ''});
       setLoading(false);
+      notifyMessage(res.data.msg);
       handleSuccessfulResponse();
     } catch (error) {
       setLoading(false);

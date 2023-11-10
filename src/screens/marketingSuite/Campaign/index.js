@@ -22,7 +22,11 @@ import client from '../../../shared/api/client';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import Test from '../../Test';
 
+import {useDispatch} from 'react-redux';
+import {setTokens} from '../../../redux/slices/wallet/slice';
+
 export default function Campaign({navigation}) {
+  const dispatch = useDispatch();
   const {navigate, addListener} = useNavigation();
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -44,6 +48,20 @@ export default function Campaign({navigation}) {
   function handleDeleteItem() {
     setShowDeleteModal(true);
   }
+
+  const fetchTokens = useCallback(async () => {
+    try {
+      const res = await client.get('/api/get_tokens');
+      dispatch(setTokens(res.data.data));
+      console.log(res.data.data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchTokens();
+  }, [fetchTokens]);
 
   const getCampaigns = useCallback(async () => {
     try {

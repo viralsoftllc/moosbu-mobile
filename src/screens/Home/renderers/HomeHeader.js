@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
   storeName: {
     color: COLORS.white,
     marginRight: SIZES.base / 2,
+    ...FONTS.medium,
   },
   notifications: {
     padding: SIZES.base / 2,
