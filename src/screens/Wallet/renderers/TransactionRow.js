@@ -40,7 +40,7 @@ export default function TransactionRow({transaction}) {
         />
       );
     }
-    if (attributes?.direction.toLowerCase() === 'deposit') {
+    if (attributes?.direction.toLowerCase() === 'credit') {
       return (
         <UseIcon
           type="Feather"
@@ -90,6 +90,14 @@ export default function TransactionRow({transaction}) {
 
   const amount = attributes.amount / 100;
 
+  function addHours(date) {
+    date = new Date(date).getTime() + 60 * 60 * 1000;
+
+    date = new Date(date).toLocaleString();
+
+    return date;
+  }
+
   return (
     <Pressable
       onPress={() => {
@@ -110,7 +118,7 @@ export default function TransactionRow({transaction}) {
       <View style={styles.detailsContainer}>
         <View style={[styles.flex]}>
           <View>
-            <Text style={styles.text}>{transaction?.type}</Text>
+            <Text style={styles.text}>{transaction?.attributes.direction}</Text>
           </View>
           <View>
             <Text style={styles.text}>{transaction?.ref}</Text>
@@ -130,9 +138,7 @@ export default function TransactionRow({transaction}) {
           </View>
         </View>
 
-        <Text style={styles.date}>
-          {new Date(attributes?.createdAt).toLocaleString()}
-        </Text>
+        <Text style={styles.date}>{addHours(attributes.createdAt)}</Text>
       </View>
     </Pressable>
   );

@@ -76,8 +76,10 @@ export default function NewContact() {
       console.log(res.data);
 
       setLoading(false);
+      notifyMessage(res.data.message);
       setDetails({name: '', numbers: '', emails: 'placeholder', type: ''});
-      handleSuccessfulResponse();
+      setTimeout(handleSuccessfulResponse, 20000);
+      // handleSuccessfulResponse();
     } catch (error) {
       setLoading(false);
       handleApiError(error);

@@ -42,6 +42,7 @@ const TransactionDetails = ({navigation, route}) => {
 
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState('');
+  const [transactionType, setTransactionType] = useState('');
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -53,6 +54,7 @@ const TransactionDetails = ({navigation, route}) => {
         console.log(res.data);
         const {data} = res.data;
         setSummary(data?.attributes.summary);
+        setTransactionType(data?.attributes.transactionType);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -84,6 +86,14 @@ const TransactionDetails = ({navigation, route}) => {
       console.error('Error sharing screenshot:', error);
     }
   };
+
+  function addHours(date) {
+    date = new Date(date).getTime() + 60 * 60 * 1000;
+
+    date = new Date(date).toLocaleString();
+
+    return date;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white, padding: 10}}>
@@ -170,15 +180,19 @@ const TransactionDetails = ({navigation, route}) => {
                   currency: 'NGN',
                 }).format(parseInt(amount))}
               </Text>
-              <Text style={styles.label}>
-                {new Date(time).toLocaleString()}
-              </Text>
+              <Text style={styles.label}>{addHours(time)}</Text>
             </View>
 
             <View style={{gap: 10}}>
               <View style={styles.info}>
                 <Text style={styles.label}>Summary</Text>
-                <Text style={styles.content}>{summary}</Text>
+                <Text
+                  style={[
+                    styles.content,
+                    {color: status == 'Credit' ? COLORS.credit : COLORS.debit},
+                  ]}>
+                  {status}
+                </Text>
                 {/* </View>
               <View style={styles.info}>
                 <Text style={styles.label}>To</Text>
@@ -188,7 +202,7 @@ const TransactionDetails = ({navigation, route}) => {
               </View>
               <View style={styles.info}>
                 <Text style={styles.label}>Description</Text>
-                <Text style={styles.content}>{description}</Text>
+                <Text style={styles.content}>{summary}</Text>
               </View>
               <View style={styles.info}>
                 <View
@@ -206,7 +220,7 @@ const TransactionDetails = ({navigation, route}) => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}>
-                  <Text style={styles.content}>Outward Transfer</Text>
+                  <Text style={styles.content}>{transactionType}</Text>
                   <Text style={styles.content}>
                     {' '}
                     {Intl.NumberFormat('en-NG', {
@@ -246,7 +260,7 @@ const TransactionDetails = ({navigation, route}) => {
               </View>
               <View style={[styles.info, {marginBottom: 50}]}>
                 <Text style={styles.label}>Transaction Status</Text>
-                <Text style={styles.content}>{status}</Text>
+                <Text style={styles.content}>{''}</Text>
               </View>
             </View>
           </ViewShot>
@@ -274,7 +288,7 @@ const TransactionDetails = ({navigation, route}) => {
                 </View>
                 <View>
                   <Text style={{...FONTS.h5}}>Repeat Transaction</Text>
-                  <Text style={{color: COLORS.textGray, ...FONTS.small}}>
+                  <Text style={{color: COLORS.grayText, ...FONTS.small}}>
                     Make this payment again
                   </Text>
                 </View>
@@ -306,7 +320,7 @@ const TransactionDetails = ({navigation, route}) => {
                 </View>
                 <View>
                   <Text style={{...FONTS.h5}}>Report Transactions</Text>
-                  <Text style={{color: COLORS.textGray, ...FONTS.small}}>
+                  <Text style={{color: COLORS.grayText, ...FONTS.small}}>
                     Report an issue with this transaction
                   </Text>
                 </View>
@@ -326,7 +340,7 @@ const styles = StyleSheet.create({
   info: {borderBottomWidth: 1, borderColor: COLORS.borderGray},
   label: {
     ...FONTS.medium,
-    color: COLORS.textGray,
+    color: COLORS.grayText,
     marginBottom: 10,
   },
   content: {

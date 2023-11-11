@@ -21,6 +21,7 @@ import handleApiError from '../../../shared/components/handleApiError';
 import {countryListAllIsoData} from '../../../shared/countryList';
 import {verticalScale} from 'react-native-size-matters';
 import {Dropdown} from 'react-native-element-dropdown';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const RegisterWalletOne = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -109,7 +110,7 @@ const RegisterWalletOne = ({navigation}) => {
   return (
     <SafeAreaView>
       <StatusBar backgroundColor={COLORS.primary} />
-      <ScrollView
+      <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}>
         <View style={{gap: 20}}>
@@ -165,9 +166,9 @@ const RegisterWalletOne = ({navigation}) => {
             </View>
           </View>
         </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={{gap: 10}}>
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{paddingBottom: 70}}>
           <View
             style={{
               flexDirection: 'row',
@@ -364,6 +365,7 @@ const RegisterWalletOne = ({navigation}) => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
+              marginTop: 50,
             }}>
             <TouchableOpacity
               onPress={() => handleReg(country)}
@@ -381,8 +383,8 @@ const RegisterWalletOne = ({navigation}) => {
               )}
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
@@ -394,7 +396,7 @@ const styles = StyleSheet.create({
     gap: 50,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     paddingBottom: 100,
   },
 
