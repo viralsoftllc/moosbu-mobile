@@ -117,13 +117,14 @@ const styles = StyleSheet.create({
   },
   name: {
     color: COLORS.textPrimary,
-    ...FONTS.h6,
+    ...FONTS.medium,
+    fontFamily: 'Lato-Bold',
     flex: 1,
   },
   price: {
     color: COLORS.textPrimary,
     ...FONTS.medium,
-    fontWeight: 'bold',
+    fontFamily: 'Lato-Bold',
   },
   ctaIcon: {
     padding: SIZES.base,
@@ -149,9 +150,12 @@ const styles = StyleSheet.create({
   },
   deliveryAddress: {
     color: COLORS.textPrimary,
+    ...FONTS.small,
+    fontFamily: 'Lato-Bold',
     marginTop: SIZES.base / 2,
   },
   status: {
     color: COLORS.textPrimary,
+    fontFamily: 'Lato-Bold',
   },
 });

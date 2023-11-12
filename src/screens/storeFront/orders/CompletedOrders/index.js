@@ -104,7 +104,7 @@ export default function CompletedOrders() {
 
             {searchText
               ? filteredItems?.map((order, i) => {
-                  if (order.status === 'completed') {
+                  if (order.status === 'delivered') {
                     return <OrderCard key={i} order={order} />;
                   }
                 })
@@ -112,7 +112,7 @@ export default function CompletedOrders() {
 
             {!searchText
               ? orders?.map((order, i) => {
-                  if (order.status === 'completed') {
+                  if (order.status === 'delivered') {
                     return <OrderCard key={i} order={order} />;
                   }
                 })

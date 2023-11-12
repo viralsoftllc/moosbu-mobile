@@ -17,7 +17,7 @@ const TransferDeclined = ({navigation, route}) => {
           <Text
             style={{
               color: COLORS.label,
-              ...FONTS.h3,
+              ...FONTS.h5,
               textAlign: 'center',
             }}>
             Transaction Declined
@@ -27,10 +27,10 @@ const TransferDeclined = ({navigation, route}) => {
             style={{
               color: '#282828',
               ...FONTS.medium,
-              fontWeight: '400',
+
               textAlign: 'center',
             }}>
-            <Text style={{fontWeight: '700'}}>
+            <Text style={{...FONTS.h5}}>
               {' '}
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
@@ -87,8 +87,10 @@ const TransferDeclined = ({navigation, route}) => {
                 <MIcon name={'cached'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Try Again</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Try Again
+                </Text>
+                <Text style={{...FONTS.small, color: COLORS.grayText}}>
                   Make this payment again
                 </Text>
               </View>
@@ -114,8 +116,12 @@ const TransferDeclined = ({navigation, route}) => {
                 <MIcon name={'close'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Cancel Payment</Text>
-                <Text style={{color: COLORS.gray}}>Cancel this payment</Text>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Cancel Payment
+                </Text>
+                <Text style={{color: COLORS.textGray, ...FONTS.small}}>
+                  Cancel this payment
+                </Text>
               </View>
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />
@@ -143,8 +149,12 @@ const TransferDeclined = ({navigation, route}) => {
                 />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Go Home</Text>
-                <Text style={{color: COLORS.gray}}>Go To Moosbu Homepage</Text>
+                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
+                  Go Home
+                </Text>
+                <Text style={{color: COLORS.grayText, ...FONTS.small}}>
+                  Go To Moosbu Homepage
+                </Text>
               </View>
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />

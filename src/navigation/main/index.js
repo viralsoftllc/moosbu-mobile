@@ -74,31 +74,36 @@ const Stack = createStackNavigator();
 
 export default function MainNavigator() {
   const dispatch = useDispatch();
-  const timerId = useRef(false);
-  const [timeForInactivityInSecond, setTimeForInactivityInSecond] = useState(5);
 
-  useEffect(() => {
-    resetInactivityTimeout();
-  }, []);
+  const timerId = React.useRef(false);
+
+  const resetInactivityTimeout = () => {
+    clearTimeout(timerId.current);
+
+    timerId.current = setTimeout(() => {
+      console.log('Inactive');
+      Alert.alert('Logged out due to inactivity');
+      dispatch(setToken(null));
+    }, 60000);
+  };
 
   const panResponder = React.useRef(
     PanResponder.create({
       onStartShouldSetPanResponderCapture: () => {
-        console.log('user starts touch');
         resetInactivityTimeout();
       },
     }),
   ).current;
 
-  const resetInactivityTimeout = () => {
-    clearTimeout(timerId.current);
-    timerId.current = setTimeout(() => {
-      // dispatch(setToken(null));
-    }, timeForInactivityInSecond * 1000);
-  };
+  // React.useEffect(() => {
+  //   resetInactivityTimeout();
+  // }, []);
 
   return (
-    <View style={{flex: 1}} {...panResponder.pandHandlers}>
+    <View
+      style={{flex: 1}}
+      //  {...panResponder.pandHandlers}
+    >
       <Stack.Navigator>
         <Stack.Screen
           name={routes.MAIN}
