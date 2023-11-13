@@ -37,6 +37,9 @@ import Ficon from 'react-native-vector-icons/Feather';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 import Test from '../Test';
+import OneSignal from 'react-native-onesignal';
+import {setUserDetails} from '../../redux/slices/user/slice';
+import {selectUser} from '../../redux/slices/user/selectors';
 
 export default function Wallet({navigation}) {
   const {navigate} = useNavigation();
@@ -78,27 +81,27 @@ export default function Wallet({navigation}) {
     }
   }, [dispatch]);
 
-  // const getWalletTransactions = useCallback(async () => {
-  //   setTransactionsLoading(true);
-
-  //   try {
-  //     // console.log('Fetching wallet transactions');
-  //     const {data} = await client.get('/api/wallet');
-  //     console.log(data);
-
-  //     const {transactions} = data;
-  //     setTransactionsLoading(false);
-
-  //     setTransactions(transactions);
-  //   } catch (error) {
-  //     setTransactionsLoading(false);
-  //     handleApiError(error);
-  //   }
-  // }, []);
-
   useEffect(() => {
     getWalletBalance();
   }, [getWalletBalance]);
+
+  const getUserId = useCallback(async () => {
+    try {
+      const data = await OneSignal.getDeviceState();
+      const playerID = data?.userId;
+      console.log(playerID);
+      console.log('Sending playerId');
+      const res = await client.put('/api/update/PlayersID', {playerID});
+      console.log('playid endpoint response', res.data);
+      dispatch(setUserDetails(res.data.data));
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    getUserId();
+  }, [getUserId]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {

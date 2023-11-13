@@ -15,14 +15,23 @@ import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import UseIcon from '../../../shared/utils/UseIcon';
 import routes from '../../../shared/constants/routes';
+import handleApiError from '../../../shared/components/handleApiError';
+import client from '../../../shared/api/client';
 
 export default function VerifyEmail({route}) {
   const {goBack, navigate} = useNavigation();
-  const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const {email} = route.params;
+  const handleVerify = async () => {
+    try {
+      setLoading(true);
 
-  function submitPassword(params) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,9 +50,8 @@ export default function VerifyEmail({route}) {
 
         {/* Todo - verify email */}
         <Text style={styles.message}>
-          An email with verification instructions has been sent to{' '}
-          <Text style={styles.email}>{email}</Text>. Please check your email to
-          verify your Moosbu account.
+          An email with verification instructions has been sent to your email.
+          Please check your inbox to verify your Moosbu account.
         </Text>
 
         {/* <View>
@@ -61,12 +69,12 @@ export default function VerifyEmail({route}) {
 
         <View style={{marginVertical: 50}}>
           <Text style={{textAlign: 'center', ...FONTS.medium}}>
-            Completed verification?
+            Didn't get verification email?
           </Text>
           <FormButton
-            title={'Go to Login Screen'}
+            title={'Resend verification email'}
             buttonStyle={styles.confirmButtonStyle}
-            onPress={() => navigate(routes.LOGIN)}
+            onPress={handleVerify}
           />
         </View>
       </ScrollView>
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base,
   },
   message: {
-    color: COLORS.grayText,
+    color: COLORS.primaryText,
     ...FONTS.regular,
     paddingHorizontal: SIZES.base * 2,
   },
@@ -120,6 +128,7 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.base,
     backgroundColor: COLORS.primary,
     marginTop: SIZES.base,
+    ...FONTS.h5,
   },
   resendButtonStyle: {
     backgroundColor: 'transparent',

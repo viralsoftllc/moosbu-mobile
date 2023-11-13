@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   rowText: {
     color: COLORS.textPrimary,
     flex: 1,
+    ...FONTS.medium,
   },
   header: {
     padding: SIZES.base,

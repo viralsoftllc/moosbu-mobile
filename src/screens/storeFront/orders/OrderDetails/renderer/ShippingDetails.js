@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   },
   rowText: {
     color: COLORS.textPrimary,
+    ...FONTS.medium,
     flex: 1,
   },
   header: {

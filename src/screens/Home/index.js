@@ -50,6 +50,7 @@ import {
 
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import Test from '../Test';
+import OneSignal from 'react-native-onesignal';
 
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
@@ -124,6 +125,21 @@ export default function Home({navigation}) {
   useEffect(() => {
     fetchStores();
   }, [fetchStores]);
+
+  useEffect(() => {
+    const getID = async () => {
+      const data = await OneSignal.getDeviceState();
+
+      const playerID = data?.userId;
+      console.log(playerID);
+
+      console.log('Sending playerId');
+      const res = await client.put('/api/update/PlayersID', {playerID});
+      console.log('playid endpoint response', res.data);
+    };
+
+    getID();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

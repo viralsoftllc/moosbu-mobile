@@ -64,16 +64,20 @@ import TokenSuccess from '../../screens/TokenSuccess';
 import BasicDetails from '../../screens/Wallet/businessWallet/BasicDetails';
 import Address from '../../screens/Wallet/businessWallet/Address';
 import OfficerDetails from '../../screens/Wallet/businessWallet/OfficerDetails';
+import VerifyEmail from '../../screens/auth/VerifyEmail';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setToken} from '../../redux/slices/auth/slice';
 import Customers from '../../screens/others/Customers';
 import Reward from '../../screens/Reward';
+import {selectUser} from '../../redux/slices/user/selectors';
 
 const Stack = createStackNavigator();
 
 export default function MainNavigator() {
   const dispatch = useDispatch();
+
+  const user = useSelector(selectUser);
 
   const timerId = React.useRef(false);
 
@@ -84,7 +88,7 @@ export default function MainNavigator() {
       console.log('Inactive');
       Alert.alert('Logged out due to inactivity');
       dispatch(setToken(null));
-    }, 60000);
+    }, 180000);
   };
 
   const panResponder = React.useRef(
@@ -107,7 +111,7 @@ export default function MainNavigator() {
       <Stack.Navigator>
         <Stack.Screen
           name={routes.MAIN}
-          component={BottomTabNavigator}
+          component={user.email_verified_at ? BottomTabNavigator : VerifyEmail}
           options={{headerShown: false}}
         />
         <Stack.Screen

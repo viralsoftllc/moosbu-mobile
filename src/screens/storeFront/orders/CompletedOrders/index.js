@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
 
-import {COLORS, SIZES} from '../../../../assets/themes';
+import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import OrderCard from '../renderer/OrderCard';
 import EmptyItemInfo from '../../../../shared/components/EmptyItemInfo';
 import handleApiError from '../../../../shared/components/handleApiError';
@@ -147,5 +147,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     backgroundColor: COLORS.white,
     height: verticalScale(40),
+    ...FONTS.medium,
   },
 });
