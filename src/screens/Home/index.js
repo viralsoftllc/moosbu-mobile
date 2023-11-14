@@ -57,7 +57,6 @@ export default function Home({navigation}) {
   const storeDetails = useSelector(selectStoreDetails);
   const stores = useSelector(selectStores);
 
-  console.log(stores);
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);
@@ -92,14 +91,14 @@ export default function Home({navigation}) {
 
   const getWalletBalance = useCallback(async () => {
     try {
-      setWalletLoading(true);
+      setLoading(true);
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
       // console.log(data?.balance);
       dispatch(setWalletBalance(data?.balance.availableBalance / 100));
-      setWalletLoading(false);
+      setLoading(false);
     } catch (error) {
-      setWalletLoading(false);
+      setLoading(false);
       // handleApiError(error);
     }
   }, [dispatch]);
@@ -125,21 +124,6 @@ export default function Home({navigation}) {
   useEffect(() => {
     fetchStores();
   }, [fetchStores]);
-
-  useEffect(() => {
-    const getID = async () => {
-      const data = await OneSignal.getDeviceState();
-
-      const playerID = data?.userId;
-      console.log(playerID);
-
-      console.log('Sending playerId');
-      const res = await client.put('/api/update/PlayersID', {playerID});
-      console.log('playid endpoint response', res.data);
-    };
-
-    getID();
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -1,5 +1,4 @@
 import {useNavigation} from '@react-navigation/native';
-import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
 import {
   Pressable,
@@ -8,23 +7,30 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
 import UseIcon from '../../../shared/utils/UseIcon';
-import routes from '../../../shared/constants/routes';
 import handleApiError from '../../../shared/components/handleApiError';
 import client from '../../../shared/api/client';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../../redux/slices/user/selectors';
 
 export default function VerifyEmail({route}) {
   const {goBack, navigate} = useNavigation();
   const [loading, setLoading] = useState(false);
 
+  const user = useSelector(selectUser);
+
   const handleVerify = async () => {
     try {
       setLoading(true);
+
+      const res = await client.post('/api/verify-code', {email: user.email});
+      console.log(res.data);
 
       setLoading(false);
     } catch (error) {
@@ -35,6 +41,7 @@ export default function VerifyEmail({route}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
@@ -75,6 +82,7 @@ export default function VerifyEmail({route}) {
             title={'Resend verification email'}
             buttonStyle={styles.confirmButtonStyle}
             onPress={handleVerify}
+            loading={loading}
           />
         </View>
       </ScrollView>
