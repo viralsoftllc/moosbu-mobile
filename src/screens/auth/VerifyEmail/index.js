@@ -26,6 +26,7 @@ import Cache from '../../../shared/utils/Cache';
 import {setToken} from '../../../redux/slices/auth/slice';
 import Test from '../../Test';
 import {selectToken} from '../../../redux/slices/auth/selectors';
+import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 export default function VerifyEmail({route}) {
   const {goBack, navigate} = useNavigation();
@@ -38,22 +39,15 @@ export default function VerifyEmail({route}) {
   const [code, setCode] = useState('');
   const user = useSelector(selectUser);
 
-  let email;
-
-  if (route.params.email) {
-    email = route.params.email;
-  }
-
-  if (!route.params.email) {
-    email = user.email;
-  }
+  let email = user.email || route.params.email;
 
   const handleVerify = async () => {
     try {
       setLoading(true);
-      const res = await client.post('/api/verify-code', {email});
-      console.log(res.data);
+      const {data} = await client.post('/api/verify-code', {email});
+
       setLoading(false);
+      notifyMessage(data.Message);
     } catch (error) {
       setLoading(false);
       handleApiError(error);
@@ -108,19 +102,19 @@ export default function VerifyEmail({route}) {
             Verification instructions have been sent to your email. Please check
             your inbox to verify your Moosbu account.
           </Text>
-          {/* 
+
           <View>
             <OTPInputView
               style={styles.otpView}
               pinCount={4}
               keyboardType={'number-pad'}
-              autoFocusOnLoad
+              autoFocusOnLoad={false}
               codeInputFieldStyle={styles.codeInputFieldStyle}
               onCodeFilled={otp => submitPassword(otp)}
               onCodeChanged={otp => setCode(otp)}
               code={code}
             />
-          </View> */}
+          </View>
 
           <View style={{marginVertical: 50}}>
             <Text style={{textAlign: 'center', ...FONTS.medium}}>
