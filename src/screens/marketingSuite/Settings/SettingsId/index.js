@@ -43,7 +43,7 @@ export default function SettingsId() {
           </View>
         </View>
 
-        <View style={[styles.flex, styles.content]}>
+        {/* <View style={[styles.flex, styles.content]}>
           <View style={styles.flexItem}>
             <Text style={styles.text}>Moosbu</Text>
           </View>
@@ -64,30 +64,7 @@ export default function SettingsId() {
               business. Follow this link: https:// moosbu.com/scale to proceed.
             </Text>
           </View>
-        </View>
-
-        <View style={[styles.flex, styles.content]}>
-          <View style={styles.flexItem}>
-            <Text style={styles.text}>Moosbu</Text>
-          </View>
-
-          <View style={styles.flexItem}>
-            <Pressable style={styles.status}>
-              <Text style={[styles.text, styles.statusText]}>Active</Text>
-            </Pressable>
-          </View>
-
-          <View style={styles.flexItem}>
-            <Text style={styles.text}>Moosbu</Text>
-          </View>
-
-          <View style={styles.flexItem}>
-            <Text style={[styles.text, styles.message]}>
-              Hello, thanks for your interest in registering your small
-              business. Follow this link: https:// moosbu.com/scale to proceed.
-            </Text>
-          </View>
-        </View>
+        </View> */}
       </View>
 
       <FormButton

@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 
 export default function OrderSummary({
@@ -8,6 +8,7 @@ export default function OrderSummary({
   subtotal,
   deliveryFee,
   status,
+  showStatuses,
 }) {
   function getStatus() {
     if (!status) {
@@ -21,9 +22,18 @@ export default function OrderSummary({
     <View style={styles.container}>
       <View style={[styles.header]}>
         <Text style={styles.headerText}>Order Summary</Text>
-        <Text style={[styles.headerText, styles.orderStatus]}>
-          {getStatus()}
-        </Text>
+        <Pressable onPress={showStatuses}>
+          <Text
+            style={[
+              styles.headerText,
+              getStatus() === 'Completed'
+                ? styles.orderStatusCompleted
+                : styles.orderStatusPending,
+            ]}>
+            {getStatus()}
+          </Text>
+          <Text style={FONTS.tiny}>Tap to update</Text>
+        </Pressable>
       </View>
 
       <View style={styles.row}>
@@ -38,13 +48,23 @@ export default function OrderSummary({
 
       <View style={styles.row}>
         <Text style={styles.rowText}>Subtotal</Text>
-        <Text style={styles.rowText}>{subtotal || ''}</Text>
+        <Text style={styles.rowText}>
+          {Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(subtotal) || ''}
+        </Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.rowText}>Delivery Fee</Text>
         <Text style={styles.rowText}>
-          {deliveryFee ? `₦${deliveryFee}` : 'Free'}
+          {deliveryFee
+            ? Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(deliveryFee)
+            : 'Free'}
         </Text>
       </View>
     </View>
@@ -91,7 +111,10 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     ...FONTS.h5,
   },
-  orderStatus: {
+  orderStatusCompleted: {
     color: COLORS.credit,
+  },
+  orderStatusPending: {
+    color: COLORS.pending,
   },
 });

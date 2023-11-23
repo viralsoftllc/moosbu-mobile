@@ -85,24 +85,6 @@ export default function Wallet({navigation}) {
     getWalletBalance();
   }, [getWalletBalance]);
 
-  const getUserId = useCallback(async () => {
-    try {
-      const data = await OneSignal.getDeviceState();
-      const playerID = data?.userId;
-      console.log(playerID);
-      console.log('Sending playerId');
-      const res = await client.put('/api/update/PlayersID', {playerID});
-      console.log('playid endpoint response', res.data);
-      dispatch(setUserDetails(res.data.data));
-    } catch (error) {
-      handleApiError(error);
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    getUserId();
-  }, [getUserId]);
-
   useEffect(() => {
     navigation.addListener('focus', () => {
       getWalletBalance();

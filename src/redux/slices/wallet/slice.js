@@ -11,6 +11,8 @@ export const walletSlice = createSlice({
     bank: '',
     banks: [],
     tokens: {},
+    personalWallet: {},
+    businessWallet: {},
   },
   reducers: {
     setWalletBalance: (state, action) => {
@@ -31,6 +33,12 @@ export const walletSlice = createSlice({
     setTokens: (state, action) => {
       state.tokens = action.payload;
     },
+    setPersonalWallet: (state, action) => {
+      state.personalWallet = {...state.personalWallet, ...action.payload};
+    },
+    setBusinessWallet: (state, action) => {
+      state.businessWallet = {...state.businessWallet, ...action.payload};
+    },
   },
 });
 
@@ -42,6 +50,8 @@ export const {
   setBank,
   setAccountName,
   setTokens,
+  setPersonalWallet,
+  setBusinessWallet,
 } = walletSlice.actions;
 const {actions, reducer} = walletSlice;
 

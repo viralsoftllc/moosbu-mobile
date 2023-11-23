@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Pressable, SafeAreaView} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import routes from '../../../shared/constants/routes';
 
 const TransferSuccessful = ({navigation, route}) => {
   const {
@@ -126,7 +127,7 @@ const TransferSuccessful = ({navigation, route}) => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('Main', {screen: 'Home Tab'});
+              navigation.navigate(routes.WALLET);
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
@@ -146,8 +147,10 @@ const TransferSuccessful = ({navigation, route}) => {
                 />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Go Home</Text>
-                <Text style={{color: COLORS.gray}}>Go To Moosbu Homepage</Text>
+                <Text style={{fontWeight: '600'}}>Go to Wallet</Text>
+                <Text style={{color: COLORS.gray}}>
+                  Go To Moosbu Wallet Dashboard
+                </Text>
               </View>
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />

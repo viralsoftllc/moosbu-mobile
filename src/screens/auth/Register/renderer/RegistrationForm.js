@@ -34,6 +34,8 @@ export default function RegistrationForm({
         onChangeText={text =>
           setCredentials({...credentials, phone_number: text})
         }
+        maxLength={11}
+        keyboardType={'numeric'}
       />
 
       <FormInput

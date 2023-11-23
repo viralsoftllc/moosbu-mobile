@@ -25,7 +25,12 @@ export default function OrderCard({order}) {
           <View style={[styles.flex]}>
             <Text style={styles.name}>{order?.name || ''}</Text>
 
-            <Text style={styles.price}>₦{order?.price || 0}</Text>
+            <Text style={styles.price}>
+              {Intl.NumberFormat('en-NG', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(order?.price) || 0}
+            </Text>
 
             <Pressable style={styles.ctaIcon}>
               <UseIcon

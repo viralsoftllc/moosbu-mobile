@@ -20,7 +20,7 @@ const Finances = ({navigation}) => {
   const handlePress = () => {
     setCreateWalletModal(false);
     if (checked === 'Individual') {
-      return navigation.navigate('RegisterWalletOne');
+      return navigation.navigate('CreatePersonalWallet');
     }
     navigation.navigate('BasicDetails');
   };

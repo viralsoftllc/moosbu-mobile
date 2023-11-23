@@ -64,7 +64,9 @@ const WalletType = ({setCreateWalletModel}) => {
                 color={COLORS.primary}
               />
               <View>
-                <Text style={{...FONTS.regular}}>Individual wallet</Text>
+                <Text style={{...FONTS.regular, color: COLORS.primary}}>
+                  Moosbu Mini wallet
+                </Text>
                 <Text style={{...FONTS.small}}>
                   Transfer easily from your bank account
                 </Text>
@@ -101,7 +103,9 @@ const WalletType = ({setCreateWalletModel}) => {
                 status={checked === 'Business' ? 'checked' : 'unchecked'}
               />
               <View>
-                <Text style={{...FONTS.regular}}>Business wallet</Text>
+                <Text style={{...FONTS.regular, color: COLORS.primary}}>
+                  Moosbu Pro wallet
+                </Text>
                 <Text style={{...FONTS.small}}>
                   Use any of your card to fund your wallet
                 </Text>
@@ -135,9 +139,9 @@ const WalletType = ({setCreateWalletModel}) => {
           onPress={() => {
             setCreateWalletModel(false);
             if (checked === 'Individual') {
-              return navigate('RegisterWalletOne');
+              return navigate('CreatePersonalWallet');
             }
-            return navigate('BasicDetails');
+            return navigate('CreateBusinessWallet');
           }}
           style={{
             backgroundColor: COLORS.primary,

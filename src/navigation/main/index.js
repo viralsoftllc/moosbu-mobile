@@ -71,6 +71,14 @@ import {setToken} from '../../redux/slices/auth/slice';
 import Customers from '../../screens/others/Customers';
 import Reward from '../../screens/Reward';
 import {selectUser} from '../../redux/slices/user/selectors';
+import CreatePersonalWallet from '../../screens/Wallet/CreatePersonalWallet';
+import CreateBusinessWallet from '../../screens/Wallet/CreateBusinessWallet';
+import PersonalAddress from '../../screens/Wallet/CreatePersonalWallet/PersonalAddress';
+import BusinessInformation from '../../screens/Wallet/CreatePersonalWallet/BusinessInformation';
+import IdentificationDocument from '../../screens/Wallet/CreatePersonalWallet/IdentificationDocument';
+import LevelOneKYC from '../../screens/Wallet/CreatePersonalWallet/LevelOneKYC';
+import PersonalDetails from '../../screens/Wallet/CreatePersonalWallet/PersonalDetails';
+import Terms from '../../screens/Wallet/CreatePersonalWallet/Terms';
 
 const Stack = createStackNavigator();
 
@@ -325,6 +333,54 @@ export default function MainNavigator() {
           component={RewardInfo}
           options={{headerShown: false}}
         /> */}
+
+        {/* Latest Screens */}
+
+        <Stack.Screen
+          name="CreatePersonalWallet"
+          component={CreatePersonalWallet}
+          options={{headerShown: false}}
+        />
+
+        {/* Personal Account Screens */}
+
+        <Stack.Screen
+          name="PersonalAddress"
+          component={PersonalAddress}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BusinessInformation"
+          component={BusinessInformation}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="IdentificationDocuments"
+          component={IdentificationDocument}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="LevelOneKYC"
+          component={LevelOneKYC}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PersonalDetails"
+          component={PersonalDetails}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="Terms"
+          component={Terms}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name="CreateBusinessWallet"
+          component={CreateBusinessWallet}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </View>
   );

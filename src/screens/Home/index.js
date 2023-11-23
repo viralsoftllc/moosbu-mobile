@@ -48,9 +48,9 @@ import {
   selectStores,
 } from '../../redux/slices/store/selectors';
 
-import SwiperFlatList from 'react-native-swiper-flatlist';
 import Test from '../Test';
 import OneSignal from 'react-native-onesignal';
+import {setUserDetails} from '../../redux/slices/user/slice';
 
 export default function Home({navigation}) {
   const user = useSelector(selectUser);
@@ -124,6 +124,32 @@ export default function Home({navigation}) {
   useEffect(() => {
     fetchStores();
   }, [fetchStores]);
+
+  const getUserId = useCallback(async () => {
+    try {
+      const data = await OneSignal.getDeviceState();
+      const playerID = data?.userId;
+      console.log(playerID);
+      console.log('Sending playerId');
+      const res = await client.put('/api/update/PlayersID', {playerID});
+      console.log('playid endpoint response', res.data);
+      dispatch(setUserDetails(res.data.data));
+    } catch (error) {
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    getUserId();
+  }, [getUserId]);
+
+  //Reload everytime user navigates to home screen
+
+  // useEffect(() => {
+  //   navigation.addListener('focus', () => {
+  //     fetchDashboardData();
+  //   });
+  // }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

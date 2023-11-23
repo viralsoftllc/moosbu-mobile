@@ -28,7 +28,6 @@ export default function AllOrders() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
-  // console.log(orders);
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
@@ -57,7 +56,12 @@ export default function AllOrders() {
     try {
       dispatch(setOrders(null));
       setLoading(true);
-      const {data} = await client.get('/api/orders');
+      let {data} = await client.get('/api/orders');
+
+      data = data.map(x => {
+        return {...x, product: JSON.parse(x.product)};
+      });
+      console.log(data);
 
       dispatch(setOrders(data));
       setFilteredItems(data);

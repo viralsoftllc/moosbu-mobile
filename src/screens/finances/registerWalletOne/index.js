@@ -189,7 +189,6 @@ const RegisterWalletOne = ({navigation}) => {
                 <TextInput
                   placeholder="First Name"
                   placeholderTextColor={COLORS.grayText}
-                  inlineImageLeft="hi"
                   style={styles.input}
                   value={firstName}
                   onChangeText={text => setFirstName(text)}

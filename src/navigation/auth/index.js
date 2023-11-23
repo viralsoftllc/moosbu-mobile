@@ -10,6 +10,7 @@ import TokenScreen from '../../screens/TokenSuccess';
 import SuccessfulRegistration from '../../screens/finances/SuccessfulRegistration/SuccessfulRegistration';
 
 import {authScreens} from './screens';
+import VerifyEmail from '../../screens/auth/VerifyEmail';
 
 const Stack = createStackNavigator();
 

@@ -20,6 +20,7 @@ import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 import {selectUser} from '../../../redux/slices/user/selectors';
 import RegisterWalletTwo from '../../../screens/finances/registerWalletTwo';
+import CreatePersonalWallet from '../../../screens/Wallet/CreatePersonalWallet';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +72,7 @@ export default function BottomTabNavigator() {
           store?.accountID && user?.customerID
             ? Wallet
             : user?.customerID
-            ? RegisterWalletTwo
+            ? CreatePersonalWallet
             : Finances
         }
         options={{

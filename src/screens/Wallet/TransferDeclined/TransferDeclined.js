@@ -3,6 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLORS, FONTS} from '../../../assets/themes';
+import routes from '../../../shared/constants/routes';
 
 const TransferDeclined = ({navigation, route}) => {
   const {account_name, amount} = route.params;
@@ -97,39 +98,11 @@ const TransferDeclined = ({navigation, route}) => {
             </View>
             <Icon name="chevron-right" size={24} color={COLORS.gray} />
           </Pressable>
+
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('Wallet');
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 30,
-                  borderWidth: 1,
-                  borderColor: COLORS.tabBg,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <MIcon name={'close'} color={COLORS.primary} size={30} />
-              </View>
-              <View>
-                <Text style={{...FONTS.regular, fontFamily: 'Lato-Bold'}}>
-                  Cancel Payment
-                </Text>
-                <Text style={{color: COLORS.textGray, ...FONTS.small}}>
-                  Cancel this payment
-                </Text>
-              </View>
-            </View>
-            <Icon name="chevron-right" size={24} color={COLORS.gray} />
-          </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('Main', {screen: 'Home Tab'});
+              navigation.navigate(routes.WALLET);
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
@@ -153,7 +126,7 @@ const TransferDeclined = ({navigation, route}) => {
                   Go Home
                 </Text>
                 <Text style={{color: COLORS.grayText, ...FONTS.small}}>
-                  Go To Moosbu Homepage
+                  Go To Moosbu Wallet Dashboard
                 </Text>
               </View>
             </View>

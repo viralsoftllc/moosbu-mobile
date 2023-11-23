@@ -3,6 +3,26 @@ import {StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 
 export default function Items({products}) {
+  const productElements = [];
+
+  console.log(products.length);
+  console.log(JSON.parse(products).length);
+
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
+
+    productElements.push(
+      <View style={styles.row} key={i}>
+        <Text style={styles.rowText}>{product?.product_name || ''}</Text>
+        <Text style={styles.rowText}>
+          {product?.quantity ? `${product?.quantity}x` : ''}
+        </Text>
+        <Text style={styles.rowText}>₦{product?.price || ''}</Text>
+        <Text style={styles.rowText}>₦{product?.subtotal || ''}</Text>
+      </View>,
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -10,20 +30,34 @@ export default function Items({products}) {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.rowText}>Item Name</Text>
-        <Text style={styles.rowText}>Unit</Text>
-        <Text style={styles.rowText}>Price</Text>
-        <Text style={styles.rowText}>Total Price</Text>
+        <Text style={[styles.rowText, {fontFamily: 'Lato-Bold'}]}>
+          Item Name
+        </Text>
+        <Text style={[styles.rowText, {fontFamily: 'Lato-Bold'}]}>Unit</Text>
+        <Text style={[styles.rowText, {fontFamily: 'Lato-Bold'}]}>Price</Text>
+        <Text style={[styles.rowText, {fontFamily: 'Lato-Bold'}]}>
+          Total Price
+        </Text>
       </View>
 
-      {products?.map((product, i) => (
+      {JSON.parse(products)?.map((product, i) => (
         <View style={styles.row} key={i}>
-          <Text style={styles.rowText}>{product?.product_name || ''}</Text>
+          <Text style={styles.rowText}>{product?.name || ''}</Text>
           <Text style={styles.rowText}>
             {product?.quantity ? `${product?.quantity}x` : ''}
           </Text>
-          <Text style={styles.rowText}>₦{product?.price || ''}</Text>
-          <Text style={styles.rowText}>₦{product?.subtotal || ''}</Text>
+          <Text style={styles.rowText}>
+            {Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(product?.price) || ''}
+          </Text>
+          <Text style={styles.rowText}>
+            {Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(product?.price * product?.quantity) || ''}
+          </Text>
         </View>
       ))}
     </View>
@@ -61,6 +95,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     flex: 1,
     textAlign: 'center',
+    ...FONTS.medium,
   },
   headerText: {
     color: COLORS.textPrimary,
