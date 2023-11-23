@@ -84,13 +84,29 @@ export default function VerifyEmail({route}) {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          <Pressable style={styles.iconWrapper} onPress={goBack}>
-            <UseIcon
-              type={'MaterialIcons'}
-              name="arrow-back"
-              color={COLORS.textPrimary}
-            />
-          </Pressable>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginBottom: 50,
+              alignItems: 'center',
+            }}>
+            <Pressable style={styles.iconWrapper} onPress={goBack}>
+              <UseIcon
+                type={'MaterialIcons'}
+                name="arrow-back"
+                color={COLORS.textPrimary}
+              />
+            </Pressable>
+
+            <Text
+              style={{
+                ...FONTS.h5,
+                textAlign: 'center',
+                flex: 1,
+              }}>
+              Verify Your Email
+            </Text>
+          </View>
 
           <Image
             source={require('../../../assets/images/verify.png')}
