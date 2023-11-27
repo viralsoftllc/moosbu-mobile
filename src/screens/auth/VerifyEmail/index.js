@@ -39,7 +39,7 @@ export default function VerifyEmail({route}) {
   const [code, setCode] = useState('');
   const user = useSelector(selectUser);
 
-  let email = user.email || route.params.email;
+  let email = user?.email || route.params.email;
 
   const handleVerify = async () => {
     try {
@@ -55,24 +55,21 @@ export default function VerifyEmail({route}) {
   };
 
   const submitPassword = async () => {
+    if (code.length < 4) {
+      return notifyMessage('Invalid code');
+    }
+
     try {
       setLoading(true);
-      const data = await client.post('/api/verify', {email, token: code});
+      const {data} = await client.post('/api/verify', {email, token: code});
+
       setLoading(false);
+      notifyMessage(data.Message);
+      navigate('EmailVerified');
     } catch (error) {
       setLoading(false);
       handleApiError(error);
     }
-  };
-
-  const handleLogin = async () => {
-    if (token) {
-      Cache.clearAll();
-      dispatch(setToken(null));
-      return;
-    }
-
-    navigate('Login');
   };
 
   return (
@@ -104,7 +101,7 @@ export default function VerifyEmail({route}) {
                 textAlign: 'center',
                 flex: 1,
               }}>
-              Verify Your Email
+              Verify Email
             </Text>
           </View>
 
@@ -115,8 +112,8 @@ export default function VerifyEmail({route}) {
 
           {/* Todo - verify email */}
           <Text style={styles.message}>
-            Verification instructions have been sent to your email. Please check
-            your inbox to verify your Moosbu account.
+            Please enter the number code sent to your email,{' '}
+            <Text style={{color: COLORS.primary}}>{email}</Text>
           </Text>
 
           <View>
@@ -126,25 +123,22 @@ export default function VerifyEmail({route}) {
               keyboardType={'number-pad'}
               autoFocusOnLoad={false}
               codeInputFieldStyle={styles.codeInputFieldStyle}
-              onCodeFilled={otp => submitPassword(otp)}
+              onCodeFilled={otp => setCode(otp)}
               onCodeChanged={otp => setCode(otp)}
               code={code}
             />
           </View>
 
           <View style={{marginVertical: 50}}>
-            <Text style={{textAlign: 'center', ...FONTS.medium}}>
-              Didn't get verification email?
-            </Text>
             <FormButton
-              title={'Resend verification email'}
+              title={'Confirm'}
               buttonStyle={styles.confirmButtonStyle}
-              onPress={handleVerify}
+              onPress={submitPassword}
               loading={loading}
               textStyle={FONTS.h5}
             />
             <FormButton
-              title={'Already verified ? Login'}
+              title={'Resend code'}
               buttonStyle={[
                 styles.confirmButtonStyle,
                 {
@@ -153,7 +147,7 @@ export default function VerifyEmail({route}) {
                   borderColor: COLORS.primary,
                 },
               ]}
-              onPress={handleLogin}
+              onPress={handleVerify}
               loading={loading}
               textStyle={{
                 color: COLORS.primary,
@@ -190,8 +184,9 @@ const styles = StyleSheet.create({
   },
   message: {
     color: COLORS.primaryText,
-    ...FONTS.regular,
+    ...FONTS.medium,
     paddingHorizontal: SIZES.base * 2,
+    textAlign: 'center',
   },
   email: {
     color: COLORS.textPrimary,

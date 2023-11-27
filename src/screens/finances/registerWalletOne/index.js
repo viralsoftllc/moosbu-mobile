@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    fontSize: 12,
+    ...FONTS.medium,
   },
   button: {
     minWidth: '80%',

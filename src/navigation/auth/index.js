@@ -11,6 +11,7 @@ import SuccessfulRegistration from '../../screens/finances/SuccessfulRegistratio
 
 import {authScreens} from './screens';
 import VerifyEmail from '../../screens/auth/VerifyEmail';
+import EmailVerified from '../../screens/auth/EmailVerified';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,11 @@ export default function AuthNavigator() {
       {Object.entries({...authScreens}).map(([name, screen]) => (
         <Stack.Screen name={name} component={screen} key={name} />
       ))}
+      {/* <Stack.Screen
+        name="EmailVerified"
+        component={EmailVerified}
+        options={{headerShown: false}}
+      /> */}
     </Stack.Navigator>
   );
 }

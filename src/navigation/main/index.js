@@ -79,6 +79,9 @@ import IdentificationDocument from '../../screens/Wallet/CreatePersonalWallet/Id
 import LevelOneKYC from '../../screens/Wallet/CreatePersonalWallet/LevelOneKYC';
 import PersonalDetails from '../../screens/Wallet/CreatePersonalWallet/PersonalDetails';
 import Terms from '../../screens/Wallet/CreatePersonalWallet/Terms';
+import EmailVerified from '../../screens/auth/EmailVerified';
+import MoosbuMini from '../../screens/finances/moosbuMini';
+import MoosbuBusiness from '../../screens/finances/moosbuBusiness';
 
 const Stack = createStackNavigator();
 
@@ -379,6 +382,23 @@ export default function MainNavigator() {
         <Stack.Screen
           name="CreateBusinessWallet"
           component={CreateBusinessWallet}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EmailVerified"
+          component={EmailVerified}
+          options={{headerShown: false}}
+        />
+
+        {/* Updated KYC Screens */}
+        <Stack.Screen
+          name="MoosbuMini"
+          component={MoosbuMini}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MoosbuBusiness"
+          component={MoosbuBusiness}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

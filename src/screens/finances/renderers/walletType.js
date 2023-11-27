@@ -54,7 +54,7 @@ const WalletType = ({setCreateWalletModel}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 10,
-                flex: 0.6,
+                flex: 0.9,
               }}
               onPress={() => setChecked('Individual')}>
               <RadioButton
@@ -64,23 +64,28 @@ const WalletType = ({setCreateWalletModel}) => {
                 color={COLORS.primary}
               />
               <View>
-                <Text style={{...FONTS.regular, color: COLORS.primary}}>
-                  Moosbu Mini wallet
+                <Text
+                  style={{
+                    ...FONTS.regular,
+                    marginBottom: 5,
+                  }}>
+                  Moosbu mini wallet
                 </Text>
                 <Text style={{...FONTS.small}}>
-                  Transfer easily from your bank account
+                  Unlimited deposit, ₦1M daily transfer limit, ₦20,000 single
+                  transaction limit, transaction fee ₦50
                 </Text>
               </View>
             </Pressable>
 
-            <View
+            {/* <View
               style={{
                 flex: 0.5,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <Text style={{}}></Text>
-            </View>
+            </View> */}
           </View>
 
           <View
@@ -94,7 +99,7 @@ const WalletType = ({setCreateWalletModel}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 10,
-                flex: 0.6,
+                flex: 0.9,
               }}
               onPress={() => setChecked('Business')}>
               <RadioButton
@@ -103,16 +108,37 @@ const WalletType = ({setCreateWalletModel}) => {
                 status={checked === 'Business' ? 'checked' : 'unchecked'}
               />
               <View>
-                <Text style={{...FONTS.regular, color: COLORS.primary}}>
-                  Moosbu Pro wallet
-                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 5,
+                  }}>
+                  <Text style={{...FONTS.regular}}>Moosbu business wallet</Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: COLORS.secondary,
+                      backgroundColor: COLORS.lightSecondaryBackground,
+                      borderRadius: 30,
+                      textAlign: 'center',
+                      fontFamily: 'Lato-Bold',
+                      padding: 10,
+                      width: 100,
+                    }}>
+                    Popular
+                  </Text>
+                </View>
+
                 <Text style={{...FONTS.small}}>
-                  Use any of your card to fund your wallet
+                  Unlimited deposit, ₦5M daily transfer limit, ₦1M single
+                  transaction limit, transaction fee ₦50, KYB validation ₦1000
                 </Text>
               </View>
             </Pressable>
 
-            <View
+            {/* <View
               style={{
                 flex: 0.5,
                 justifyContent: 'center',
@@ -131,7 +157,7 @@ const WalletType = ({setCreateWalletModel}) => {
                 }}>
                 Popular
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
 
@@ -139,9 +165,9 @@ const WalletType = ({setCreateWalletModel}) => {
           onPress={() => {
             setCreateWalletModel(false);
             if (checked === 'Individual') {
-              return navigate('CreatePersonalWallet');
+              return navigate('MoosbuMini');
             }
-            return navigate('CreateBusinessWallet');
+            return navigate('MoosbuBusiness');
           }}
           style={{
             backgroundColor: COLORS.primary,

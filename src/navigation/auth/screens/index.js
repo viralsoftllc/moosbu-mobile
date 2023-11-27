@@ -1,4 +1,5 @@
 import CreatePassword from '../../../screens/auth/CreatePassword';
+import EmailVerified from '../../../screens/auth/EmailVerified';
 import Login from '../../../screens/auth/Login';
 import Register from '../../../screens/auth/Register';
 import ResetPassword from '../../../screens/auth/ResetPassword';
@@ -17,6 +18,7 @@ const authScreens = {
   [routes.RESET_PASSWORD_DONE]: ResetPasswordMailSent,
   [routes.RESET_PASSWORD_SUCCESS]: ResetPasswordSuccess,
   [routes.RESET_PASSWORD_FAIL]: ResetPasswordFailed,
+  EmailVerified: EmailVerified,
 };
 
 export {authScreens};
