@@ -3,8 +3,8 @@ import Cache from '../utils/Cache';
 // import apisauce from 'apisauce';
 import {PROD_URL} from '@env';
 
-const baseURL = 'https://app.moosbu.com';
-// const baseURL = 'https://staging.moosbu.com';
+// const baseURL = 'https://app.moosbu.com';
+const baseURL = 'https://staging.moosbu.com';
 
 const client = axios.create({
   // baseURL: PROD_URL,

@@ -75,5 +75,6 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.white,
     ...FONTS.medium,
+    fontFamily: 'Lato-Bold',
   },
 });
