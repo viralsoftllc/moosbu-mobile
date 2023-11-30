@@ -7,12 +7,11 @@ import {
   View,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Dropdown} from 'react-native-element-dropdown';
-import DatePicker from 'react-native-date-picker';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {FONTS, COLORS, SIZES} from '../../../assets/themes';
@@ -20,44 +19,25 @@ import UseIcon from '../../../shared/utils/UseIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/FormButton';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
-import {uploadImageToCloudinary} from '../../../shared/hooks/uploadToCloudinary';
 import {setPersonalWallet} from '../../../redux/slices/wallet/slice';
 import {selectPersonalWallet} from '../../../redux/slices/wallet/selectors';
-import handleApiError from '../../../shared/components/handleApiError';
+import {Checkbox} from 'react-native-paper';
 
 const LevelOneKYC = () => {
   const {goBack, navigate} = useNavigation();
 
   const dispatch = useDispatch();
 
+  const [checked, setChecked] = useState(false);
+  const toggleChecked = () => setChecked(prev => !prev);
+
   const personalWallet = useSelector(selectPersonalWallet);
+  console.log(personalWallet);
 
   const [details, setDetails] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  //Date Picker variables
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-
-  //format date
-  function formatDate(date = new Date()) {
-    const year = date.toLocaleString('default', {year: 'numeric'});
-    const month = date.toLocaleString('default', {
-      month: '2-digit',
-    });
-    const day = date.toLocaleString('default', {day: '2-digit'});
-
-    const formattedDate = [year, month, day].join('-');
-    return formattedDate;
-  }
-
-  //gender picker variables
-
-  const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  //Image picker variables
-  const [fileResponse, setFileResponse] = useState({});
+  const [value, setValue] = useState(null);
 
   //handle image from camera
   const handleCamera = async () => {
@@ -77,71 +57,84 @@ const LevelOneKYC = () => {
         } else if (res.error) {
           // error opening image picker
         } else {
-          setFileResponse(res.assets[0]);
           setDetails({...details, selfie: res.assets[0].base64});
+          console.log(res.assets[0]);
         }
       },
     );
   };
 
   //handle image from gallery
-  const handleGallery = async () => {
-    await launchImageLibrary(
-      {
-        maxHeight: 500,
-        maxWidth: 500,
-        quality: 0.4,
-        mediaType: 'photo',
-        includeBase64: true,
-        saveToPhotos: false,
-        selectionLimit: 1,
-      },
-      res => {
-        // console.log('res from image picker - cover image');
-        // console.log(res);
-        if (res.didCancel) {
-          // user cancelled image picker
-        } else if (res.error) {
-          // error opening image picker
-        } else {
-          setFileResponse(res.assets[0]);
-          setDetails({...details, selfie: res.assets[0].base64});
-        }
-      },
-    );
-  };
-
-  //Upload image in bit64 format to get url
-  async function uploadToGetUrl(base64) {
-    try {
-      const data = await uploadImageToCloudinary(base64);
-      return data?.url;
-    } catch (error) {
-      console.log('error');
-      return error;
-    }
-  }
+  // const handleGallery = async () => {
+  //   await launchImageLibrary(
+  //     {
+  //       maxHeight: 500,
+  //       maxWidth: 500,
+  //       quality: 0.4,
+  //       mediaType: 'photo',
+  //       includeBase64: true,
+  //       saveToPhotos: false,
+  //       selectionLimit: 1,
+  //     },
+  //     res => {
+  //       // console.log('res from image picker - cover image');
+  //       // console.log(res);
+  //       if (res.didCancel) {
+  //         // user cancelled image picker
+  //       } else if (res.error) {
+  //         // error opening image picker
+  //       } else {
+  //         setFileResponse(res.assets[0]);
+  //         setDetails({...details, selfie: res.assets[0].base64});
+  //       }
+  //     },
+  //   );
+  // };
 
   const handleNext = () => {
     if (!details.selfie) {
       return notifyMessage('Selfie required!');
     }
 
-    if (!details.gender) {
-      return notifyMessage('Select gender');
+    if (!details.address) {
+      return notifyMessage('Address required');
     }
 
-    if (!details.dob) {
-      return notifyMessage('DOB required!');
+    if (!details.city) {
+      return notifyMessage('Enter City');
     }
 
-    if (!details.bvn) {
-      return notifyMessage('BVN required!');
+    if (!details.postalCode) {
+      return notifyMessage('Enter Postal Code');
     }
 
-    dispatch(setPersonalWallet({...details, kycDone: true}));
-    navigate('IdentificationDocuments');
+    if (!details.state) {
+      return notifyMessage('Enter State');
+    }
+    if (!details.country) {
+      return notifyMessage('Select Country');
+    }
+
+    if (!checked) {
+      return notifyMessage('Accept terms');
+    }
+
+    const kycDone = true;
+
+    dispatch(setPersonalWallet({...details, kycDone}));
+    navigate('CreatePersonalWallet');
   };
+
+  useEffect(() => {
+    setDetails({
+      ...details,
+      address: personalWallet.address || '',
+      city: personalWallet.city || '',
+      postalCode: personalWallet.postalCode || '',
+      state: personalWallet.state || '',
+      selfie: personalWallet.selfie || '',
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -150,6 +143,7 @@ const LevelOneKYC = () => {
           flexDirection: 'row',
           marginBottom: 50,
           alignItems: 'center',
+          gap: 50,
         }}>
         <Pressable
           onPress={goBack}
@@ -167,9 +161,9 @@ const LevelOneKYC = () => {
         </Pressable>
         <Text
           style={{
-            ...FONTS.h4,
+            ...FONTS.h5,
             flex: 1,
-            textAlign: 'center',
+            // textAlign: 'center',
           }}>
           Verification
         </Text>
@@ -184,13 +178,11 @@ const LevelOneKYC = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Address</Text>
           <TextInput
-            placeholder="Address"
-            placeholderTextColor={COLORS.grayText}
             style={styles.textArea}
             multiline
-            numberOfLines={3}
+            numberOfLines={2}
             onChangeText={text => setDetails({...details, address: text})}
-            value={details.addressLine_1}
+            value={details.address}
           />
         </View>
         {/* <View style={styles.inputContainer}>
@@ -207,8 +199,6 @@ const LevelOneKYC = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>City</Text>
           <TextInput
-            placeholder="City"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, city: text})}
@@ -218,8 +208,6 @@ const LevelOneKYC = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Postal Code</Text>
           <TextInput
-            placeholder="Postal Code"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             keyboardType="number-pad"
             maxLength={6}
@@ -230,8 +218,6 @@ const LevelOneKYC = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>State</Text>
           <TextInput
-            placeholder="State"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             onChangeText={text => setDetails({...details, state: text.trim()})}
             value={details.state}
@@ -254,7 +240,7 @@ const LevelOneKYC = () => {
             labelField="label"
             valueField="value"
             placeholder={!isFocus ? 'Select Country' : '...'}
-            value={value}
+            value={details.country}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
@@ -266,13 +252,15 @@ const LevelOneKYC = () => {
         </View>
 
         <View style={{gap: 15, marginVertical: 20}}>
-          {fileResponse.uri ? (
+          {details.selfie ? (
             <Image
-              source={{uri: fileResponse?.uri}}
+              // source={{uri: fileResponse?.uri}}
+              source={{uri: `data:image/jpeg;base64,${details.selfie}`}}
               style={{
                 width: 200,
                 height: 200,
                 alignSelf: 'center',
+                borderRadius: 10,
               }}
               resizeMode="cover"
             />
@@ -317,10 +305,10 @@ const LevelOneKYC = () => {
                   fontFamily: 'Lato-Bold',
                   fontSize: 16,
                 }}>
-                Take a snapshot
+                Take a selfie
               </Text>
             </Pressable>
-            <Pressable
+            {/* <Pressable
               onPress={handleGallery}
               style={{
                 height: 44,
@@ -340,13 +328,15 @@ const LevelOneKYC = () => {
                 }}>
                 Choose from gallery
               </Text>
-            </Pressable>
+            </Pressable> */}
           </View>
 
           <Text style={{textAlign: 'center', ...FONTS.tiny}}>
-            Please send us a clear, high-quality photo of your proof of address,
+            {/* Please send us a clear, high-quality photo of your proof of address,
             such as a utility bill or a government-issued ID that shows your
-            address.
+            address. */}
+            Please provide us with a good photo of yourself. Make sure to hold
+            device at eye level and center your face when you are ready.
           </Text>
         </View>
 
@@ -406,7 +396,8 @@ const LevelOneKYC = () => {
           mode="date"
         /> */}
 
-        <View style={styles.inputContainer}>
+        {/* Bvn field already filled */}
+        {/* <View style={styles.inputContainer}>
           <Text style={styles.label}>BVN</Text>
           <TextInput
             placeholder="Input your BVN here"
@@ -462,6 +453,24 @@ const LevelOneKYC = () => {
               phone number to get your BVN.
             </Text>
           </View>
+        </View> */}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 5,
+            marginTop: 30,
+          }}>
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            color={COLORS.primary}
+            onPress={toggleChecked}
+          />
+          <Text style={{...FONTS.medium, width: '90%'}}>
+            I agree to Moosbu terms of use and privacy policy to empower your
+            staff to confirm customer transfers even when you are not available,
+            ensuring continuity of business operations
+          </Text>
         </View>
 
         <FormButton
@@ -485,7 +494,7 @@ const styles = StyleSheet.create({
     paddingTop: SIZES.base * 2,
   },
   inputContainer: {marginBottom: 20},
-  label: {...FONTS.regular, color: COLORS.label, marginBottom: 5},
+  label: {...FONTS.medium, color: COLORS.label, marginBottom: 5},
   input: {
     borderWidth: 1,
     marginTop: 3,

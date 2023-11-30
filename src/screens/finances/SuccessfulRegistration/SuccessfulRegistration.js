@@ -104,7 +104,9 @@ const SuccessfulRegistration = ({navigation}) => {
                   />
                 </View>
                 <View>
-                  <Text style={{fontFamily: 'Lato-Bold'}}>Go to Dashboard</Text>
+                  <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
+                    Go to Dashboard
+                  </Text>
                   <Text style={{...FONTS.small, color: COLORS.gray}}>
                     Go to Wallet Dashboard
                   </Text>
@@ -136,7 +138,9 @@ const SuccessfulRegistration = ({navigation}) => {
                   />
                 </View>
                 <View>
-                  <Text style={{fontFamily: 'Lato-Bold'}}>Go Home</Text>
+                  <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
+                    Go Home
+                  </Text>
                   <Text style={{...FONTS.small, color: COLORS.gray}}>
                     Go To Moosbu Homepage
                   </Text>

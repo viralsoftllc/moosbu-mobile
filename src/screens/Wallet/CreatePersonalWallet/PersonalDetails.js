@@ -10,6 +10,7 @@ import React, {useEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import DatePicker from 'react-native-date-picker';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -18,14 +19,32 @@ import FormButton from '../../../shared/components/FormButton';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import {setPersonalWallet} from '../../../redux/slices/wallet/slice';
 import {selectUser} from '../../../redux/slices/user/selectors';
+import {selectPersonalWallet} from '../../../redux/slices/wallet/selectors';
 
 const PersonalDetails = () => {
   const {goBack, navigate} = useNavigation();
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
+  const personalWallet = useSelector(selectPersonalWallet);
 
   const [details, setDetails] = useState({});
+
+  //Date Picker variables
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+
+  //format date
+  function formatDate(date = new Date()) {
+    const year = date.toLocaleString('default', {year: 'numeric'});
+    const month = date.toLocaleString('default', {
+      month: '2-digit',
+    });
+    const day = date.toLocaleString('default', {day: '2-digit'});
+
+    const formattedDate = [year, month, day].join('-');
+    return formattedDate;
+  }
 
   const handleNext = () => {
     if (!details.firstName) {
@@ -55,8 +74,13 @@ const PersonalDetails = () => {
   useEffect(() => {
     setDetails({
       ...details,
-      email: user.email,
-      phoneNumber: user.phone_number.toString(),
+      firstName: personalWallet.firstName || '',
+      lastName: personalWallet.lastName || '',
+      middleName: personalWallet.middleName || '',
+      maidenName: personalWallet.maidenName || '',
+      dob: personalWallet.dob,
+      email: user.email || '',
+      phoneNumber: user.phone_number.toString() || '',
     });
   }, []);
 
@@ -67,6 +91,7 @@ const PersonalDetails = () => {
           flexDirection: 'row',
           marginBottom: 50,
           alignItems: 'center',
+          gap: 50,
         }}>
         <Pressable
           onPress={goBack}
@@ -84,8 +109,8 @@ const PersonalDetails = () => {
         </Pressable>
         <Text
           style={{
-            ...FONTS.h4,
-            textAlign: 'center',
+            ...FONTS.h5,
+            // textAlign: 'center',
             flex: 1,
           }}>
           Personal Details
@@ -166,6 +191,28 @@ const PersonalDetails = () => {
             value={details.phoneNumber}
           />
         </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Date of birth (DOB)</Text>
+          <TextInput
+            placeholderTextColor={COLORS.grayText}
+            style={styles.input}
+            onPressIn={() => setOpen(true)}
+            value={details.dob}
+          />
+          <DatePicker
+            modal
+            open={open}
+            date={date}
+            onConfirm={date => {
+              setOpen(false);
+              setDetails({...details, dob: formatDate(date)});
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+            mode="date"
+          />
+        </View>
 
         <FormButton
           title={'Next'}
@@ -188,7 +235,7 @@ const styles = StyleSheet.create({
     paddingTop: SIZES.base * 2,
   },
   inputContainer: {marginBottom: 20},
-  label: {...FONTS.regular, color: COLORS.label, marginBottom: 5},
+  label: {...FONTS.medium, color: COLORS.label, marginBottom: 5},
   input: {
     borderWidth: 1,
     marginTop: 3,

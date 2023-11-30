@@ -6,22 +6,25 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {Dropdown} from 'react-native-element-dropdown';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import UseIcon from '../../../shared/utils/UseIcon';
 import {SIZES, FONTS, COLORS} from '../../../assets/themes';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/FormButton';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
 import {setPersonalWallet} from '../../../redux/slices/wallet/slice';
+import {selectPersonalWallet} from '../../../redux/slices/wallet/selectors';
 
 const BusinessInformation = () => {
   const {goBack, navigate} = useNavigation();
   const dispatch = useDispatch();
   const [details, setDetails] = useState({});
+
+  const personalWallet = useSelector(selectPersonalWallet);
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -30,18 +33,31 @@ const BusinessInformation = () => {
     if (!details.doingBusinessAs) {
       return notifyMessage('Business name is required!');
     }
-    if (!details.description) {
+    if (!details.businessDescription) {
       return notifyMessage('Business description is required!');
     }
-    if (!details.isSoleProprietor) {
-      return notifyMessage('Are you a sole proprietor?');
+
+    if (!details.businessCategory) {
+      return notifyMessage('Please select business category');
     }
+    // if (!details.isSoleProprietor) {
+    //   return notifyMessage('Are you a sole proprietor?');
+    // }
 
     const businessDescriptionDone = true;
     dispatch(setPersonalWallet({...details, businessDescriptionDone}));
 
     navigate('LevelOneKYC');
   };
+
+  useEffect(() => {
+    setDetails({
+      ...details,
+      doingBusinessAs: personalWallet.doingBusinessAs || '',
+      businessDescription: personalWallet.businessDescription || '',
+      businessCategory: personalWallet.businessCategory || '',
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,6 +66,7 @@ const BusinessInformation = () => {
           flexDirection: 'row',
           marginBottom: 50,
           alignItems: 'center',
+          gap: 50,
         }}>
         <Pressable
           onPress={goBack}
@@ -67,9 +84,9 @@ const BusinessInformation = () => {
         </Pressable>
         <Text
           style={{
-            ...FONTS.h4,
+            ...FONTS.h5,
             flex: 1,
-            textAlign: 'center',
+            // textAlign: 'center',
           }}>
           Business Information
         </Text>
@@ -84,8 +101,6 @@ const BusinessInformation = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Name of Business</Text>
           <TextInput
-            placeholder="Your business name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             onChangeText={text =>
               setDetails({...details, doingBusinessAs: text})
@@ -96,13 +111,13 @@ const BusinessInformation = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Business Description </Text>
           <TextInput
-            placeholder="Describe your business"
-            placeholderTextColor={COLORS.grayText}
             style={styles.textArea}
             multiline
             numberOfLines={3}
-            onChangeText={text => setDetails({...details, description: text})}
-            value={details.description}
+            onChangeText={text =>
+              setDetails({...details, businessDescription: text})
+            }
+            value={details.businessDescription}
           />
         </View>
 
@@ -143,9 +158,9 @@ const BusinessInformation = () => {
             style={styles.input}
             placeholderStyle={[styles.input, {borderWidth: 0}]}
             itemTextStyle={{
-              ...FONTS.regular,
+              ...FONTS.medium,
             }}
-            selectedTextStyle={{...FONTS.regular}}
+            selectedTextStyle={{...FONTS.medium}}
             data={[
               {
                 label: 'Accommodation And Food Services Activities',
@@ -259,13 +274,13 @@ const BusinessInformation = () => {
             labelField="label"
             valueField="value"
             placeholder={!isFocus ? 'Select business category' : '...'}
-            value={value}
+            value={details.businessCategory}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
               setValue(item.value);
               setIsFocus(false);
-              setDetails({...details, business_category: item.label});
+              setDetails({...details, businessCategory: item.label});
             }}
           />
         </View>
@@ -290,7 +305,7 @@ const styles = StyleSheet.create({
     paddingTop: SIZES.base * 2,
   },
   inputContainer: {marginBottom: 20},
-  label: {...FONTS.regular, color: COLORS.label, marginBottom: 5},
+  label: {...FONTS.medium, color: COLORS.label, marginBottom: 5},
   input: {
     borderWidth: 1,
     marginTop: 3,

@@ -165,9 +165,9 @@ const WalletType = ({setCreateWalletModel}) => {
           onPress={() => {
             setCreateWalletModel(false);
             if (checked === 'Individual') {
-              return navigate('MoosbuMini');
+              return navigate('CreatePersonalWallet');
             }
-            return navigate('MoosbuBusiness');
+            return navigate('CreateBusinessWallet');
           }}
           style={{
             backgroundColor: COLORS.primary,

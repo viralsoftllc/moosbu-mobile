@@ -474,7 +474,10 @@ const MoosbuMini = () => {
                       onChange={item => {
                         setValue(item.value);
                         setIsFocus(false);
-                        setDetails({...details, business_category: item.label});
+                        setDetails(prev => ({
+                          ...prev,
+                          business_category: item.label,
+                        }));
                         checkBusinessInfo();
                       }}
                     />
