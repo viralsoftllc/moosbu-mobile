@@ -63,7 +63,7 @@ import TokenScreen from '../../screens/TokenScreen';
 import TokenSuccess from '../../screens/TokenSuccess';
 import BasicDetails from '../../screens/Wallet/businessWallet/BasicDetails';
 import Address from '../../screens/Wallet/businessWallet/Address';
-import OfficerDetails from '../../screens/Wallet/businessWallet/OfficerDetails';
+
 import VerifyEmail from '../../screens/auth/VerifyEmail';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -82,6 +82,10 @@ import Terms from '../../screens/Wallet/CreatePersonalWallet/Terms';
 import EmailVerified from '../../screens/auth/EmailVerified';
 import MoosbuMini from '../../screens/finances/moosbuMini';
 import MoosbuBusiness from '../../screens/finances/moosbuBusiness';
+import BasicBusinessDetails from '../../screens/Wallet/CreateBusinessWallet/BasicBusinessDetails';
+import BusinessAddress from '../../screens/Wallet/CreateBusinessWallet/BusinessAddress';
+import OfficerDetails from '../../screens/Wallet/CreateBusinessWallet/OfficerDetails';
+import OfficerAddress from '../../screens/Wallet/CreateBusinessWallet/OfficerAddress';
 
 const Stack = createStackNavigator();
 
@@ -323,13 +327,13 @@ export default function MainNavigator() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="OfficerDetails"
+        {/* <Stack.Screen
+          name="OfficerDetailsOld"
           component={OfficerDetails}
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
         <Stack.Screen name={routes.REWARD} component={Reward} />
         {/* <Stack.Screen
           name={routes.REWARD_INFO}
@@ -387,6 +391,29 @@ export default function MainNavigator() {
         <Stack.Screen
           name="EmailVerified"
           component={EmailVerified}
+          options={{headerShown: false}}
+        />
+
+        {/* Business Wallet Screens */}
+
+        <Stack.Screen
+          name="BasicBusinessDetails"
+          component={BasicBusinessDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BusinessAddress"
+          component={BusinessAddress}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OfficerDetails"
+          component={OfficerDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OfficerAddress"
+          component={OfficerAddress}
           options={{headerShown: false}}
         />
 
