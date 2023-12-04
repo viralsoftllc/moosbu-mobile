@@ -96,8 +96,12 @@ export default function Home({navigation}) {
       setLoading(true);
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
+      console.log(data);
+      const {details} = data;
+
+      const balanceinNaira = details?.data.accountBalance / 100;
       // console.log(data?.balance);
-      dispatch(setWalletBalance(data?.balance.availableBalance / 100));
+      dispatch(setWalletBalance(balanceinNaira));
       setLoading(false);
     } catch (error) {
       setLoading(false);

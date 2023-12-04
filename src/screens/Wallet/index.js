@@ -64,18 +64,16 @@ export default function Wallet({navigation}) {
       setWalletLoading(true);
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
-
+      console.log(data);
       const {details} = data;
 
-      console.log(details);
-
-      const balanceinNaira = details?.data[0].accountBalance / 100;
+      const balanceinNaira = details?.data.accountBalance / 100;
       // console.log(data);
       // console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(balanceinNaira));
-      dispatch(setAccountNumber(details?.data[0].accountNumber));
-      dispatch(setAccountName(details?.data[0].accountName));
-      dispatch(setBank(details?.data[0].accountName));
+      dispatch(setAccountNumber(details?.data.accountNumber));
+      dispatch(setAccountName(details?.data.accountName));
+      dispatch(setBank(details?.data.accountName));
       setTransactions(data?.transactions);
 
       setWalletLoading(false);
@@ -504,14 +502,14 @@ export default function Wallet({navigation}) {
                   <Ficon name="copy" size={15} color={COLORS.primary} />
                 </Pressable>
               </View>
-              <Text
+              {/* <Text
                 style={{
                   ...FONTS.small,
                   alignSelf: 'center',
                   color: COLORS.grayText,
                 }}>
                 {accountName}
-              </Text>
+              </Text> */}
 
               <Text
                 style={{
