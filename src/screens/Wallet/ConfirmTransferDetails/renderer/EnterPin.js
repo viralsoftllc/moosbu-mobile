@@ -34,44 +34,44 @@ export default function EnterPin({setShowPinForm, options}) {
     setLoading(true);
     console.log(options);
     try {
-      const res = await client.post('/api/transfer', {
+      const {data} = await client.post('/api/transfer', {
         ...options,
         pin: code,
       });
 
-      console.log(res.data);
+      console.log(data);
+      notifyMessage(data.message);
+      // if (res.data == 'invalid transfer pin') {
+      //   setLoading(false);
+      //   return notifyMessage(res.data);
+      // }
 
-      if (res.data == 'invalid transfer pin') {
-        setLoading(false);
-        return notifyMessage(res.data);
-      }
+      // const {transfer_details, id} = res.data;
+      // // console.log(attributes);
 
-      const {transfer_details, id} = res.data;
-      // console.log(attributes);
+      // const {attributes} = transfer_details;
 
-      const {attributes} = transfer_details;
-
-      if (attributes.status == 'FAILED') {
-        setShowPinForm(false);
-        navigation.navigate('TransferDeclined', options);
-      }
-      if (attributes.status == 'PENDING') {
-        navigation.navigate('TransactionPending', {
-          ...options,
-          time: attributes.createdAt,
-          transactionId: id,
-          status: attributes.status,
-        });
-      }
-      if (attributes.status == 'COMPLETED') {
-        setShowPinForm(false);
-        navigation.navigate('TransferSuccessful', {
-          ...options,
-          time: attributes.createdAt,
-          transactionId: id,
-          status: attributes.status,
-        });
-      }
+      // if (attributes.status == 'FAILED') {
+      //   setShowPinForm(false);
+      //   navigation.navigate('TransferDeclined', options);
+      // }
+      // if (attributes.status == 'PENDING') {
+      //   navigation.navigate('TransactionPending', {
+      //     ...options,
+      //     time: attributes.createdAt,
+      //     transactionId: id,
+      //     status: attributes.status,
+      //   });
+      // }
+      // if (attributes.status == 'COMPLETED') {
+      //   setShowPinForm(false);
+      //   navigation.navigate('TransferSuccessful', {
+      //     ...options,
+      //     time: attributes.createdAt,
+      //     transactionId: id,
+      //     status: attributes.status,
+      //   });
+      // }
 
       setLoading(false);
     } catch (error) {

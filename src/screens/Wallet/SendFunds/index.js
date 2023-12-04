@@ -67,32 +67,46 @@ export default function SendFunds({navigation}) {
   //     .catch(error => handleApiError(error));
   // };a
 
-  useEffect(() => {
-    console.log(formatedList);
-  }, []);
+  const verifyAcc = async code => {
+    try {
+      setIsFetching(true);
+      const {data} = await client.post(`/api/verify_account`, {
+        accountNumber,
+        bankCode: code,
+      });
+      console.log(data);
+      const {bank} = data;
+      setAccountName(bank.data.accountName);
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
 
-  useEffect(() => {
-    const verifyAccount = async () => {
-      try {
-        setIsFetching(true);
-        const response = await client.get(
-          `/api/verify_account?accountNumber=${accountNumber}&bankCode=${value}`,
-        );
-        const {data} = response;
-        const {attributes} = data;
+  // useEffect(() => {
+  //   const verifyAccount = async () => {
+  //     try {
+  //       setIsFetching(true);
+  //       const {data} = await client.post(`/api/verify_account`, {
+  //         accountNumber,
+  //         bankCode: value,
+  //       });
+  //       console.log(data);
+  //       // const {attributes} = data;
 
-        setAccountName(attributes?.accountName);
-        setIsFetching(false);
-      } catch (error) {
-        // Handle the error appropriately, e.g., show an error message or log the error.
-        console.error('Error while verifying account:', error);
-        setIsFetching(false);
-      }
-    };
+  //       // setAccountName(attributes?.accountName);
+  //       setIsFetching(false);
+  //     } catch (error) {
+  //       // Handle the error appropriately, e.g., show an error message or log the error.
+  //       console.error('Error while verifying account:', error);
+  //       setIsFetching(false);
+  //     }
+  //   };
 
-    // Call the verifyAccount function when the 'bank' dependency changes.
-    verifyAccount();
-  }, [bank, value]);
+  //   // Call the verifyAccount function when the 'bank' dependency changes.
+  //   verifyAccount();
+  // }, [bank, value]);
 
   const numberFormatter = value => {
     // console.log('1  ' + value + '  ' + typeof value); // Standard input from the textbox
@@ -388,21 +402,24 @@ export default function SendFunds({navigation}) {
             <Text style={styles.label}>Select Recipient Bank</Text>
             <Dropdown
               style={styles.input}
-              placeholderStyle={[
-                styles.input,
-                {
-                  borderWidth: 0,
-                  color: COLORS.textGray,
-                  fontFamily: 'Lato-Regular',
-                },
-              ]}
+              placeholderStyle={{
+                ...FONTS.medium,
+                color: COLORS.grayText,
+              }}
               itemTextStyle={{
                 ...FONTS.small,
               }}
               search
               searchPlaceholder="Search bank..."
+              inputSearchStyle={{...FONTS.medium}}
               selectedTextStyle={{...FONTS.small}}
-              data={formatedList}
+              data={[
+                ...formatedList,
+                {
+                  label: 'Moosbu Bank Tech',
+                  value: 999240,
+                },
+              ]}
               maxHeight={300}
               labelField="label"
               valueField="value"
@@ -414,10 +431,12 @@ export default function SendFunds({navigation}) {
                 if (accountNumber.length !== 10) {
                   setValue('');
                   setBank('');
+                  setAccountName('');
                   return notifyMessage('Please input correct acount number');
                 } else {
-                  setValue(item.value);
+                  setValue(prev => item.value);
                   setBank(item.label);
+                  verifyAcc(item.value);
                   setIsFocus(false);
                 }
               }}
@@ -487,6 +506,7 @@ export default function SendFunds({navigation}) {
             bankCode: value,
             amount,
             description,
+            accountName,
           });
         }}
         style={styles.button}>
@@ -547,7 +567,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     borderColor: COLORS.borderGray,
-    ...FONTS.small,
+    ...FONTS.medium,
   },
   button: {
     minWidth: '80%',

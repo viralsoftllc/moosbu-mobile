@@ -35,8 +35,8 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
     }
 
     try {
-      await client.post('/api/account/pin', {pin});
-
+      const {data} = await client.post('/api/account/pin', {pin});
+      console.log(data);
       setLoading(false);
       setPin('');
       setPin2('');

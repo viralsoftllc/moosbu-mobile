@@ -21,11 +21,11 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 import Test from '../../Test';
 
 export default function ConfirmTransferDetails({route}) {
-  const {accountNumber, amount, bank, bankCode, description} = route.params;
+  const {accountNumber, accountName, amount, bank, bankCode, description} =
+    route.params;
   const {setOptions} = useNavigation();
   const [showPinForm, setShowPinForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [accountName, setAccountName] = useState('');
   const [bankId, setBankId] = useState('');
   const [transferId, setTransferId] = useState('');
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -37,39 +37,11 @@ export default function ConfirmTransferDetails({route}) {
     });
   }, [setOptions]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    //verify account details
-    const verifyAccount = async () => {
-      setLoading(true);
-      try {
-        const details = await client.get(
-          `/api/verify_account?accountNumber=${accountNumber}&bankCode=${bankCode}`,
-        );
-        const {attributes} = details.data;
-
-        setAccountName(attributes?.accountName);
-        setBankId(attributes?.bank.id);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        handleApiError(error);
-      }
-    };
-
-    verifyAccount();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
   const options = {
     account_name: accountName,
     account_number: accountNumber,
     bank_code: bankCode,
-    bank_id: bankId,
+    bank_id: bankCode,
     amount: parseFloat(amount.replace(/,/g, '')),
     bank: bank,
     description,
