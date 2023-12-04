@@ -68,13 +68,7 @@ export default function BottomTabNavigator() {
 
       <Tab.Screen
         name={routes.WALLET}
-        component={
-          store?.accountID && user?.customerID
-            ? Wallet
-            : user?.customerID
-            ? CreatePersonalWallet
-            : Finances
-        }
+        component={store?.accountID ? Wallet : Finances}
         options={{
           tabBarButton: props => (
             <CustomTabBarButton

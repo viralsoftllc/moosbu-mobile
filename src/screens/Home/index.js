@@ -57,6 +57,8 @@ export default function Home({navigation}) {
   const storeDetails = useSelector(selectStoreDetails);
   const stores = useSelector(selectStores);
 
+  console.log(stores);
+
   const dispatch = useDispatch();
 
   const [showNewStoreModal, setShowNewStoreModal] = useState(false);

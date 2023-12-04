@@ -92,10 +92,6 @@ const LevelOneKYC = () => {
   // };
 
   const handleNext = () => {
-    if (!details.selfie) {
-      return notifyMessage('Selfie required!');
-    }
-
     if (!details.address) {
       return notifyMessage('Address required');
     }
@@ -132,7 +128,6 @@ const LevelOneKYC = () => {
       city: personalWallet.city || '',
       postalCode: personalWallet.postalCode || '',
       state: personalWallet.state || '',
-      selfie: personalWallet.selfie || '',
     });
   }, []);
 
@@ -165,7 +160,7 @@ const LevelOneKYC = () => {
             flex: 1,
             // textAlign: 'center',
           }}>
-          Verification
+          Personal / Business Address
         </Text>
       </View>
       <KeyboardAwareScrollView
@@ -249,95 +244,6 @@ const LevelOneKYC = () => {
               setIsFocus(false);
             }}
           />
-        </View>
-
-        <View style={{gap: 15, marginVertical: 20}}>
-          {details.selfie ? (
-            <Image
-              // source={{uri: fileResponse?.uri}}
-              source={{uri: `data:image/jpeg;base64,${details.selfie}`}}
-              style={{
-                width: 200,
-                height: 200,
-                alignSelf: 'center',
-                borderRadius: 10,
-              }}
-              resizeMode="cover"
-            />
-          ) : (
-            <View
-              style={{
-                borderWidth: 2,
-                padding: 20,
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 100,
-                height: 100,
-                borderRadius: 100,
-                alignSelf: 'center',
-                borderColor: COLORS.borderGray,
-              }}>
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="camera-outline"
-                color={COLORS.borderGray}
-                size={40}
-              />
-            </View>
-          )}
-
-          <View style={{flexDirection: 'row', gap: 20}}>
-            <Pressable
-              onPress={handleCamera}
-              style={{
-                height: 44,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderStyle: 'dashed',
-                borderWidth: 1,
-                flex: 1,
-                backgroundColor: COLORS.lightSecondaryBackground,
-                borderColor: COLORS.borderGray,
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Lato-Bold',
-                  fontSize: 16,
-                }}>
-                Take a selfie
-              </Text>
-            </Pressable>
-            {/* <Pressable
-              onPress={handleGallery}
-              style={{
-                height: 44,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderStyle: 'dashed',
-                borderWidth: 1,
-                flex: 1,
-                borderColor: COLORS.borderGray,
-                backgroundColor: COLORS.lightSecondaryBackground,
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: 'Lato-Bold',
-                  fontSize: 16,
-                }}>
-                Choose from gallery
-              </Text>
-            </Pressable> */}
-          </View>
-
-          <Text style={{textAlign: 'center', ...FONTS.tiny}}>
-            {/* Please send us a clear, high-quality photo of your proof of address,
-            such as a utility bill or a government-issued ID that shows your
-            address. */}
-            Please provide us with a good photo of yourself. Make sure to hold
-            device at eye level and center your face when you are ready.
-          </Text>
         </View>
 
         {/* <View style={styles.inputContainer}>

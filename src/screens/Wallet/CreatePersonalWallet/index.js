@@ -37,7 +37,6 @@ export default function CreatePersonalWallet() {
 
   const {personalDetailsDone, kycDone, businessDescriptionDone} =
     personalWallet;
-  console.log(personalWallet);
 
   const handleVerify = async () => {
     if (bvn.length < 11) {
@@ -76,16 +75,16 @@ export default function CreatePersonalWallet() {
 
     try {
       setLoading(true);
-      const {data} = await client.post('/api/create_subaccount', {
-        first_name: personalWallet.firstName,
-        last_name: personalWallet.lastName,
-        phone: personalWallet.phoneNumber,
+      const {data} = await client.post('/api/create_wallet', {
+        firstName: personalWallet.firstName,
+        lastName: personalWallet.lastName,
+        phoneNumber: personalWallet.phoneNumber,
         email: personalWallet.email,
         bvn: personalWallet.bvn,
       });
       console.log(data);
 
-      if (data?.data[0].attributes.accountType == 'REGULAR') {
+      if (data.statusCode == 200) {
         navigate('SuccessfulRegistration');
       }
 
@@ -344,7 +343,7 @@ export default function CreatePersonalWallet() {
 
                 <View>
                   <Text style={styles.label}>Step Three</Text>
-                  <Text style={styles.value}>Verification</Text>
+                  <Text style={styles.value}>Personal / Business Address</Text>
                 </View>
               </Pressable>
 

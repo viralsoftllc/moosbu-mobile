@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TextInput,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -18,7 +19,7 @@ import UseIcon from '../../../shared/utils/UseIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FormButton from '../../../shared/components/FormButton';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
-
+import {launchCamera} from 'react-native-image-picker';
 import {setBusinessWallet} from '../../../redux/slices/wallet/slice';
 import {selectBusinessWallet} from '../../../redux/slices/wallet/selectors';
 
@@ -48,6 +49,31 @@ const OfficerDetails = () => {
     return formattedDate;
   }
 
+  //handle image from camera
+  const handleCamera = async () => {
+    await launchCamera(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setDetails({...details, officerSelfie: res.assets[0].base64});
+          console.log(res.assets[0]);
+        }
+      },
+    );
+  };
+
   const handleNext = () => {
     if (!details.role) {
       return notifyMessage('Role required');
@@ -70,6 +96,10 @@ const OfficerDetails = () => {
     if (!details.phoneNumber) {
       return notifyMessage('Phone number required');
     }
+
+    if (!details.officerSelfie) {
+      return notifyMessage('Please take a selfie');
+    }
     const officerDetailsDone = true;
     dispatch(setBusinessWallet({...details, officerDetailsDone}));
     navigate('OfficerAddress');
@@ -86,6 +116,7 @@ const OfficerDetails = () => {
       dob: businessWallet.dob || '',
       email: businessWallet.email || '',
       phoneNumber: businessWallet.phoneNumber || '',
+      officerSelfie: businessWallet.officerSelfie || '',
     });
   }, []);
 
@@ -157,8 +188,6 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer First Name</Text>
           <TextInput
-            placeholder="First Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, firstName: text})}
@@ -168,8 +197,6 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer Last Name</Text>
           <TextInput
-            placeholder="Last Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, lastName: text})}
@@ -179,8 +206,6 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer Middle Name</Text>
           <TextInput
-            placeholder="Middle Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, middleName: text})}
@@ -190,8 +215,6 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer Maiden Name</Text>
           <TextInput
-            placeholder="Maiden Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, maidenName: text})}
@@ -223,8 +246,6 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email address</Text>
           <TextInput
-            placeholder="Email"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -235,14 +256,57 @@ const OfficerDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Phone Number</Text>
           <TextInput
-            placeholder="Phone Number"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             keyboardType="number-pad"
             maxLength={11}
             onChangeText={text => setDetails({...details, phoneNumber: text})}
             value={details.phoneNumber}
           />
+        </View>
+
+        <View style={{gap: 15, marginVertical: 20}}>
+          {details.officerSelfie ? (
+            <Image
+              // source={{uri: fileResponse?.uri}}
+              source={{uri: `data:image/jpeg;base64,${details.officerSelfie}`}}
+              style={{
+                width: 200,
+                height: 200,
+                alignSelf: 'center',
+                borderRadius: 10,
+              }}
+              resizeMode="cover"
+            />
+          ) : null}
+
+          <View style={{flexDirection: 'row', gap: 20}}>
+            <Pressable
+              onPress={handleCamera}
+              style={{
+                height: 44,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderStyle: 'dashed',
+                borderWidth: 1,
+                flex: 1,
+                backgroundColor: COLORS.lightSecondaryBackground,
+                borderColor: COLORS.borderGray,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: 'Lato-Bold',
+                  fontSize: 16,
+                }}>
+                {details.officerSelfie ? 'Take another photo' : 'Take a selfie'}
+              </Text>
+            </Pressable>
+          </View>
+
+          <Text style={{textAlign: 'center', ...FONTS.tiny}}>
+            Please provide us with a good photo of yourself. Make sure to hold
+            device at eye level and center your face when you are ready.
+          </Text>
         </View>
 
         <FormButton

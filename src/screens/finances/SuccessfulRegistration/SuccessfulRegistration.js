@@ -40,21 +40,21 @@ const SuccessfulRegistration = ({navigation}) => {
     fetchDashboardData();
   }, [fetchDashboardData]);
 
-  const updateUser = useCallback(async () => {
-    setLoading(true);
-    try {
-      const {data} = await client.get('/api/logged/user');
-      dispatch(setUserDetails(data.message));
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      handleApiError(error);
-    }
-  }, [dispatch]);
+  // const updateUser = useCallback(async () => {
+  //   setLoading(true);
+  //   try {
+  //     const {data} = await client.get('/api/logged/user');
+  //     dispatch(setUserDetails(data.message));
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     handleApiError(error);
+  //   }
+  // }, [dispatch]);
 
-  useEffect(() => {
-    updateUser();
-  }, [updateUser]);
+  // useEffect(() => {
+  //   updateUser();
+  // }, [updateUser]);
 
   return (
     <SafeAreaView style={styles.container}>

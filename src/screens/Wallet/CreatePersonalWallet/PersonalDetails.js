@@ -5,12 +5,14 @@ import {
   Text,
   View,
   TextInput,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import DatePicker from 'react-native-date-picker';
+import {launchCamera} from 'react-native-image-picker';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import UseIcon from '../../../shared/utils/UseIcon';
@@ -46,22 +48,51 @@ const PersonalDetails = () => {
     return formattedDate;
   }
 
+  //handle image from camera
+  const handleCamera = async () => {
+    await launchCamera(
+      {
+        maxHeight: 500,
+        maxWidth: 500,
+        quality: 0.4,
+        mediaType: 'photo',
+        includeBase64: true,
+        saveToPhotos: false,
+      },
+      res => {
+        // console.log(res);
+        if (res.didCancel) {
+          // user cancelled image picker
+        } else if (res.error) {
+          // error opening image picker
+        } else {
+          setDetails({...details, selfie: res.assets[0].base64});
+          console.log(res.assets[0]);
+        }
+      },
+    );
+  };
+
   const handleNext = () => {
     if (!details.firstName) {
-      return notifyMessage('First Name is required!');
+      return notifyMessage('First name is required!');
     }
     if (!details.lastName) {
-      return notifyMessage('Last Name is required!');
+      return notifyMessage('Last name is required!');
     }
     if (!details.middleName) {
-      return notifyMessage('Middle Name is required!');
+      return notifyMessage('Middle name is required!');
     }
     if (!details.email) {
       return notifyMessage('Email is required!');
     }
 
     if (!details.phoneNumber) {
-      return notifyMessage('Phone Number is require!');
+      return notifyMessage('Phone number is require!');
+    }
+
+    if (!details.selfie) {
+      return notifyMessage('Please take a selfie');
     }
 
     const personalDetailsDone = true;
@@ -81,6 +112,7 @@ const PersonalDetails = () => {
       dob: personalWallet.dob,
       email: user.email || '',
       phoneNumber: user.phone_number.toString() || '',
+      selfie: personalWallet.selfie || '',
     });
   }, []);
 
@@ -126,8 +158,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>First Name</Text>
           <TextInput
-            placeholder="First Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, firstName: text})}
@@ -137,8 +167,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Last Name</Text>
           <TextInput
-            placeholder="Last Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, lastName: text})}
@@ -148,8 +176,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Middle Name</Text>
           <TextInput
-            placeholder="Middle Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, middleName: text})}
@@ -159,8 +185,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Maiden Name</Text>
           <TextInput
-            placeholder="Maiden Name"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             autoCapitalize="words"
             onChangeText={text => setDetails({...details, maidenName: text})}
@@ -170,8 +194,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
           <TextInput
-            placeholder="Email"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -182,8 +204,6 @@ const PersonalDetails = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Phone Number</Text>
           <TextInput
-            placeholder="Phone Number"
-            placeholderTextColor={COLORS.grayText}
             style={styles.input}
             keyboardType="number-pad"
             maxLength={11}
@@ -212,6 +232,51 @@ const PersonalDetails = () => {
             }}
             mode="date"
           />
+        </View>
+
+        <View style={{gap: 15, marginVertical: 20}}>
+          {details.selfie ? (
+            <Image
+              // source={{uri: fileResponse?.uri}}
+              source={{uri: `data:image/jpeg;base64,${details.selfie}`}}
+              style={{
+                width: 200,
+                height: 200,
+                alignSelf: 'center',
+                borderRadius: 10,
+              }}
+              resizeMode="cover"
+            />
+          ) : null}
+
+          <View style={{flexDirection: 'row', gap: 20}}>
+            <Pressable
+              onPress={handleCamera}
+              style={{
+                height: 44,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderStyle: 'dashed',
+                borderWidth: 1,
+                flex: 1,
+                backgroundColor: COLORS.lightSecondaryBackground,
+                borderColor: COLORS.borderGray,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: 'Lato-Bold',
+                  fontSize: 16,
+                }}>
+                {details.selfie ? 'Take another photo' : 'Take a selfie'}
+              </Text>
+            </Pressable>
+          </View>
+
+          <Text style={{textAlign: 'center', ...FONTS.tiny}}>
+            Please provide us with a good photo of yourself. Make sure to hold
+            device at eye level and center your face when you are ready.
+          </Text>
         </View>
 
         <FormButton

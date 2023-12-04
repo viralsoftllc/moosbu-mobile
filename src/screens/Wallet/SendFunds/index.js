@@ -27,6 +27,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+import {formatedList} from '../../../../banklist';
 
 export default function SendFunds({navigation}) {
   const {setOptions} = useNavigation();
@@ -64,27 +65,11 @@ export default function SendFunds({navigation}) {
   //       }),
   //     )
   //     .catch(error => handleApiError(error));
-  // };
+  // };a
 
   useEffect(() => {
-    //Fetch bank list
-    const fetchBanks = async () => {
-      try {
-        const datum = await client.get('/api/fetch_banks');
-        const formatedList = datum?.data.map(x => {
-          return {label: x.attributes['name'], value: x.attributes['nipCode']};
-        });
-
-        setBankList(formatedList);
-
-        // console.log(typeof datum);
-      } catch (error) {
-        handleApiError(error);
-        console.log(error);
-      }
-    };
-    fetchBanks();
-  }, [isFetching]);
+    console.log(formatedList);
+  }, []);
 
   useEffect(() => {
     const verifyAccount = async () => {
@@ -417,7 +402,7 @@ export default function SendFunds({navigation}) {
               search
               searchPlaceholder="Search bank..."
               selectedTextStyle={{...FONTS.small}}
-              data={bankList}
+              data={formatedList}
               maxHeight={300}
               labelField="label"
               valueField="value"

@@ -19,7 +19,7 @@ const WalletType = ({setCreateWalletModel}) => {
       }}>
       <View
         style={{
-          gap: 35,
+          // gap: 35,
           padding: 20,
           justifyContent: 'space-evenly',
         }}>
@@ -66,10 +66,11 @@ const WalletType = ({setCreateWalletModel}) => {
               <View>
                 <Text
                   style={{
-                    ...FONTS.regular,
+                    ...FONTS.medium,
                     marginBottom: 5,
+                    fontFamily: 'Lato-Bold',
                   }}>
-                  Moosbu mini wallet
+                  Moosbu Mini Business Wallet
                 </Text>
                 <Text style={{...FONTS.small}}>
                   Unlimited deposit, ₦1M daily transfer limit, ₦20,000 single
@@ -106,6 +107,7 @@ const WalletType = ({setCreateWalletModel}) => {
                 color={COLORS.primary}
                 value="Business"
                 status={checked === 'Business' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('Business')}
               />
               <View>
                 <View
@@ -115,10 +117,17 @@ const WalletType = ({setCreateWalletModel}) => {
                     alignItems: 'center',
                     marginBottom: 5,
                   }}>
-                  <Text style={{...FONTS.regular}}>Moosbu business wallet</Text>
                   <Text
                     style={{
-                      fontSize: 14,
+                      ...FONTS.medium,
+                      marginBottom: 5,
+                      fontFamily: 'Lato-Bold',
+                    }}>
+                    Moosbu Pro Business Wallet
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
                       color: COLORS.secondary,
                       backgroundColor: COLORS.lightSecondaryBackground,
                       borderRadius: 30,
@@ -175,6 +184,7 @@ const WalletType = ({setCreateWalletModel}) => {
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: 30,
           }}>
           <Text
             style={{

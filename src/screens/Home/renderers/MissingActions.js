@@ -104,7 +104,7 @@ export default function MissingActions() {
               </View>
             </Pressable>
           ) : null}
-          {!user.customerID ? (
+          {!store?.accountID ? (
             <Pressable
               style={styles.actionCard}
               onPress={() => navigate(routes.WALLET)}>

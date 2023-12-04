@@ -65,13 +65,17 @@ export default function Wallet({navigation}) {
       // console.log('Fetching wallet balance');
       const {data} = await client.get('/api/wallet');
 
-      const balanceinNaira = data?.balance.availableBalance / 100;
+      const {details} = data;
+
+      console.log(details);
+
+      const balanceinNaira = details?.data[0].accountBalance / 100;
       // console.log(data);
       // console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(balanceinNaira));
-      dispatch(setAccountNumber(data?.details[0].attributes.accountNumber));
-      dispatch(setAccountName(data?.details[0].attributes.accountName));
-      dispatch(setBank(data?.details[0].attributes.bank.name));
+      dispatch(setAccountNumber(details?.data[0].accountNumber));
+      dispatch(setAccountName(details?.data[0].accountName));
+      dispatch(setBank(details?.data[0].accountName));
       setTransactions(data?.transactions);
 
       setWalletLoading(false);

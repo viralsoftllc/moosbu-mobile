@@ -5,8 +5,9 @@ import {
   Pressable,
   Text,
   View,
+  TextInput,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -14,14 +15,23 @@ import {useNavigation} from '@react-navigation/native';
 import UseIcon from '../../../shared/utils/UseIcon';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {selectBusinessWallet} from '../../../redux/slices/wallet/selectors';
+import {setBusinessWallet} from '../../../redux/slices/wallet/slice';
 import FormButton from '../../../shared/components/FormButton';
-import ScreenHeader from '../../../shared/components/ScreenHeader';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+import Test from '../../Test';
+
+import handleApiError from '../../../shared/components/handleApiError';
+import client from '../../../shared/api/client';
 
 const CreateBusinessWallet = () => {
-  const {setOptions, navigate, goBack} = useNavigation();
+  const {navigate, goBack} = useNavigation();
   const dispatch = useDispatch();
   const businessWallet = useSelector(selectBusinessWallet);
+
+  const [bvn, setBvn] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const {
     basicBusinessDetailsDone,
@@ -31,6 +41,29 @@ const CreateBusinessWallet = () => {
   } = businessWallet;
 
   console.log(businessWallet);
+
+  const handleVerify = async () => {
+    if (bvn.length < 11) {
+      return notifyMessage('Please use a valid BVN');
+    }
+
+    try {
+      setLoading(true);
+      const {data} = await client.post('/api/lookup_bvn', {bvn});
+      console.log(data);
+      if (data.status == 'successful') {
+        // setDetails({...details, bvn});
+        dispatch(setBusinessWallet({bvn}));
+        setVerified(true);
+        setLoading(false);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
 
   const createWallet = (async = () => {
     if (!basicBusinessDetailsDone) {
@@ -76,116 +109,186 @@ const CreateBusinessWallet = () => {
           style={{
             ...FONTS.h5,
           }}>
-          Create Business Wallet
+          Create Moosbu Pro Wallet
         </Text>
       </View>
+      {loading ? (
+        <Test />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingBottom: 100,
+          }}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
+          {!verified && (
+            <>
+              <View style={{marginBottom: 100}}>
+                <Text style={styles.label}>BVN</Text>
+                <TextInput
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  maxLength={11}
+                  keyboardType="numeric"
+                  onChangeText={text => {
+                    setBvn(text);
+                  }}
+                  value={bvn}
+                />
+              </View>
 
-      <ScrollView
-        contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-          paddingBottom: 100,
-        }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate('BasicBusinessDetails')}>
-          <View style={styles.iconView}>
-            {basicBusinessDetailsDone ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+              <FormButton title="Verify" onPress={handleVerify} />
 
-          <View>
-            <Text style={styles.label}>Step One</Text>
-            <Text style={styles.value}>Basic Business Details</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate('BusinessAddress')}>
-          <View style={styles.iconView}>
-            {businessAddressDone ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+              <View
+                style={{
+                  backgroundColor: '#FFD8D8',
+                  padding: 20,
+                  borderRadius: 10,
+                  marginVertical: 50,
+                }}>
+                <Text
+                  style={{color: '#FF6F6F', marginBottom: 5, ...FONTS.regular}}>
+                  Why do we need your BVN
+                </Text>
+                <View style={styles.list}>
+                  <Text>{`\u25CF`}</Text>
+                  <Text style={styles.listItem}>
+                    We only need your BVN to verify your identity
+                  </Text>
+                </View>
+                <View style={styles.list}>
+                  <Text>{`\u25CF`}</Text>
+                  <Text style={styles.listItem}>
+                    Your BVN is necessary for opening a bank account.
+                  </Text>
+                </View>
+                <View style={styles.list}>
+                  <Text>{`\u25CF`}</Text>
+                  <Text style={styles.listItem}>
+                    Your BVN does not give us access to your funds and
+                    transactions.
+                  </Text>
+                </View>
+                <View style={styles.list}>
+                  <Text>{`\u25CF`}</Text>
+                  <Text style={styles.listItem}>
+                    Your BVN is sent to and secured by our partner bank to carry
+                    out verification.
+                  </Text>
+                </View>
+                <View style={styles.list}>
+                  <Text>{`\u25CF`}</Text>
+                  <Text style={styles.listItem}>
+                    Dial <Text style={{fontWeight: 600}}>*565*0#</Text> on your
+                    registered phone number to get your BVN.
+                  </Text>
+                </View>
+              </View>
+            </>
+          )}
 
-          <View>
-            <Text style={styles.label}>Step Two</Text>
-            <Text style={styles.value}>Business Address</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate('OfficerDetails')}>
-          <View style={styles.iconView}>
-            {officerDetailsDone ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+          {verified && (
+            <>
+              <Pressable
+                style={styles.step}
+                onPress={() => navigate('BasicBusinessDetails')}>
+                <View style={styles.iconView}>
+                  {basicBusinessDetailsDone ? (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="check"
+                      color={COLORS.credit}
+                    />
+                  ) : (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="close"
+                      color={COLORS.debit}
+                    />
+                  )}
+                </View>
 
-          <View>
-            <Text style={styles.label}>Step Three</Text>
-            <Text style={styles.value}>Officer Details</Text>
-          </View>
-        </Pressable>
+                <View>
+                  <Text style={styles.label}>Step One</Text>
+                  <Text style={styles.value}>Basic Business Details</Text>
+                </View>
+              </Pressable>
+              <Pressable
+                style={styles.step}
+                onPress={() => navigate('BusinessAddress')}>
+                <View style={styles.iconView}>
+                  {businessAddressDone ? (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="check"
+                      color={COLORS.credit}
+                    />
+                  ) : (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="close"
+                      color={COLORS.debit}
+                    />
+                  )}
+                </View>
 
-        <Pressable
-          style={styles.step}
-          onPress={() => navigate('OfficerAddress')}>
-          <View style={styles.iconView}>
-            {officerAddressDone ? (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="check"
-                color={COLORS.credit}
-              />
-            ) : (
-              <UseIcon
-                type={'MaterialCommunityIcons'}
-                name="close"
-                color={COLORS.debit}
-              />
-            )}
-          </View>
+                <View>
+                  <Text style={styles.label}>Step Two</Text>
+                  <Text style={styles.value}>Business Address</Text>
+                </View>
+              </Pressable>
+              <Pressable
+                style={styles.step}
+                onPress={() => navigate('OfficerDetails')}>
+                <View style={styles.iconView}>
+                  {officerDetailsDone ? (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="check"
+                      color={COLORS.credit}
+                    />
+                  ) : (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="close"
+                      color={COLORS.debit}
+                    />
+                  )}
+                </View>
 
-          <View>
-            <Text style={styles.label}>Step Four</Text>
-            <Text style={styles.value}>Officer Address</Text>
-          </View>
-        </Pressable>
+                <View>
+                  <Text style={styles.label}>Step Three</Text>
+                  <Text style={styles.value}>Officer Details</Text>
+                </View>
+              </Pressable>
 
-        {/* <Pressable style={styles.step}>
+              <Pressable
+                style={styles.step}
+                onPress={() => navigate('OfficerAddress')}>
+                <View style={styles.iconView}>
+                  {officerAddressDone ? (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="check"
+                      color={COLORS.credit}
+                    />
+                  ) : (
+                    <UseIcon
+                      type={'MaterialCommunityIcons'}
+                      name="close"
+                      color={COLORS.debit}
+                    />
+                  )}
+                </View>
+
+                <View>
+                  <Text style={styles.label}>Step Four</Text>
+                  <Text style={styles.value}>Officer Address</Text>
+                </View>
+              </Pressable>
+
+              {/* <Pressable style={styles.step}>
           <View style={styles.iconView}>
             <UseIcon
               type={'MaterialCommunityIcons'}
@@ -200,12 +303,15 @@ const CreateBusinessWallet = () => {
           </View>
         </Pressable> */}
 
-        <FormButton
-          title={'Create Business Wallet'}
-          buttonStyle={styles.buttonStyle}
-          onPress={createWallet}
-        />
-      </ScrollView>
+              <FormButton
+                title={'Create Business Wallet'}
+                buttonStyle={styles.buttonStyle}
+                onPress={createWallet}
+              />
+            </>
+          )}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
@@ -237,7 +343,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.borderGray,
   },
   label: {
-    color: COLORS.grayText,
+    color: COLORS.primary,
     marginBottom: SIZES.base / 2,
     ...FONTS.medium,
   },
@@ -250,4 +356,25 @@ const styles = StyleSheet.create({
     marginTop: SIZES.base * 5,
     marginBottom: SIZES.base * 3,
   },
+  inputContainer: {marginBottom: 20},
+  label: {
+    ...FONTS.medium,
+    color: COLORS.label,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    marginTop: 3,
+    borderRadius: 5,
+    height: 50,
+    padding: 10,
+    borderColor: COLORS.borderGray,
+    ...FONTS.medium,
+  },
+  list: {
+    gap: 5,
+    flexDirection: 'row',
+  },
+
+  listItem: {...FONTS.small, color: COLORS.label, flex: 1},
 });
