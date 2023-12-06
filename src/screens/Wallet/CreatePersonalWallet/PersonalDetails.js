@@ -182,7 +182,7 @@ const PersonalDetails = () => {
             value={details.middleName}
           />
         </View>
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Text style={styles.label}>Maiden Name</Text>
           <TextInput
             style={styles.input}
@@ -190,7 +190,7 @@ const PersonalDetails = () => {
             onChangeText={text => setDetails({...details, maidenName: text})}
             value={details.maidenName}
           />
-        </View>
+        </View> */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
           <TextInput

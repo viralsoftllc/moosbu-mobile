@@ -212,7 +212,7 @@ const OfficerDetails = () => {
             value={details.middleName}
           />
         </View>
-        <View style={styles.inputContainer}>
+        {/* <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer Maiden Name</Text>
           <TextInput
             style={styles.input}
@@ -220,7 +220,7 @@ const OfficerDetails = () => {
             onChangeText={text => setDetails({...details, maidenName: text})}
             value={details.maidenName}
           />
-        </View>
+        </View> */}
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Officer Date of birth (DOB)</Text>
           <TextInput

@@ -67,9 +67,6 @@ export default function Wallet({navigation}) {
       console.log(data);
       const {details} = data;
 
-      const balanceinNaira = details?.data.accountBalance / 100;
-      // console.log(data);
-      // console.log(data?.details[0].attributes.accountNumber);
       dispatch(setWalletBalance(details?.data.accountBalance));
       dispatch(setAccountNumber(details?.data.accountNumber));
       dispatch(setAccountName(details?.data.accountName));
@@ -87,11 +84,11 @@ export default function Wallet({navigation}) {
     getWalletBalance();
   }, [getWalletBalance]);
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getWalletBalance();
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   navigation.addListener('focus', () => {
+  //     getWalletBalance();
+  //   });
+  // }, [navigation]);
 
   const ctaData = [
     {
@@ -481,7 +478,7 @@ export default function Wallet({navigation}) {
                   marginTop: 20,
                   marginBottom: 10,
                 }}>
-                {bank}
+                Safe Haven MFB
               </Text>
 
               <View
@@ -502,14 +499,14 @@ export default function Wallet({navigation}) {
                   <Ficon name="copy" size={15} color={COLORS.primary} />
                 </Pressable>
               </View>
-              {/* <Text
+              <Text
                 style={{
                   ...FONTS.small,
                   alignSelf: 'center',
                   color: COLORS.grayText,
                 }}>
-                {accountName}
-              </Text> */}
+                {bank}
+              </Text>
 
               <Text
                 style={{
