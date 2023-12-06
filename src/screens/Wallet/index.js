@@ -70,7 +70,7 @@ export default function Wallet({navigation}) {
       const balanceinNaira = details?.data.accountBalance / 100;
       // console.log(data);
       // console.log(data?.details[0].attributes.accountNumber);
-      dispatch(setWalletBalance(balanceinNaira));
+      dispatch(setWalletBalance(details?.data.accountBalance));
       dispatch(setAccountNumber(details?.data.accountNumber));
       dispatch(setAccountName(details?.data.accountName));
       dispatch(setBank(details?.data.accountName));

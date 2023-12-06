@@ -99,9 +99,9 @@ export default function Home({navigation}) {
       console.log(data);
       const {details} = data;
 
-      const balanceinNaira = details?.data.accountBalance / 100;
+      // const balanceinNaira = details?.data.accountBalance / 100;
       // console.log(data?.balance);
-      dispatch(setWalletBalance(balanceinNaira));
+      dispatch(setWalletBalance(details?.data.accountBalance));
       setLoading(false);
     } catch (error) {
       setLoading(false);

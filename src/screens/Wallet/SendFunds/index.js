@@ -38,6 +38,7 @@ export default function SendFunds({navigation}) {
   const [bank, setBank] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [nameEnquiryReference, setNameEnquiryReference] = useState('');
 
   //Verify account details variable
   const [isFetching, setIsFetching] = useState(false);
@@ -77,6 +78,7 @@ export default function SendFunds({navigation}) {
       console.log(data);
       const {bank} = data;
       setAccountName(bank.data.accountName);
+      setNameEnquiryReference(bank.data.sessionId);
     } catch (error) {
       handleApiError(error);
     } finally {
@@ -507,6 +509,7 @@ export default function SendFunds({navigation}) {
             amount,
             description,
             accountName,
+            nameEnquiryReference,
           });
         }}
         style={styles.button}>

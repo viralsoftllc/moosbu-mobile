@@ -6,15 +6,17 @@ import routes from '../../../shared/constants/routes';
 
 const TransferSuccessful = ({navigation, route}) => {
   const {
-    account_name,
-    account_number,
     amount,
-    bank,
-    time,
-    transactionId,
-    description,
-    status,
+    _id,
+    approvedAt,
+    creditAccountName,
+    creditAccountNumber,
+    fees,
   } = route.params;
+
+  console.log(route.params);
+
+  console.log(amount, creditAccountName, creditAccountNumber, approvedAt);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,8 +48,8 @@ const TransferSuccessful = ({navigation, route}) => {
                 currency: 'NGN',
               }).format(parseInt(amount))}
             </Text>{' '}
-            was successfully sent to{' '}
-            <Text style={{fontWeight: '700'}}>{account_name}</Text>
+            was successfully sent to {'\n'}
+            <Text style={{fontWeight: '700'}}>{creditAccountName}</Text>
           </Text>
         </View>
       </View>
@@ -80,8 +82,8 @@ const TransferSuccessful = ({navigation, route}) => {
                 <Icon name={'cached'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Repeat Transaction</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.h5}}>Repeat Transaction</Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
                   Make this payment again
                 </Text>
               </View>
@@ -91,16 +93,7 @@ const TransferSuccessful = ({navigation, route}) => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate('TransactionDetails', {
-                account_name,
-                account_number,
-                amount,
-                bank,
-                time,
-                transactionId,
-                description,
-                status,
-              });
+              navigation.navigate('TransactionDetails', route.params);
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View
@@ -116,8 +109,8 @@ const TransferSuccessful = ({navigation, route}) => {
                 <Icon name={'share-outline'} color={COLORS.primary} size={30} />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Share Receipt</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.h5}}>Share Receipt</Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
                   Share receipt with others
                 </Text>
               </View>
@@ -147,8 +140,8 @@ const TransferSuccessful = ({navigation, route}) => {
                 />
               </View>
               <View>
-                <Text style={{fontWeight: '600'}}>Go to Wallet</Text>
-                <Text style={{color: COLORS.gray}}>
+                <Text style={{...FONTS.h5}}>Go to Wallet</Text>
+                <Text style={{color: COLORS.gray, ...FONTS.medium}}>
                   Go To Moosbu Wallet Dashboard
                 </Text>
               </View>

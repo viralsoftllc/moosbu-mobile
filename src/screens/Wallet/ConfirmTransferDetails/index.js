@@ -21,8 +21,15 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 import Test from '../../Test';
 
 export default function ConfirmTransferDetails({route}) {
-  const {accountNumber, accountName, amount, bank, bankCode, description} =
-    route.params;
+  const {
+    accountNumber,
+    accountName,
+    amount,
+    bank,
+    bankCode,
+    description,
+    nameEnquiryReference,
+  } = route.params;
   const {setOptions} = useNavigation();
   const [showPinForm, setShowPinForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,6 +52,7 @@ export default function ConfirmTransferDetails({route}) {
     amount: parseFloat(amount.replace(/,/g, '')),
     bank: bank,
     description,
+    nameEnquiryReference,
   };
 
   return (

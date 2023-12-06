@@ -20,12 +20,15 @@ import {ActivityIndicator} from 'react-native-paper';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Test from '../../../Test';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setWalletBalance} from '../../../../redux/slices/wallet/slice';
+import {selectAccountNumber} from '../../../../redux/slices/wallet/selectors';
 
 export default function EnterPin({setShowPinForm, options}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const accountNumber = useSelector(selectAccountNumber);
 
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
@@ -35,12 +38,31 @@ export default function EnterPin({setShowPinForm, options}) {
     console.log(options);
     try {
       const {data} = await client.post('/api/transfer', {
-        ...options,
+        nameEnquiryReference: options.nameEnquiryReference,
+        debitAccountNumber: accountNumber,
+        beneficiaryBankCode: options.bank_code,
+        beneficiaryAccountNumber: options.account_number,
+        narration: options.description,
+        amount: options.amount,
         pin: code,
       });
 
       console.log(data);
+
+      const {message, statusCode} = data;
+      const details = data.data;
       notifyMessage(data.message);
+
+      if (statusCode == 400) {
+        setLoading(false);
+        return notifyMessage(message);
+      }
+      if (statusCode == 200) {
+        setShowPinForm(false);
+        navigation.navigate('TransferSuccessful', {
+          ...details,
+        });
+      }
       // if (res.data == 'invalid transfer pin') {
       //   setLoading(false);
       //   return notifyMessage(res.data);

@@ -24,14 +24,17 @@ import Test from '../../Test';
 
 const TransactionDetails = ({navigation, route}) => {
   const {
-    account_name,
-    account_number,
+    _id,
     amount,
-    bank,
-    time,
-    transactionId,
-    description,
+    approvedAt,
+    creditAccountName,
+    creditAccountNumber,
+    debitAccountName,
     status,
+    fees,
+    providerChannel,
+    paymentReference,
+    narration,
   } = route.params;
 
   const user = useSelector(selectUser);
@@ -44,26 +47,26 @@ const TransactionDetails = ({navigation, route}) => {
   const [summary, setSummary] = useState('');
   const [transactionType, setTransactionType] = useState('');
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      setLoading(true);
-      try {
-        const res = await client.get(
-          `/api/transaction_detail/${transactionId}`,
-        );
-        console.log(res.data);
-        const {data} = res.data;
-        setSummary(data?.attributes.summary);
-        setTransactionType(data?.attributes.transactionType);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        handleApiError(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchDetails = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const res = await client.get(
+  //         `/api/transaction_detail/${transactionId}`,
+  //       );
+  //       console.log(res.data);
+  //       const {data} = res.data;
+  //       setSummary(data?.attributes.summary);
+  //       setTransactionType(data?.attributes.transactionType);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setLoading(false);
+  //       handleApiError(error);
+  //     }
+  //   };
 
-    fetchDetails();
-  }, []);
+  //   fetchDetails();
+  // }, []);
 
   const captureViewShot = async () => {
     setVisible(false);
@@ -126,22 +129,25 @@ const TransactionDetails = ({navigation, route}) => {
                 }}>
                 <Icon name="arrow-back" size={16} />
               </Pressable>
-              <Text style={{...FONTS.h3}}>Receipt</Text>
+              <Text style={{...FONTS.h5}}>Receipt</Text>
             </View>
             <Pressable
               onPress={captureViewShot}
               style={{
                 alignSelf: 'flex-start',
 
-                width: 100,
+                width: 80,
                 borderWidth: 1,
                 borderColor: COLORS.secondary,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 30,
-                padding: 8,
+                padding: 4,
               }}>
-              <Text style={{...FONTS.h5, color: COLORS.secondary}}>Share</Text>
+              <Text
+                style={{...FONTS.h5, fontSize: 14, color: COLORS.secondary}}>
+                Share
+              </Text>
             </Pressable>
           </View>
 
@@ -173,36 +179,40 @@ const TransactionDetails = ({navigation, route}) => {
             <View style={{marginVertical: 10}}>
               <Text
                 style={{
-                  ...FONTS.h3,
+                  ...FONTS.h4,
                 }}>
                 {Intl.NumberFormat('en-NG', {
                   style: 'currency',
                   currency: 'NGN',
                 }).format(parseInt(amount))}
               </Text>
-              <Text style={styles.label}>{addHours(time)}</Text>
+              <Text style={styles.label}>{addHours(approvedAt)}</Text>
             </View>
 
             <View style={{gap: 10}}>
-              <View style={styles.info}>
+              {/* <View style={styles.info}>
                 <Text style={styles.label}>Summary</Text>
                 <Text
                   style={[
                     styles.content,
-                    {color: status == 'Credit' ? COLORS.credit : COLORS.debit},
+                    // {color: status == 'Credit' ? COLORS.credit : COLORS.debit},
                   ]}>
                   {status}
                 </Text>
-                {/* </View>
+              </View> */}
+              <View style={styles.info}>
+                <Text style={styles.label}>From</Text>
+                <Text style={[styles.content]}>{debitAccountName}</Text>
+              </View>
               <View style={styles.info}>
                 <Text style={styles.label}>To</Text>
-                <Text style={styles.content}>{account_name}</Text>
-                <Text style={styles.content}>{account_number}</Text>
-                <Text style={styles.content}>{bank}</Text> */}
+                <Text style={styles.content}>{creditAccountName}</Text>
+                <Text style={styles.content}>{creditAccountNumber}</Text>
+                {/* <Text style={styles.content}>{'bank'}</Text> */}
               </View>
               <View style={styles.info}>
                 <Text style={styles.label}>Description</Text>
-                <Text style={styles.content}>{summary}</Text>
+                <Text style={styles.content}>{narration}</Text>
               </View>
               <View style={styles.info}>
                 <View
@@ -220,13 +230,13 @@ const TransactionDetails = ({navigation, route}) => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}>
-                  <Text style={styles.content}>{transactionType}</Text>
+                  <Text style={styles.content}>{providerChannel}</Text>
                   <Text style={styles.content}>
                     {' '}
                     {Intl.NumberFormat('en-NG', {
                       style: 'currency',
                       currency: 'NGN',
-                    }).format(parseInt(status == 'Debit' ? 50 : 0))}
+                    }).format(fees)}
                   </Text>
                 </View>
               </View>
@@ -241,11 +251,11 @@ const TransactionDetails = ({navigation, route}) => {
                 ]}>
                 <View>
                   <Text style={styles.label}>Transaction Reference</Text>
-                  <Text style={styles.content}>{transactionId}</Text>
+                  <Text style={styles.content}>{paymentReference}</Text>
                 </View>
                 {visible ? (
                   <Pressable
-                    onPress={() => copyToClipboard(transactionId)}
+                    onPress={() => copyToClipboard(paymentReference)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -260,12 +270,12 @@ const TransactionDetails = ({navigation, route}) => {
               </View>
               <View style={[styles.info, {marginBottom: 50}]}>
                 <Text style={styles.label}>Transaction Status</Text>
-                <Text style={styles.content}>{''}</Text>
+                <Text style={styles.content}>{status}</Text>
               </View>
             </View>
           </ViewShot>
 
-          <Text style={{...FONTS.h4, marginVertical: 30}}>More Actions</Text>
+          <Text style={{...FONTS.h5, marginVertical: 30}}>More Actions</Text>
           <View style={{gap: 20}}>
             <Pressable
               style={styles.button}
