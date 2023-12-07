@@ -7,8 +7,11 @@ import {useNavigation} from '@react-navigation/native';
 export default function TransactionRow({transaction}) {
   const navigation = useNavigation();
 
+  const {_id, type, amount, narration, transactionDate, providerChannel} =
+    transaction;
+
   function getIcon() {
-    if (attributes?.direction.toLowerCase() === 'order') {
+    if (type.toLowerCase() === 'order') {
       return (
         <UseIcon
           type="FAIcon5"
@@ -19,7 +22,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (attributes?.direction.toLowerCase() === 'funding') {
+    if (type.toLowerCase() === 'funding') {
       return (
         <UseIcon
           type="MaterialIcons"
@@ -30,7 +33,7 @@ export default function TransactionRow({transaction}) {
       );
     }
 
-    if (attributes?.direction.toLowerCase() === 'debit') {
+    if (type.toLowerCase() === 'debit') {
       return (
         <UseIcon
           type="Feather"
@@ -40,7 +43,7 @@ export default function TransactionRow({transaction}) {
         />
       );
     }
-    if (attributes?.direction.toLowerCase() === 'credit') {
+    if (type.toLowerCase() === 'credit') {
       return (
         <UseIcon
           type="Feather"
@@ -86,30 +89,32 @@ export default function TransactionRow({transaction}) {
   //     if (transaction?.type?.toLowerCase() === 'deposit')
   //   }
 
-  const {attributes, id} = transaction;
-
-  const amount = attributes.amount / 100;
-
   function addHours(date) {
-    date = new Date(date).getTime() + 60 * 60 * 1000;
+    // date = new Date(date).getTime() + 60 * 60 * 1000;
 
+    date = new Date(date).getTime();
     date = new Date(date).toLocaleString();
-
     return date;
   }
 
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate('TransactionDetails', {
+        navigation.navigate('HistoryDetails', {
           // account_name,
           // account_number,
-          amount,
+          // amount,
           // bank,
-          time: attributes.transactionDate,
-          transactionId: id,
+          // time: attributes.transactionDate,
+          // transactionId: id,
           // description,
-          status: attributes.direction,
+          // status: attributes.direction,
+          narration,
+          transactionDate,
+          providerChannel,
+          type,
+          _id,
+          amount,
         });
       }}
       style={[styles.flex, styles.container]}>
@@ -118,35 +123,46 @@ export default function TransactionRow({transaction}) {
       <View style={styles.detailsContainer}>
         <View style={[styles.flex]}>
           <View>
-            <Text style={styles.text}>{transaction?.attributes.direction}</Text>
+            <Text style={styles.text}>{type}</Text>
           </View>
           <View>
-            <Text style={styles.text}>{transaction?.ref}</Text>
+            <Text style={styles.text}>{addHours(transactionDate)}</Text>
           </View>
           <View>
-            <Text style={[styles.text, {color: getColor()}]}>
-              {transaction?.status}
+            <Text
+              style={[
+                styles.text,
+                //  {color: getColor()}
+              ]}>
+              {''}
             </Text>
           </View>
           <View>
-            <Text style={[styles.text, {color: getColor()}]}>
+            <Text
+              style={[
+                styles.text,
+                //  {color: getColor()}
+              ]}>
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
                 currency: 'NGN',
-              }).format(attributes?.amount / 100)}
+              }).format(amount)}
             </Text>
           </View>
         </View>
 
-        <Text style={styles.date}>{addHours(attributes.createdAt)}</Text>
+        <Text style={styles.date}>{narration}</Text>
       </View>
     </Pressable>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    marginBottom: SIZES.base * 2,
+    marginBottom: 30,
     zIndex: 0,
+    borderBottomWidth: 1,
+    borderColor: COLORS.borderGray,
+    paddingBottom: 10,
   },
   date: {
     color: COLORS.textGray,

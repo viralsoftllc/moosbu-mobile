@@ -90,10 +90,9 @@ const TransactionDetails = ({navigation, route}) => {
   };
 
   function addHours(date) {
-    date = new Date(date).getTime() + 60 * 60 * 1000;
-
+    // date = new Date(date).getTime() + 60 * 60 * 1000;
+    date = new Date(date).getTime();
     date = new Date(date).toLocaleString();
-
     return date;
   }
 

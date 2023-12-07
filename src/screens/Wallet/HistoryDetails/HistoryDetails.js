@@ -16,7 +16,10 @@ import ViewShot from 'react-native-view-shot';
 import Share from 'react-native-share';
 import copyToClipboard from '../../../shared/utils/copyToClipboard';
 
-const HistoryDetails = () => {
+const HistoryDetails = ({route, navigation}) => {
+  const {narration, amount, transactionDate, providerChannel, type, _id} =
+    route.params;
+
   const viewRef = useRef();
 
   const captureViewShot = async () => {
@@ -38,6 +41,14 @@ const HistoryDetails = () => {
       console.error('Error sharing screenshot:', error);
     }
   };
+
+  function addHours(date) {
+    // date = new Date(date).getTime() + 60 * 60 * 1000;
+    date = new Date(date).getTime();
+    date = new Date(date).toLocaleString();
+    return date;
+  }
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white, padding: 10}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -66,22 +77,22 @@ const HistoryDetails = () => {
               }}>
               <Icon name="arrow-back" size={16} />
             </Pressable>
-            <Text style={{...FONTS.h3, fontWeight: '700'}}>Receipt</Text>
+            <Text style={{...FONTS.h5}}>Transaction Receipt</Text>
           </View>
           <Pressable
             onPress={captureViewShot}
             style={{
               alignSelf: 'flex-start',
 
-              width: 100,
+              width: 80,
               borderWidth: 1,
               borderColor: COLORS.secondary,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 30,
-              padding: 8,
+              padding: 4,
             }}>
-            <Text style={{...FONTS.regular, color: COLORS.secondary}}>
+            <Text style={{...FONTS.h5, fontSize: 14, color: COLORS.secondary}}>
               Share
             </Text>
           </Pressable>
@@ -100,39 +111,41 @@ const HistoryDetails = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              marginTop: 40,
             }}>
             <Image
               source={require('../../../assets/images/moosbuu.png')}
-              style={{width: 150, height: 150}}
+              style={{width: 150, height: 80}}
               resizeMode="contain"
             />
-            <Text style={{...FONTS.regular}}>Transaction Receipt</Text>
+            {/* <Text
+              style={{
+                ...FONTS.medium,
+                fontFamily: 'Lato-Bold',
+                color: COLORS.grayText,
+              }}>
+              Transaction Receipt
+            </Text> */}
           </View>
           <View style={{marginVertical: 10}}>
-            <Text style={{...FONTS.h3, fontWeight: '700'}}>
-              {' '}
+            <Text
+              style={{
+                ...FONTS.h3,
+                color: type == 'Debit' ? COLORS.debit : COLORS.credit,
+              }}>
+              {type == 'Debit' ? '-' : '+'}{' '}
               {Intl.NumberFormat('en-NG', {
                 style: 'currency',
                 currency: 'NGN',
-              }).format(parseInt(200))}
+              }).format(parseInt(amount))}
             </Text>
-            <Text style={styles.label}>time</Text>
+            <Text style={styles.label}>{addHours(transactionDate)}</Text>
           </View>
 
           <View style={{gap: 10}}>
             <View style={styles.info}>
-              <Text style={styles.label}>From</Text>
-              <Text style={styles.content}>{'user'}</Text>
-            </View>
-            <View style={styles.info}>
-              <Text style={styles.label}>To</Text>
-              <Text style={styles.content}>{'account_name'}</Text>
-              <Text style={styles.content}>{'account_number'}</Text>
-              <Text style={styles.content}>{'bank'}</Text>
-            </View>
-            <View style={styles.info}>
               <Text style={styles.label}>Description</Text>
-              <Text style={styles.content}>{'description'}</Text>
+              <Text style={styles.content}>{narration}</Text>
             </View>
             <View style={styles.info}>
               <Text style={styles.label}>Transaction Type</Text>
@@ -142,8 +155,8 @@ const HistoryDetails = () => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
-                <Text style={styles.content}>Outward Transfer</Text>
-                <Text style={styles.content}>#0.00</Text>
+                <Text style={styles.content}>{type}</Text>
+                {/* <Text style={styles.content}>#0.00</Text> */}
               </View>
             </View>
             <View
@@ -157,12 +170,8 @@ const HistoryDetails = () => {
               ]}>
               <View>
                 <Text style={styles.label}>Transaction Reference</Text>
-                <Text style={styles.content}>{'transactionId'}</Text>
+                <Text style={styles.content}>{_id}</Text>
               </View>
-            </View>
-            <View style={[styles.info, {marginBottom: 50}]}>
-              <Text style={styles.label}>Transaction Status</Text>
-              <Text style={styles.content}>Successful</Text>
             </View>
           </View>
         </ViewShot>
@@ -182,7 +191,7 @@ const styles = StyleSheet.create({
   },
   content: {
     ...FONTS.medium,
-    fontWeight: '700',
+    fontFamily: 'Lato-Bold',
     color: COLORS.label,
     marginBottom: 10,
   },

@@ -40,6 +40,7 @@ import Test from '../Test';
 import OneSignal from 'react-native-onesignal';
 import {setUserDetails} from '../../redux/slices/user/slice';
 import {selectUser} from '../../redux/slices/user/selectors';
+import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
 export default function Wallet({navigation}) {
   const {navigate} = useNavigation();
@@ -47,6 +48,8 @@ export default function Wallet({navigation}) {
   const accountNumber = useSelector(selectAccountNumber);
   const accountName = useSelector(selectAccountName);
   const bank = useSelector(selectBank);
+
+  const {accountID} = useSelector(selectStoreDetails);
 
   // console.log(accountNumber);
   const dispatch = useDispatch();
@@ -71,8 +74,22 @@ export default function Wallet({navigation}) {
       dispatch(setAccountNumber(details?.data.accountNumber));
       dispatch(setAccountName(details?.data.accountName));
       dispatch(setBank(details?.data.accountName));
-      setTransactions(data?.transactions);
 
+      setWalletLoading(false);
+    } catch (error) {
+      setWalletLoading(false);
+      handleApiError(error);
+    }
+  }, [dispatch]);
+
+  const getTransactions = useCallback(async () => {
+    try {
+      setWalletLoading(true);
+      const {data} = await client.post('/api/account_history', {
+        accountId: accountID,
+      });
+      console.log(data);
+      setTransactions(data?.data);
       setWalletLoading(false);
     } catch (error) {
       setWalletLoading(false);
@@ -82,6 +99,7 @@ export default function Wallet({navigation}) {
 
   useEffect(() => {
     getWalletBalance();
+    getTransactions();
   }, [getWalletBalance]);
 
   // useEffect(() => {

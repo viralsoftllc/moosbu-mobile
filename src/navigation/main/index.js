@@ -86,6 +86,7 @@ import BasicBusinessDetails from '../../screens/Wallet/CreateBusinessWallet/Basi
 import BusinessAddress from '../../screens/Wallet/CreateBusinessWallet/BusinessAddress';
 import OfficerDetails from '../../screens/Wallet/CreateBusinessWallet/OfficerDetails';
 import OfficerAddress from '../../screens/Wallet/CreateBusinessWallet/OfficerAddress';
+import HistoryDetails from '../../screens/Wallet/HistoryDetails/HistoryDetails';
 
 const Stack = createStackNavigator();
 
@@ -426,6 +427,13 @@ export default function MainNavigator() {
         <Stack.Screen
           name="MoosbuBusiness"
           component={MoosbuBusiness}
+          options={{headerShown: false}}
+        />
+
+        {/* Transaction history screen */}
+        <Stack.Screen
+          name="HistoryDetails"
+          component={HistoryDetails}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
