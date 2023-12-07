@@ -31,6 +31,10 @@ const CreateBusinessWallet = () => {
   const [bvn, setBvn] = useState('');
 
   const [loading, setLoading] = useState(false);
+
+  const [bvnVerified, setBvnVerified] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(true);
+  const [codeVerified, setCodeVerified] = useState(true);
   const [verified, setVerified] = useState(false);
 
   const {
@@ -42,6 +46,7 @@ const CreateBusinessWallet = () => {
 
   console.log(businessWallet);
 
+  //verify bvn
   const handleVerify = async () => {
     if (bvn.length < 11) {
       return notifyMessage('Please use a valid BVN');
@@ -54,7 +59,8 @@ const CreateBusinessWallet = () => {
       if (data.status == 'successful') {
         // setDetails({...details, bvn});
         dispatch(setBusinessWallet({bvn}));
-        setVerified(true);
+        setBvnVerified(true);
+        setPhoneVerified(false);
         setLoading(false);
       }
 
@@ -65,7 +71,34 @@ const CreateBusinessWallet = () => {
     }
   };
 
-  const createWallet = (async = () => {
+  //verify phone
+  const handlePhoneNumber = async () => {
+    try {
+      setLoading(true);
+      setPhoneVerified(true);
+      setCodeVerified(false);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
+
+  //verify code
+  const handleCode = async () => {
+    try {
+      setLoading(true);
+      setCodeVerified(true);
+      setVerified(true);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
+
+  // create wallet
+  const createWallet = async () => {
     if (!basicBusinessDetailsDone) {
       return notifyMessage('Complete business details');
     }
@@ -79,8 +112,25 @@ const CreateBusinessWallet = () => {
       return notifyMessage('Complete officer address');
     }
 
-    notifyMessage('Endpoint is in the pipeline');
-  });
+    try {
+      setLoading(true);
+      const {data} = await client.post('/api/create_wallet', {
+        firstName: businessWallet.firstName,
+        lastName: businessWallet.lastName,
+        phoneNumber: businessWallet.phoneNumber,
+        email: businessWallet.email,
+        bvn: businessWallet.bvn,
+      });
+      if (data.statusCode == 200) {
+        navigate('SuccessfulRegistration');
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -122,7 +172,7 @@ const CreateBusinessWallet = () => {
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          {!verified && (
+          {!bvnVerified && (
             <>
               <View style={{marginBottom: 100}}>
                 <Text style={styles.label}>BVN</Text>
@@ -185,6 +235,46 @@ const CreateBusinessWallet = () => {
                   </Text>
                 </View>
               </View>
+            </>
+          )}
+
+          {!phoneVerified && (
+            <>
+              <View style={{marginBottom: 100}}>
+                <Text style={styles.label}>Phone number</Text>
+                <TextInput
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  maxLength={11}
+                  keyboardType="numeric"
+                  onChangeText={text => {
+                    setBvn(text);
+                  }}
+                  value={bvn}
+                />
+              </View>
+
+              <FormButton title="Send" onPress={handlePhoneNumber} />
+            </>
+          )}
+
+          {!codeVerified && (
+            <>
+              <View style={{marginBottom: 100}}>
+                <Text style={styles.label}>Enter OTP</Text>
+                <TextInput
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  maxLength={11}
+                  keyboardType="numeric"
+                  onChangeText={text => {
+                    setBvn(text);
+                  }}
+                  value={bvn}
+                />
+              </View>
+
+              <FormButton title="Send" onPress={handleCode} />
             </>
           )}
 

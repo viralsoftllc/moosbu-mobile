@@ -31,13 +31,21 @@ export default function CreatePersonalWallet() {
   const user = useSelector(selectUser);
 
   const [loading, setLoading] = useState(false);
+
+  const [bvnVerified, setBvnVerified] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(true);
+  const [codeVerified, setCodeVerified] = useState(true);
   const [verified, setVerified] = useState(false);
 
   const [bvn, setBvn] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [code, setCode] = useState('');
+  const [verificationInfo, setVerificationInfo] = useState({});
 
   const {personalDetailsDone, kycDone, businessDescriptionDone} =
     personalWallet;
 
+  //verify bvn
   const handleVerify = async () => {
     if (bvn.length < 11) {
       return notifyMessage('Please use a valid BVN');
@@ -50,10 +58,37 @@ export default function CreatePersonalWallet() {
       if (data.status == 'successful') {
         // setDetails({...details, bvn});
         dispatch(setPersonalWallet({bvn}));
-        setVerified(true);
+        setBvnVerified(true);
+        setPhoneVerified(false);
         setLoading(false);
       }
 
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
+
+  //verify phone
+  const handlePhoneNumber = async () => {
+    try {
+      setLoading(true);
+      setPhoneVerified(true);
+      setCodeVerified(false);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
+  };
+
+  //verify code
+  const handleCode = async () => {
+    try {
+      setLoading(true);
+      setCodeVerified(true);
+      setVerified(true);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -147,7 +182,7 @@ export default function CreatePersonalWallet() {
           </Text>
         ) : ( */}
 
-          {!verified && (
+          {!bvnVerified && (
             <>
               <View style={{marginBottom: 100}}>
                 <Text style={styles.label}>BVN</Text>
@@ -210,6 +245,46 @@ export default function CreatePersonalWallet() {
                   </Text>
                 </View>
               </View>
+            </>
+          )}
+
+          {!phoneVerified && (
+            <>
+              <View style={{marginBottom: 100}}>
+                <Text style={styles.label}>Phone number</Text>
+                <TextInput
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  maxLength={11}
+                  keyboardType="numeric"
+                  onChangeText={text => {
+                    setBvn(text);
+                  }}
+                  value={bvn}
+                />
+              </View>
+
+              <FormButton title="Send" onPress={handlePhoneNumber} />
+            </>
+          )}
+
+          {!codeVerified && (
+            <>
+              <View style={{marginBottom: 100}}>
+                <Text style={styles.label}>Enter OTP</Text>
+                <TextInput
+                  placeholderTextColor={COLORS.grayText}
+                  style={styles.input}
+                  maxLength={11}
+                  keyboardType="numeric"
+                  onChangeText={text => {
+                    setBvn(text);
+                  }}
+                  value={bvn}
+                />
+              </View>
+
+              <FormButton title="Send" onPress={handleCode} />
             </>
           )}
 

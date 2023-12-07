@@ -10,10 +10,13 @@ import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import {selectWalletBalance} from '../../../redux/slices/wallet/selectors';
-
+import {useNavigation} from '@react-navigation/native';
 import UseIcon from '../../../shared/utils/UseIcon';
+import routes from '../../../shared/constants/routes';
 
 export default function WalletBalance({loading, handlePress}) {
+  const {navigate} = useNavigation();
+
   const [showBalance, setShowBalance] = useState(true);
   const balance = useSelector(selectWalletBalance);
 
@@ -37,27 +40,39 @@ export default function WalletBalance({loading, handlePress}) {
           <ActivityIndicator size={'small'} />
         ) : (
           <>
-            <Text style={styles.amount}>
-              {showBalance
-                ? `${
-                    Intl.NumberFormat('en-NG', {
-                      style: 'currency',
-                      currency: 'NGN',
-                    }).format(balance) || 0
-                  }`
-                : '**********'}
-            </Text>
+            {balance ? (
+              <Text style={styles.amount}>
+                {showBalance
+                  ? `${
+                      Intl.NumberFormat('en-NG', {
+                        style: 'currency',
+                        currency: 'NGN',
+                      }).format(balance) || 0
+                    }`
+                  : '**********'}
+              </Text>
+            ) : (
+              <Pressable
+                onPress={() => navigate(routes.WALLET)}
+                style={{padding: 8}}>
+                <Text style={{...FONTS.small}}>
+                  You don't have a wallet yet, tap here create one now
+                </Text>
+              </Pressable>
+            )}
 
-            <Pressable
-              style={styles.visbleIcon}
-              onPress={() => setShowBalance(!showBalance)}>
-              <UseIcon
-                type={'Ionicons'}
-                name={showBalance ? 'eye-off-outline' : 'eye-outline'}
-                size={20}
-                color={COLORS.textPrimary}
-              />
-            </Pressable>
+            {balance && (
+              <Pressable
+                style={styles.visbleIcon}
+                onPress={() => setShowBalance(!showBalance)}>
+                <UseIcon
+                  type={'Ionicons'}
+                  name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+                  size={20}
+                  color={COLORS.textPrimary}
+                />
+              </Pressable>
+            )}
           </>
         )}
       </View>
