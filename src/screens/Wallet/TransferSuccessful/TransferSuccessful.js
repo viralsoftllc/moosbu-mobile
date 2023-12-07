@@ -120,7 +120,7 @@ const TransferSuccessful = ({navigation, route}) => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              navigation.navigate(routes.WALLET);
+              navigation.push(routes.MAIN_STACK, {screen: routes.WALLET});
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
               <View

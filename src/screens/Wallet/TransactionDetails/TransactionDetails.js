@@ -24,7 +24,6 @@ import Test from '../../Test';
 
 const TransactionDetails = ({navigation, route}) => {
   const {
-    _id,
     amount,
     approvedAt,
     creditAccountName,

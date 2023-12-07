@@ -41,6 +41,7 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
       setPin('');
       setPin2('');
       notifyMessage('PIN set successfully');
+      handleToggleShortModal();
     } catch (error) {
       setLoading(false);
       handleApiError(error);
@@ -58,7 +59,7 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
               Transaction PIN is required for withdrawal
             </Text>
 
-            <FormInput
+            {/* <FormInput
               label={'Enter Transaction Pin'}
               placeholder={'Enter 6 digit pin'}
               value={pin}
@@ -66,20 +67,53 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
               maxLength={6}
               keyboardType="number-pad"
               secureTextEntry={true}
-            />
-
-            {/* <OTPInputView
-              style={{}}
-              pinCount={6}
-              keyboardType={'number-pad'}
-              autoFocusOnLoad={false}
-              codeInputFieldStyle={styles.codeInputFieldStyle}
-              onCodeFilled={otp => setPin(otp)}
-              onCodeChanged={otp => setPin(otp)}
-              code={pin}
             /> */}
 
-            <FormInput
+            <View style={{marginBottom: 50, gap: 20}}>
+              <View>
+                <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
+                  Enter Transaction Pin
+                </Text>
+                <OTPInputView
+                  style={{
+                    width: '100%',
+                    height: 70,
+                    alignSelf: 'center',
+                  }}
+                  pinCount={6}
+                  keyboardType={'number-pad'}
+                  autoFocusOnLoad={false}
+                  codeInputFieldStyle={styles.codeInputFieldStyle}
+                  onCodeFilled={otp => setPin(otp)}
+                  onCodeChanged={otp => setPin(otp)}
+                  code={pin}
+                  secureTextEntry
+                />
+              </View>
+
+              <View>
+                <Text style={{...FONTS.medium, fontFamily: 'Lato-Bold'}}>
+                  Confirm Transaction Pin
+                </Text>
+                <OTPInputView
+                  style={{
+                    width: '100%',
+                    height: 70,
+                    alignSelf: 'center',
+                  }}
+                  pinCount={6}
+                  keyboardType={'number-pad'}
+                  autoFocusOnLoad={false}
+                  codeInputFieldStyle={styles.codeInputFieldStyle}
+                  onCodeFilled={otp => setPin2(otp)}
+                  onCodeChanged={otp => setPin2(otp)}
+                  code={pin2}
+                  secureTextEntry
+                />
+              </View>
+            </View>
+
+            {/* <FormInput
               label={'Confirm Transaction Pin'}
               placeholder={'Confirm 6 digit pin'}
               value={pin2}
@@ -87,7 +121,7 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
               onChangeText={text => setPin2(text)}
               keyboardType="number-pad"
               secureTextEntry={true}
-            />
+            /> */}
           </View>
 
           <FormButton
@@ -105,5 +139,14 @@ const styles = StyleSheet.create({
     ...FONTS.medium,
     color: COLORS.grayText,
     marginBottom: SIZES.base * 2,
+  },
+  codeInputFieldStyle: {
+    width: 50,
+    height: 50,
+    color: COLORS.black,
+    backgroundColor: COLORS.tabBg,
+    borderRadius: SIZES.radius / 2,
+    ...FONTS.h6,
+    marginHorizontal: 2,
   },
 });

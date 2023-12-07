@@ -75,6 +75,9 @@ const TokenScreen = ({navigation}) => {
     } catch (error) {
       setIsLoading(false);
       handleApiError(error);
+    } finally {
+      setAmount(0);
+      setCode('');
     }
   };
 
@@ -317,7 +320,12 @@ const TokenScreen = ({navigation}) => {
             </View>
 
             {value ? (
-              <Text style={{textAlign: 'center', marginBottom: 30}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  marginBottom: 30,
+                  ...FONTS.medium,
+                }}>
                 Total number of tokens is{' '}
                 {Intl.NumberFormat().format(amount / value)}
               </Text>
@@ -367,7 +375,7 @@ const TokenScreen = ({navigation}) => {
               You Will Be Charged
             </Text>
             <View style={{marginVertical: 30}}>
-              <Text style={{textAlign: 'center', ...FONTS.regular}}>
+              <Text style={{textAlign: 'center', ...FONTS.medium}}>
                 {Intl.NumberFormat('en-NG', {
                   style: 'currency',
                   currency: 'NGN',
