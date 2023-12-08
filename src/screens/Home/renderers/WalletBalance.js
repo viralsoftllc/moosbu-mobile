@@ -43,12 +43,10 @@ export default function WalletBalance({loading, handlePress}) {
             {balance ? (
               <Text style={styles.amount}>
                 {showBalance
-                  ? `${
-                      Intl.NumberFormat('en-NG', {
-                        style: 'currency',
-                        currency: 'NGN',
-                      }).format(balance) || 0
-                    }`
+                  ? `${Intl.NumberFormat('en-NG', {
+                      style: 'currency',
+                      currency: 'NGN',
+                    }).format(balance)}`
                   : '**********'}
               </Text>
             ) : (
@@ -61,7 +59,7 @@ export default function WalletBalance({loading, handlePress}) {
               </Pressable>
             )}
 
-            {balance && (
+            {balance ? (
               <Pressable
                 style={styles.visbleIcon}
                 onPress={() => setShowBalance(!showBalance)}>
@@ -72,7 +70,7 @@ export default function WalletBalance({loading, handlePress}) {
                   color={COLORS.textPrimary}
                 />
               </Pressable>
-            )}
+            ) : null}
           </>
         )}
       </View>
