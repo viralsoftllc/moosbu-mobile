@@ -111,7 +111,7 @@ const PersonalDetails = () => {
       maidenName: personalWallet.maidenName || '',
       dob: personalWallet.dob,
       email: user.email || '',
-      phoneNumber: user.phone_number.toString() || '',
+      phoneNumber: personalWallet.phoneNumber || '',
       selfie: personalWallet.selfie || '',
     });
   }, []);

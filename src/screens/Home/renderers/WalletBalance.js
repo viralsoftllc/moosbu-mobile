@@ -13,6 +13,7 @@ import {selectWalletBalance} from '../../../redux/slices/wallet/selectors';
 import {useNavigation} from '@react-navigation/native';
 import UseIcon from '../../../shared/utils/UseIcon';
 import routes from '../../../shared/constants/routes';
+import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 
 export default function WalletBalance({loading, handlePress}) {
   const {navigate} = useNavigation();
@@ -40,7 +41,7 @@ export default function WalletBalance({loading, handlePress}) {
           <ActivityIndicator size={'small'} />
         ) : (
           <>
-            {balance ? (
+            {balance || balance == 0 ? (
               <Text style={styles.amount}>
                 {showBalance
                   ? `${Intl.NumberFormat('en-NG', {
@@ -49,28 +50,18 @@ export default function WalletBalance({loading, handlePress}) {
                     }).format(balance)}`
                   : '**********'}
               </Text>
-            ) : (
-              <Pressable
-                onPress={() => navigate(routes.WALLET)}
-                style={{padding: 8}}>
-                <Text style={{...FONTS.small}}>
-                  You don't have a wallet yet, tap here create one now
-                </Text>
-              </Pressable>
-            )}
-
-            {balance ? (
-              <Pressable
-                style={styles.visbleIcon}
-                onPress={() => setShowBalance(!showBalance)}>
-                <UseIcon
-                  type={'Ionicons'}
-                  name={showBalance ? 'eye-off-outline' : 'eye-outline'}
-                  size={20}
-                  color={COLORS.textPrimary}
-                />
-              </Pressable>
             ) : null}
+
+            <Pressable
+              style={styles.visbleIcon}
+              onPress={() => setShowBalance(!showBalance)}>
+              <UseIcon
+                type={'Ionicons'}
+                name={showBalance ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                color={COLORS.textPrimary}
+              />
+            </Pressable>
           </>
         )}
       </View>

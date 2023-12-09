@@ -56,37 +56,71 @@ export default function CreatePersonalWallet() {
       const {data} = await client.post('/api/lookup_bvn', {bvn});
       console.log(data);
       if (data.status == 'successful') {
-        // setDetails({...details, bvn});
+        setVerificationInfo(data.data);
+
         dispatch(setPersonalWallet({bvn}));
         setBvnVerified(true);
         setPhoneVerified(false);
         setLoading(false);
+        return;
+      }
+
+      if (data.status == 'error') {
+        notifyMessage(data.data);
+        setLoading(false);
+        return;
       }
 
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      handleApiError(error);
+      console.log('BVN not found!');
+      notifyMessage('BVN not found!');
     }
   };
 
   //verify phone
   const handlePhoneNumber = async () => {
-    try {
-      setLoading(true);
-      setPhoneVerified(true);
-      setCodeVerified(false);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      handleApiError(error);
+    if (phoneNumber != verificationInfo.phone_number1) {
+      return notifyMessage('Please enter number linked to bvn!');
     }
+    dispatch(
+      setPersonalWallet({
+        firstName: verificationInfo.first_name,
+        middleName: verificationInfo.middle_name,
+        lastName: verificationInfo.last_name,
+        dob: verificationInfo.date_of_birth,
+        phoneNumber,
+      }),
+    );
+    setPhoneVerified(true);
+    setVerified(true);
+
+    // try {
+    //   setLoading(true);
+    //   const {data} = await client.post('/api/send_otp', {
+    //     phone: phoneNumber,
+    //   });
+    //   console.log(data);
+    //   dispatch(setPersonalWallet({phoneNumber}));
+    //   setPhoneVerified(true);
+    //   setCodeVerified(false);
+    //   setLoading(false);
+    // } catch (error) {
+    //   setLoading(false);
+    //   handleApiError(error);
+    // }
   };
 
   //verify code
   const handleCode = async () => {
     try {
       setLoading(true);
+      const {data} = await client.post('/api/validate_otp', {
+        code,
+        reference_id: 'r83r98r498498r9849849',
+      });
+      console.log(data);
       setCodeVerified(true);
       setVerified(true);
       setLoading(false);
@@ -111,8 +145,8 @@ export default function CreatePersonalWallet() {
     try {
       setLoading(true);
       const {data} = await client.post('/api/create_wallet', {
-        firstName: personalWallet.firstName,
-        lastName: personalWallet.lastName,
+        firstName: `${personalWallet.firstName} / ${personalWallet.doingBusinessAs}`,
+        lastName: '',
         phoneNumber: personalWallet.phoneNumber,
         email: personalWallet.email,
         bvn: personalWallet.bvn,
@@ -258,9 +292,9 @@ export default function CreatePersonalWallet() {
                   maxLength={11}
                   keyboardType="numeric"
                   onChangeText={text => {
-                    setBvn(text);
+                    setPhoneNumber(text);
                   }}
-                  value={bvn}
+                  value={phoneNumber}
                 />
               </View>
 
@@ -278,9 +312,9 @@ export default function CreatePersonalWallet() {
                   maxLength={11}
                   keyboardType="numeric"
                   onChangeText={text => {
-                    setBvn(text);
+                    setCode(text);
                   }}
-                  value={bvn}
+                  value={code}
                 />
               </View>
 

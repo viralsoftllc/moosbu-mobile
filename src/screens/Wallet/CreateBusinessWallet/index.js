@@ -29,6 +29,9 @@ const CreateBusinessWallet = () => {
   const businessWallet = useSelector(selectBusinessWallet);
 
   const [bvn, setBvn] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [code, setCode] = useState('');
+  const [verificationInfo, setVerificationInfo] = useState({});
 
   const [loading, setLoading] = useState(false);
 
@@ -58,6 +61,7 @@ const CreateBusinessWallet = () => {
       console.log(data);
       if (data.status == 'successful') {
         // setDetails({...details, bvn});
+        setVerificationInfo(data.data);
         dispatch(setBusinessWallet({bvn}));
         setBvnVerified(true);
         setPhoneVerified(false);
@@ -67,21 +71,37 @@ const CreateBusinessWallet = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      handleApiError(error);
+      // handleApiError(error);
+      notifyMessage('BVN not found!');
     }
   };
 
   //verify phone
   const handlePhoneNumber = async () => {
-    try {
-      setLoading(true);
-      setPhoneVerified(true);
-      setCodeVerified(false);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      handleApiError(error);
+    if (phoneNumber != verificationInfo.phone_number1) {
+      return notifyMessage('Please enter number linked to bvn!');
     }
+
+    dispatch(
+      setBusinessWallet({
+        firstName: verificationInfo.first_name,
+        middleName: verificationInfo.middle_name,
+        lastName: verificationInfo.last_name,
+        dob: verificationInfo.date_of_birth,
+        phoneNumber,
+      }),
+    );
+    setPhoneVerified(true);
+    setVerified(true);
+    // try {
+    //   setLoading(true);
+    //   setPhoneVerified(true);
+    //   setCodeVerified(false);
+    //   setLoading(false);
+    // } catch (error) {
+    //   setLoading(false);
+    //   handleApiError(error);
+    // }
   };
 
   //verify code
@@ -115,8 +135,8 @@ const CreateBusinessWallet = () => {
     try {
       setLoading(true);
       const {data} = await client.post('/api/create_wallet', {
-        firstName: businessWallet.firstName,
-        lastName: businessWallet.lastName,
+        firstName: businessWallet.doingBusinessAs,
+        lastName: '',
         phoneNumber: businessWallet.phoneNumber,
         email: businessWallet.email,
         bvn: businessWallet.bvn,
@@ -248,9 +268,9 @@ const CreateBusinessWallet = () => {
                   maxLength={11}
                   keyboardType="numeric"
                   onChangeText={text => {
-                    setBvn(text);
+                    setPhoneNumber(text);
                   }}
-                  value={bvn}
+                  value={phoneNumber}
                 />
               </View>
 
@@ -268,9 +288,9 @@ const CreateBusinessWallet = () => {
                   maxLength={11}
                   keyboardType="numeric"
                   onChangeText={text => {
-                    setBvn(text);
+                    setCode(text);
                   }}
-                  value={bvn}
+                  value={code}
                 />
               </View>
 
