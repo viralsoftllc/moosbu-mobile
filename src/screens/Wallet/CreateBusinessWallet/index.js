@@ -59,6 +59,7 @@ const CreateBusinessWallet = () => {
       setLoading(true);
       const {data} = await client.post('/api/lookup_bvn', {bvn});
       console.log(data);
+
       if (data.status == 'successful') {
         // setDetails({...details, bvn});
         setVerificationInfo(data.data);
@@ -82,35 +83,57 @@ const CreateBusinessWallet = () => {
       return notifyMessage('Please enter number linked to bvn!');
     }
 
-    dispatch(
-      setBusinessWallet({
-        firstName: verificationInfo.first_name,
-        middleName: verificationInfo.middle_name,
-        lastName: verificationInfo.last_name,
-        dob: verificationInfo.date_of_birth,
-        phoneNumber,
-      }),
-    );
-    setPhoneVerified(true);
-    setVerified(true);
-    // try {
-    //   setLoading(true);
-    //   setPhoneVerified(true);
-    //   setCodeVerified(false);
-    //   setLoading(false);
-    // } catch (error) {
-    //   setLoading(false);
-    //   handleApiError(error);
-    // }
+    try {
+      setLoading(true);
+      const {data} = await client.post('/api/bvn-number/verification', {
+        phone: phoneNumber,
+      });
+      console.log(data);
+      const {statusCode, status} = data;
+      if (statusCode == 200) {
+        dispatch(
+          setBusinessWallet({
+            firstName: verificationInfo.first_name,
+            middleName: verificationInfo.middle_name,
+            lastName: verificationInfo.last_name,
+            dob: verificationInfo.date_of_birth,
+            phoneNumber,
+          }),
+        );
+        setPhoneVerified(true);
+        setCodeVerified(false);
+        setLoading(false);
+        notifyMessage(status);
+        return;
+      }
+
+      setLoading(false);
+      notifyMessage(status);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
   };
 
   //verify code
   const handleCode = async () => {
     try {
       setLoading(true);
-      setCodeVerified(true);
-      setVerified(true);
+      const {data} = await client.post('/api/phone/verification', {
+        phone: phoneNumber,
+        token: code,
+      });
+      console.log(data);
+      const {statusCode, Message} = data;
+      if (statusCode == 200) {
+        setCodeVerified(true);
+        setVerified(true);
+        setLoading(false);
+        notifyMessage(Message);
+        return;
+      }
       setLoading(false);
+      notifyMessage(Message);
     } catch (error) {
       setLoading(false);
       handleApiError(error);

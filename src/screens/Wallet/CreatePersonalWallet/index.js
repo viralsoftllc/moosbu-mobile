@@ -84,46 +84,59 @@ export default function CreatePersonalWallet() {
     if (phoneNumber != verificationInfo.phone_number1) {
       return notifyMessage('Please enter number linked to bvn!');
     }
-    dispatch(
-      setPersonalWallet({
-        firstName: verificationInfo.first_name,
-        middleName: verificationInfo.middle_name,
-        lastName: verificationInfo.last_name,
-        dob: verificationInfo.date_of_birth,
-        phoneNumber,
-      }),
-    );
-    setPhoneVerified(true);
-    setVerified(true);
 
-    // try {
-    //   setLoading(true);
-    //   const {data} = await client.post('/api/send_otp', {
-    //     phone: phoneNumber,
-    //   });
-    //   console.log(data);
-    //   dispatch(setPersonalWallet({phoneNumber}));
-    //   setPhoneVerified(true);
-    //   setCodeVerified(false);
-    //   setLoading(false);
-    // } catch (error) {
-    //   setLoading(false);
-    //   handleApiError(error);
-    // }
+    try {
+      setLoading(true);
+      const {data} = await client.post('/api/bvn-number/verification', {
+        phone: phoneNumber,
+      });
+      console.log(data);
+      const {statusCode, status} = data;
+      if (statusCode == 200) {
+        dispatch(
+          setPersonalWallet({
+            firstName: verificationInfo.first_name,
+            middleName: verificationInfo.middle_name,
+            lastName: verificationInfo.last_name,
+            dob: verificationInfo.date_of_birth,
+            phoneNumber,
+          }),
+        );
+
+        setPhoneVerified(true);
+        setCodeVerified(false);
+        setLoading(false);
+        notifyMessage(status);
+        return;
+      }
+      setLoading(false);
+      notifyMessage(status);
+    } catch (error) {
+      setLoading(false);
+      handleApiError(error);
+    }
   };
 
   //verify code
   const handleCode = async () => {
     try {
       setLoading(true);
-      const {data} = await client.post('/api/validate_otp', {
-        code,
-        reference_id: 'r83r98r498498r9849849',
+      const {data} = await client.post('/api/phone/verification', {
+        phone: phoneNumber,
+        token: code,
       });
       console.log(data);
-      setCodeVerified(true);
-      setVerified(true);
+      const {statusCode, Message} = data;
+      if (statusCode == 200) {
+        setCodeVerified(true);
+        setVerified(true);
+        setLoading(false);
+        notifyMessage(Message);
+        return;
+      }
+
       setLoading(false);
+      notifyMessage(Message);
     } catch (error) {
       setLoading(false);
       handleApiError(error);

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View, Dimensions} from 'react-native';
 import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
 import {Button, Surface, Modal, IconButton} from 'react-native-paper';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
@@ -20,6 +20,8 @@ import notifyMessage from '../shared/hooks/notifyMessage';
 const TokenScreen = ({navigation}) => {
   const {setOptions} = useNavigation();
   const dispatch = useDispatch();
+
+  const {width} = Dimensions.get('screen');
 
   const tokenWallet = useSelector(selectTokens);
 
@@ -49,6 +51,7 @@ const TokenScreen = ({navigation}) => {
   const [isFocus, setIsFocus] = useState(false);
   const tokens = [
     {label: 'SMS', value: 3},
+    {label: 'Vera AI', value: 4},
     // {label: 'Whatsapp', value: 5},
     // {label: 'Email', value: 3},
   ];

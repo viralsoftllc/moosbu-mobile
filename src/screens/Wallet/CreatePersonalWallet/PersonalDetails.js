@@ -74,6 +74,10 @@ const PersonalDetails = () => {
   };
 
   const handleNext = () => {
+    if (details.dob != personalWallet.dob) {
+      return notifyMessage('Please enter correct date of birth');
+    }
+
     if (!details.firstName) {
       return notifyMessage('First name is required!');
     }
@@ -109,7 +113,7 @@ const PersonalDetails = () => {
       lastName: personalWallet.lastName || '',
       middleName: personalWallet.middleName || '',
       maidenName: personalWallet.maidenName || '',
-      dob: personalWallet.dob,
+      dob: '',
       email: user.email || '',
       phoneNumber: personalWallet.phoneNumber || '',
       selfie: personalWallet.selfie || '',

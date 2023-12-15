@@ -55,9 +55,9 @@ export default function CreateTransactionPin({handleToggleShortModal}) {
         title={'Create Transaction Pin'}>
         <KeyboardAvoidingView behavior="padding">
           <View>
-            <Text style={styles.subtitle}>
+            {/* <Text style={styles.subtitle}>
               Transaction PIN is required for withdrawal
-            </Text>
+            </Text> */}
 
             {/* <FormInput
               label={'Enter Transaction Pin'}

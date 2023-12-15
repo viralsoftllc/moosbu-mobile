@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  Modal,
+  Text,
   StatusBar,
 } from 'react-native';
 
@@ -21,6 +21,8 @@ import SaveChatForm from './renderer/SaveChatForm';
 import ComingSoon from '../../../shared/components/ComingSoon';
 import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
+import {verticalScale} from 'react-native-size-matters';
+import routes from '../../../shared/constants/routes';
 
 const messages = [
   {
@@ -38,7 +40,7 @@ const randomMsg = [
 ];
 
 export default function MBot() {
-  const {setOptions} = useNavigation();
+  const {setOptions, navigate} = useNavigation();
   const [msg, setMsg] = useState('');
   const [showSaveChatForm, setShowSaveChatForm] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -71,18 +73,41 @@ export default function MBot() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader />,
+      header: () => <ScreenHeader title="Vera AI" />,
     });
   }, [setOptions]);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
-      <ComingSoon
+      {/* <ComingSoon
         page={'Vera AI'}
         iconType={'MaterialCommunityIcons'}
         iconName="robot"
-      />
+      /> */}
+
+      <View style={styles.cards}>
+        <Pressable
+          style={[styles.card, styles.currency]}
+          onPress={() => navigate('TokenScreen')}>
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="robot"
+            color={COLORS.secondary}
+          />
+          <Text style={styles.cardText}>Vera AI Tokens</Text>
+        </Pressable>
+        <Pressable
+          style={styles.card}
+          onPress={() => navigate(routes.MAIN, {screen: routes.MORE_STACK})}>
+          <UseIcon
+            type={'MaterialCommunityIcons'}
+            name="cog"
+            color={COLORS.secondary}
+          />
+          <Text style={styles.cardText}>Settings</Text>
+        </Pressable>
+      </View>
 
       {/* <ChatHeader handleSaveChat={handleSaveChat} /> */}
 
@@ -149,7 +174,7 @@ export default function MBot() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.tabBg,
+    backgroundColor: COLORS.white,
   },
   contentContainerStyle: {
     flexGrow: 1,
@@ -168,5 +193,33 @@ const styles = StyleSheet.create({
     paddingRight: SIZES.base * 2,
     borderRadius: SIZES.radius * 2,
     borderWidth: 0,
+  },
+  cards: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+  },
+  card: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(118, 163, 224, 0.1)',
+    height: verticalScale(120),
+    borderRadius: SIZES.radius,
+    width: '40%',
+    margin: SIZES.base,
+  },
+  cardText: {
+    fontFamily: 'Lato-Regular',
+    color: COLORS.textPrimary,
+    marginTop: SIZES.base / 2,
+  },
+  currency: {
+    backgroundColor: '#F5F1DA',
+  },
+  kyc: {
+    backgroundColor: '#E7FFF3',
   },
 });

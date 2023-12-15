@@ -78,6 +78,10 @@ const OfficerDetails = () => {
     if (!details.role) {
       return notifyMessage('Role required');
     }
+
+    if (details.dob != businessWallet.dob) {
+      return notifyMessage('Please enter correct date of birth');
+    }
     if (!details.firstName) {
       return notifyMessage('First name required');
     }
@@ -113,7 +117,7 @@ const OfficerDetails = () => {
       lastName: businessWallet.lastName || '',
       middleName: businessWallet.middleName || '',
       maidenName: businessWallet.maidenName || '',
-      dob: businessWallet.dob || '',
+      dob: '',
       email: businessWallet.email || '',
       phoneNumber: businessWallet.phoneNumber || '',
       officerSelfie: businessWallet.officerSelfie || '',
