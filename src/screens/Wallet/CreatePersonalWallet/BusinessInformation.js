@@ -112,7 +112,7 @@ const BusinessInformation = () => {
           <Text style={styles.label}>Business Description </Text>
           <TextInput
             style={styles.textArea}
-            multiline
+            multiline={true}
             numberOfLines={3}
             onChangeText={text =>
               setDetails({...details, businessDescription: text})
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: COLORS.borderGray,
     ...FONTS.medium,
-    justifyContent: 'flex-start',
+    textAlignVertical: 'top',
   },
   buttonStyle: {
     marginTop: SIZES.base * 5,

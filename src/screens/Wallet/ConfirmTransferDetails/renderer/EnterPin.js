@@ -45,6 +45,8 @@ export default function EnterPin({setShowPinForm, options}) {
         narration: options.description,
         amount: options.amount,
         pin: code,
+        accountName: options.account_name,
+        bankName: options.bank,
       });
 
       console.log(data);

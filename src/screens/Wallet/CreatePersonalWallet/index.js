@@ -88,7 +88,7 @@ export default function CreatePersonalWallet() {
     try {
       setLoading(true);
       const {data} = await client.post('/api/bvn-number/verification', {
-        phone: phoneNumber,
+        phone: `+234${phoneNumber.slice(1)}`,
       });
       console.log(data);
       const {statusCode, status} = data;
@@ -122,7 +122,7 @@ export default function CreatePersonalWallet() {
     try {
       setLoading(true);
       const {data} = await client.post('/api/phone/verification', {
-        phone: phoneNumber,
+        phone: `+234${phoneNumber.slice(1)}`,
         token: code,
       });
       console.log(data);
@@ -231,7 +231,7 @@ export default function CreatePersonalWallet() {
 
           {!bvnVerified && (
             <>
-              <View style={{marginBottom: 100}}>
+              <View style={{marginBottom: 30}}>
                 <Text style={styles.label}>BVN</Text>
                 <TextInput
                   placeholderTextColor={COLORS.grayText}
@@ -297,7 +297,7 @@ export default function CreatePersonalWallet() {
 
           {!phoneVerified && (
             <>
-              <View style={{marginBottom: 100}}>
+              <View style={{marginBottom: 30}}>
                 <Text style={styles.label}>Phone number</Text>
                 <TextInput
                   placeholderTextColor={COLORS.grayText}
@@ -311,13 +311,16 @@ export default function CreatePersonalWallet() {
                 />
               </View>
 
-              <FormButton title="Send" onPress={handlePhoneNumber} />
+              <FormButton
+                title="Send Verification Code"
+                onPress={handlePhoneNumber}
+              />
             </>
           )}
 
           {!codeVerified && (
             <>
-              <View style={{marginBottom: 100}}>
+              <View style={{marginBottom: 30}}>
                 <Text style={styles.label}>Enter OTP</Text>
                 <TextInput
                   placeholderTextColor={COLORS.grayText}
@@ -330,8 +333,19 @@ export default function CreatePersonalWallet() {
                   value={code}
                 />
               </View>
-
-              <FormButton title="Send" onPress={handleCode} />
+              <View style={{gap: 15}}>
+                <FormButton title="Verify" onPress={handleCode} />
+                <FormButton
+                  buttonStyle={{
+                    backgroundColor: 'white',
+                    borderWidth: 1,
+                    borderColor: COLORS.primary,
+                  }}
+                  textStyle={{color: COLORS.primary}}
+                  title="Resend Verification Code"
+                  onPress={handlePhoneNumber}
+                />
+              </View>
             </>
           )}
 
