@@ -1,11 +1,19 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View, Linking} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import ImageIcon from '../../../../shared/components/ImageIcon';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import {verticalScale} from 'react-native-size-matters';
 
 export default function CustomerCard({onPress, customer}) {
+  const call = phone => {
+    Linking.openURL('tel:' + phone);
+  };
+
+  const mail = email => {
+    Linking.openURL('mailto:' + email);
+  };
+
   return (
     <View style={[styles.container]}>
       <View style={styles.flex}>
@@ -15,37 +23,50 @@ export default function CustomerCard({onPress, customer}) {
           <View style={styles.flex}>
             <Text style={styles.name}>{customer?.name}</Text>
 
-            <Pressable>
+            {/* <Pressable>
               <UseIcon
                 type={'Ionicons'}
                 name="ellipsis-vertical"
                 style={styles.icon}
                 color={COLORS.textPrimary}
               />
-            </Pressable>
+            </Pressable> */}
           </View>
 
-          <View style={[styles.flex, styles.contact]}>
-            <View style={styles.smallIcon}>
-              <UseIcon
-                name={'email-outline'}
-                type={'MaterialCommunityIcons'}
-                size={12}
-                color={COLORS.borderGray}
-              />
+          <View
+            style={[
+              styles.flex,
+              styles.contact,
+              {justifyContent: 'space-between'},
+            ]}>
+            <View style={[styles.flex]}>
+              <View style={styles.smallIcon}>
+                <UseIcon
+                  name={'email-outline'}
+                  type={'MaterialCommunityIcons'}
+                  size={12}
+                  color={COLORS.borderGray}
+                />
+              </View>
+              <Pressable onPress={() => mail(customer?.email)}>
+                <Text style={styles.email}>{customer?.email}</Text>
+              </Pressable>
             </View>
-            <Text style={styles.email}>{customer?.email}</Text>
 
-            <View style={styles.smallIcon}>
-              <UseIcon
-                name={'whatsapp'}
-                type={'MaterialCommunityIcons'}
-                size={12}
-                color={COLORS.borderGray}
-              />
+            <View style={styles.flex}>
+              <View style={styles.smallIcon}>
+                <UseIcon
+                  name={'whatsapp'}
+                  type={'MaterialCommunityIcons'}
+                  size={12}
+                  color={COLORS.borderGray}
+                />
+              </View>
+
+              <Pressable onPress={() => call(customer?.phone)}>
+                <Text style={styles.phone}>{customer?.phone}</Text>
+              </Pressable>
             </View>
-
-            <Text style={styles.phone}>{customer?.phone}</Text>
           </View>
         </View>
       </View>
@@ -88,11 +109,12 @@ const styles = StyleSheet.create({
   name: {
     color: COLORS.textPrimary,
     flex: 1,
+    ...FONTS.medium,
   },
   email: {
     color: COLORS.grayText,
     ...FONTS.tiny,
-    flex: 1,
+
     marginRight: SIZES.base / 3,
   },
   phone: {

@@ -19,11 +19,14 @@ import {setOrders} from '../../../../redux/slices/orders/slice';
 import client from '../../../../shared/api/client';
 import {selectOrders} from '../../../../redux/slices/orders/selectors';
 import Test from '../../../Test';
+import StoreRevenue from '../../../Home/renderers/StoreRevenue';
+import {selectStoreRevenue} from '../../../../redux/slices/wallet/selectors';
 
 export default function CompletedOrders() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
+  const storeRevenue = useSelector(selectStoreRevenue);
   console.log(orders);
 
   const [searchText, setSearchText] = useState('');
@@ -76,6 +79,11 @@ export default function CompletedOrders() {
         <Test />
       ) : (
         <>
+          <StoreRevenue
+            amount={storeRevenue.total}
+            completed={storeRevenue.completed}
+            processing={storeRevenue.processing}
+          />
           <View style={styles.searchView}>
             <SearchBar
               placeholder={'Search orders'}
@@ -98,17 +106,19 @@ export default function CompletedOrders() {
             }>
             {loading ? <ActivityIndicator size={'large'} /> : null}
 
-            {!loading && filteredItems?.length == 0 ? (
+            {!loading && orders?.length == 0 ? (
               <EmptyItemInfo message={'Orders are empty'} />
             ) : null}
 
-            {searchText
-              ? filteredItems?.map((order, i) => {
-                  if (order.status === 'delivered') {
-                    return <OrderCard key={i} order={order} />;
-                  }
-                })
-              : null}
+            {searchText ? (
+              filteredItems?.map((order, i) => {
+                if (order.status === 'delivered') {
+                  return <OrderCard key={i} order={order} />;
+                }
+              })
+            ) : searchText && filteredItems.length === 0 ? (
+              <EmptyItemInfo message={'Orders are empty'} />
+            ) : null}
 
             {!searchText
               ? orders?.map((order, i) => {
@@ -135,7 +145,7 @@ const styles = StyleSheet.create({
     paddingBottom: SIZES.base * 2,
   },
   searchView: {
-    marginBottom: SIZES.base * 2,
+    marginVertical: SIZES.base * 2,
   },
   search: {
     height: verticalScale(40),

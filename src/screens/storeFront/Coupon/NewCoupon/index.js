@@ -42,7 +42,7 @@ export default function NewCoupon({
       <View style={styles.modalContainer}>
         <View style={styles.container}>
           <View style={styles.flex}>
-            <Text style={styles.title}>Add new coupon</Text>
+            <Text style={styles.title}>Add New Coupon</Text>
 
             <Pressable
               onPress={() => {

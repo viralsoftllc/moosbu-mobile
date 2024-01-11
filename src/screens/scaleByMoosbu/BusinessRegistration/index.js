@@ -124,9 +124,9 @@ export default function BussinessRegistration() {
           <Pressable
             style={styles.step}
             onPress={() => {
-              if (checkProprietorInfo()) {
-                return notifyMessage('Step completed');
-              }
+              // if (checkProprietorInfo()) {
+              //   return notifyMessage('Step completed');
+              // }
 
               navigate(routes.PROPRIETOR_INFO);
             }}>
@@ -156,9 +156,9 @@ export default function BussinessRegistration() {
           <Pressable
             style={styles.step}
             onPress={() => {
-              if (checkBvinInfo()) {
-                return notifyMessage('Step completed');
-              }
+              // if (checkBvinInfo()) {
+              //   return notifyMessage('Step completed');
+              // }
               navigate(routes.PROPOSED_BUSINESS);
             }}>
             <View style={styles.iconView}>

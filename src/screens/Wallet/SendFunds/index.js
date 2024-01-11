@@ -76,9 +76,9 @@ export default function SendFunds({navigation}) {
         bankCode: code,
       });
       console.log(data);
-      const {bank} = data;
-      setAccountName(bank.data.accountName);
-      setNameEnquiryReference(bank.data.sessionId);
+
+      setAccountName(data.data.data.accountName);
+      setNameEnquiryReference(data.data.data.sessionId);
     } catch (error) {
       handleApiError(error);
     } finally {

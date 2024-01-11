@@ -8,6 +8,7 @@ const selectBank = state => state[name].bank;
 const selectTokens = state => state[name].tokens;
 const selectPersonalWallet = state => state[name].personalWallet;
 const selectBusinessWallet = state => state[name].businessWallet;
+const selectStoreRevenue = state => state[name].storeRevenue;
 
 export {
   selectWalletBalance,
@@ -18,4 +19,5 @@ export {
   selectTokens,
   selectBusinessWallet,
   selectPersonalWallet,
+  selectStoreRevenue,
 };

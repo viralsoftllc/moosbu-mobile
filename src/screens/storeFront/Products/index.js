@@ -33,6 +33,8 @@ export default function Products() {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
+
+  console.log(products);
   const store = useSelector(selectStoreDetails);
 
   const [showShareModal, setShowShareModal] = useState(false);

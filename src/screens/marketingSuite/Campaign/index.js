@@ -71,9 +71,14 @@ export default function Campaign({navigation}) {
       const {data} = await client.get('/api/campaign');
       console.log(data);
 
+      const sortedData = data.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at),
+      );
+
       setLoading(false);
-      setItems(data);
-      setFilteredItems(data);
+
+      setItems(sortedData);
+      setFilteredItems(sortedData);
     } catch (error) {
       setLoading(false);
       handleApiError(error);

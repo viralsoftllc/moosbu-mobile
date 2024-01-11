@@ -19,12 +19,15 @@ import client from '../../../../shared/api/client';
 import handleApiError from '../../../../shared/components/handleApiError';
 import EmptyItemInfo from '../../../../shared/components/EmptyItemInfo';
 import Test from '../../../Test';
+import StoreRevenue from '../../../Home/renderers/StoreRevenue';
+import {selectStoreRevenue} from '../../../../redux/slices/wallet/selectors';
 
 export default function ProcessingOrders() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
   // console.log(orders);
+  const storeRevenue = useSelector(selectStoreRevenue);
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
@@ -74,6 +77,11 @@ export default function ProcessingOrders() {
         <Test />
       ) : (
         <>
+          <StoreRevenue
+            amount={storeRevenue.total}
+            completed={storeRevenue.completed}
+            processing={storeRevenue.processing}
+          />
           <View style={styles.searchView}>
             <SearchBar
               placeholder={'Search order'}
@@ -96,27 +104,23 @@ export default function ProcessingOrders() {
             }>
             {loading ? <ActivityIndicator size={'large'} /> : null}
 
-            {/* {!loading && !filteredItems?.length ? (
-          <EmptyItemInfo message={'Orders are empty'} />
-        ) : null} */}
+            {searchText ? (
+              filteredItems?.map((order, i) => {
+                if (order.status === 'pending') {
+                  return <OrderCard key={i} order={order} />;
+                }
+              })
+            ) : searchText && filteredItems.length === 0 ? (
+              <EmptyItemInfo message={'Orders are empty'} />
+            ) : null}
 
-            {searchText
-              ? filteredItems?.map((order, i) => {
+            {!searchText
+              ? orders?.map((order, i) => {
                   if (order.status === 'pending') {
                     return <OrderCard key={i} order={order} />;
                   }
                 })
               : null}
-
-            {!searchText ? (
-              orders?.map((order, i) => {
-                if (order.status === 'pending') {
-                  return <OrderCard key={i} order={order} />;
-                }
-              })
-            ) : (
-              <EmptyItemInfo message={'Orders are empty'} />
-            )}
           </ScrollView>
         </>
       )}
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     paddingBottom: SIZES.base * 2,
   },
   searchView: {
-    marginBottom: SIZES.base * 2,
+    marginVertical: SIZES.base * 2,
   },
   search: {
     height: verticalScale(40),

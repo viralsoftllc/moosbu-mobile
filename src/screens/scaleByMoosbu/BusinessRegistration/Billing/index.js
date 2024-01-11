@@ -11,6 +11,7 @@ import {selectWalletBalance} from '../../../../redux/slices/wallet/selectors';
 
 import {Modal, IconButton, Button, Chip} from 'react-native-paper';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
+import {verticalScale} from 'react-native-size-matters';
 
 export default function Billing() {
   const {setOptions, navigate} = useNavigation();
@@ -201,10 +202,10 @@ const styles = StyleSheet.create({
   formInnerBtn: {
     backgroundColor: COLORS.primaryBackground,
     paddingVertical: SIZES.base,
-    height: '100%',
+    height: verticalScale(48),
     paddingHorizontal: SIZES.base * 2,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputStyle: {
     borderWidth: 0,

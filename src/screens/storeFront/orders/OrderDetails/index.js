@@ -57,32 +57,43 @@ export default function OrderDetails() {
           products={Object.values(JSON.parse(params?.order?.product)?.products)}
         /> */}
 
-        <ShippingDetails
-          name={params?.order?.name}
-          phone={params?.order?.phone}
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <ShippingDetails
+            name={params?.order?.name}
+            phone={params?.order?.phone}
+          />
+        </View>
 
-        <BillingAddress
-          name={params?.order?.name}
-          phone={params?.order?.phone}
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <BillingAddress
+            name={params?.order?.name}
+            phone={params?.order?.phone}
+          />
+        </View>
 
-        <Items products={params?.order?.product} />
+        <View style={{paddingHorizontal: 20}}>
+          <Items products={params?.order?.product} />
+        </View>
 
-        <OrderSummary
-          showStatuses={showStatuses}
-          createdAt={new Date(params?.order?.created_at).toDateString()}
-          orderTime={new Date(params?.order?.created_at).toLocaleTimeString()}
-          subtotal={params?.order?.price}
-          status={params?.order?.status}
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <OrderSummary
+            showStatuses={showStatuses}
+            createdAt={new Date(params?.order?.created_at).toDateString()}
+            orderTime={new Date(params?.order?.created_at).toLocaleTimeString()}
+            subtotal={params?.order?.price}
+            status={params?.order?.status}
+            paymentType={params?.order?.payment_type}
+          />
+        </View>
 
         <Modal
           visible={statutes}
           onDismiss={hideStatuses}
+          style={{flex: 1}}
           contentContainerStyle={{
             backgroundColor: 'white',
             padding: 20,
+            borderRadius: 8,
             position: 'absolute',
             bottom: 0,
             right: 0,
@@ -98,56 +109,88 @@ export default function OrderDetails() {
               style={{alignSelf: 'flex-end', borderRadius: 8}}
             />
 
-            <View style={{marginVertical: 30}}>
-              <RadioButton.Group
-                onValueChange={newValue => setValue(newValue)}
-                value={value}>
-                <Pressable
-                  onPress={() => setValue('Processing')}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                  }}>
-                  <RadioButton value="Processing" color={COLORS.primary} />
-                  <Text style={FONTS.h5}>Processing</Text>
+            <View style={{marginVertical: 20}}>
+              <Button
+                onPress={() => setValue('pending')}
+                style={{
+                  gap: 50,
+                  borderColor: COLORS.grayText,
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginBottom: 15,
+                }}>
+                <UseIcon
+                  name="clock-time-nine"
+                  type={'MaterialCommunityIcons'}
+                  color={COLORS.pending}
+                />
+                <Text style={{...FONTS.regular}}>
+                  {' '}
+                  {'  '}Processing {'  '}
+                </Text>
+                {value == 'pending' && (
                   <UseIcon
-                    name="clock-time-nine"
+                    name="check"
                     type={'MaterialCommunityIcons'}
-                    color={COLORS.pending}
+                    color={COLORS.primary}
+                    style={{marginLeft: 50}}
                   />
-                </Pressable>
-                <Pressable
-                  onPress={() => setValue('Completed')}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                  }}>
-                  <RadioButton value="Completed" color={COLORS.primary} />
-                  <Text style={FONTS.h5}>Completed</Text>
+                )}
+              </Button>
+              <Button
+                onPress={() => setValue('completed')}
+                style={{
+                  gap: 50,
+                  borderColor: COLORS.grayText,
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginBottom: 15,
+                }}>
+                <UseIcon
+                  name="check-circle"
+                  type={'MaterialCommunityIcons'}
+                  color={COLORS.credit}
+                />
+                <Text style={{...FONTS.regular}}>
+                  {' '}
+                  {'  '}Completed {'  '}
+                </Text>
+                {value == 'completed' && (
                   <UseIcon
-                    name="check-circle"
+                    name="check"
                     type={'MaterialCommunityIcons'}
-                    color={COLORS.credit}
+                    color={COLORS.primary}
+                    style={{marginLeft: 50}}
                   />
-                </Pressable>
-                <Pressable
-                  onPress={() => setValue('Failed')}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                  }}>
-                  <RadioButton value="Failed" color={COLORS.primary} />
-                  <Text style={FONTS.h5}>Failed</Text>
+                )}
+              </Button>
+              <Button
+                onPress={() => setValue('failed')}
+                style={{
+                  gap: 50,
+                  borderColor: COLORS.grayText,
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginBottom: 15,
+                }}>
+                <UseIcon
+                  name="closecircle"
+                  type={'AntDesign'}
+                  color={COLORS.debit}
+                />
+                <Text style={{...FONTS.regular}}>
+                  {' '}
+                  {'  '}Failed {'  '}
+                </Text>
+                {value == 'failed' && (
                   <UseIcon
-                    name="closecircle"
-                    type={'AntDesign'}
-                    color={COLORS.debit}
+                    name="check"
+                    type={'MaterialCommunityIcons'}
+                    color={COLORS.primary}
+                    style={{marginLeft: 50}}
                   />
-                </Pressable>
-              </RadioButton.Group>
+                )}
+              </Button>
             </View>
 
             <Button
@@ -174,7 +217,6 @@ export default function OrderDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
     paddingVertical: SIZES.base,
     backgroundColor: COLORS.white,
   },

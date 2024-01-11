@@ -50,9 +50,7 @@ export default function TaxCard({
               <Text style={styles.ctaText}>Move to top</Text>
             </Pressable> */}
             <Pressable style={styles.cta} onPress={handleDeleteItem}>
-              <Text style={[styles.ctaText, styles.deleteCta]}>
-                Delete coupon
-              </Text>
+              <Text style={[styles.ctaText, styles.deleteCta]}>Delete Tax</Text>
             </Pressable>
           </View>
         ) : null}

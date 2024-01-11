@@ -23,10 +23,8 @@ const HistoryDetails = ({route, navigation}) => {
   const viewRef = useRef();
 
   const captureViewShot = async () => {
-    setVisible(false);
     const imageUri = await viewRef.current.capture();
     await shareScreenshot(imageUri);
-    setVisible(true);
   };
 
   const shareScreenshot = async screenshotUri => {

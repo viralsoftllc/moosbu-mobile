@@ -38,6 +38,8 @@ export default function Shipping() {
   const [filteredItems, setFilteredItems] = useState([]);
   const [response, setResponse] = useState({message: '', subtitle: ''});
 
+  const [showCta, setShowCta] = useState(false);
+
   const searchFilterFunction = text => {
     if (text) {
       const newdata = shippings?.filter(item => {

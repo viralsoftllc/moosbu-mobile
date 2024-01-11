@@ -111,8 +111,8 @@ export default function Location() {
         const {data} = await client.delete('/api/location/' + selectedItem?.id);
         console.log(data);
 
-        dispatch(setLocations(data));
-        setFilteredItems(data);
+        // dispatch(setLocations(data));
+        // setFilteredItems(data);
         getLocations();
         setDeleting(false);
         setShowDeleteModal(false);

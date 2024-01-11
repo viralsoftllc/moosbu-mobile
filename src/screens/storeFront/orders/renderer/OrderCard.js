@@ -1,12 +1,26 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import routes from '../../../../shared/constants/routes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function OrderCard({order}) {
   const {navigate} = useNavigation();
+
+  const call = () => {
+    Linking.openURL('tel:' + order.phone);
+  };
+  const whatsapp = () => {
+    Linking.openURL(`https://wa.me/234${order.phone.slice(1)}`);
+  };
 
   return (
     <Pressable
@@ -32,14 +46,14 @@ export default function OrderCard({order}) {
               }).format(order?.price) || 0}
             </Text>
 
-            <Pressable style={styles.ctaIcon}>
+            {/* <Pressable style={styles.ctaIcon}>
               <UseIcon
                 type={'Ionicons'}
                 name="ellipsis-vertical"
                 style={styles.icon}
                 color={COLORS.textPrimary}
               />
-            </Pressable>
+            </Pressable> */}
           </View>
 
           <Text style={styles.date}>
@@ -65,29 +79,60 @@ export default function OrderCard({order}) {
       </View>
 
       {/* Status */}
-      <View style={[styles.flex, styles.bottomView]}>
-        <View style={[styles.iconView]}>
-          {order?.status?.toLowerCase() === 'delivered' ? (
+      <View
+        style={[
+          {flexDirection: 'row', justifyContent: 'space-between'},
+          styles.bottomView,
+        ]}>
+        <View style={[styles.flex, {flex: 1}]}>
+          <View style={[styles.iconView]}>
+            {order?.status?.toLowerCase() === 'delivered' ? (
+              <UseIcon
+                name="check-circle"
+                type={'MaterialCommunityIcons'}
+                color={COLORS.credit}
+              />
+            ) : (
+              <UseIcon
+                name="clock-time-nine"
+                type={'MaterialCommunityIcons'}
+                color={COLORS.pending}
+              />
+            )}
+          </View>
+
+          <View style={styles.details}>
+            <Text style={styles.status}>
+              {order?.status?.toLowerCase() === 'delivered'
+                ? 'Completed'
+                : 'Pending'}
+            </Text>
+          </View>
+        </View>
+        <View style={[styles.flex, {flex: 1, justifyContent: 'space-evenly'}]}>
+          <TouchableOpacity onPress={call}>
             <UseIcon
-              name="check-circle"
+              name="phone"
+              type={'MaterialCommunityIcons'}
+              color={COLORS.textPrimary}
+              size={12}
+              style={{
+                borderWidth: 1,
+                borderRadius: 20,
+                padding: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={whatsapp}>
+            <UseIcon
+              name="whatsapp"
               type={'MaterialCommunityIcons'}
               color={COLORS.credit}
             />
-          ) : (
-            <UseIcon
-              name="clock-time-nine"
-              type={'MaterialCommunityIcons'}
-              color={COLORS.pending}
-            />
-          )}
-        </View>
-
-        <View style={styles.details}>
-          <Text style={styles.status}>
-            {order?.status?.toLowerCase() === 'delivered'
-              ? 'Completed'
-              : 'Pending'}
-          </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Pressable>

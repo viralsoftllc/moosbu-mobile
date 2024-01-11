@@ -21,6 +21,10 @@ export default function ShippingCard({
     }
   }
 
+  const hideCta = () => {
+    setShowCta(false);
+  };
+
   return (
     <Pressable style={styles.container} onPress={closeCtaView}>
       <View style={styles.iconView}>

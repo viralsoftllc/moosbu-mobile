@@ -11,7 +11,7 @@ import ScreenHeader from '../shared/components/ScreenHeader';
 import client from '../shared/api/client';
 import handleApiError from '../shared/components/handleApiError';
 import Test from './Test';
-
+import {selectAccountName} from '../redux/slices/wallet/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTokens} from '../redux/slices/wallet/slice';
 import {selectTokens} from '../redux/slices/wallet/selectors';
@@ -24,6 +24,7 @@ const TokenScreen = ({navigation}) => {
   const {width} = Dimensions.get('screen');
 
   const tokenWallet = useSelector(selectTokens);
+  const accountNumber = useSelector(selectAccountName);
 
   useLayoutEffect(() => {
     setOptions({
@@ -68,6 +69,7 @@ const TokenScreen = ({navigation}) => {
       const {data} = await client.post('/api/purchase_token', {
         amount,
         token_type,
+        debitAccountNumber: accountNumber,
       });
 
       if (data.data == 1) {

@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {SIZES} from '../../../../../assets/themes';
+import {StyleSheet, Text, View} from 'react-native';
+import {SIZES, FONTS} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 
@@ -25,6 +25,8 @@ export default function NewTaxForm({
           placeholder="Enter tax rate"
           onChangeText={text => setDetails({...details, rate: text})}
           value={details?.rate}
+          keyboardType="numeric"
+          rightIcon={<Text style={{...FONTS.regular}}>%{'   '}</Text>}
         />
       </View>
 

@@ -55,13 +55,10 @@ export default function NewCouponForm({
             />
 
             <View style={[styles.smallForm, styles.rightFormInput, {gap: 10}]}>
-              <Text style={{...FONTS.regular}}>Coupon type</Text>
+              <Text style={{...FONTS.regular}}>Coupon Type</Text>
               <Dropdown
                 style={styles.input}
-                placeholderStyle={[
-                  styles.input,
-                  {borderWidth: 0, color: COLORS.textGray},
-                ]}
+                placeholderStyle={{color: COLORS.grayText, ...FONTS.regular}}
                 itemTextStyle={{
                   ...FONTS.medium,
                 }}
@@ -109,18 +106,32 @@ export default function NewCouponForm({
           /> */}
 
           <View style={styles.flex}>
-            <FormInput
-              label={'Discount'}
-              placeholder="Enter discount"
-              style={[styles.smallForm, styles.leftFormInput]}
-              keyboardType="numeric"
-              onChangeText={text =>
-                setDetails({...details, discount: String(text)})
-              }
-            />
+            {value == 1 ? (
+              <FormInput
+                label={'Discount'}
+                placeholder="Enter discount"
+                style={[styles.smallForm, styles.leftFormInput]}
+                keyboardType="numeric"
+                onChangeText={text =>
+                  setDetails({...details, discount: String(text)})
+                }
+                leftIcon={<Text style={{...FONTS.regular}}>₦</Text>}
+              />
+            ) : (
+              <FormInput
+                label={'Discount'}
+                placeholder="Enter discount"
+                style={[styles.smallForm, styles.leftFormInput]}
+                keyboardType="numeric"
+                onChangeText={text =>
+                  setDetails({...details, discount: String(text)})
+                }
+                leftIcon={<Text style={{...FONTS.regular}}>%</Text>}
+              />
+            )}
 
             <FormInput
-              label={'Limit'}
+              label={'Usage Limit'}
               placeholder="Enter limit"
               style={[styles.smallForm, styles.rightFormInput]}
               keyboardType="numeric"
@@ -195,9 +206,11 @@ const styles = StyleSheet.create({
   copyText: {
     color: COLORS.white,
     marginLeft: SIZES.base / 2,
+    ...FONTS.medium,
   },
   linkText: {
     marginBottom: SIZES.base,
+    ...FONTS.regular,
   },
   flatDiscountText: {
     color: COLORS.textPrimary,
@@ -217,5 +230,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: COLORS.borderGray,
     ...FONTS.medium,
+    height: verticalScale(45),
   },
 });

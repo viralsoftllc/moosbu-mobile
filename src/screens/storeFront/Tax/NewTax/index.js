@@ -38,7 +38,7 @@ export default function NewTax({setShowNewTaxForm, handleSuccessfulResponse}) {
         <View style={styles.container}>
           <View style={styles.flex}>
             <View>
-              <Text style={styles.title}>Add new tax</Text>
+              <Text style={styles.title}>Add New Tax</Text>
               <Text style={styles.subtitle}>Enter tax details</Text>
             </View>
 

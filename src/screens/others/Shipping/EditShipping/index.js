@@ -36,10 +36,10 @@ export default function EditShipping({
 
     try {
       console.log('Update shipping');
-      const res = await client.put(
-        '/api/shipping/update/' + selectedItem?.id,
-        details,
-      );
+      const res = await client.put('/api/shipping/update/' + selectedItem?.id, {
+        ...details,
+        location: details?.location.join(', ') || '',
+      });
       console.log(res?.data);
       setSubmitting(false);
       setShowEditForm(false);

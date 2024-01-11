@@ -22,6 +22,7 @@ import {selectUser} from '../../../redux/slices/user/selectors';
 import Test from '../../Test';
 import handleApiError from '../../../shared/components/handleApiError';
 import client from '../../../shared/api/client';
+import FormInput from '../../../shared/components/FormInput';
 
 export default function CreatePersonalWallet() {
   const {goBack, navigate} = useNavigation();
@@ -175,6 +176,10 @@ export default function CreatePersonalWallet() {
       setLoading(false);
       handleApiError(error);
     }
+  };
+
+  const digits = () => {
+    return <Text style={{fontFamily: FONTS.regular}}>234</Text>;
   };
 
   return (

@@ -6,6 +6,7 @@ export const walletSlice = createSlice({
   name,
   initialState: {
     balance: 0,
+    storeRevenue: 0,
     accountNumber: '',
     accountName: '',
     bank: '',
@@ -17,6 +18,9 @@ export const walletSlice = createSlice({
   reducers: {
     setWalletBalance: (state, action) => {
       state.balance = action.payload;
+    },
+    setStoreRevenue: (state, action) => {
+      state.storeRevenue = action.payload;
     },
     setAccountNumber: (state, action) => {
       state.accountNumber = action.payload;
@@ -45,6 +49,7 @@ export const walletSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setWalletBalance,
+  setStoreRevenue,
   setAccountNumber,
   setBanks,
   setBank,

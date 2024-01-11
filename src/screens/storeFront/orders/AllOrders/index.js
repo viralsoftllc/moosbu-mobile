@@ -23,11 +23,15 @@ import EmptyItemInfo from '../../../../shared/components/EmptyItemInfo';
 import {FONTS} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import Test from '../../../Test';
+import {setStoreRevenue} from '../../../../redux/slices/wallet/slice';
+import {selectStoreRevenue} from '../../../../redux/slices/wallet/selectors';
+import StoreRevenue from '../../../Home/renderers/StoreRevenue';
 
 export default function AllOrders() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(selectOrders);
+  const storeRevenue = useSelector(selectStoreRevenue);
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
@@ -61,7 +65,21 @@ export default function AllOrders() {
       data = data.map(x => {
         return {...x, product: JSON.parse(x.product)};
       });
-      console.log(data);
+
+      const completed = data
+        ?.filter(item => item.status === 'delivered')
+        .map(x => x.price)
+        .reduce((x, y) => x + y, 0);
+
+      const processing = data
+        ?.filter(item => item.status === 'pending')
+        .map(x => x.price)
+        .reduce((x, y) => x + y, 0);
+      const total = data?.map(x => x.price).reduce((x, y) => x + y, 0);
+
+      console.log(storeRevenue);
+
+      dispatch(setStoreRevenue({completed, processing, total}));
 
       dispatch(setOrders(data));
       setFilteredItems(data);
@@ -85,6 +103,11 @@ export default function AllOrders() {
         <Test />
       ) : (
         <>
+          <StoreRevenue
+            amount={storeRevenue.total}
+            completed={storeRevenue.completed}
+            processing={storeRevenue.processing}
+          />
           <View style={styles.searchView}>
             <SearchBar
               placeholder={'Search order'}
@@ -140,7 +163,7 @@ const styles = StyleSheet.create({
     paddingBottom: SIZES.base * 2,
   },
   searchView: {
-    marginBottom: SIZES.base * 2,
+    marginVertical: SIZES.base * 2,
   },
   search: {
     height: verticalScale(40),

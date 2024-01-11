@@ -2,7 +2,8 @@ import React, {useLayoutEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useNavigation} from '@react-navigation/native';
 import {Text, View} from 'react-native';
-
+import {useSelector} from 'react-redux';
+import {selectStoreRevenue} from '../../../redux/slices/wallet/selectors';
 import TopTabBar from '../components/TopTabBar';
 import routes from '../../../shared/constants/routes';
 import AllOrders from '../../../screens/storeFront/orders/AllOrders';
@@ -12,11 +13,15 @@ import {COLORS, SIZES, FONTS} from '../../../assets/themes';
 
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import StoreRevenue from '../../../screens/Home/renderers/StoreRevenue';
+import store from '../../../redux/store';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function OrderTopTabNavigator() {
+  const storeRevenue = useSelector(selectStoreRevenue);
   const {setOptions} = useNavigation();
+
+  console.log(storeRevenue);
 
   useLayoutEffect(() => {
     setOptions({
@@ -31,7 +36,7 @@ export default function OrderTopTabNavigator() {
             }}>
             Orders
           </Text>
-          <StoreRevenue />
+          {/* <StoreRevenue amount={storeRevenue} /> */}
         </View>
       ),
       headerShown: true,

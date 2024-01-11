@@ -9,6 +9,7 @@ export default function OrderSummary({
   deliveryFee,
   status,
   showStatuses,
+  paymentType,
 }) {
   function getStatus() {
     if (!status) {
@@ -56,6 +57,10 @@ export default function OrderSummary({
         </Text>
       </View>
 
+      <View style={styles.row}>
+        <Text style={styles.rowText}>Payment Method</Text>
+        <Text style={styles.rowText}>{paymentType}</Text>
+      </View>
       <View style={styles.row}>
         <Text style={styles.rowText}>Delivery Fee</Text>
         <Text style={styles.rowText}>
