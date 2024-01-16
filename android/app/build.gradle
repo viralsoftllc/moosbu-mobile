@@ -78,8 +78,8 @@ android {
         applicationId "com.moosbu.moosbuos"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.2.6"
+        versionCode 25
+        versionName "1.3.0"
         multiDexEnabled true
     }
     signingConfigs {

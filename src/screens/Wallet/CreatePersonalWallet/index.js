@@ -167,7 +167,7 @@ export default function CreatePersonalWallet() {
       });
       console.log(data);
 
-      if (data.statusCode == 200) {
+      if (data.status == 'success') {
         navigate('SuccessfulRegistration');
       }
 

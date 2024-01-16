@@ -21,7 +21,7 @@ const shortcuts = [
     route: routes.ENGAGEMNT_TAB,
   },
   {
-    title: 'mBot',
+    title: 'Vera AI',
     icon: (
       <UseIcon
         type={'MaterialCommunityIcons'}

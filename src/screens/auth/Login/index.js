@@ -54,8 +54,6 @@ export default function Login() {
       dispatch(setUserDetails(data?.user));
       dispatch(setToken(data?.token));
     } catch (error) {
-      console.log('error');
-      console.log(error);
       setLoading(false);
       handleApiError(error);
     }

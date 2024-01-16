@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 30,
+    marginVertical: 10,
   },
   contact: {
     color: COLORS.textPrimary,

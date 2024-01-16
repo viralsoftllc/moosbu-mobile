@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -120,6 +120,11 @@ export default function Shipping() {
     }
   }
 
+  const childRef = useRef(null);
+  const closeMenu = () => {
+    childRef.current && childRef.current.closeCtaView();
+  };
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -175,6 +180,7 @@ export default function Shipping() {
                       setSelectedItem(shipping);
                       handleDeleteItem();
                     }}
+                    ref={childRef}
                   />
                 ))
               : null}

@@ -102,28 +102,33 @@ export default function MainNavigator() {
 
     timerId.current = setTimeout(() => {
       console.log('Inactive');
-      Alert.alert('Logged out due to inactivity');
       dispatch(setToken(null));
+      Alert.alert('Logged out due to inactivity');
     }, 180000);
   };
 
   const panResponder = React.useRef(
     PanResponder.create({
       onStartShouldSetPanResponderCapture: () => {
+        console.log('Tapped');
         resetInactivityTimeout();
+        return false;
+      },
+      onMoveShouldSetPanResponderCapture: () => {
+        console.log('Pressed');
+        resetInactivityTimeout();
+
+        return false;
       },
     }),
   ).current;
 
-  // React.useEffect(() => {
-  //   resetInactivityTimeout();
-  // }, []);
+  React.useEffect(() => {
+    resetInactivityTimeout();
+  }, []);
 
   return (
-    <View
-      style={{flex: 1}}
-      //  {...panResponder.pandHandlers}
-    >
+    <View style={{flex: 1}} {...panResponder.panHandlers}>
       <Stack.Navigator>
         <Stack.Screen
           name={routes.MAIN}

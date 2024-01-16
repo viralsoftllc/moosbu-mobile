@@ -47,8 +47,6 @@ const CreateBusinessWallet = () => {
     officerAddressDone,
   } = businessWallet;
 
-  console.log(businessWallet);
-
   //verify bvn
   const handleVerify = async () => {
     if (bvn.length < 11) {
@@ -164,13 +162,16 @@ const CreateBusinessWallet = () => {
         email: businessWallet.email,
         bvn: businessWallet.bvn,
       });
-      if (data.statusCode == 200) {
+
+      console.log(data.data);
+      if (data.status == 'success') {
         navigate('SuccessfulRegistration');
       }
 
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      console.log(error);
       handleApiError(error);
     }
   };

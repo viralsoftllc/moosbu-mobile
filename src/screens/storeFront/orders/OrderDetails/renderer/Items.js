@@ -6,7 +6,7 @@ export default function Items({products}) {
   const productElements = [];
 
   console.log(products.length);
-  console.log(JSON.parse(products).length);
+  // console.log(JSON.parse(products).length);
 
   for (let i = 0; i < products.length; i++) {
     const product = products[i];

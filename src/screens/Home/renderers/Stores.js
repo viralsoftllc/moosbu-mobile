@@ -16,6 +16,8 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 import {useDispatch} from 'react-redux';
 import {setStoreDetails} from '../../../redux/slices/store/slice';
+import client from '../../../shared/api/client';
+import handleApiError from '../../../shared/components/handleApiError';
 
 export default function Stores({
   setShowStoresModal,
@@ -24,6 +26,8 @@ export default function Stores({
 }) {
   const store = useSelector(selectStoreDetails);
   const stores = useSelector(selectStores);
+
+  console.log(stores);
   const [selectedStore, setSelectedStore] = useState(store?.id);
 
   const dispatch = useDispatch();
@@ -36,6 +40,17 @@ export default function Stores({
     }
     setShowStoresModal(false);
     setShowNewStoreModal(true);
+  }
+
+  async function handleStore(id) {
+    try {
+      const {data} = await client.post('/api/update_current_store', {
+        storeID: id,
+      });
+      console.log(data);
+    } catch (error) {
+      handleApiError(error);
+    }
   }
 
   return (
@@ -58,6 +73,7 @@ export default function Stores({
               onPress={() => {
                 setSelectedStore(store?.id);
                 dispatch(setStoreDetails(store));
+                handleStore(selectedStore);
               }}>
               <ImageIcon margin={0} size={scale(25)} />
 

@@ -45,6 +45,7 @@ export default function VerifyEmail({route}) {
     try {
       setLoading(true);
       const {data} = await client.post('/api/verify-code', {email});
+      console.log(data);
 
       setLoading(false);
       notifyMessage(data.Message);

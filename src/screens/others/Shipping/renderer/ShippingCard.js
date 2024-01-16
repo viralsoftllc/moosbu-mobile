@@ -1,95 +1,97 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef, useImperativeHandle} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
-export default function ShippingCard({
-  handleEditItem,
-  handleDeleteItem,
-  shipping,
-}) {
-  const [showCta, setShowCta] = useState(false);
+const ShippingCard = forwardRef(
+  ({handleEditItem, handleDeleteItem, shipping}, ref) => {
+    const [showCta, setShowCta] = useState(false);
 
-  function toggleCtaView() {
-    setShowCta(!showCta);
-  }
-
-  function closeCtaView() {
-    if (showCta) {
-      setShowCta(false);
+    function toggleCtaView() {
+      setShowCta(!showCta);
     }
-  }
 
-  const hideCta = () => {
-    setShowCta(false);
-  };
+    function closeCtaView() {
+      if (showCta) {
+        setShowCta(false);
+      }
+    }
 
-  return (
-    <Pressable style={styles.container} onPress={closeCtaView}>
-      <View style={styles.iconView}>
-        <UseIcon
-          name="truck-outline"
-          type={'MaterialCommunityIcons'}
-          color={'rgb(118, 163, 224)'}
-        />
-      </View>
+    useImperativeHandle(ref, () => ({
+      closeCtaView,
+    }));
 
-      <View style={styles.details}>
-        <View style={[styles.flex, styles.nameWrapper]}>
-          <View>
-            <Text style={styles.name}>{shipping?.name || ''}</Text>
-            {shipping?.location_id ? (
-              <Text style={styles.address}>{shipping?.location_id || ''}</Text>
+    return (
+      <Pressable style={styles.container} onPress={closeCtaView}>
+        <View style={styles.iconView}>
+          <UseIcon
+            name="truck-outline"
+            type={'MaterialCommunityIcons'}
+            color={'rgb(118, 163, 224)'}
+          />
+        </View>
+
+        <View style={styles.details}>
+          <View style={[styles.flex, styles.nameWrapper]}>
+            <View>
+              <Text style={styles.name}>{shipping?.name || ''}</Text>
+              {shipping?.location_id ? (
+                <Text style={styles.address}>
+                  {shipping?.location_id || ''}
+                </Text>
+              ) : null}
+            </View>
+
+            <Pressable onPress={toggleCtaView}>
+              <UseIcon
+                type={'Ionicons'}
+                name="ellipsis-vertical"
+                style={styles.icon}
+                color={COLORS.textPrimary}
+              />
+            </Pressable>
+
+            {showCta ? (
+              <View style={styles.ctaView}>
+                <Pressable style={styles.cta} onPress={handleEditItem}>
+                  <Text style={styles.ctaText}>Edit</Text>
+                </Pressable>
+
+                <Pressable style={styles.cta} onPress={handleDeleteItem}>
+                  <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
+                </Pressable>
+              </View>
             ) : null}
           </View>
 
-          <Pressable onPress={toggleCtaView}>
-            <UseIcon
-              type={'Ionicons'}
-              name="ellipsis-vertical"
-              style={styles.icon}
-              color={COLORS.textPrimary}
-            />
-          </Pressable>
+          <Text
+            style={[
+              styles.price,
+              {
+                color:
+                  shipping?.price > 0 ? COLORS.textSecondary : COLORS.pending,
+              },
+            ]}>
+            {Number(shipping?.price) > 0 ? `₦ ${shipping?.price}` : ''}
+          </Text>
 
-          {showCta ? (
-            <View style={styles.ctaView}>
-              <Pressable style={styles.cta} onPress={handleEditItem}>
-                <Text style={styles.ctaText}>Edit</Text>
-              </Pressable>
+          <View style={[styles.flex, styles.datetime]}>
+            {shipping?.time ? (
+              <Text style={styles.contact}>{shipping?.time || ''}</Text>
+            ) : null}
 
-              <Pressable style={styles.cta} onPress={handleDeleteItem}>
-                <Text style={[styles.ctaText, styles.deleteCta]}>Delete</Text>
-              </Pressable>
-            </View>
-          ) : null}
+            {shipping?.date ? (
+              <Text style={styles.contact}>{shipping?.date || ''}</Text>
+            ) : null}
+          </View>
         </View>
+      </Pressable>
+    );
+  },
+);
 
-        <Text
-          style={[
-            styles.price,
-            {
-              color:
-                shipping?.price > 0 ? COLORS.textSecondary : COLORS.pending,
-            },
-          ]}>
-          {Number(shipping?.price) > 0 ? `₦ ${shipping?.price}` : ''}
-        </Text>
-
-        <View style={[styles.flex, styles.datetime]}>
-          {shipping?.time ? (
-            <Text style={styles.contact}>{shipping?.time || ''}</Text>
-          ) : null}
-
-          {shipping?.date ? (
-            <Text style={styles.contact}>{shipping?.date || ''}</Text>
-          ) : null}
-        </View>
-      </View>
-    </Pressable>
-  );
-}
+export default ShippingCard;
 const styles = StyleSheet.create({
   address: {
     color: COLORS.grayText,

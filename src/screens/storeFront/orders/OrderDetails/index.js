@@ -112,6 +112,7 @@ export default function OrderDetails() {
             <View style={{marginVertical: 20}}>
               <Button
                 onPress={() => setValue('pending')}
+                labelStyle={{padding: 10}}
                 style={{
                   gap: 50,
                   borderColor: COLORS.grayText,
@@ -139,6 +140,7 @@ export default function OrderDetails() {
               </Button>
               <Button
                 onPress={() => setValue('completed')}
+                labelStyle={{padding: 10}}
                 style={{
                   gap: 50,
                   borderColor: COLORS.grayText,
@@ -166,6 +168,7 @@ export default function OrderDetails() {
               </Button>
               <Button
                 onPress={() => setValue('failed')}
+                labelStyle={{padding: 10}}
                 style={{
                   gap: 50,
                   borderColor: COLORS.grayText,
@@ -198,7 +201,7 @@ export default function OrderDetails() {
                 hideStatuses();
                 // showEnterPin();
               }}
-              labelStyle={{fontFamily: 'Lato-Bold'}}
+              labelStyle={{fontFamily: 'Lato-Bold', padding: 10}}
               style={{
                 backgroundColor: COLORS.primary,
                 borderRadius: 8,
