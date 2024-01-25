@@ -42,13 +42,6 @@ export default function ResetPassword() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Pressable style={styles.iconWrapper} onPress={goBack}>
-        <UseIcon
-          type={'MaterialIcons'}
-          name="arrow-back"
-          color={COLORS.textPrimary}
-        />
-      </Pressable> */}
       <ScreenHeader />
 
       <ScrollView

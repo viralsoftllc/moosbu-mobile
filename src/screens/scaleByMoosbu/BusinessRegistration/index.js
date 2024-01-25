@@ -9,7 +9,6 @@ import {
   Text,
   View,
   StatusBar,
-  Platform,
 } from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
@@ -23,7 +22,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setBusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/slice';
 import {selectbusinessRegistrationDetails} from '../../../redux/slices/businessRegistration/selectors';
 import Test from '../../Test';
-import notifyMessage from '../../../shared/hooks/notifyMessage';
 
 export default function BussinessRegistration() {
   const {setOptions, navigate} = useNavigation();
@@ -35,12 +33,7 @@ export default function BussinessRegistration() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => (
-        <ScreenHeader
-          title={'Register your business'}
-          subtitle="Pick up where you left off"
-        />
-      ),
+      headerShown: false,
     });
 
     return () => {};
@@ -105,14 +98,21 @@ export default function BussinessRegistration() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader
+        title={'Register your business'}
+        subtitle="Pick up where you left off"
+      />
+
       <StatusBar backgroundColor={COLORS.primary} />
+
       {loading ? (
         <Test />
       ) : (
         <ScrollView
           contentContainerStyle={{
-            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingHorizontal: SIZES.paddingHorizontal,
             paddingBottom: 100,
+            paddingTop: SIZES.base * 2,
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
@@ -242,7 +242,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
     paddingTop: SIZES.base * 2,
   },
   iconView: {

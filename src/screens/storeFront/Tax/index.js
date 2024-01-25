@@ -1,5 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -7,7 +6,6 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  Platform,
   StyleSheet,
   View,
 } from 'react-native';
@@ -28,7 +26,6 @@ import TaxCard from './renderer/TaxCard';
 import Test from '../../Test';
 
 export default function Tax() {
-  const {setOptions} = useNavigation();
   const [items, setItems] = useState([]);
 
   const [searchText, setSearchText] = useState('');
@@ -83,12 +80,6 @@ export default function Tax() {
     setShowSuccessModal(true);
   }
 
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Tax'} />,
-    });
-  }, [setOptions]);
-
   const getAllTaxes = useCallback(async () => {
     setLoading(true);
 
@@ -131,6 +122,7 @@ export default function Tax() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ScreenHeader title={'Tax'} />
       <StatusBar backgroundColor={COLORS.primary} />
 
       {loading ? (
@@ -167,10 +159,7 @@ export default function Tax() {
             <ScrollView
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={[
-                styles.contentContainerStyle,
-                {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-              ]}>
+              contentContainerStyle={[styles.contentContainerStyle]}>
               {loading ? <ActivityIndicator size={'large'} /> : null}
 
               {filteredItems?.length ? (

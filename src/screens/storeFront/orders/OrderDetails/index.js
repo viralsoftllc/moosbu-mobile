@@ -1,5 +1,5 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import {useRoute} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,7 +8,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Pressable,
 } from 'react-native';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
 import Items from './renderer/Items';
@@ -16,7 +15,7 @@ import ShippingDetails from './renderer/ShippingDetails';
 import BillingAddress from './renderer/BillingAddress';
 import OrderSummary from './renderer/OrderSummary';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
-import {Modal, RadioButton, IconButton, Button} from 'react-native-paper';
+import {Modal, IconButton, Button} from 'react-native-paper';
 import UseIcon from '../../../../shared/utils/UseIcon';
 
 export default function OrderDetails() {
@@ -32,22 +31,16 @@ export default function OrderDetails() {
 
   const [value, setValue] = useState('');
 
-  const {setOptions} = useNavigation();
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Order Details'} />,
-    });
-  }, [setOptions]);
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+      <ScreenHeader title={'Order Details'} />
+
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          flexGrow: 1,
         }}>
         {/* {params?.order?.product?.length ? (
           <Items products={params?.order?.product} />
@@ -57,25 +50,25 @@ export default function OrderDetails() {
           products={Object.values(JSON.parse(params?.order?.product)?.products)}
         /> */}
 
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: SIZES.paddingHorizontal}}>
           <ShippingDetails
             name={params?.order?.name}
             phone={params?.order?.phone}
           />
         </View>
 
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: SIZES.paddingHorizontal}}>
           <BillingAddress
             name={params?.order?.name}
             phone={params?.order?.phone}
           />
         </View>
 
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: SIZES.paddingHorizontal}}>
           <Items products={params?.order?.product} />
         </View>
 
-        <View style={{paddingHorizontal: 20}}>
+        <View style={{paddingHorizontal: SIZES.paddingHorizontal}}>
           <OrderSummary
             showStatuses={showStatuses}
             createdAt={new Date(params?.order?.created_at).toDateString()}

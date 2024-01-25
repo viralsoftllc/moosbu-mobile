@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React from 'react';
 import {PanResponder, Alert, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import BottomTabNavigator from './components/BottomTabNavigator';
@@ -37,7 +37,6 @@ import ShippingHistoryDetails from '../../screens/others/ShippingHistoryDetails'
 import MBot from '../../screens/marketingSuite/MBot';
 import OrderTopTabNavigator from './screens/OrderTopTabNavigator';
 import OrderDetails from '../../screens/storeFront/orders/OrderDetails';
-import CustomerTopTabNavigator from './screens/CustomerTopTabNavigator';
 import InbuiltLogistics from '../../screens/others/Integration/logisticsProviders/InbuiltLogistics';
 // import Kyc from '../../screens/others/StoreSettings/Kyc';
 // import Selfie from '../../screens/others/StoreSettings/Kyc/Selfie';
@@ -104,7 +103,7 @@ export default function MainNavigator() {
       console.log('Inactive');
       dispatch(setToken(null));
       Alert.alert('Logged out due to inactivity');
-    }, 180000);
+    }, 18000000000);
   };
 
   const panResponder = React.useRef(
@@ -132,7 +131,8 @@ export default function MainNavigator() {
       <Stack.Navigator>
         <Stack.Screen
           name={routes.MAIN}
-          component={user.email_verified_at ? BottomTabNavigator : VerifyEmail}
+          component={BottomTabNavigator}
+          // component={user.email_verified_at ? BottomTabNavigator : VerifyEmail}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -140,7 +140,11 @@ export default function MainNavigator() {
           component={MenuStack}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={routes.CUSTOMERS} component={Customers} />
+        <Stack.Screen
+          name={routes.CUSTOMERS}
+          component={Customers}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name={routes.SHIPPING_TAB}
           component={ShippingStack}
@@ -150,22 +154,40 @@ export default function MainNavigator() {
           name={routes.CASHFLOW_TAB}
           component={CashFlowComingSoon}
           // component={CashFlowStack}
-          // options={{headerShown: false}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={routes.ENGAGEMNT_TAB}
           component={EngagementStack}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={routes.COUPON} component={Coupon} />
-        <Stack.Screen name={routes.TAX} component={Tax} />
+        <Stack.Screen
+          name={routes.COUPON}
+          component={Coupon}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.TAX}
+          component={Tax}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name={routes.PRODUCTS_STACK}
           component={ProductsStack}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={routes.ANALYTICS} component={Analytics} />
-        <Stack.Screen name={routes.PROFILE} component={Profile} />
+        <Stack.Screen
+          name={routes.ANALYTICS}
+          component={Analytics}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={routes.PROFILE}
+          component={Profile}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.CHANGE_PASSWORD}
           component={ChangePassword}
@@ -175,16 +197,34 @@ export default function MainNavigator() {
           component={Logout}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={routes.AUTOMATION} component={Automation} />
+        <Stack.Screen
+          name={routes.AUTOMATION}
+          component={Automation}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           // options={{headerShown: false}}
           name={routes.M_BOT}
           component={MBot}
         />
         {/* <Stack.Screen name={routes.M_BOT_TAB} component={MBotTopTabNavigator} /> */}
-        <Stack.Screen name={routes.MARKET_PLACE} component={MarketPlace} />
+        <Stack.Screen
+          name={routes.MARKET_PLACE}
+          component={MarketPlace}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name={routes.INTEGRATION} component={Integration} />
-        <Stack.Screen name={routes.SUPPORT} component={Support} />
+        <Stack.Screen
+          name={routes.SUPPORT}
+          component={Support}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.BUSINESS_REGISTRATION}
           component={BussinessRegistration}
@@ -193,7 +233,13 @@ export default function MainNavigator() {
           name={routes.CHOOSE_PAYMENT_METHOD}
           component={ChoosePaymentMethod}
         />
-        <Stack.Screen name={routes.SEND_FUNDS} component={SendFunds} />
+        <Stack.Screen
+          name={routes.SEND_FUNDS}
+          component={SendFunds}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.PAYOUT_SETTINGS}
           component={PayoutSettings}
@@ -201,6 +247,9 @@ export default function MainNavigator() {
         <Stack.Screen
           name={routes.WALLET_SETTINGS}
           component={WalletSettings}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name={routes.CREATE_TRANSACTION_PIN}
@@ -211,6 +260,9 @@ export default function MainNavigator() {
         <Stack.Screen
           name={routes.CONFIRM_TRANSFER_DETAILS}
           component={ConfirmTransferDetails}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen name={routes.ENTER_PIN} component={EnterPin} />
         <Stack.Screen
@@ -264,12 +316,24 @@ export default function MainNavigator() {
           // component={LogisticsProviderTopTabNavigator}
           component={InbuiltLogistics}
         />
-        <Stack.Screen name={routes.REWARD_INFO} component={RewardInfo} />
+        <Stack.Screen
+          name={routes.REWARD_INFO}
+          component={RewardInfo}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.PAY_SUBSCRIPTION}
           component={SubscriptionPayment}
         />
-        <Stack.Screen name={routes.NOTIFICATIONS} component={Notifications} />
+        <Stack.Screen
+          name={routes.NOTIFICATIONS}
+          component={Notifications}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.SHIPPING_DETAILS}
           component={ShippingHistoryDetails}
@@ -277,11 +341,23 @@ export default function MainNavigator() {
         <Stack.Screen name={routes.PLAN} component={Plans} />
         {/* <Stack.Screen name={routes.PLAN} component={PlanTopTabNavigator} /> */}
         <Stack.Screen name={routes.ORDERS} component={OrderTopTabNavigator} />
-        <Stack.Screen name={routes.ORDER_DETAILS} component={OrderDetails} />
+        <Stack.Screen
+          name={routes.ORDER_DETAILS}
+          component={OrderDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
         {/* <Stack.Screen name={routes.KYC} component={Kyc} /> */}
         {/* <Stack.Screen name={routes.SELFIE} component={Selfie} /> */}
         <Stack.Screen name={routes.JOIN_COMMUNITY} component={JoinCommunity} />
-        <Stack.Screen name={routes.CONTACT_SUPPORT} component={Support} />
+        <Stack.Screen
+          name={routes.CONTACT_SUPPORT}
+          component={Support}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={routes.MEDIA_RESOURCES}
           component={MediaResources}
@@ -312,7 +388,11 @@ export default function MainNavigator() {
           component={SuccessfulRegistration}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="TokenScreen" component={TokenScreen} />
+        <Stack.Screen
+          name="TokenScreen"
+          component={TokenScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="TokenSuccess"
           component={TokenSuccess}
@@ -340,7 +420,13 @@ export default function MainNavigator() {
             headerShown: false,
           }}
         /> */}
-        <Stack.Screen name={routes.REWARD} component={Reward} />
+        <Stack.Screen
+          name={routes.REWARD}
+          component={Reward}
+          options={{
+            headerShown: false,
+          }}
+        />
         {/* <Stack.Screen
           name={routes.REWARD_INFO}
           component={RewardInfo}

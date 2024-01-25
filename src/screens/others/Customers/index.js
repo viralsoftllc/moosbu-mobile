@@ -1,9 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState, useLayoutEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
@@ -23,7 +24,7 @@ import Test from '../../Test';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 
 export default function Customers() {
-  const {setOptions, navigate} = useNavigation();
+  const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
   const customers = useSelector(selectCustomers);
@@ -32,12 +33,6 @@ export default function Customers() {
 
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Customers'} />,
-    });
-  }, [setOptions]);
 
   const searchFilterFunction = text => {
     if (text) {
@@ -83,6 +78,8 @@ export default function Customers() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader title={'Customers'} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
       {/* <Search
         filter={false}
         handleSearch={searchFilterFunction}

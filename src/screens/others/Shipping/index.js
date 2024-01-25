@@ -4,6 +4,7 @@ import {
   Modal,
   Pressable,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
@@ -37,8 +38,6 @@ export default function Shipping() {
   const [searchText, setSearchText] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
   const [response, setResponse] = useState({message: '', subtitle: ''});
-
-  const [showCta, setShowCta] = useState(false);
 
   const searchFilterFunction = text => {
     if (text) {
@@ -121,12 +120,9 @@ export default function Shipping() {
   }
 
   const childRef = useRef(null);
-  const closeMenu = () => {
-    childRef.current && childRef.current.closeCtaView();
-  };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeAreaView}>
       {loading ? (
         <Test />
       ) : (
@@ -243,19 +239,19 @@ export default function Shipping() {
           </Modal>
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaView: {
     flex: 1,
-    paddingHorizontal: SIZES.paddingHorizontal,
     paddingVertical: SIZES.base * 2,
     backgroundColor: COLORS.white,
   },
   contentContainerStyle: {
     paddingBottom: SIZES.base * 2,
+    paddingHorizontal: SIZES.paddingHorizontal,
   },
   searchContainer: {
     display: 'flex',
@@ -263,6 +259,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: SIZES.base,
     marginBottom: SIZES.base * 2,
+    paddingHorizontal: SIZES.paddingHorizontal,
   },
   iconView: {
     borderWidth: 1,

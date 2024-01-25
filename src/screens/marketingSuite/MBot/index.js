@@ -2,23 +2,16 @@ import React, {useLayoutEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   View,
   Keyboard,
   Text,
   StatusBar,
+  Platform,
 } from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
-import FormInput from '../../../shared/components/FormInput';
-import UpdateSuccessful from '../../../shared/components/UpdateSuccessful';
-import copyToClipboard from '../../../shared/utils/copyToClipboard';
 import UseIcon from '../../../shared/utils/UseIcon';
-import ChatHeader from './renderer/ChatHeader';
-import Message from './renderer/Message';
-import SaveChatForm from './renderer/SaveChatForm';
-import ComingSoon from '../../../shared/components/ComingSoon';
 import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import {verticalScale} from 'react-native-size-matters';
@@ -73,13 +66,14 @@ export default function MBot() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title="Vera AI" />,
+      headerShown: false,
     });
   }, [setOptions]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title="Vera AI" />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
       {/* <ComingSoon
         page={'Vera AI'}
         iconType={'MaterialCommunityIcons'}

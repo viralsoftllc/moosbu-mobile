@@ -8,8 +8,10 @@ const Stack = createStackNavigator();
 export default function ProductsStack() {
   return (
     <Stack.Navigator
-    // initialRouteName={routes.MENU}
-    >
+      // initialRouteName={routes.MENU}
+      screenOptions={{
+        headerShown: false,
+      }}>
       {Object.entries({...productScreen}).map(([name, screen]) => (
         <Stack.Screen name={name} component={screen} key={name} />
       ))}

@@ -1,10 +1,7 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  Modal,
   Pressable,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -17,11 +14,7 @@ import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, SIZES, FONTS} from '../../../assets/themes';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
-import Search from '../../../shared/components/Search';
 import UseIcon from '../../../shared/utils/UseIcon';
-import Beneficiaries from './renderer/Beneficiaries';
-import BankForm from './renderer/BankForm';
-import HalfScreen from '../../finances/renderers/halfScreen';
 import routes from '../../../shared/constants/routes';
 import {Dropdown} from 'react-native-element-dropdown';
 import client from '../../../shared/api/client';
@@ -30,9 +23,6 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 import {formatedList} from '../../../../banklist';
 
 export default function SendFunds({navigation}) {
-  const {setOptions} = useNavigation();
-  const [showBankForm, setShowBankForm] = useState(false);
-  const [bankList, setBankList] = useState([]);
   const [accountNumber, setAccountNumber] = useState('');
   const [accountName, setAccountName] = useState('');
   const [bank, setBank] = useState('');
@@ -46,12 +36,6 @@ export default function SendFunds({navigation}) {
   //Bank dropdown variables
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Send Fund'} />,
-    });
-  }, [setOptions]);
 
   // const handleSubmit = async () => {
   //   await verifyAccount()
@@ -124,9 +108,9 @@ export default function SendFunds({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader title={'Send Fund'} />
       <StatusBar backgroundColor={COLORS.primary} />
       {/* <Search filter={false} /> */}
-
       {/* <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -163,7 +147,6 @@ export default function SendFunds({navigation}) {
 
         <Beneficiaries />
       </ScrollView> */}
-
       {/* <Modal visible={showBankForm} animationType="slide" transparent={true}> */}
       {/* <BankForm setShowBankForm={setShowBankForm} /> */}
       {/* <HalfScreen>
@@ -339,7 +322,6 @@ export default function SendFunds({navigation}) {
           )}
         </HalfScreen> */}
       {/* </Modal> */}
-
       {/* <View
             style={{
               flexDirection: 'row',
@@ -373,159 +355,166 @@ export default function SendFunds({navigation}) {
               <UseIcon type={'MaterialCommunityIcons'} name={'close'} />
             </Pressable>
           </View> */}
-      <KeyboardAvoidingView behavior="padding">
-        <View style={{gap: 15, marginBottom: 30}}>
-          <View style={{marginBottom: 10}}>
-            <Text
-              style={{
-                ...FONTS.small,
-                color: COLORS.label,
-              }}>
-              Provide account information of the recipient
-            </Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={text => setAccountNumber(text)}
-              inputMode="numeric"
-              placeholder="Enter account number "
-              placeholderTextColor={COLORS.grayText}
-              value={accountNumber}
-              maxLength={10}
-            />
-            <View style={{paddingTop: 10}}>
-              {isFetching && bank ? (
-                <ActivityIndicator size="small" color={COLORS.primary} />
-              ) : (
-                <Text style={{...FONTS.medium}}>{accountName}</Text>
-              )}
-            </View>
-          </View>
-          <View style={{marginBottom: 10}}>
-            <Text style={styles.label}>Select Recipient Bank</Text>
-            <Dropdown
-              style={styles.input}
-              placeholderStyle={{
-                ...FONTS.medium,
-                color: COLORS.grayText,
-              }}
-              itemTextStyle={{
-                ...FONTS.small,
-              }}
-              search
-              searchPlaceholder="Search bank..."
-              inputSearchStyle={{...FONTS.medium}}
-              selectedTextStyle={{...FONTS.small}}
-              data={[
-                ...formatedList,
-                {
-                  label: 'Moosbu Bank Tech',
-                  value: 999240,
-                },
-              ]}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Select Bank' : '...'}
-              value={value}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={async item => {
-                if (accountNumber.length !== 10) {
-                  setValue('');
-                  setBank('');
-                  setAccountName('');
-                  return notifyMessage('Please input correct acount number');
-                } else {
-                  setValue(prev => item.value);
-                  setBank(item.label);
-                  verifyAcc(item.value);
-                  setIsFocus(false);
-                }
-              }}
-            />
-          </View>
-          <View style={{flexDirection: 'row', gap: 10}}>
-            <View style={{flex: 1}}>
-              <Text style={styles.label}>Amount</Text>
-              <View
+      <View style={styles.content}>
+        <KeyboardAvoidingView
+          behavior="padding"
+          contentContainerStyle={{flexGrow: 1}}>
+          <View style={{marginBottom: 30}}>
+            <View style={{}}>
+              <Text
                 style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  marginTop: 3,
-                  borderRadius: 5,
-                  gap: 5,
-                  padding: 3,
-                  borderColor: COLORS.borderGray,
-                  height: 50,
+                  ...FONTS.small,
+                  color: COLORS.label,
                 }}>
-                <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
-                <TextInput
-                  style={{width: '90%', ...FONTS.small}}
-                  onChangeText={text =>
-                    setAmount(prev => numberFormatter(text))
+                Provide account information of the recipient
+              </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => setAccountNumber(text)}
+                inputMode="numeric"
+                placeholder="Enter account number "
+                placeholderTextColor={COLORS.grayText}
+                value={accountNumber}
+                maxLength={10}
+              />
+              <View style={{paddingTop: 10}}>
+                {isFetching && bank ? (
+                  <ActivityIndicator size="small" color={COLORS.primary} />
+                ) : (
+                  <Text style={{...FONTS.medium}}>{accountName}</Text>
+                )}
+              </View>
+            </View>
+
+            <View
+              style={{
+                marginBottom: SIZES.base * 2,
+              }}>
+              <Text style={styles.label}>Select Recipient Bank</Text>
+              <Dropdown
+                style={styles.input}
+                placeholderStyle={{
+                  ...FONTS.medium,
+                  color: COLORS.grayText,
+                }}
+                itemTextStyle={{
+                  ...FONTS.small,
+                }}
+                search
+                searchPlaceholder="Search bank..."
+                inputSearchStyle={{...FONTS.medium}}
+                selectedTextStyle={{...FONTS.small}}
+                data={[
+                  ...formatedList,
+                  {
+                    label: 'Moosbu Bank Tech',
+                    value: 999240,
+                  },
+                ]}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Select Bank' : '...'}
+                value={value}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={async item => {
+                  if (accountNumber.length !== 10) {
+                    setValue('');
+                    setBank('');
+                    setAccountName('');
+                    return notifyMessage('Please input correct acount number');
+                  } else {
+                    setValue(prev => item.value);
+                    setBank(item.label);
+                    verifyAcc(item.value);
+                    setIsFocus(false);
                   }
-                  inputMode="numeric"
-                  placeholder="Enter amount"
+                }}
+              />
+            </View>
+            <View style={{flexDirection: 'row', gap: 10}}>
+              <View style={{flex: 1}}>
+                <Text style={styles.label}>Amount</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    marginTop: 3,
+                    borderRadius: 5,
+                    gap: 5,
+                    padding: 3,
+                    borderColor: COLORS.borderGray,
+                    height: 50,
+                  }}>
+                  <Text style={{fontWeight: '300'}}>{'\u20A6'}</Text>
+                  <TextInput
+                    style={{width: '90%', ...FONTS.small}}
+                    onChangeText={text =>
+                      setAmount(prev => numberFormatter(text))
+                    }
+                    inputMode="numeric"
+                    placeholder="Enter amount"
+                    placeholderTextColor={COLORS.grayText}
+                    value={amount}
+                  />
+                </View>
+              </View>
+              <View style={{flex: 1}}>
+                <Text style={styles.label}>Description</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Transaction description"
                   placeholderTextColor={COLORS.grayText}
-                  value={amount}
+                  onChangeText={text => setDescription(text)}
                 />
               </View>
             </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.label}>Description</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Transaction description"
-                placeholderTextColor={COLORS.grayText}
-                onChangeText={text => setDescription(text)}
-              />
-            </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
 
-      <Pressable
-        onPress={() => {
-          if (!accountNumber) {
-            return notifyMessage('Please fill in account number');
-          }
+          <Pressable
+            onPress={() => {
+              if (!accountNumber) {
+                return notifyMessage('Please fill in account number');
+              }
 
-          if (accountNumber.length !== 10) {
-            return notifyMessage('Please enter a valid account number');
-          }
-          if (!bank) {
-            return notifyMessage('Please select bank');
-          }
+              if (accountNumber.length !== 10) {
+                return notifyMessage('Please enter a valid account number');
+              }
+              if (!bank) {
+                return notifyMessage('Please select bank');
+              }
 
-          if (!amount) {
-            return notifyMessage('Enter amount to proceed');
-          }
-          setShowBankForm(false);
-          navigation.navigate(routes.CONFIRM_TRANSFER_DETAILS, {
-            accountNumber,
-            bank,
-            bankCode: value,
-            amount,
-            description,
-            accountName,
-            nameEnquiryReference,
-          });
-        }}
-        style={styles.button}>
-        <UseIcon
-          type={'MaterialIcons'}
-          name="lock-outline"
-          color={COLORS.white}
-        />
-        <Text
-          style={{
-            color: COLORS.white,
-            ...FONTS.h5,
-          }}>
-          Proceed
-        </Text>
-      </Pressable>
+              if (!amount) {
+                return notifyMessage('Enter amount to proceed');
+              }
+              navigation.navigate(routes.CONFIRM_TRANSFER_DETAILS, {
+                accountNumber,
+                bank,
+                bankCode: value,
+                amount,
+                description,
+                accountName,
+                nameEnquiryReference,
+              });
+            }}
+            style={styles.button}>
+            <UseIcon
+              type={'MaterialIcons'}
+              name="lock-outline"
+              color={COLORS.white}
+            />
+            <Text
+              style={{
+                color: COLORS.white,
+                ...FONTS.h5,
+              }}>
+              Proceed
+            </Text>
+          </Pressable>
+        </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -534,7 +523,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: 20,
   },
   options: {
     flexDirection: 'row',
@@ -582,5 +570,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
     marginTop: 50,
+  },
+  content: {
+    paddingHorizontal: SIZES.paddingHorizontal,
+    paddingVertical: SIZES.base * 2,
+    flex: 1,
   },
 });

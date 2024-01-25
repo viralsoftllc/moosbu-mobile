@@ -9,6 +9,7 @@ import {
   ScrollView,
   RefreshControl,
   Modal,
+  StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,7 +18,6 @@ import {COLORS, FONTS, SIZES} from '../../assets/themes';
 import {
   selectWalletBalance,
   selectAccountNumber,
-  selectAccountName,
   selectBank,
 } from '../../redux/slices/wallet/selectors';
 import {
@@ -35,18 +35,13 @@ import HalfScreen from '../finances/renderers/halfScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ficon from 'react-native-vector-icons/Feather';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
-import ScreenHeader from '../../shared/components/ScreenHeader';
 import Test from '../Test';
-import OneSignal from 'react-native-onesignal';
-import {setUserDetails} from '../../redux/slices/user/slice';
-import {selectUser} from '../../redux/slices/user/selectors';
 import {selectStoreDetails} from '../../redux/slices/store/selectors';
 
 export default function Wallet({navigation}) {
   const {navigate} = useNavigation();
   const balance = useSelector(selectWalletBalance);
   const accountNumber = useSelector(selectAccountNumber);
-  const accountName = useSelector(selectAccountName);
   const bank = useSelector(selectBank);
 
   const {accountID} = useSelector(selectStoreDetails);
@@ -60,7 +55,6 @@ export default function Wallet({navigation}) {
   const [walletLoading, setWalletLoading] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [bankDetailsModal, setBankDetailsModal] = useState(false);
 
   const getWalletBalance = useCallback(async () => {
     try {
@@ -84,59 +78,28 @@ export default function Wallet({navigation}) {
 
   const getTransactions = useCallback(async () => {
     try {
-      setWalletLoading(true);
+      setTransactionsLoading(true);
       const {data} = await client.post('/api/account_history', {
         accountId: accountID,
       });
       console.log(data);
       setTransactions(data?.data);
-      setWalletLoading(false);
+      setTransactionsLoading(false);
     } catch (error) {
-      setWalletLoading(false);
+      setTransactionsLoading(false);
       handleApiError(error);
     }
-  }, [dispatch]);
+  }, [accountID]);
 
   useEffect(() => {
     getWalletBalance();
     getTransactions();
-  }, [getWalletBalance]);
-
-  // useEffect(() => {
-  //   navigation.addListener('focus', () => {
-  //     getWalletBalance();
-  //   });
-  // }, [navigation]);
-
-  const ctaData = [
-    {
-      label: 'Settings',
-      iconType: 'Feather',
-      iconName: 'settings',
-      route: routes.WALLET_SETTINGS,
-    },
-    {
-      label: 'Send',
-      iconType: 'Feather',
-      iconName: 'arrow-up-right',
-      route: routes.SEND_FUNDS,
-    },
-    {
-      label: 'Deposit',
-      iconType: 'Feather',
-      iconName: 'arrow-down-left',
-      route: routes.CHOOSE_PAYMENT_METHOD,
-    },
-    {
-      label: 'Withdraw',
-      iconType: 'FAIcon',
-      iconName: 'bank',
-      route: routes.WITHDRAW,
-    },
-  ];
+  }, [getWalletBalance, getTransactions]);
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'dark-content'} backgroundColor={COLORS.primary} />
+
       {walletLoading ? (
         <Test />
       ) : (
@@ -144,7 +107,6 @@ export default function Wallet({navigation}) {
           <Text
             style={{
               ...FONTS.h5,
-
               marginBottom: 20,
               marginTop: 10,
               textAlign: 'center',
@@ -182,12 +144,10 @@ export default function Wallet({navigation}) {
                 <View style={styles.amountView}>
                   <Text style={styles.amount}>
                     {showBalance
-                      ? `${
-                          Intl.NumberFormat('en-NG', {
-                            style: 'currency',
-                            currency: 'NGN',
-                          }).format(balance) || 0
-                        }`
+                      ? `${Intl.NumberFormat('en-NG', {
+                          style: 'currency',
+                          currency: 'NGN',
+                        })?.format(balance || 0)}`
                       : '***********'}
                   </Text>
                   {/* <UseIcon type={'Ionicons'} name="eye-outline" /> */}
@@ -296,6 +256,7 @@ export default function Wallet({navigation}) {
               />
             </View>
           </ScrollView>
+
           {/* <Modal visible={modalOpen} animationType="slide" transparent={true}>
         <HalfScreen>
           <View

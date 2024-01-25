@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
@@ -15,7 +15,7 @@ export default function EditCategory() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const {setOptions, navigate} = useNavigation();
+  const {navigate} = useNavigation();
   const {params} = useRoute();
 
   const [category, setCategory] = useState({name: ''});
@@ -25,13 +25,6 @@ export default function EditCategory() {
       name: params?.category?.name,
     });
   }, [params]);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Edit Product'} />,
-    });
-    return () => {};
-  }, [setOptions]);
 
   function handleSuccessfulResponse() {
     setShowSuccessModal(true);
@@ -60,6 +53,8 @@ export default function EditCategory() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ScreenHeader title={'Edit Product'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

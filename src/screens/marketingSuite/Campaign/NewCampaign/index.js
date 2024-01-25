@@ -7,6 +7,8 @@ import {
   StyleSheet,
   View,
   Text,
+  StatusBar,
+  Platform,
 } from 'react-native';
 
 // import {Modal} from 'react-native-paper';
@@ -38,7 +40,7 @@ export default function NewCampaign() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Create New Campaign'} />,
+      headerShown: false,
     });
     return () => {};
   }, [setOptions]);
@@ -141,6 +143,9 @@ export default function NewCampaign() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar barStyle={'default'} />
+      <ScreenHeader title={'Create New Campaign'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

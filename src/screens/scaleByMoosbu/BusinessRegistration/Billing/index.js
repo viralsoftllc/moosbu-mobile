@@ -1,6 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
-import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  Pressable,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
@@ -25,67 +33,73 @@ export default function Billing() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Billing'} subtitle="Step 3 of 3" />,
+      headerShown: false,
     });
 
     return () => {};
   }, [setOptions]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.fee}>
-        {' '}
-        {Intl.NumberFormat('en-NG', {
-          style: 'currency',
-          currency: 'NGN',
-        }).format(18000)}
-      </Text>
+    <SafeAreaView style={{flex: 1}}>
+      <StatusBar barStyle={'default'} />
 
-      <View style={styles.textView}>
-        <Text style={styles.text}>
-          Your payment covers, business name registration, courier and delivery
-          cost, TIN/VAT registration. You can reach us via chat or call our
-          support team on 08024234363536
-        </Text>
-      </View>
+      <ScreenHeader title={'Billing'} subtitle="Step 3 of 3" />
 
-      <View style={styles.btnContainer}>
-        <FormInput
-          placeholder={'Enter promo code'}
-          style={styles.form}
-          inputContainerStyle={styles.inputStyle}
-          margin={0}
-        />
-        <Pressable style={styles.formInnerBtn}>
-          <Text style={styles.formInnerBtnText}>Redeem</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.btnContainer}>
-        <FormInput
-          placeholder={'Total'}
-          style={styles.form}
-          inputContainerStyle={styles.inputStyle}
-          margin={0}
-          editable={false}
-        />
-
-        <Text style={styles.totalText}>
+      <View style={styles.container}>
+        <Text style={styles.fee}>
+          {' '}
           {Intl.NumberFormat('en-NG', {
             style: 'currency',
             currency: 'NGN',
           }).format(18000)}
         </Text>
+
+        <View style={styles.textView}>
+          <Text style={styles.text}>
+            Your payment covers, business name registration, courier and
+            delivery cost, TIN/VAT registration. You can reach us via chat or
+            call our support team on 08024234363536
+          </Text>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <FormInput
+            placeholder={'Enter promo code'}
+            style={styles.form}
+            inputContainerStyle={styles.inputStyle}
+            margin={0}
+          />
+          <Pressable style={styles.formInnerBtn}>
+            <Text style={styles.formInnerBtnText}>Redeem</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.btnContainer}>
+          <FormInput
+            placeholder={'Total'}
+            style={styles.form}
+            inputContainerStyle={styles.inputStyle}
+            margin={0}
+            editable={false}
+          />
+
+          <Text style={styles.totalText}>
+            {Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(18000)}
+          </Text>
+        </View>
+
+        <FormButton title={'Continue'} onPress={() => showPurchaseCTA(true)} />
+
+        <FormButton
+          title={'Pay later'}
+          onPress={() => navigate(routes.BUSINESS_REGISTRATION)}
+          buttonStyle={styles.buttonStyle}
+          textStyle={styles.textStyle}
+        />
       </View>
-
-      <FormButton title={'Continue'} onPress={() => showPurchaseCTA(true)} />
-
-      <FormButton
-        title={'Pay later'}
-        onPress={() => navigate(routes.BUSINESS_REGISTRATION)}
-        buttonStyle={styles.buttonStyle}
-        textStyle={styles.textStyle}
-      />
 
       {/* Purchase CTA */}
       <Modal

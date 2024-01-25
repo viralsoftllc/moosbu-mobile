@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Modal,
   SafeAreaView,
@@ -22,7 +22,7 @@ import {uploadImageToCloudinary} from '../../../../shared/hooks/uploadToCloudina
 
 export default function NewProduct() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const {setOptions, navigate} = useNavigation();
+  const {navigate} = useNavigation();
 
   const [fileResponse, setFileResponse] = useState([]);
   const [coverImgFileResponse, setCoverImgFileResponse] = useState(null);
@@ -188,23 +188,19 @@ export default function NewProduct() {
     }
   }
 
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'New Product'} />,
-    });
-  }, [setOptions]);
-
   function handleSuccessfulResponse() {
     setShowSuccessModal(true);
   }
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+      <ScreenHeader title={'New Product'} />
+
       <View style={styles.container}>
         <ScrollView
           contentContainerStyle={{
-            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            flexGrow: 1,
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>

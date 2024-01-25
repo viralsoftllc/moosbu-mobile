@@ -8,9 +8,6 @@ import {
   ScrollView,
   Modal,
   RefreshControl,
-  Pressable,
-  TouchableOpacity,
-  Dimensions,
   StatusBar,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
@@ -38,7 +35,6 @@ import MissingActions from './renderers/MissingActions';
 import NewStore from './renderers/NewStore';
 // import Recommendations from './renderers/Recommendations';
 import Shortcuts from './renderers/Shortcuts';
-import StoreRevenue from './renderers/StoreRevenue';
 import WalletBalance from './renderers/WalletBalance';
 import Stores from './renderers/Stores';
 import Recommendations from './renderers/Recommendations';
@@ -66,7 +62,6 @@ export default function Home({navigation}) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [walletLoading, setWalletLoading] = useState(false);
 
   const fetchDashboardData = useCallback(async () => {
     setLoading(true);
@@ -159,7 +154,7 @@ export default function Home({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
+      <StatusBar barStyle={'light-content'} />
 
       {loading ? (
         <Test />
@@ -169,7 +164,7 @@ export default function Home({navigation}) {
             setShowStoresModal={setShowStoresModal}
             loading={loading}
             storeImageUrl={
-              storeDetails?.logo == 'logo.png' ? null : storeDetails?.logo
+              storeDetails?.logo === 'logo.png' ? null : storeDetails?.logo
             }
           />
 

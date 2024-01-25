@@ -23,7 +23,7 @@ export default function EditContact() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Edit Contact'} />,
+      headerShown: false,
     });
     return () => {};
   }, [setOptions]);
@@ -79,6 +79,8 @@ export default function EditContact() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ScreenHeader title={'Edit Contact'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

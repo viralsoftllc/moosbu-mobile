@@ -10,12 +10,11 @@ import NewContactForm from './renderer/NewContactForm';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
-import Loader from '../../../../shared/components/Loader';
 import routes from '../../../../shared/constants/routes';
 import Test from '../../../Test';
 
 export default function NewContact() {
-  const {setOptions, navigate, addListener} = useNavigation();
+  const {setOptions, navigate} = useNavigation();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [details, setDetails] = useState({
     name: '',
@@ -31,11 +30,9 @@ export default function NewContact() {
   const [contactsPermission, setContactsPermission] = useState(false);
   const [policyChecked, setPolicyChecked] = useState(false);
 
-  const [number, setNumber] = useState(null);
-
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'New Contact Group'} />,
+      headerShown: false,
     });
     return () => {};
   }, [setOptions]);
@@ -133,6 +130,8 @@ export default function NewContact() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ScreenHeader title={'New Contact Group'} />
+
       <View style={styles.container}>
         {loadingContacts ? (
           <Test />

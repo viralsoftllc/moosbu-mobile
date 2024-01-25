@@ -1,6 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Modal,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
@@ -16,7 +24,7 @@ export default function SettingsId() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'SMS Sender IDs'} />,
+      headerShown: false,
     });
   }, [setOptions]);
 
@@ -26,7 +34,10 @@ export default function SettingsId() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+      <ScreenHeader title={'SMS Sender IDs'} />
+
       <View style={styles.table}>
         <View style={[styles.flex, styles.header]}>
           <View style={styles.flexItem}>
@@ -92,14 +103,14 @@ export default function SettingsId() {
           subtitle={'Request will be updated once approved'}
         />
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingVertical: SIZES.base * 2,
+    // paddingHorizontal: SIZES.paddingHorizontal,
+    paddingBottom: SIZES.base * 2,
     backgroundColor: COLORS.white,
   },
   contentContainerStyle: {
@@ -153,5 +164,7 @@ const styles = StyleSheet.create({
   },
   table: {
     marginBottom: SIZES.base * 5,
+    paddingHorizontal: SIZES.paddingHorizontal,
+    marginTop: SIZES.base * 2,
   },
 });

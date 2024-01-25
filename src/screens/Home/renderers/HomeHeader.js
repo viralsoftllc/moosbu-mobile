@@ -28,7 +28,10 @@ export default function HomeHeader({
   loading,
   storeImageUrl,
 }) {
+  console.log('storeImageUrl');
+  console.log(storeImageUrl);
   const {navigate} = useNavigation();
+  const storeDetails = useSelector(selectStoreDetails);
 
   const [showShareModal, setShowShareModal] = useState(false);
   // const [showCta, setShowCta] = useState(false);
@@ -56,7 +59,12 @@ export default function HomeHeader({
                     size={verticalScale(20)}
                     style={styles.imageIcon}
                     // imageUrl={require('../../../assets/images/profile.png')}
-                    imageUrl={storeImageUrl}
+                    // imageUrl={storeImageUrl}
+                    imageUrl={
+                      storeDetails?.logo === 'logo.png'
+                        ? null
+                        : storeDetails?.logo
+                    }
                     rounded={true}
                   />
                 }
@@ -192,6 +200,8 @@ const styles = StyleSheet.create({
   },
   imageIcon: {
     margin: 0,
+    borderWidth: 0.4,
+    borderColor: COLORS.white,
   },
   leftHeader: {
     display: 'flex',

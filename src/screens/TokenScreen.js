@@ -1,10 +1,9 @@
-import {StyleSheet, Text, TextInput, View, Dimensions} from 'react-native';
-import React, {useState, useLayoutEffect, useEffect, useCallback} from 'react';
+import {StyleSheet, Text, TextInput, View, SafeAreaView} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Button, Surface, Modal, IconButton} from 'react-native-paper';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {verticalScale} from 'react-native-size-matters';
 import {Dropdown} from 'react-native-element-dropdown';
-import {useNavigation} from '@react-navigation/native';
 
 import {FONTS, COLORS, SIZES} from '../assets/themes';
 import ScreenHeader from '../shared/components/ScreenHeader';
@@ -15,22 +14,12 @@ import {selectAccountName} from '../redux/slices/wallet/selectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {setTokens} from '../redux/slices/wallet/slice';
 import {selectTokens} from '../redux/slices/wallet/selectors';
-import notifyMessage from '../shared/hooks/notifyMessage';
 
 const TokenScreen = ({navigation}) => {
-  const {setOptions} = useNavigation();
   const dispatch = useDispatch();
-
-  const {width} = Dimensions.get('screen');
 
   const tokenWallet = useSelector(selectTokens);
   const accountNumber = useSelector(selectAccountName);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Marketing Tokens'} />,
-    });
-  }, [setOptions]);
 
   const [purchaseCTA, setPurchaseCTA] = useState(false);
 
@@ -104,7 +93,9 @@ const TokenScreen = ({navigation}) => {
   }, [fetchTokens]);
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1}}>
+      <ScreenHeader title={'Marketing Tokens'} />
+
       {isLoading ? (
         <Test />
       ) : (
@@ -478,7 +469,7 @@ const TokenScreen = ({navigation}) => {
           </Modal>
         </View>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 

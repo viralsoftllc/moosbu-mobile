@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,19 +8,16 @@ import {
   View,
 } from 'react-native';
 import {COLORS, SIZES, FONTS} from '../../../assets/themes';
-import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../../shared/components/ScreenHeader';
 import ChartContainer from './renderers/ChartContainer';
 import client from '../../../shared/api/client';
 import handleApiError from '../../../shared/components/handleApiError';
-import Loader from '../../../shared/components/Loader';
 import {useSelector} from 'react-redux';
 import {selectStoreDetails} from '../../../redux/slices/store/selectors';
 import {selectTotalCustomers} from '../../../redux/slices/businessOvervew/selectors';
 import Test from '../../Test';
 
 export default function Analytics() {
-  const {setOptions} = useNavigation();
   const store = useSelector(selectStoreDetails);
   const businessOvervew = useSelector(selectTotalCustomers);
 
@@ -28,18 +25,6 @@ export default function Analytics() {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => (
-        <ScreenHeader
-          title={'Analytics'}
-          subtitle="Check your business stat today"
-        />
-      ),
-    });
-    return () => {};
-  }, [setOptions]);
 
   const fetchAnalytics = useCallback(async () => {
     try {
@@ -69,14 +54,19 @@ export default function Analytics() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+      <ScreenHeader
+        title={'Analytics'}
+        subtitle="Check your business stat today"
+      />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[
             styles.contentContainerStyle,
-            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+            {paddingHorizontal: SIZES.paddingHorizontal},
           ]}>
           {loading ? <Test /> : <ChartContainer data={data} />}
         </ScrollView>
@@ -88,7 +78,6 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
   },
   contentContainerStyle: {
     flexGrow: 1,

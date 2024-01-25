@@ -1,7 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -15,23 +14,19 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import FormButton from '../../../shared/components/FormButton';
-import UseIcon from '../../../shared/utils/UseIcon';
 import handleApiError from '../../../shared/components/handleApiError';
 import client from '../../../shared/api/client';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../../redux/slices/user/selectors';
 
 import {useDispatch} from 'react-redux';
-import Cache from '../../../shared/utils/Cache';
 import {setToken} from '../../../redux/slices/auth/slice';
 import Test from '../../Test';
-import {selectToken} from '../../../redux/slices/auth/selectors';
 import notifyMessage from '../../../shared/hooks/notifyMessage';
+import ScreenHeader from '../../../shared/components/ScreenHeader';
 
 export default function VerifyEmail({route}) {
-  const {goBack, navigate} = useNavigation();
-
-  const token = useSelector(selectToken);
+  const {navigate} = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -82,29 +77,10 @@ export default function VerifyEmail({route}) {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 50,
-              alignItems: 'center',
-            }}>
-            <Pressable style={styles.iconWrapper} onPress={goBack}>
-              <UseIcon
-                type={'MaterialIcons'}
-                name="arrow-back"
-                color={COLORS.textPrimary}
-              />
-            </Pressable>
-
-            <Text
-              style={{
-                ...FONTS.h5,
-                textAlign: 'center',
-                flex: 1,
-              }}>
-              Verify Email
-            </Text>
-          </View>
+          <ScreenHeader
+            title={'Verify Email'}
+            onPress={() => dispatch(setToken(null))}
+          />
 
           <Image
             source={require('../../../assets/images/verify.png')}

@@ -1,6 +1,14 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
@@ -18,7 +26,7 @@ export default function EditCampaign({}) {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Edit Campaign'} />,
+      headerShown: false,
     });
     return () => {};
   }, [setOptions]);
@@ -29,6 +37,9 @@ export default function EditCampaign({}) {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar barStyle={'default'} />
+      <ScreenHeader title={'Edit Campaign'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

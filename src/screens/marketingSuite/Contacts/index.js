@@ -9,7 +9,6 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
-  Platform,
   View,
 } from 'react-native';
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -157,7 +156,6 @@ export default function Contacts({navigation}) {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
-              paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
               paddingBottom: 100,
             }}
             refreshControl={

@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -16,17 +16,13 @@ import routes from '../../../shared/constants/routes';
 import UseIcon from '../../../shared/utils/UseIcon';
 
 export default function StoreSettings() {
-  const {setOptions, navigate} = useNavigation();
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'General settings'} />,
-    });
-  }, [setOptions]);
+  const {navigate} = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title={'General settings'} />
+      <StatusBar barStyle={'default'} />
+
       <View style={styles.cards}>
         <Pressable
           style={styles.card}
@@ -70,7 +66,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
   },
   cards: {
     display: 'flex',

@@ -1,6 +1,14 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
@@ -28,7 +36,7 @@ export default function ResendCampaign() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => <ScreenHeader title={'Resend Campaign'} />,
+      headerShown: false,
     });
     return () => {};
   }, [setOptions]);
@@ -112,6 +120,9 @@ export default function ResendCampaign() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar barStyle={'default'} backgroundColor={COLORS.primary} />
+      <ScreenHeader title={'Resend Campaign'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

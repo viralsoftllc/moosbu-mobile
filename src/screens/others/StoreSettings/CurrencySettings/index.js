@@ -1,9 +1,9 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Modal,
   Pressable,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -22,8 +22,6 @@ import SelectModal from '../../../../shared/components/SelectModal';
 import SelectModalFormInput from '../../../../shared/components/SelectModalFormInput';
 
 export default function CurrencySettings() {
-  const {setOptions} = useNavigation();
-
   const [currencies, setcurrencies] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   // console.log('currencies from state');
@@ -31,13 +29,6 @@ export default function CurrencySettings() {
   const [currencySympolPosition, setCurrencySympolPosition] = useState(false);
   const [currencySympolSpace, setCurrencySympolSpace] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Currency setting'} />,
-    });
-  }, [setOptions]);
-
   const getData = useCallback(async () => {
     try {
       console.log('Fetching new data');
@@ -64,69 +55,74 @@ export default function CurrencySettings() {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <SelectModalFormInput
-          label={'Currency'}
-          placeholder={'Select Currency'}
-          setShowModal={setShowModal}
-          selectedItem={selectedCurrency}
-        />
+      <SafeAreaView style={{flex: 1}}>
+        <ScreenHeader title={'Currency setting'} />
+        <StatusBar barStyle={'default'} />
 
-        <FormInput
-          label={'Currency Symbol'}
-          placeholder="Enter Currency"
-          value={selectedCurrency?.symbols}
-          editable={false}
-        />
-
-        <View style={[styles.flex, styles.noteView]}>
-          <UseIcon
-            type={'AntDesign'}
-            name="exclamationcircleo"
-            color={COLORS.pending}
+        <View style={styles.container}>
+          <SelectModalFormInput
+            label={'Currency'}
+            placeholder={'Select Currency'}
+            setShowModal={setShowModal}
+            selectedItem={selectedCurrency}
           />
 
-          <Text style={styles.note}>
-            Note: Add currency code as per three-letter ISO code. you can find
-            out here..
-          </Text>
+          <FormInput
+            label={'Currency Symbol'}
+            placeholder="Enter Currency"
+            value={selectedCurrency?.symbols}
+            editable={false}
+          />
+
+          <View style={[styles.flex, styles.noteView]}>
+            <UseIcon
+              type={'AntDesign'}
+              name="exclamationcircleo"
+              color={COLORS.pending}
+            />
+
+            <Text style={styles.note}>
+              Note: Add currency code as per three-letter ISO code. you can find
+              out here..
+            </Text>
+          </View>
+
+          <Pressable
+            style={[styles.flex, styles.select]}
+            onPress={() => setCurrencySympolPosition(!currencySympolPosition)}>
+            <Text style={styles.selectText}>Currency Symbol Position</Text>
+
+            <UseIcon
+              name={
+                currencySympolPosition
+                  ? 'toggle-switch'
+                  : 'toggle-switch-off-outline'
+              }
+              type={'MaterialCommunityIcons'}
+              color={COLORS.credit}
+              size={verticalScale(23)}
+            />
+          </Pressable>
+
+          <Pressable
+            style={[styles.flex, styles.select]}
+            onPress={() => setCurrencySympolSpace(!currencySympolSpace)}>
+            <Text style={styles.selectText}>Currency Symbol Space</Text>
+
+            <UseIcon
+              name={
+                currencySympolSpace
+                  ? 'toggle-switch'
+                  : 'toggle-switch-off-outline'
+              }
+              type={'MaterialCommunityIcons'}
+              color={COLORS.credit}
+              size={verticalScale(23)}
+            />
+          </Pressable>
+
+          <FormButton title={'Save changes'} buttonStyle={styles.buttonStyle} />
         </View>
-
-        <Pressable
-          style={[styles.flex, styles.select]}
-          onPress={() => setCurrencySympolPosition(!currencySympolPosition)}>
-          <Text style={styles.selectText}>Currency Symbol Position</Text>
-
-          <UseIcon
-            name={
-              currencySympolPosition
-                ? 'toggle-switch'
-                : 'toggle-switch-off-outline'
-            }
-            type={'MaterialCommunityIcons'}
-            color={COLORS.credit}
-            size={verticalScale(23)}
-          />
-        </Pressable>
-
-        <Pressable
-          style={[styles.flex, styles.select]}
-          onPress={() => setCurrencySympolSpace(!currencySympolSpace)}>
-          <Text style={styles.selectText}>Currency Symbol Space</Text>
-
-          <UseIcon
-            name={
-              currencySympolSpace
-                ? 'toggle-switch'
-                : 'toggle-switch-off-outline'
-            }
-            type={'MaterialCommunityIcons'}
-            color={COLORS.credit}
-            size={verticalScale(23)}
-          />
-        </Pressable>
-
-        <FormButton title={'Save changes'} buttonStyle={styles.buttonStyle} />
       </SafeAreaView>
 
       <Modal visible={showModal}>

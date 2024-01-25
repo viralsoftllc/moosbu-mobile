@@ -201,13 +201,14 @@ export default function EditProduct() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title={'Edit Product'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             flexGrow: 1,
-            paddingHorizontal: Platform.OS == 'ios' ? 5 : 0,
           }}
           nestedScrollEnabled={true}>
           <EditProductForm

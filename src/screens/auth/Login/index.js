@@ -61,7 +61,7 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle={'light-content'} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'dark-content'} />
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

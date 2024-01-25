@@ -1,5 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -7,9 +6,7 @@ import {
   StyleSheet,
   View,
   StatusBar,
-  Platform,
   Image,
-  Text,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
@@ -32,7 +29,6 @@ import notifyMessage from '../../shared/hooks/notifyMessage';
 export default function Profile() {
   const [loading, setLoading] = useState(false);
 
-  const {setOptions} = useNavigation();
   const user = useSelector(selectUser);
   console.log(user);
   const store = useSelector(selectStoreDetails);
@@ -113,18 +109,14 @@ export default function Profile() {
     return () => {};
   }, [user, store]);
 
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'My Profile'} />,
-    });
-  }, [setOptions]);
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title={'My Profile'} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+
       <ScrollView
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingHorizontal: SIZES.paddingHorizontal,
           paddingBottom: 100,
         }}
         showsHorizontalScrollIndicator={false}
@@ -169,7 +161,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     flex: 1,
-    paddingHorizontal: SIZES.paddingHorizontal,
   },
   imageIcon: {
     alignSelf: 'center',

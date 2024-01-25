@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
+import {verticalScale} from 'react-native-size-matters';
 
 export default function TextAreaInput({
   label,
@@ -45,7 +46,12 @@ export default function TextAreaInput({
           // maxLength={40}
           // onChangeText={text => onChangeText(text)}
           // value={value}
-          style={{padding: 10, textAlignVertical: 'top', ...FONTS.regular}}
+          style={{
+            padding: 10,
+            textAlignVertical: 'top',
+            ...FONTS.regular,
+            minHeight: verticalScale(100),
+          }}
           {...rest}
         />
       </View>

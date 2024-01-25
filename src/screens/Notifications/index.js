@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -12,7 +12,6 @@ import {
   Text,
   View,
   StatusBar,
-  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
@@ -23,18 +22,11 @@ import NotificationRow from './renderer/NotificationRow';
 import UseIcon from '../../shared/utils/UseIcon';
 
 export default function Notifications() {
-  const {setOptions} = useNavigation();
   const [showModal, setShowModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState({});
   const [notifications, setNotifications] = useState([]);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Notifications'} />,
-    });
-  }, [setOptions]);
 
   const getNotifications = useCallback(async () => {
     setLoading(true);
@@ -58,7 +50,9 @@ export default function Notifications() {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor={COLORS.primary} />
+        <ScreenHeader title={'Notifications'} />
+
+        <StatusBar backgroundColor={COLORS.primary} barStyle={'dark-content'} />
         {loading ? <ActivityIndicator /> : null}
 
         {!loading && !notifications?.length ? (
@@ -72,8 +66,8 @@ export default function Notifications() {
         {notifications?.length ? (
           <ScrollView
             contentContainerStyle={{
-              paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-              paddingBottom: 100,
+              flexGrow: 1,
+              paddingHorizontal: SIZES.paddingHorizontal,
             }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
@@ -118,21 +112,10 @@ export default function Notifications() {
               <View style={styles.bigPicture}>
                 <Image
                   source={{uri: selectedNotification?.bigPicture}}
-                  // source={{
-                  //   uri: 'https://img.onesignal.com/tmp/2439e9cf-6b7f-454e-a458-206299ccb19e.jpg',
-                  // }}
                   resizeMode="contain"
                   style={styles.picture}
                 />
               </View>
-
-              {/* <AppButton
-                title={'Close'}
-                disabled={false}
-                onPress={() => setShowModal(false)}
-                buttonStyle={styles.closeBtn}
-                textStyle={[{color: COLORS.debit}, FONTS.regular]}
-              /> */}
             </View>
           </View>
         </SafeAreaView>
@@ -144,7 +127,6 @@ export default function Notifications() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: SIZES.paddingHorizontal,
     backgroundColor: COLORS.white,
   },
   empty: {

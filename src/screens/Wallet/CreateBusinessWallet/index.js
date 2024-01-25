@@ -6,6 +6,8 @@ import {
   Text,
   View,
   TextInput,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 
@@ -22,9 +24,10 @@ import Test from '../../Test';
 
 import handleApiError from '../../../shared/components/handleApiError';
 import client from '../../../shared/api/client';
+import ScreenHeader from '../../../shared/components/ScreenHeader';
 
 const CreateBusinessWallet = () => {
-  const {navigate, goBack} = useNavigation();
+  const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const businessWallet = useSelector(selectBusinessWallet);
 
@@ -178,41 +181,16 @@ const CreateBusinessWallet = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginBottom: 50,
-          alignItems: 'center',
-          gap: 70,
-        }}>
-        <Pressable
-          onPress={goBack}
-          style={{
-            alignSelf: 'flex-start',
-            height: 35,
-            width: 35,
-            borderWidth: 1,
-            borderColor: COLORS.borderGray,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: SIZES.radius / 2,
-          }}>
-          <UseIcon type={'MaterialIcons'} name="arrow-back" size={16} />
-        </Pressable>
-        <Text
-          style={{
-            ...FONTS.h5,
-          }}>
-          Create Moosbu Pro Wallet
-        </Text>
-      </View>
+      <StatusBar barStyle={'default'} />
+      <ScreenHeader title={'Create Moosbu Pro Wallet'} />
+
       {loading ? (
         <Test />
       ) : (
         <ScrollView
           contentContainerStyle={{
-            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
-            paddingBottom: 100,
+            paddingHorizontal: SIZES.paddingHorizontal,
+            paddingVertical: SIZES.base,
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
@@ -246,33 +224,33 @@ const CreateBusinessWallet = () => {
                   Why do we need your BVN
                 </Text>
                 <View style={styles.list}>
-                  <Text>{`\u25CF`}</Text>
+                  <Text style={FONTS.medium}>{'\u25CF'}</Text>
                   <Text style={styles.listItem}>
                     We only need your BVN to verify your identity
                   </Text>
                 </View>
                 <View style={styles.list}>
-                  <Text>{`\u25CF`}</Text>
+                  <Text style={FONTS.medium}>{'\u25CF'}</Text>
                   <Text style={styles.listItem}>
                     Your BVN is necessary for opening a bank account.
                   </Text>
                 </View>
                 <View style={styles.list}>
-                  <Text>{`\u25CF`}</Text>
+                  <Text style={FONTS.medium}>{'\u25CF'}</Text>
                   <Text style={styles.listItem}>
                     Your BVN does not give us access to your funds and
                     transactions.
                   </Text>
                 </View>
                 <View style={styles.list}>
-                  <Text>{`\u25CF`}</Text>
+                  <Text style={FONTS.medium}>{'\u25CF'}</Text>
                   <Text style={styles.listItem}>
                     Your BVN is sent to and secured by our partner bank to carry
                     out verification.
                   </Text>
                 </View>
                 <View style={styles.list}>
-                  <Text>{`\u25CF`}</Text>
+                  <Text style={FONTS.medium}>{'\u25CF'}</Text>
                   <Text style={styles.listItem}>
                     Dial <Text style={{fontWeight: 600}}>*565*0#</Text> on your
                     registered phone number to get your BVN.
@@ -356,7 +334,7 @@ const CreateBusinessWallet = () => {
                 </View>
 
                 <View>
-                  <Text style={styles.label}>Step One</Text>
+                  <Text style={styles.stepLabel}>Step One</Text>
                   <Text style={styles.value}>Basic Business Details</Text>
                 </View>
               </Pressable>
@@ -380,7 +358,7 @@ const CreateBusinessWallet = () => {
                 </View>
 
                 <View>
-                  <Text style={styles.label}>Step Two</Text>
+                  <Text style={styles.stepLabel}>Step Two</Text>
                   <Text style={styles.value}>Business Address</Text>
                 </View>
               </Pressable>
@@ -404,7 +382,7 @@ const CreateBusinessWallet = () => {
                 </View>
 
                 <View>
-                  <Text style={styles.label}>Step Three</Text>
+                  <Text style={styles.stepLabel}>Step Three</Text>
                   <Text style={styles.value}>Officer Details</Text>
                 </View>
               </Pressable>
@@ -429,7 +407,7 @@ const CreateBusinessWallet = () => {
                 </View>
 
                 <View>
-                  <Text style={styles.label}>Step Four</Text>
+                  <Text style={styles.stepLabel}>Step Four</Text>
                   <Text style={styles.value}>Officer Address</Text>
                 </View>
               </Pressable>
@@ -468,8 +446,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base * 2,
   },
   step: {
     borderWidth: 1,
@@ -488,7 +464,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.borderGray,
   },
-  label: {
+  stepLabel: {
     color: COLORS.primary,
     marginBottom: SIZES.base / 2,
     ...FONTS.medium,
@@ -520,6 +496,7 @@ const styles = StyleSheet.create({
   list: {
     gap: 5,
     flexDirection: 'row',
+    marginBottom: SIZES.base,
   },
 
   listItem: {...FONTS.small, color: COLORS.label, flex: 1},

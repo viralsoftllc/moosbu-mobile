@@ -1,10 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
+  Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
-  Platform,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -29,10 +30,6 @@ export default function ProprietorForm() {
   const [details, setDetails] = useState({});
   const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
 
-  //category picker variables
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-
   useEffect(() => {
     setDetails({
       first_name: proprietorInfo?.first_name,
@@ -48,12 +45,7 @@ export default function ProprietorForm() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => (
-        <ScreenHeader
-          title={'The Proprietor Information'}
-          subtitle="Step 1 of 3"
-        />
-      ),
+      headerShown: false,
     });
 
     return () => {};
@@ -179,9 +171,17 @@ export default function ProprietorForm() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'default'} />
+
+      <ScreenHeader
+        title={'The Proprietor Information'}
+        subtitle="Step 1 of 3"
+      />
+
       <ScrollView
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingHorizontal: SIZES.paddingHorizontal,
+          paddingTop: SIZES.base * 2,
         }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
@@ -381,8 +381,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base * 2,
     paddingBottom: SIZES.base,
   },
   flex: {

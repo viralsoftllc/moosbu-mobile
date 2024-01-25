@@ -1,5 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Modal,
@@ -8,7 +7,7 @@ import {
   StyleSheet,
   View,
   StatusBar,
-  Platform,
+  SafeAreaView,
 } from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
@@ -28,7 +27,6 @@ import SearchBar from 'react-native-platform-searchbar';
 import Test from '../../Test';
 
 export default function Coupon() {
-  const {setOptions} = useNavigation();
   const [items, setItems] = useState([]);
   // const [filteredItems, setFilteredItems] = useState([]);
   const [showNewCouponForm, setShowNewCouponForm] = useState(false);
@@ -62,12 +60,6 @@ export default function Coupon() {
       setSearchText(text);
     }
   };
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Coupon'} />,
-    });
-  }, [setOptions]);
 
   // const items = [];
   // const filteredItems = [];
@@ -140,8 +132,9 @@ export default function Coupon() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title={'Coupon'} />
 
       {loading ? (
         <Test />
@@ -173,7 +166,7 @@ export default function Coupon() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[
               styles.contentContainerStyle,
-              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
+              {paddingHorizontal: SIZES.paddingHorizontal},
             ]}>
             {loading ? <ActivityIndicator size={'large'} /> : null}
             {!loading && !filteredItems?.length ? (
@@ -279,14 +272,13 @@ export default function Coupon() {
           </Modal>
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: SIZES.base,
-    paddingHorizontal: SIZES.paddingHorizontal,
     backgroundColor: COLORS.white,
     flex: 1,
   },
@@ -299,6 +291,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: SIZES.base,
     marginBottom: SIZES.base * 2,
+    paddingHorizontal: SIZES.paddingHorizontal,
   },
   iconView: {
     borderWidth: 1,

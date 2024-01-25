@@ -34,8 +34,9 @@ export default function ScreenHeader({
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: SIZES.paddingHorizontal,
-    paddingBottom: SIZES.base,
-    paddingTop: Platform.OS === 'ios' ? SIZES.base * 5 : SIZES.base,
+    paddingVertical: SIZES.base,
+    // paddingTop: Platform.OS === 'ios' ? 0 : SIZES.base,
+    // paddingTop: SIZES.base,
     backgroundColor: COLORS.white,
     display: 'flex',
     flexDirection: 'row',

@@ -2,14 +2,12 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
   View,
   StatusBar,
-  Platform,
 } from 'react-native';
 import SearchBar from 'react-native-platform-searchbar';
 import {verticalScale} from 'react-native-size-matters';
@@ -17,10 +15,8 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import client from '../../../shared/api/client';
-import DeleteItem from '../../../shared/components/DeleteItem';
 import handleApiError from '../../../shared/components/handleApiError';
 import routes from '../../../shared/constants/routes';
-import ShareItem from '../renderer/ShareItem';
 import CategoryCard from './renderer/CategoryCard';
 import {selectCategories} from '../../../redux/slices/catalog/selectors';
 import {setCategories} from '../../../redux/slices/catalog/slice';
@@ -158,10 +154,7 @@ export default function Category() {
           <ScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[
-              styles.contentContainerStyle,
-              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-            ]}
+            contentContainerStyle={[styles.contentContainerStyle]}
             refreshControl={
               <RefreshControl refreshing={false} onRefresh={getAllCategories} />
             }>

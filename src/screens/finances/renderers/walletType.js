@@ -1,11 +1,10 @@
-import {Pressable, StyleSheet, Text, View, Alert} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS, FONTS} from '../../../assets/themes';
-import {RadioButton} from 'react-native-paper';
-import notifyMessage from '../../../shared/hooks/notifyMessage';
+import {COLORS, FONTS, SIZES} from '../../../assets/themes';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {useNavigation} from '@react-navigation/native';
+import UseIcon from '../../../shared/utils/UseIcon';
 
 const WalletType = ({setCreateWalletModel}) => {
   const [checked, setChecked] = React.useState('Individual'); //initial choice
@@ -15,14 +14,9 @@ const WalletType = ({setCreateWalletModel}) => {
   return (
     <View
       style={{
-        justifyContent: 'space-evenly',
+        paddingVertical: SIZES.base,
       }}>
-      <View
-        style={{
-          // gap: 35,
-          padding: 20,
-          justifyContent: 'space-evenly',
-        }}>
+      <View>
         <View
           style={{
             flexDirection: 'row',
@@ -40,7 +34,7 @@ const WalletType = ({setCreateWalletModel}) => {
           </Pressable>
         </View>
 
-        <View style={{gap: 30, marginVertical: 50}}>
+        <View style={{gap: 30, marginVertical: SIZES.base * 5}}>
           {/*Create first radio button */}
 
           <View
@@ -57,10 +51,13 @@ const WalletType = ({setCreateWalletModel}) => {
                 flex: 0.9,
               }}
               onPress={() => setChecked('Individual')}>
-              <RadioButton
-                value="Individual"
-                status={checked === 'Individual' ? 'checked' : 'unchecked'}
-                onPress={() => setChecked('Individual')}
+              <UseIcon
+                type={'MaterialIcons'}
+                name={
+                  checked === 'Individual'
+                    ? 'radio-button-on'
+                    : 'radio-button-off'
+                }
                 color={COLORS.primary}
               />
               <View>
@@ -78,15 +75,6 @@ const WalletType = ({setCreateWalletModel}) => {
                 </Text>
               </View>
             </Pressable>
-
-            {/* <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{}}></Text>
-            </View> */}
           </View>
 
           <View
@@ -103,11 +91,14 @@ const WalletType = ({setCreateWalletModel}) => {
                 flex: 0.9,
               }}
               onPress={() => setChecked('Business')}>
-              <RadioButton
+              <UseIcon
+                type={'MaterialIcons'}
+                name={
+                  checked === 'Business'
+                    ? 'radio-button-on'
+                    : 'radio-button-off'
+                }
                 color={COLORS.primary}
-                value="Business"
-                status={checked === 'Business' ? 'checked' : 'unchecked'}
-                onPress={() => setChecked('Business')}
               />
               <View>
                 <View
@@ -125,19 +116,24 @@ const WalletType = ({setCreateWalletModel}) => {
                     }}>
                     Moosbu Pro Business Wallet
                   </Text>
-                  <Text
+
+                  <View
                     style={{
-                      fontSize: 12,
-                      color: COLORS.secondary,
                       backgroundColor: COLORS.lightSecondaryBackground,
                       borderRadius: 30,
-                      textAlign: 'center',
-                      fontFamily: 'Lato-Bold',
                       padding: 10,
                       width: 100,
                     }}>
-                    Popular
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: COLORS.secondary,
+                        textAlign: 'center',
+                        fontFamily: 'Lato-Bold',
+                      }}>
+                      Popular
+                    </Text>
+                  </View>
                 </View>
 
                 <Text style={{...FONTS.small}}>

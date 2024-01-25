@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, StyleSheet, Text, View} from 'react-native';
+import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../../../../assets/themes';
 import FormButton from '../../../../../shared/components/FormButton';
 import FormInput from '../../../../../shared/components/FormInput';
 import SelectModalFormInput from '../../../../../shared/components/SelectModalFormInput';
 import SelectModal from '../../../../../shared/components/SelectModal';
 import TextAreaInput from '../../../../../shared/components/TeaxtAreaInput';
-import {Checkbox} from 'react-native-paper';
+import UseIcon from '../../../../../shared/utils/UseIcon';
 
 export default function NewContactForm({
   setDetails,
@@ -144,29 +144,68 @@ export default function NewContactForm({
           gap: 10,
         }}>
         <Text style={{marginBottom: 10, ...FONTS.h5}}>DISCLAIMER</Text>
-        <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
-          <Checkbox
-            status={contactsPermission ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setContactsPermission(!contactsPermission);
-            }}
-            color={COLORS.primary}
-          />
+        <View
+          style={{
+            flexDirection: 'row',
+            columnGap: SIZES.base,
+            alignItems: 'flex-start',
+          }}>
+          {contactsPermission ? (
+            <Pressable
+              onPress={() => {
+                setContactsPermission(!contactsPermission);
+              }}>
+              <UseIcon
+                name="checkbox-outline"
+                type={'MaterialCommunityIcons'}
+              />
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() => {
+                setContactsPermission(!contactsPermission);
+              }}>
+              <UseIcon
+                name="checkbox-blank-outline"
+                type={'MaterialCommunityIcons'}
+              />
+            </Pressable>
+          )}
 
-          <Text style={{...FONTS.medium, width: '90%'}}>
+          <Text style={{...FONTS.medium, flex: 1}}>
             You agree that this contacts have given you permission to contact
             them
           </Text>
         </View>
-        <View style={{flexDirection: 'row', gap: 5, alignItems: 'flex-start'}}>
-          <Checkbox
-            status={policyChecked ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setPolicyChecked(!policyChecked);
-            }}
-            color={COLORS.primary}
-          />
-          <Text style={{...FONTS.medium, width: '90%'}}>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            columnGap: SIZES.base,
+            alignItems: 'flex-start',
+          }}>
+          {policyChecked ? (
+            <Pressable
+              onPress={() => {
+                setPolicyChecked(!policyChecked);
+              }}>
+              <UseIcon
+                name="checkbox-outline"
+                type={'MaterialCommunityIcons'}
+              />
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() => {
+                setPolicyChecked(!policyChecked);
+              }}>
+              <UseIcon
+                name="checkbox-blank-outline"
+                type={'MaterialCommunityIcons'}
+              />
+            </Pressable>
+          )}
+          <Text style={{...FONTS.medium, flex: 1}}>
             You agree to adhere to moosbu privacy policy and terms of use
           </Text>
         </View>

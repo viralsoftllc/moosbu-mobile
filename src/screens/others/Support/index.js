@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Linking,
@@ -49,7 +49,7 @@ function Row({
 }
 
 export default function Support() {
-  const {setOptions, goBack} = useNavigation();
+  const {goBack} = useNavigation();
   const liveWebChatLink =
     'https://tawk.to/chat/645be10aad80445890ec3a08/1h03ee58d';
   const mediaResourcesLink = 'tagy.link/maresource';
@@ -59,12 +59,6 @@ export default function Support() {
   const [showLiveWebChat, setLiveWebChat] = useState(false);
   const [showMediaResource, setMediaResource] = useState(false);
   const [showWhatsappModal, setWhatsappModal] = useState(false);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Contact Support'} />,
-    });
-  }, [setOptions]);
 
   const body = '';
   const subject = '';
@@ -80,7 +74,9 @@ export default function Support() {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor={COLORS.primary} />
+        <ScreenHeader title={'Contact Support'} />
+        <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
+
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
@@ -280,11 +276,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: SIZES.base,
   },
   contentContainerStyle: {
     flexGrow: 1,
     paddingHorizontal: SIZES.paddingHorizontal,
+    paddingTop: SIZES.base,
   },
   flex: {
     display: 'flex',

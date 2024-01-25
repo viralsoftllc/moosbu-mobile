@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -7,16 +7,11 @@ import {
   Text,
   View,
   StatusBar,
-  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, FONTS, SIZES} from '../../assets/themes';
-import ComingSoon from '../../shared/components/ComingSoon';
-import FormButton from '../../shared/components/FormButton';
 import UseIcon from '../../shared/utils/UseIcon';
-import routes from '../../shared/constants/routes';
-import {useNavigation} from '@react-navigation/native';
 import ScreenHeader from '../../shared/components/ScreenHeader';
 
 import {useSelector} from 'react-redux';
@@ -24,21 +19,11 @@ import {selectUser} from '../../redux/slices/user/selectors';
 import client from '../../shared/api/client';
 import handleApiError from '../../shared/components/handleApiError';
 import copyToClipboard from '../../shared/utils/copyToClipboard';
-import notifyMessage from '../../shared/hooks/notifyMessage';
 import Test from '../Test';
 import Ficon from 'react-native-vector-icons/Feather';
 
 export default function Reward() {
-  const {setOptions, navigate} = useNavigation();
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title="Refer and Earn" />,
-    });
-  }, [setOptions]);
-
   const user = useSelector(selectUser);
-  console.log(user);
 
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +52,8 @@ export default function Reward() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <ScreenHeader title="Refer and Earn" />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
       {/* <ComingSoon page={'Reward'} iconType={'Ionicons'} iconName={'ios-gift'} /> */}
       {loading ? (
         <Test />
@@ -75,10 +61,7 @@ export default function Reward() {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[
-            styles.contentContainerStyle,
-            {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-          ]}>
+          contentContainerStyle={[styles.contentContainerStyle]}>
           {/* <View style={styles.flex}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Refer And Earn</Text>
@@ -198,11 +181,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base * 2,
   },
   contentContainerStyle: {
     paddingBottom: SIZES.base * 5,
+    paddingTop: SIZES.base * 2,
+    paddingHorizontal: SIZES.paddingHorizontal,
   },
   iconView: {
     alignSelf: 'center',

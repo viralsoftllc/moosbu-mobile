@@ -1,13 +1,6 @@
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-} from 'react-native';
+import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 
 import {useNavigation} from '@react-navigation/native';
@@ -18,15 +11,12 @@ import handleApiError from '../../../../shared/components/handleApiError';
 import client from '../../../../shared/api/client';
 import {ActivityIndicator} from 'react-native-paper';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Test from '../../../Test';
-import {useDispatch, useSelector} from 'react-redux';
-import {setWalletBalance} from '../../../../redux/slices/wallet/slice';
+import {useSelector} from 'react-redux';
 import {selectAccountNumber} from '../../../../redux/slices/wallet/selectors';
 
 export default function EnterPin({setShowPinForm, options}) {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   const accountNumber = useSelector(selectAccountNumber);
 

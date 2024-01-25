@@ -119,7 +119,7 @@ export default function Campaign({navigation}) {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
+      <StatusBar backgroundColor={COLORS.primary} barStyle={'default'} />
 
       {loading ? (
         <Test />

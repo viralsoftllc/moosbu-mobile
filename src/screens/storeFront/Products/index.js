@@ -2,13 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
   View,
-  Platform,
   StatusBar,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,11 +15,9 @@ import {verticalScale} from 'react-native-size-matters';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import client from '../../../shared/api/client';
-import DeleteItem from '../../../shared/components/DeleteItem';
 import EmptyItemInfo from '../../../shared/components/EmptyItemInfo';
 import handleApiError from '../../../shared/components/handleApiError';
 import routes from '../../../shared/constants/routes';
-import ShareItem from '../renderer/ShareItem';
 import ProductCard from './renderer/ProductCard';
 import {setProducts} from '../../../redux/slices/catalog/slice';
 import {selectProducts} from '../../../redux/slices/catalog/selectors';
@@ -134,10 +130,7 @@ export default function Products() {
           <ScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[
-              styles.contentContainerStyle,
-              {paddingHorizontal: Platform.OS == 'ios' ? 20 : 0},
-            ]}
+            contentContainerStyle={[styles.contentContainerStyle]}
             refreshControl={
               <RefreshControl refreshing={false} onRefresh={getAllProducts} />
             }>

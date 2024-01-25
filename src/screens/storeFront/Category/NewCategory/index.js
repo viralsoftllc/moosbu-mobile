@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {COLORS, SIZES} from '../../../../assets/themes';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
@@ -11,18 +11,11 @@ import client from '../../../../shared/api/client';
 import routes from '../../../../shared/constants/routes';
 
 export default function NewCategory() {
-  const {setOptions, navigate} = useNavigation();
+  const {navigate} = useNavigation();
 
   const [details, setDetails] = useState({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'New Category'} />,
-    });
-    return () => {};
-  }, [setOptions]);
 
   function handleSuccessfulResponse() {
     setShowSuccessModal(true);
@@ -50,6 +43,8 @@ export default function NewCategory() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ScreenHeader title={'New Category'} />
+
       <View style={styles.container}>
         <ScrollView
           showsHorizontalScrollIndicator={false}

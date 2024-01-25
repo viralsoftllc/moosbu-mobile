@@ -1,10 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {ScrollView, StyleSheet, StatusBar, Platform, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 import {COLORS, SIZES} from '../../../assets/themes';
 import routes from '../../../shared/constants/routes';
-import SettingsRow from './renderer/SettingsRow';
 import LinkRow from '../../More/renderer/LinkRow';
 
 export default function Settings() {
@@ -16,7 +15,6 @@ export default function Settings() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
           paddingBottom: 100,
         }}>
         <LinkRow

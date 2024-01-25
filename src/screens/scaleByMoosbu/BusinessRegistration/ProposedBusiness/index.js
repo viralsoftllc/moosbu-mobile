@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  StatusBar,
 } from 'react-native';
 
 import handleApiError from '../../../../shared/components/handleApiError';
@@ -16,7 +17,6 @@ import {COLORS, FONTS, SIZES} from '../../../../assets/themes';
 import FormButton from '../../../../shared/components/FormButton';
 import FormInput from '../../../../shared/components/FormInput';
 import ScreenHeader from '../../../../shared/components/ScreenHeader';
-import routes from '../../../../shared/constants/routes';
 import UseIcon from '../../../../shared/utils/UseIcon';
 import {useEffect} from 'react';
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
@@ -26,13 +26,11 @@ import {selectbusinessRegistrationDetails} from '../../../../redux/slices/busine
 import {Dropdown} from 'react-native-element-dropdown';
 import Test from '../../../Test';
 
-let datum;
-
 export default function ProposedBusiness() {
   const {params} = useRoute();
 
   // const [submitting, setSubmitting] = useState(false);
-  const {setOptions, navigate} = useNavigation();
+  const {setOptions} = useNavigation();
   const proprietorInfo = useSelector(selectbusinessRegistrationDetails);
 
   const [details, setDetails] = useState({});
@@ -53,12 +51,7 @@ export default function ProposedBusiness() {
 
   useLayoutEffect(() => {
     setOptions({
-      header: () => (
-        <ScreenHeader
-          title={'Tell Us About Your Proposed Business'}
-          subtitle="Step 2 of 3"
-        />
-      ),
+      headerShown: false,
     });
 
     return () => {};
@@ -108,12 +101,19 @@ export default function ProposedBusiness() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader
+        title={'Tell Us About Your Proposed Business'}
+        subtitle="Step 2 of 3"
+      />
+      <StatusBar barStyle={'default'} />
+
       {submitting ? (
         <Test />
       ) : (
         <ScrollView
           contentContainerStyle={{
-            paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+            paddingHorizontal: SIZES.paddingHorizontal,
+            paddingTop: SIZES.base * 2,
           }}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
@@ -379,8 +379,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
-    paddingTop: SIZES.base * 2,
     paddingBottom: SIZES.base,
   },
   flex: {

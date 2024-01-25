@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginVertical: SIZES.base,
-    paddingHorizontal: SIZES.base,
+    // paddingHorizontal: SIZES.base,
   },
   iconView: {
     borderWidth: 1,

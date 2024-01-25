@@ -1,5 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   Modal,
@@ -10,7 +9,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Platform,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,7 +28,6 @@ import {uploadImageToCloudinary} from '../../../../shared/hooks/uploadToCloudina
 import notifyMessage from '../../../../shared/hooks/notifyMessage';
 
 export default function GeneralSettings() {
-  const {setOptions} = useNavigation();
   const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -76,11 +73,11 @@ export default function GeneralSettings() {
     });
   }, [store]);
 
-  useLayoutEffect(() => {
-    setOptions({
-      header: () => <ScreenHeader title={'Store settings'} />,
-    });
-  }, [setOptions]);
+  // useLayoutEffect(() => {
+  //   setOptions({
+  //     header: () => <ScreenHeader title={'Store settings'} />,
+  //   });
+  // }, [setOptions]);
 
   function handleDeleteItem() {
     setShowDeleteModal(true);
@@ -261,9 +258,11 @@ export default function GeneralSettings() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader title={'Store settings'} />
+
       <ScrollView
         contentContainerStyle={{
-          paddingHorizontal: Platform.OS == 'ios' ? 20 : 0,
+          paddingHorizontal: SIZES.paddingHorizontal,
         }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -590,7 +589,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: SIZES.paddingHorizontal,
   },
   cards: {
     display: 'flex',
