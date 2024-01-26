@@ -8,7 +8,6 @@ import {
   Platform,
   ScrollView,
   Linking,
-  Pressable,
 } from 'react-native';
 import {verticalScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
@@ -22,6 +21,7 @@ import LinkRow from './renderer/LinkRow';
 
 export default function More() {
   const user = useSelector(selectUser);
+  console.log(user);
   const store = useSelector(selectStoreDetails);
 
   const browser = async url => {
@@ -50,7 +50,11 @@ export default function More() {
         }}>
         <View style={styles.headerView}>
           {store?.logo !== 'logo.png' ? (
-            <ImageIcon style={styles.imageIcon} imageUrl={store?.logo} />
+            <ImageIcon
+              style={styles.imageIcon}
+              imageUrl={store?.logo}
+              rounded
+            />
           ) : (
             <ImageIcon
               style={styles.imageIcon}

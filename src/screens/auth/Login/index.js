@@ -23,7 +23,6 @@ import notifyMessage from '../../../shared/hooks/notifyMessage';
 import Cache from '../../../shared/utils/Cache';
 import UseIcon from '../../../shared/utils/UseIcon';
 import LoginForm from './renderer/LoginForm';
-import OrderCard from '../../storeFront/orders/renderer/OrderCard';
 
 export default function Login() {
   const {navigate} = useNavigation();
